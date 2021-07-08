@@ -6,13 +6,26 @@
         <title>T I T L E</title>
         <link rel="stylesheet" href="style.css">
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+        <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
+        <script src="qrscanner.js"></script>
+
         <script src="main.js"></script>
     
     </head>  
 <body>
     <main x-data="state()">
-        <div>
-            <h1 x-text="hello"></h1>
+        <!-- QR SCANNER -->
+        <div id="scanner">
+            <h1 x-show="user.stationsVisited.length == 0">Let the game begin!</h1>
+            <button x-show="!user.showQRScanner" @click="showQRScanner()">Starta kamera</button>
+                <template x-if="user.showQRScanner">
+                    <ul
+                    @click.away="user.showQRScanner = false"
+                    >
+                    </ul>
+                </template>
+            </a>
+            <canvas x-show="user.showQRScanner" hidden="" id="qr-canvas"></canvas>
         </div>
     </main>
 

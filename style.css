@@ -11,3 +11,15 @@ main {
     position: absolute;  /*Prevents content from flickering*/
     top:0;
 }
+
+/* QR SCANNER */
+#scanner {
+  text-align: center;
+  margin-top: 100px;
+}
+
+#qr-canvas {
+  margin: auto;
+  width: calc(100% - 20px);
+  max-width: 50%;
+}
