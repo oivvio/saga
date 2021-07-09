@@ -4,6 +4,20 @@ function state() {
             showQRScanner: false,
             stationsVisited: [],
         },
+        fakeId: "test-01",
+        fakeScan: function(audio_id) {
+            console.log("fakeScan", audio_id);
+
+          
+            this.tryStory(audio_id);
+
+            console.log("length: ", this.user.stationsVisited.length)
+            this.user.stationsVisited.forEach(station => {
+                console.log("visiting: ", station)
+            })
+            this.user.showQRScanner = false;
+        
+        },
         showQRScanner: function() {
             this.user.showQRScanner = true;
             scanQRCode(audio_id => {
@@ -16,10 +30,15 @@ function state() {
             let visited = [];
 
             // Will add the story to user data
-            for (var i = 0; i < user.stationsVisited.length; i++) {
-                visited.push(user.stationsVisited[i].id)
+            if (user.stationsVisited.includes(audio_id)) {
+                //TODO: push user to next track
+                console.log("User already visited this story")
+            } else {
+                user.stationsVisited.push(audio_id)
             }
+
             
+               
         }
     }
 };

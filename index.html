@@ -27,6 +27,17 @@
             </a>
             <canvas x-show="user.showQRScanner" hidden="" id="qr-canvas"></canvas>
         </div>
+ 
+        <!-- DEV stuff // remove before prod. -->
+        <div class="container">
+            <div class="devhelper">
+                <form @submit.prevent="fakeScan(fakeId)">
+                    <input type="text" x-model="fakeId" autofocus/>
+                    <button>fakescan</button>
+                </form>
+            </div>
+            <div x-text="user.stationsVisited"> </div>
+        </div>
     </main>
 
 </body>
