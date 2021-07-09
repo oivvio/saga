@@ -16,6 +16,18 @@ let triggers = {
     }
 }
 
+let conditions = {
+    "hasTag": function (state, tag) {
+        if (state.user.tags.includes(tag)) {
+            console.log('has tag', tag);
+            return true;
+        } else {
+            console.log('no tag', tag);
+            return false;
+        }
+    }
+}
+
 let onLeave = {
     "startTimeLimit": function (state, trigger) {
         if (trigger.cancelOnLeave && state.user.timers[trigger.timerName]) {
@@ -32,6 +44,19 @@ function interpretTrigger(state, trigger) {
             console.warn("Trigger not implemented", trigger.action);
         }
         triggers[trigger.action](state, trigger);
+    }
+}
+
+function interpretCondition(state, trigger) {
+    if (trigger.condition === undefined) {
+        return true;
+    } else {
+        if (trigger.condition !== undefined) {
+            return conditions[trigger.condition](state, trigger.conditionArgs);
+        } else {
+            console.warn("Condition not implementet", trigger.condition);
+            return false;
+        }
     }
 }
 
@@ -56,13 +81,14 @@ let stationLogic = {
         }
 
         station.triggers.forEach(trigger => {
-            interpretTrigger(state, trigger);
+            console.log("Checking condition with trigger: ", trigger)
+            if (interpretCondition(state, trigger)) {
+                interpretTrigger(state, trigger);
+            }
         });
 
-        station.tags.forEach(tag => {
-            state.user.tags.push(tag)
-        })
-        
+
+
         state.user.stationsVisited.push(station);
     }
 }

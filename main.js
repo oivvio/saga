@@ -17,7 +17,7 @@ function state() {
             isPlaying: false,
             data: {}
         },
-        fakeId: "play-audio-timer",
+        fakeId: "play-audio-condition",
         fakeScan: function(audio_id) {
             console.log("fakeScan", audio_id);
 
@@ -35,11 +35,18 @@ function state() {
             let state = this;
             let visited = [];
 
-            if (user.stationsVisited.includes(audio_id)) {
+            for (let i = 0; i < user.stationsVisited.length; i++) {
+                visited.push(user.stationsVisited[i].id)
+            }
+
+            if (visited.includes(audio_id)) {
                 //TODO: push user to next track
                 console.log("User already visited this story")
             } else {
                 var story = loadStory(audio_id, storyData => {
+                    storyData.tags.forEach(tag => {
+                        user.tags.push(tag);                        
+                    });
                     window.Station.interpretStation(state, storyData);
                 });
             } 

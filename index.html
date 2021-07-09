@@ -40,7 +40,9 @@
                     <button>fakescan</button>
                 </form>
 
-                <div x-text="user.stationsVisited"> </div>
+                <template x-for="station in user.stationsVisited">
+                    <span x-text="station.id"></span>
+                </template>
                 <div  x-text="user.tags"></div>
             </div>
         </div>

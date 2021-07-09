@@ -27,7 +27,7 @@
             "timeLimit": 5,
             "timeLimitEnd": {
                 "action": "goToStation",
-                "toStation": "play-audio-timer-2"            }
+                "toStation": "play-audio-timer-2" }
         }
     ]
 }
