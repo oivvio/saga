@@ -6,8 +6,12 @@
         <title>T I T L E</title>
         <link rel="stylesheet" href="style.css">
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
         <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
         <script src="qrscanner.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="station.js"></script>
 
         <script src="main.js"></script>
     
@@ -35,8 +39,10 @@
                     <input type="text" x-model="fakeId" autofocus/>
                     <button>fakescan</button>
                 </form>
+
+                <div x-text="user.stationsVisited"> </div>
+                <div  x-text="user.tags"></div>
             </div>
-            <div x-text="user.stationsVisited"> </div>
         </div>
     </main>
 
