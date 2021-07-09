@@ -4,7 +4,7 @@
     "tags": ["story", "timer"],
     "triggers": [ 
         {
-            "station_id": "1",
+            "station_id": "2",
             "action": "playAudio",
             "audioType": "story", 
             "audioFilename": "audio-test-2.mp3"
