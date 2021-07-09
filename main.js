@@ -8,15 +8,8 @@ function state() {
         fakeScan: function(audio_id) {
             console.log("fakeScan", audio_id);
 
-          
             this.tryStory(audio_id);
-
-            console.log("length: ", this.user.stationsVisited.length)
-            this.user.stationsVisited.forEach(station => {
-                console.log("visiting: ", station)
-            })
             this.user.showQRScanner = false;
-        
         },
         showQRScanner: function() {
             this.user.showQRScanner = true;
@@ -35,10 +28,7 @@ function state() {
                 console.log("User already visited this story")
             } else {
                 user.stationsVisited.push(audio_id)
-            }
-
-            
-               
+            } 
         }
     }
 };
