@@ -26,7 +26,7 @@ main {
 #qr-canvas {
   margin: auto;
   width: calc(100% - 20px);
-  max-width: 50%;
+  max-width:  80%;
 }
 
 /* Dev style */
@@ -34,8 +34,5 @@ main {
   position: absolute;
   top: 5px;
   left: 5px;
-}
-
-.devhelper-text {
-  position: relative;
+  font-size: 12px;
 }

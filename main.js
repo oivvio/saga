@@ -22,7 +22,7 @@ function state() {
             console.log("fakeScan", audio_id);
 
             this.tryStory(audio_id);
-            this.user.showQRScanner = false;
+            // this.user.showQRScanner = false;
         },
         showQRScanner: function() {
             this.user.showQRScanner = true;
@@ -53,6 +53,7 @@ function state() {
         },
         playAudio: function(filename, type) {
             let audio = this.audio;
+            let user = this.user;
             let state = this;
 
             if (this.background.isPlaying) {
@@ -71,6 +72,7 @@ function state() {
                     onend: function() { 
                         console.log ("audio ended");
                         audio.isPlaying = false;
+                        user.showQRScanner = false;
                 }
                 });
                 

@@ -2,6 +2,8 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=0" />
+
     
         <title>T I T L E</title>
         <link rel="stylesheet" href="style.css">
@@ -19,17 +21,19 @@
 <body>
     <main x-data="state()">
         <!-- QR SCANNER -->
-        <div id="scanner">
-            <h1 x-show="user.stationsVisited.length == 0">Let the game begin!</h1>
-            <button x-show="!user.showQRScanner" @click="showQRScanner()">Starta kamera</button>
-                <template x-if="user.showQRScanner">
-                    <ul
-                    @click.away="user.showQRScanner = false"
-                    >
-                    </ul>
-                </template>
-            </a>
-            <canvas x-show="user.showQRScanner" hidden="" id="qr-canvas"></canvas>
+        <div class="container">
+            <div id="scanner">
+                <h1 x-show="user.stationsVisited.length == 0">Let the game begin!</h1>
+                <button x-show="!audio.isPlaying" @click="showQRScanner()">Starta kamera</button>
+                    <template x-if="user.showQRScanner">
+                        <ul
+                        @click.away="user.showQRScanner = false"
+                        >
+                        </ul>
+                    </template>
+                </a>
+                <canvas x-show="user.showQRScanner" hidden="" id="qr-canvas"></canvas>
+            </div>
         </div>
  
         <!-- DEV stuff // remove before prod. -->
@@ -43,7 +47,10 @@
                 <template x-for="station in user.stationsVisited">
                     <span x-text="station.id"></span>
                 </template>
-                <div  x-text="user.tags"></div>
+
+                <p x-text="user.tags"></p>
+                <p x-text="user.showQRScanner"></p>
+
             </div>
         </div>
     </main>
