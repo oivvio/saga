@@ -51,15 +51,13 @@ function state() {
                         user.tags.push(tag);                        
                     });
 
+                    window.Station.interpretStation(state, storyData);
+
                     if (storyData.level && storyData.level !== user.onLevel) {
                         user.onLevel = storyData.level;
                         this.loadBackground(storyData)
-                        
                     };
-
-                    window.Station.interpretStation(state, storyData);
                 });
-
             } 
         },
         playAudio: function(filename, type) {
@@ -73,12 +71,9 @@ function state() {
                 let audioElement = new Howl({
                     src: [audiofilepath + filename], 
                     html: true,
-                    onload: () => {
-                    },
                     onplay: () => { 
                         console.log("playing: ", filename);
                         audio.story.isPlaying = true;
-
                     },
                     onend: () => { 
                         audio.story.isPlaying = false;
@@ -100,11 +95,7 @@ function state() {
                     }, 0.5*1000);
                 } 
 
-                audio.story.data.play();
-
-
-
-                
+                audio.story.data.play();               
             }
         },
         loadBackground: function() {
@@ -116,14 +107,13 @@ function state() {
                 volume: 0,
                 html: true,
                 loop: true,
-                onplay: function() { 
-                    console.log("playing backgroundmusic and fade in");
-                },
-                onpause: function() { 
-                    console.log("pausing and fade out")
+                onload: function() {
+                    console.log("new background with level: ", user.onLevel);
                 }
             })
             audio.background.data = backgroundElement;
+
+            console.log(audio.background.data);
 
         }
     }
