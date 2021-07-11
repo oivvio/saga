@@ -1,0 +1,13 @@
+{
+    "id": "play-end-2",
+    "name": "play ending track",
+    "tags": ["ending"],
+    "triggers": [ 
+        {
+            "station_id": "2",
+            "action": "playAudio",
+            "audioType": "story", 
+            "audioFilename": "end-1.mp3"
+        }
+    ]
+}
