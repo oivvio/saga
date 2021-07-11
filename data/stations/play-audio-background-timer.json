@@ -1,0 +1,34 @@
+{
+    "id": "play-audio-timer-background",
+    "level": "1",
+    "name": "play simple audio with backgroundmusic",
+    "tags": ["story", "background"],
+    "triggers": [ 
+        {
+            "station_id": "1",
+            "action": "playAudio",
+            "audioType": "story", 
+            "audioFilename": "audio-test-1.mp3"
+        },
+        {       
+            "action": "startTimeLimit",
+            "timername": "timer-help-1",
+            "cancelOnLeave": true,
+            "timeLimit": 5,
+            "timeLimitEnd": {
+                "action": "playAudio",
+                "audioType": "timerhelp",
+                "audioFilename": "timerhelp-test-1.mp3"
+            }
+        },
+        {       
+            "action": "startTimeLimit",
+            "timername": "timer-story-1-2",
+            "cancelOnLeave": true,
+            "timeLimit": 10,
+            "timeLimitEnd": {
+                "action": "goToStation",
+                "toStation": "play-audio-background-timer-2" }
+        }
+    ]
+}

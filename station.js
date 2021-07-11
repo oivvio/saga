@@ -3,7 +3,7 @@
 // Trigger actions
 let triggers = {
     "playAudio": function (state, trigger) {
-        state.playAudio(trigger.audioFilename, trigger.audioType)
+        state.playAudio(trigger.audioFilename, trigger.audioType)       
     },
     "startTimeLimit": function (state, trigger) {
         let timer = window.setTimeout(function () {
@@ -81,14 +81,10 @@ let stationLogic = {
         }
 
         station.triggers.forEach(trigger => {
-            console.log("Checking condition with trigger: ", trigger)
             if (interpretCondition(state, trigger)) {
                 interpretTrigger(state, trigger);
             }
         });
-
-
-
         state.user.stationsVisited.push(station);
     }
 }

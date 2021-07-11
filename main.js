@@ -8,21 +8,24 @@ function state() {
             stationsVisited: [],
             tags: [],
             timers: [],
+            onLevel: 0,
         },
         audio: {
-            isPlaying: false,
-            data: {}
+            volume: 0,
+            story: {
+                isPlaying: false,
+                data: {}
+            },
+            background: {
+                isPlaying: false,
+                data: {}
+            }
         },
-        background: {
-            isPlaying: false,
-            data: {}
-        },
-        fakeId: "play-audio-condition",
+        fakeId: "play-audio-background-timer",
         fakeScan: function(audio_id) {
             console.log("fakeScan", audio_id);
 
             this.tryStory(audio_id);
-            // this.user.showQRScanner = false;
         },
         showQRScanner: function() {
             this.user.showQRScanner = true;
@@ -47,8 +50,16 @@ function state() {
                     storyData.tags.forEach(tag => {
                         user.tags.push(tag);                        
                     });
+
+                    if (storyData.level && storyData.level !== user.onLevel) {
+                        user.onLevel = storyData.level;
+                        this.loadBackground(storyData)
+                        
+                    };
+
                     window.Station.interpretStation(state, storyData);
                 });
+
             } 
         },
         playAudio: function(filename, type) {
@@ -56,29 +67,64 @@ function state() {
             let user = this.user;
             let state = this;
 
-            if (this.background.isPlaying) {
-
-            }
-            if (this.audio.isPlaying) {
+            if (this.audio.story.isPlaying) {
                 console.log("Audio is playing. Wait.");
             } else {
                 let audioElement = new Howl({
                     src: [audiofilepath + filename], 
                     html: true,
-                    onplay: function() { 
+                    onload: () => {
+                    },
+                    onplay: () => { 
                         console.log("playing: ", filename);
-                        audio.isPlaying = true;
-                                        },
-                    onend: function() { 
-                        console.log ("audio ended");
-                        audio.isPlaying = false;
+                        audio.story.isPlaying = true;
+
+                    },
+                    onend: () => { 
+                        audio.story.isPlaying = false;
+
+                        audio.background.data.fade(0.00, audioElement.volume(), 500);
+                        audio.background.data.play();
+                        audio.background.isPlaying = true;
                         user.showQRScanner = false;
                 }
                 });
+
+                audio.story.data = audioElement;
+                audio.volume = audioElement.volume();
+
+                if (audio.background.isPlaying) {
+                    audio.background.data.fade(audio.background.data.volume(), 0.00, 500);
+                    window.setTimeout(() => {
+                        audio.background.data.pause();
+                    }, 0.5*1000);
+                } 
+
+                audio.story.data.play();
+
+
+
                 
-                audio.data = audioElement;
-                audioElement.play();
             }
+        },
+        loadBackground: function() {
+            let audio = this.audio;
+            let user = this.user;
+
+            let backgroundElement = new Howl({
+                src: [audiofilepath + '/background-' + user.onLevel + '.mp3'],
+                volume: 0,
+                html: true,
+                loop: true,
+                onplay: function() { 
+                    console.log("playing backgroundmusic and fade in");
+                },
+                onpause: function() { 
+                    console.log("pausing and fade out")
+                }
+            })
+            audio.background.data = backgroundElement;
+
         }
     }
 };
