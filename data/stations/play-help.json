@@ -1,0 +1,23 @@
+{
+    "id": "play-help",
+    "level": 1,
+    "name": "play audio and use warnings",
+    "tags": ["help-1"],
+    "triggers": [ 
+        {
+            "station_id": "1",
+            "action": "playAudio",
+            "audioType": "story", 
+            "audioFilename": "audio-test-1.mp3"
+        },
+        {       
+            "action": "startTimeLimit",
+            "timername": "timer-story-1-2",
+            "cancelOnLeave": true,
+            "timeLimit": 20,
+            "timeLimitEnd": {
+                "action": "goToStation",
+                "toStation": "play-help-2" }
+        }
+    ]
+}
