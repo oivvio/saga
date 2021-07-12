@@ -9,6 +9,7 @@ function state() {
       tags: [],
       timers: [],
       onLevel: 0,
+      helpAvailable: 3,
     },
     audio: {
       volume: 0,
@@ -21,7 +22,7 @@ function state() {
         data: {},
       },
     },
-    fakeId: "play-audio-background-timer",
+    fakeId: "play-help",
     fakeScan: function (audio_id) {
       console.log("fakeScan", audio_id);
 
@@ -43,8 +44,20 @@ function state() {
       }
 
       if (visited.includes(audio_id)) {
-        //TODO: push user to next track
-        console.log("User already visited this story");
+        let user = this.user;
+        if (user.helpAvailable <= 0) {
+            console.warn("User has no more available helptracks")
+        } else {
+          console.log(
+            "User already visited this story. Playing helpfile: ",
+            user.helpAvailable
+          );
+
+          var story = loadStory(audio_id, (storyData) => {
+            this.playAudio("help-" + user.helpAvailable + ".mp3", "help");
+            user.helpAvailable--;
+          });
+        }
       } else {
         var story = loadStory(audio_id, (storyData) => {
           storyData.tags.forEach((tag) => {
