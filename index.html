@@ -26,7 +26,7 @@
         <div class="container">
             <div id="scanner">
                 <h1 x-show="user.stationsVisited.length == 0">Let the game begin!</h1>
-                <button class="btn" x-show="!audio.isPlaying" @click="showQRScanner()">Starta kamera</button>
+                <button x-show="!audio.isPlaying" @click="showQRScanner()">Starta kamera</button>
                     <template x-if="user.showQRScanner">
                         <ul
                         @click.away="user.showQRScanner = false"
@@ -43,7 +43,7 @@
             <div class="devhelper">
                 <form @submit.prevent="fakeScan(fakeId)">
                     <input type="text" x-model="fakeId" autofocus/>
-                    <button>fakescan</button>
+                    <button class="devhelper-button">fakescan</button>
                 </form>
 
                 <template x-for="station in user.stationsVisited">

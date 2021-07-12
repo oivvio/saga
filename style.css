@@ -3,18 +3,31 @@ html, body {
   padding: 0;
   height: 100%;
   width: 100%;
-  font-family: Helvetica;
+  font-family: Neue Plak;
+  background-color: rgb(230, 255, 249);
+  align-items: center;
 }
 
 main {
     width: 100%;
     height: auto;
-    position: absolute;  /*Prevents content from flickering*/
+    /* position: absolute;  Prevents content from flickering */
     top:0;
 }
 
-.container {
-  padding: 5px;
+h1 {
+  font-family: NeuePlak-CompBold, Helvetica, sans-serif;
+  font-weight: 300;
+}
+
+button {
+  width: 180px;
+  height: 60px;
+  background-color: rgb(105, 105, 105);
+  background: transparent;
+  border: 1px solid 1D303F;
+  outline: none;
+  transition: 1s ease-in-out; 
 }
 
 /* QR SCANNER */
@@ -27,7 +40,13 @@ main {
   margin: auto;
   width: calc(100% - 20px);
   max-width:  80%;
+  max-height: 50%;
+  border-radius: 25px;
+  background-color: 011502;
+  padding: 2px;
+  transition: 1s ease-in;
 }
+
 
 /* Dev style */
 .devhelper {
@@ -35,4 +54,9 @@ main {
   top: 5px;
   left: 5px;
   font-size: 12px;
+}
+
+.devhelper-button {
+  height: 22px;
+  max-width: 30%;
 }
