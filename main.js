@@ -22,7 +22,7 @@ function state() {
         data: {},
       },
     },
-    fakeId: "play-help",
+    fakeId: "play-timer-1",
     fakeScan: function (audio_id) {
       console.log("fakeScan", audio_id);
 
@@ -77,7 +77,6 @@ function state() {
       let audio = this.audio;
       let user = this.user;
       let state = this;
-
       if (this.audio.story.isPlaying) {
         console.log("Audio is playing. Wait.");
       } else {
@@ -125,8 +124,6 @@ function state() {
         },
       });
       audio.background.data = backgroundElement;
-
-      console.log(audio.background.data);
     },
   };
 }

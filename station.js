@@ -14,6 +14,13 @@ let triggers = {
   goToStation: function (state, trigger) {
     state.tryStory(trigger.toStation);
   },
+  cancelTimer: function (state, trigger) {
+    let timer = state.user.timers[trigger.timerName];
+    if (timer !== undefined) {
+      window.clearTimeout(timer);
+      state.user.timers[trigger.timerName] = "cancelled";
+    }
+  },
 };
 
 let conditions = {

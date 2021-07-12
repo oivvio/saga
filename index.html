@@ -7,6 +7,8 @@
     
         <title>T I T L E</title>
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style-button.css">
+
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 
         <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
@@ -24,7 +26,7 @@
         <div class="container">
             <div id="scanner">
                 <h1 x-show="user.stationsVisited.length == 0">Let the game begin!</h1>
-                <button x-show="!audio.isPlaying" @click="showQRScanner()">Starta kamera</button>
+                <button class="btn" x-show="!audio.isPlaying" @click="showQRScanner()">Starta kamera</button>
                     <template x-if="user.showQRScanner">
                         <ul
                         @click.away="user.showQRScanner = false"
@@ -35,7 +37,7 @@
                 <canvas x-show="user.showQRScanner" hidden="" id="qr-canvas"></canvas>
             </div>
         </div>
- 
+
         <!-- DEV stuff // remove before prod. -->
         <div class="container">
             <div class="devhelper">
