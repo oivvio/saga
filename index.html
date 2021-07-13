@@ -7,7 +7,7 @@
     
         <title>T I T L E</title>
         <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="style-button.css">
+        <link rel="stylesheet" href="styles/style-animation.css">
 
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 
@@ -23,23 +23,27 @@
 <body>
     <main x-data="state()">
         <!-- QR SCANNER -->
-        <div class="container">
-            <div id="scanner">
-                <h1 x-show="user.stationsVisited.length == 0">Let the game begin!</h1>
-                <button x-show="!audio.isPlaying" @click="showQRScanner()">Starta kamera</button>
+        <div class="container color-change-3x">
+            <div class="container-wrapper">
+
+                <div class="container-object heartbeat" id="circle" x-show="!audio.isPlaying" @click="showQRScanner()">
+                    <p class="container-object-text" x-show="user.stationsVisited.length == 0">START</p>
+                </div>
+
+                <div class="container-object">
                     <template x-if="user.showQRScanner">
-                        <ul
-                        @click.away="user.showQRScanner = false"
-                        >
-                        </ul>
+                        <ul @click.away="user.showQRScanner = false"></ul>
                     </template>
-                </a>
-                <canvas x-show="user.showQRScanner" hidden="" id="qr-canvas"></canvas>
+                </div>
+
+                <div class="container-object">
+                    <canvas class="transition-fade" x-show="user.showQRScanner" hidden="" id="qr-canvas"></canvas>
+                </div>
             </div>
         </div>
 
         <!-- DEV stuff // remove before prod. -->
-        <div class="container">
+        <div>
             <div class="devhelper">
                 <form @submit.prevent="fakeScan(fakeId)">
                     <input type="text" x-model="fakeId" autofocus/>
