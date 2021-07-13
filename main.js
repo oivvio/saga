@@ -31,6 +31,7 @@ function state() {
     showQRScanner: function () {
       this.user.showQRScanner = true;
       scanQRCode((audio_id) => {
+        console.log("realScan", audio_id);
         this.tryStory(audio_id);
       });
     },
@@ -46,7 +47,7 @@ function state() {
       if (visited.includes(audio_id)) {
         let user = this.user;
         if (user.helpAvailable <= 0) {
-            console.warn("User has no more available helptracks")
+          console.warn("User has no more available helptracks");
         } else {
           console.log(
             "User already visited this story. Playing helpfile: ",
@@ -90,9 +91,14 @@ function state() {
           onend: () => {
             audio.story.isPlaying = false;
 
-            audio.background.data.fade(0.0, audioElement.volume(), 500);
-            audio.background.data.play();
-            audio.background.isPlaying = true;
+            try {
+              audio.background.data.fade(0.0, audioElement.volume(), 500);
+              audio.background.data.play();
+              audio.background.isPlaying = true;
+            } catch(err) {
+              console.warn("No background track is loaded. Station needs to be set with a level.");
+            }
+
             user.showQRScanner = false;
           },
         });
