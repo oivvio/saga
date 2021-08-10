@@ -25,10 +25,10 @@
 }
 
 .transition-fade {
-  width: 100%;
-  height: 100%;
+  width: 20%;
+  height: 20%;
+  transition: width 10s, height 8s;
   transition-property: width;
-  transition-duration: 20s;
 }
 
 #circle {
@@ -43,7 +43,9 @@
 
 #qr-canvas {
   border-radius: 25px;
-  margin: 25% 0 0 0;
+  width: 100%;
+  height: 100%;
+  margin: 0 0 25%;
 }
 
 /* ----------------------------------------------
