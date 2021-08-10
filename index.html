@@ -26,7 +26,7 @@
         <div class="container color-change-3x">
             <div class="container-wrapper">
 
-                <div class="container-object heartbeat" id="circle" x-show="!audio.isPlaying" @click="showQRScanner()">
+                <div class="container-object heartbeat" id="circle" x-show="!user.showQRScanner" @click="showQRScanner()">
                     <p class="container-object-text" x-show="user.stationsVisited.length == 0">START</p>
                 </div>
 
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="container-object">
-                    <canvas class="transition-fade" x-show="user.showQRScanner" hidden="" id="qr-canvas"></canvas>
+                    <canvas class="transition-fade" x-show="user.showQRScanner" id="qr-canvas"></canvas>
                 </div>
             </div>
         </div>
