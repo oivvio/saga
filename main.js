@@ -1,5 +1,8 @@
 import { Howl, Howler } from "howler";
+import {interpretStation} from "./station"; 
+
 const audiofilepath = "data/audio/";
+
 
 function state() {
   return {
@@ -17,7 +20,7 @@ function state() {
         isPlaying: false,
         data: {},
       },
-      background: {
+     background: {
         isPlaying: false,
         data: {},
       },
@@ -26,8 +29,8 @@ function state() {
 
     // OP Why is this part of state?
     fakeScan: function (audio_id) {
-      console.log("fakeScan", audio_id);
-
+      // console.log("fakeScan", audio_id);
+      this.user.timers.forEach((timer) => console.log("timer left: ", timer));
       this.tryStory(audio_id);
     },
 
@@ -44,14 +47,13 @@ function state() {
     tryStory: function (audio_id) {
       let user = this.user;
       let state = this;
-      let visited = [];
+      // let visitedStationIds = [];
 
-      for (let i = 0; i < user.stationsVisited.length; i++) {
-        visited.push(user.stationsVisited[i].id);
-      }
-
-      if (visited.includes(audio_id)) {
-        let user = this.user;
+      let visitedStationIds = user.stationsVisited.map((station) => station.id);
+      // for (let i = 0; i < user.stationsVisited.length; i++) {
+      //   visitedStationIds.push(user.stationsVisited[i].id);
+      // }
+      if (visitedStationIds.includes(audio_id)) {
         if (user.helpAvailable <= 0) {
           console.warn("User has no more available helptracks");
         } else {
@@ -60,23 +62,20 @@ function state() {
             user.helpAvailable
           );
 
-          var story = loadStory(audio_id, (storyData) => {
+          var story = loadStory(audio_id, (station) => {
             this.playAudio("help-" + user.helpAvailable + ".mp3", "help");
             user.helpAvailable--;
           });
+
         }
       } else {
-        var story = loadStory(audio_id, (storyData) => {
-          storyData.tags.forEach((tag) => {
-            user.tags.push(tag);
-          });
+        var story = loadStory(audio_id, (station) => {
+          interpretStation(state, station);
 
-          window.Station.interpretStation(state, storyData);
-
-          if (storyData.level && storyData.level !== user.onLevel) {
-            user.onLevel = storyData.level;
-            this.loadBackground(storyData);
-          }
+          // if (station.level && station.level !== user.onLevel) {
+          //   user.onLevel = station.level;
+          //   this.loadBackground(station);
+          // }
         });
       }
     },
@@ -99,15 +98,15 @@ function state() {
           onend: () => {
             audio.story.isPlaying = false;
 
-            try {
-              audio.background.data.fade(0.0, audioElement.volume(), 500);
-              audio.background.data.play();
-              audio.background.isPlaying = true;
-            } catch (err) {
-              console.warn(
-                "No background track is loaded. Station needs to be set with a level."
-              );
-            }
+            // try {
+            //   audio.background.data.fade(0.0, audioElement.volume(), 500);
+            //   audio.background.data.play();
+            //   audio.background.isPlaying = true;
+            // } catch (err) {
+            //   console.warn(
+            //     "No background track is loaded. Station needs to be set with a level."
+            //   );
+            // }
 
             user.showQRScanner = false;
           },
@@ -116,33 +115,33 @@ function state() {
         audio.story.data = audioElement;
         audio.volume = audioElement.volume();
 
-        if (audio.background.isPlaying) {
-          audio.background.data.fade(audio.background.data.volume(), 0.0, 500);
-          window.setTimeout(() => {
-            audio.background.data.pause();
-          }, 0.5 * 1000);
-        }
+        // if (audio.background.isPlaying) {
+        //   audio.background.data.fade(audio.background.data.volume(), 0.0, 500);
+        //   window.setTimeout(() => {
+        //     audio.background.data.pause();
+        //   }, 0.5 * 1000);
+        // }
 
         audio.story.data.play();
       }
     },
 
     // OP Why is this part of state?
-    loadBackground: function () {
-      let audio = this.audio;
-      let user = this.user;
+    // loadBackground: function () {
+    //   let audio = this.audio;
+    //   let user = this.user;
 
-      let backgroundElement = new Howl({
-        src: [audiofilepath + "/background-" + user.onLevel + ".mp3"],
-        volume: 0,
-        html: true,
-        loop: true,
-        onload: function () {
-          console.log("new background with level: ", user.onLevel);
-        },
-      });
-      audio.background.data = backgroundElement;
-    },
+    //   let backgroundElement = new Howl({
+    //     src: [audiofilepath + "/background-" + user.onLevel + ".mp3"],
+    //     volume: 0,
+    //     html: true,
+    //     loop: true,
+    //     onload: function () {
+    //       console.log("new background with level: ", user.onLevel);
+    //     },
+    //   });
+    //   audio.background.data = backgroundElement;
+    // },
   };
 }
 
