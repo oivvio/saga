@@ -4,12 +4,18 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=0" />
 
-    
+
         <title>T I T L E</title>
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="styles/style-animation.css">
 
-        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+
+        <!-- Alpine Plugins -->
+        <script defer src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+
+        <!-- Alpine Core -->
+        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
         <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
         <script src="qrscanner.js"></script>
@@ -18,48 +24,47 @@
         <script src="station.js"></script>
 
         <script src="main.js"></script>
-    
-    </head>  
-<body>
-    <main x-data="state()">
-        <!-- QR SCANNER -->
-        <div class="container color-change-3x">
-            <div class="container-wrapper">
 
-                <div class="container-object heartbeat" id="circle" x-show="!user.showQRScanner" @click="showQRScanner()">
-                    <p class="container-object-text" x-show="user.stationsVisited.length == 0">START</p>
+    </head>
+    <body>
+        <main x-data="state()">
+            <!-- QR SCANNER -->
+            <div class="container color-change-3x">
+                <div class="container-wrapper">
+
+                    <div class="container-object heartbeat" id="circle" x-show="!user.showQRScanner" @click="showQRScanner()">
+                        <p class="container-object-text" x-show="user.stationsVisited.length == 0">START</p>
+                    </div>
+
+                    <div class="container-object">
+                        <template x-if="user.showQRScanner">
+                            <ul @click.away="user.showQRScanner = false"></ul>
+                        </template>
+                    </div>
+
+                    <div class="container-object">
+                        <canvas class="transition-fade" x-show="user.showQRScanner" id="qr-canvas"></canvas>
+                    </div>
                 </div>
+            </div>
 
-                <div class="container-object">
-                    <template x-if="user.showQRScanner">
-                        <ul @click.away="user.showQRScanner = false"></ul>
+            <!-- DEV stuff // remove before prod. -->
+            <div>
+                <div class="devhelper">
+                    <form @submit.prevent="fakeScan(fakeId)">
+                        <input type="text" x-model="fakeId" autofocus/>
+                        <button class="devhelper-button">fakescan</button>
+                    </form>
+
+                    <template x-for="station in user.stationsVisited">
+                        <span x-text="station.id"></span>
                     </template>
-                </div>
 
-                <div class="container-object">
-                    <canvas class="transition-fade" x-show="user.showQRScanner" id="qr-canvas"></canvas>
+                    <p x-text="user.tags"></p>
+                    <p x-text="user.showQRScanner"></p>
+
                 </div>
             </div>
-        </div>
-
-        <!-- DEV stuff // remove before prod. -->
-        <div>
-            <div class="devhelper">
-                <form @submit.prevent="fakeScan(fakeId)">
-                    <input type="text" x-model="fakeId" autofocus/>
-                    <button class="devhelper-button">fakescan</button>
-                </form>
-
-                <template x-for="station in user.stationsVisited">
-                    <span x-text="station.id"></span>
-                </template>
-
-                <p x-text="user.tags"></p>
-                <p x-text="user.showQRScanner"></p>
-
-            </div>
-        </div>
-    </main>
-
-</body>
+        </main>
+    </body>
 </html>

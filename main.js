@@ -23,11 +23,15 @@ function state() {
       },
     },
     fakeId: "play-timer-1",
+
+    // OP Why is this part of state?
     fakeScan: function (audio_id) {
       console.log("fakeScan", audio_id);
 
       this.tryStory(audio_id);
     },
+
+    // OP Why is this part of state?
     showQRScanner: function () {
       this.user.showQRScanner = true;
       scanQRCode((audio_id) => {
@@ -35,6 +39,8 @@ function state() {
         this.tryStory(audio_id);
       });
     },
+
+    // OP Why is this part of state?
     tryStory: function (audio_id) {
       let user = this.user;
       let state = this;
@@ -74,6 +80,8 @@ function state() {
         });
       }
     },
+
+    // OP Why is this part of state?
     playAudio: function (filename, type) {
       let audio = this.audio;
       let user = this.user;
@@ -95,8 +103,10 @@ function state() {
               audio.background.data.fade(0.0, audioElement.volume(), 500);
               audio.background.data.play();
               audio.background.isPlaying = true;
-            } catch(err) {
-              console.warn("No background track is loaded. Station needs to be set with a level.");
+            } catch (err) {
+              console.warn(
+                "No background track is loaded. Station needs to be set with a level."
+              );
             }
 
             user.showQRScanner = false;
@@ -116,6 +126,8 @@ function state() {
         audio.story.data.play();
       }
     },
+
+    // OP Why is this part of state?
     loadBackground: function () {
       let audio = this.audio;
       let user = this.user;
