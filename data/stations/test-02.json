@@ -1,0 +1,60 @@
+{
+    "id": "test-02",
+    "name": "Second test station ",
+    "tags": ["story"],
+    "triggers": [ 
+        {
+            "station_id": "1",
+            "trigger": "playAudio",
+            "audioType": "story", 
+            "audioFilename": "saga-2.mp3"
+        },
+        {       
+            "trigger": "startTimeLimit",
+            "timeLimit": 1,
+            "timeLimitEnd": {
+                "trigger": "playAudio",
+                "audioType": "background",
+                "audioFilename": "bensound-enigmatic.mp3"
+            }
+        },
+        {       
+            "trigger": "startTimeLimit",
+            "timerName": "adv-01-timer-help-01",
+            "cancelOnLeave": true,
+            "timeLimit": 4,
+            "timeLimitEnd": {
+                "trigger": "playAudio",
+                "audioType": "help",
+                "audioFilename": "timerhelp-1.mp3"
+            }
+        },
+        {       
+            "trigger": "startTimeLimit",
+            "timerName": "01-timer-help-02",
+            "cancelOnLeave": true,
+            "timeLimit": 10,
+            "timeLimitEnd": {
+                "trigger": "playAudio",
+                "audioType": "help",
+                "audioFilename": "timerhelp-2.mp3"
+            }
+        },
+        {
+            "trigger": "onHelp",
+            "runTrigger": {
+                "trigger": "goToStation",
+                "toStation": "help-01"
+            }
+        },
+        {       
+            "trigger": "startTimeLimit",
+            "timerName": "01-timer-act-01",
+            "timeLimit": 45,
+            "timeLimitEnd": {
+                "trigger": "goToStation",
+                "toStation": "test-02"
+            }
+        }
+    ]
+}
