@@ -1,0 +1,58 @@
+{
+    "title": "QR-codes",
+    "description": "QR-codes for user take action in the game",
+    "type": "object",
+    "required": [
+        "id",
+        "type",
+        "triggers"
+    ],
+    "properties": {
+        "id": {
+            "description": "Unique identifier for the code",
+            "type": "string"
+        },
+        "type": {
+            "description": "Type of code. Can be Story or Help",
+            "type": "string"
+        },
+        "description": {
+            "description": "Information of the station. Not visible for user",
+            "type": "string"
+        },
+
+        "triggers": {
+            "description": "Object of event triggers",
+            "type": "array",
+            "items": { "$ref": "#/$defs/trigger#"}
+        },
+        "$defs": {
+            "trigger": {
+                "description": "Name of the trigger",
+                "type": "object",
+                "dependRequired": {
+                    "condition": [ "conditionArgs"]
+                },
+                "properties": {
+                    "condition": {
+                        "description": "Name of condition arg to do action",
+                        "type": "string"
+                    },
+                    "conditionArgs": {
+                        "description": "Condition to be fulfilled",
+                        "type": "string"
+                    },
+                    "action": {
+                        "description": "Name of trigger, the function to be called",
+                        "type": "string"
+                    },
+                    "audioFilename": {
+                        "description": "Filename including file name extension",
+                        "type": "string"
+                    }
+                }
+            }
+    }
+        
+    }
+}
