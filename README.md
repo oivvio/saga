@@ -21,6 +21,17 @@ $ npm start
 
 Navigate to ```http://localhost:8080```
 
+# Run JSON schema to validate json documents
+Activate the virtualenv.
+
+```bash
+$ source ./venv/bin/activate
+```
+
+```bash
+$ python schema-validator.py
+```
+
 # Info
 This project is to be used in a specific project and is very customized for the artistic ideas of the story telling. 
 
