@@ -1,17 +1,30 @@
 {
     "id": "test",
     "type": "station",
-    "decscription": "Second test station ",
+    "description": "Second test station ",
     "tags": ["story"],
     "triggers": [
         {
             "action": "playAudio",
-            "audioFilename": "audio-test-1.mp3"
+            "audioFilename": "audio-test-3.mp3"
+        },
+        {       
+            "action": "startTimeLimit",
+            "timerName": "timer-story-2-3",
+            "cancelOnLeave": true,
+            "timeLimit": 10,
+            "timeLimitEnd": {
+                "action": "goToStation"
+            }
+        },
+        {
+            "action": "goToStation",
+            "toStation": "play-audio-end-1"
         },
         {
             "condition": "hasTag",
+            "conditionArgs": "key",
             "action": "playAudio",
-            "audioType": "story", 
             "audioFilename": "audio-test-3.mp3"
         }
     ]

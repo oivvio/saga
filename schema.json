@@ -1,12 +1,9 @@
 {
+    "$id": "/data/stations",
     "title": "QR-codes",
     "description": "QR-codes for user take action in the game",
     "type": "object",
-    "required": [
-        "id",
-        "type",
-        "triggers"
-    ],
+
     "properties": {
         "id": {
             "description": "Unique identifier for the code",
@@ -14,45 +11,93 @@
         },
         "type": {
             "description": "Type of code. Can be Story or Help",
-            "type": "string"
+            "type": "string",
+            "default": "station",
+            "enum": ["station", "help"]
         },
         "description": {
             "description": "Information of the station. Not visible for user",
             "type": "string"
         },
-
         "triggers": {
-            "description": "Object of event triggers",
+            "description": "Array containg trigger event objects",
             "type": "array",
-            "items": { "$ref": "#/$defs/trigger#"}
-        },
-        "$defs": {
-            "trigger": {
-                "description": "Name of the trigger",
-                "type": "object",
-                "dependRequired": {
-                    "condition": [ "conditionArgs"]
+            "items": { "$ref": "#/$defs/trigger"}
+
+        }
+    },
+
+    "required": ["id","type","triggers"],
+
+    "$defs": {
+        "trigger": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "$id": "/trigger/action",
+                    "description": "Available event triggers",
+                    "type": "string",
+                    "enum": ["playAudio", "startTimeLimit", "goToStation", "cancelTimer"]    
                 },
-                "properties": {
-                    "condition": {
-                        "description": "Name of condition arg to do action",
-                        "type": "string"
+                "audioFilename": {
+                    "description": "Filename including file name extension",
+                    "type": "string"
+                },
+
+                "timerName": {"type": "string" },
+                "cancelOnLeave": {"type": "boolean"},
+                "timeLimit": {"type": "number"},
+                "timeLimitEnd": { "type": "object"},
+
+                "goToStation": {"type": "string"},
+                "toStation": {"type": "string"},
+
+                "condition": {
+                    "description": "Name of condition to check",
+                    "type": "string",
+                    "enum":["hasTag"]
+                },
+                "conditionArgs": {"type":"string"}
+
+
+             },
+            "allOf": [
+                {"if": {
+                        "properties": { "action": { "const": "playAudio"}},
+                        "required": ["action"]
                     },
-                    "conditionArgs": {
-                        "description": "Condition to be fulfilled",
-                        "type": "string"
+                "then": {"required": ["audioFilename"]}},
+
+                {"if": {
+                        "properties": { "action": { "const": "startTimeLimit"}},
+                        "required": ["action"]
                     },
-                    "action": {
-                        "description": "Name of trigger, the function to be called",
-                        "type": "string"
+                "then": { "required": ["timerName", "cancelOnLeave", "timeLimit", "timeLimitEnd"] }},
+
+                {"if": {
+                    "properties": { "action": { "const": "goToStation"}},
+                    "required": ["action"]
+                },
+                "then": { "required": ["toStation"] }},
+
+                {"if": {
+                        "properties": { "condition": { "const": "hasTag"}},
+                        "required": ["condition"]
                     },
-                    "audioFilename": {
-                        "description": "Filename including file name extension",
-                        "type": "string"
-                    }
-                }
-            }
-    }
+                "then": {"required": ["conditionArgs"]}}
+
+            ]
+
+
+
+
+        }
+
         
+
+     
+        
+
     }
+
 }
