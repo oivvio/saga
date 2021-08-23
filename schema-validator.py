@@ -7,7 +7,7 @@ import os
 
 directory = "./data/stations"
 
-with open('schema.json') as file:
+with open('./schemas/schema.json') as file:
     schema = load(file)
 
 with open(directory + "/schema-test.json") as f:
