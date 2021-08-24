@@ -9,12 +9,17 @@
     "build": "webpack"
   },
   "devDependencies": {
-    "sass": "^1.35.2",
+    "copy-webpack-plugin": "^9.0.1",
+    "css-loader": "^6.2.0",
+    "sass": "^1.38.0",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.2.1",
     "webpack": "^5.39.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "alpinejs": "^3.2.3",
     "howler": "^2.2.3"
   }
 }

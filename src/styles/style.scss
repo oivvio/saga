@@ -1,0 +1,33 @@
+@import "style-animation";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Neue Plak;
+
+  main {
+    width: 100%;
+    height: auto;
+  }
+
+  h1 {
+    font-family: NeuePlak-CompBold, Helvetica, sans-serif;
+    font-weight: 300;
+  }
+
+  /* Dev style */
+  .devhelper {
+    position: absolute;
+    top: calc(100% - 10%);
+    left: 5px;
+    font-size: 12px;
+  }
+
+  .devhelper-button {
+    height: 22px;
+    max-width: 30%;
+  }
+}
