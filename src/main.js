@@ -12,7 +12,7 @@ import {
   decreaseHelpAvailable,
 } from "./state";
 
-const audiofilepath = "data/audio/";
+const AUDIOFILEBASE = "data/audio/";
 
 function fakeScan(audio_id) {
   console.log("fakeScan: ", audio_id);
@@ -24,25 +24,25 @@ function fakeScan(audio_id) {
 
 function showQRScanner(state) {
   state.user.showQRScanner = true;
-  scanQRCode((audio_id) => {
-    console.log("realScan", audio_id);
-    tryStory(audio_id);
+  scanQRCode((stationId) => {
+    console.log("realScan", stationId);
+    tryStory(stationId);
   });
 }
 
-function tryStory(audio_id) {
+// OP Figure out what's going on here
+export function tryStory(stationId) {
+  // Get the current state
   let state = getState();
 
+  // Figure out which stations are visited
   let visitedStationIds = state.user.stationsVisited.map(
     (station) => station.id
   );
   console.log("visited: ", visitedStationIds);
-  // for (let i = 0; i < state.user.stationsVisited.length; i++) {
-  //   visitedStationIds.push(state.user.stationsVisited[i].id);
-  // }
 
   // If we have already been here
-  if (visitedStationIds.includes(audio_id)) {
+  if (visitedStationIds.includes(stationId)) {
     if (state.user.helpAvailable <= 0) {
       console.warn("User has no more available helptracks");
     } else {
@@ -51,7 +51,7 @@ function tryStory(audio_id) {
         state.user.helpAvailable
       );
 
-      var story = loadStory(audio_id, (station) => {
+      var story = loadStory(stationId, (station) => {
         playAudio("help-" + state.user.helpAvailable + ".mp3", "help");
 
         decreasHelpAvailable();
@@ -60,10 +60,11 @@ function tryStory(audio_id) {
   } else {
     // If we have NOT already been here
 
-    var story = loadStory(audio_id, (station) => {
+    loadStory(stationId, (station) => {
       console.log("load Story callback");
       console.log(station);
       interpretStation(state, station);
+      console.log("BACK FROM INTERPRET STATION");
 
       // if (station.level && station.level !== state.user.onLevel) {
       //   state.user.onLevel = station.level;
@@ -73,30 +74,34 @@ function tryStory(audio_id) {
   }
 }
 
-function playAudio(filename, type) {
+export function playAudio(filename, type) {
   let state = getState();
 
+  // Some other audio is playing so we to nothing
   if (state.audio.story.isPlaying) {
     console.log("Audio is playing. Wait.");
   } else {
+    // create a new audioElement
+    let fullAudioPath = AUDIOFILEBASE + filename;
+    state.audio.story.isPlaying = false;
     let audioElement = new Howl({
-      src: [audiofilepath + filename],
-      html: true,
+      src: [fullAudioPath],
+      html: true, // Stream (i.e.) start playing before downloaded
       onplay: () => {
         console.log("playing: ", filename);
         state.audio.story.isPlaying = true;
       },
       onend: () => {
         state.audio.story.isPlaying = false;
-
         state.user.showQRScanner = false;
       },
     });
 
-    state.audio.story.data = audioElement;
+    state.audio.data = fullAudioPath;
     state.audio.volume = audioElement.volume();
-
-    state.audio.story.data.play();
+    // console.log("state.audio.volume: ", state.audio.volume);
+    console.log("press play");
+    audioElement.play();
   }
 }
 
@@ -108,13 +113,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   setInterval(() => {
     increaseDummyCounter(1);
-  }, 5000);
+  }, 1000 * 60 * 60);
 });
 
-function loadStory(audio_id, callback) {
-  let url = "data/stations/" + audio_id + ".json";
+function loadStory(stationId, callback) {
+  let url = "data/stations/" + stationId + ".json";
   console.log("loading Story: ", url);
-  // $.get("data/stations/" + audio_id + ".json", callback);
+  // $.get("data/stations/" + stationId + ".json", callback);
   fetch(url)
     .then((response) => response.json())
     .then((data) => callback(data));

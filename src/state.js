@@ -16,19 +16,25 @@ let initialState = {
     volume: 0,
     story: {
       isPlaying: false,
-      data: {},
+      // data: {},
+      data: null,
     },
     background: {
       isPlaying: false,
-      data: {},
+      // data: {},
+      data: null,
     },
   },
   fakeId: "play-timer-1",
 };
 
+let STATEKEYS = ["dummyCounter", "user", "audio", "fakeId"];
+//let STATEKEYS = ["dummyCounter", "user", "fakeId"];
+
 // Pick up stored Alpine.store state from localStorage or null if none exists.
 function getStateFromLocalStorage() {
   // Get the serialized data
+
   let serializedState = localStorage.getItem(STATE);
 
   if (serializedState !== null) {
@@ -45,15 +51,29 @@ function getStateFromLocalStorage() {
 
 // Put state into localStorage
 function saveStateToLocalStorage(state) {
-  let serializedState = JSON.stringify(state);
-  localStorage.setItem(STATE, serializedState);
+  try {
+    // state is an Alpine.store that can not be serialized,
+    // so we must extract the parts we care about into a simple
+    // object
+    let stateCopy = {};
+    STATEKEYS.forEach((key) => {
+      stateCopy[key] = state[key];
+    });
+    console.log("==============================");
+    console.log(stateCopy);
+    let serializedState = JSON.stringify(stateCopy);
+    localStorage.setItem(STATE, serializedState);
+  } catch (error) {
+    console.log(state);
+    debugger;
+  }
 }
 
 // Run once, on app startup, return an Alpine.store
 export function initializeState() {
   // Try to get persisted state
   let state = getStateFromLocalStorage();
-  console.log("state1: ", state);
+  console.log("state from localStorage: ", state);
 
   // If that was successful, return it
   if (state !== null) {
