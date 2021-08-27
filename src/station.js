@@ -1,9 +1,11 @@
 // Interpret stations
+//
+import { playAudio, tryStory } from "./main";
 
 // Trigger actions
 let triggers = {
   playAudio: function (state, trigger) {
-    state.playAudio(trigger.audioFilename, trigger.audioType);
+    playAudio(trigger.audioFilename, trigger.audioType);
   },
   startTimeLimit: function (state, trigger) {
     let timer = window.setTimeout(function () {
@@ -12,7 +14,7 @@ let triggers = {
     state.user.timers[trigger.timerName] = timer;
   },
   goToStation: function (state, trigger) {
-    state.tryStory(trigger.toStation);
+    tryStory(trigger.toStation);
   },
   cancelTimer: function (state, trigger) {
     let timer = state.user.timers[trigger.timerName];
@@ -33,14 +35,7 @@ function interpretTrigger(state, trigger) {
   }
 }
 
-function interpretCondition(state, trigger) {
-  if (trigger.condition === undefined) {
-    return true;
-  } else {
-    return conditions[trigger.condition](state, trigger.conditionArgs);
-  }
-}
-
+// Used in interpretCondition
 let conditions = {
   hasTag: function (state, tag) {
     if (state.user.tags.includes(tag)) {
@@ -52,6 +47,17 @@ let conditions = {
     }
   },
 };
+
+// Takes a state a and trigger.
+// If trigger has no condition return true.
+// If trigger has a condition, pick it up and evaluate it, return result.
+function interpretCondition(state, trigger) {
+  if (trigger.condition === undefined) {
+    return true;
+  } else {
+    return conditions[trigger.condition](state, trigger.conditionArgs);
+  }
+}
 
 function triggerOnLeave(state, trigger) {
   if (trigger.action !== undefined) {
@@ -74,14 +80,21 @@ let onLeave = {
   },
 };
 
+//
 export function interpretStation(state, station) {
   switch (station.stationType) {
     case "help":
+      console.log("station  type help");
       break;
     case "station":
-      // The station the user just left
+      console.log("station type station");
+
+      // Pick up the station the user just left, if any.
+
       let leavingStation =
         state.user.stationsVisited[state.user.stationsVisited.length - 1];
+
+      console.log("leavingStation: ", leavingStation);
 
       // Handle triggers for the station the user just left
       if (leavingStation !== undefined) {
@@ -90,6 +103,7 @@ export function interpretStation(state, station) {
         });
       }
 
+      console.log("triggers: ", station.triggers);
       // Handle triggers for the users current station
       station.triggers.forEach((trigger) => {
         if (interpretCondition(state, trigger)) {
@@ -97,8 +111,10 @@ export function interpretStation(state, station) {
         }
       });
 
-      // Add station to visited stations
-      state.user.stationsVisited.push(station);
+      // Add station.id to visited stations
+      if (!state.user.stationsVisited.includes(statio.id)) {
+        state.user.stationsVisited.push(station.id);
+      }
 
       // Add tags from this station to users list of visited tags
       station.tags.forEach((tag) => {
@@ -108,7 +124,9 @@ export function interpretStation(state, station) {
       });
 
       break;
+
     default:
+      console.log("no station type given");
       break;
   }
 }

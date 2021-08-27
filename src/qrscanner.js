@@ -1,4 +1,4 @@
-window.initQR = function () {
+export function initQR() {
   let canvasElement = document.getElementById("qr-canvas");
   window.qr = {
     video: document.createElement("video"),
@@ -6,9 +6,9 @@ window.initQR = function () {
     canvas: canvasElement.getContext("2d"),
     scanning: false,
   };
-};
+}
 
-window.scanQRCode = function (callback) {
+export function scanQRCode(callback) {
   let qr = window.qr;
   window.qrcode.callback = callback;
   navigator.mediaDevices
@@ -22,7 +22,7 @@ window.scanQRCode = function (callback) {
       tick();
       scan();
     });
-};
+}
 
 function tick() {
   qr.canvasElement.height = qr.video.videoHeight;
