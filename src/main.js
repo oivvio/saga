@@ -5,6 +5,7 @@ import Alpine from "alpinejs";
 import { Howl } from "howler";
 import { interpretStation } from "./station";
 import { initQR, scanQRCode } from "./qrscanner";
+import { stations } from "./state";
 import {
   initializeState,
   increaseDummyCounter,
@@ -15,7 +16,6 @@ import {
 const AUDIOFILEBASE = "data/audio/";
 
 function fakeScan(audio_id) {
-  console.log("fakeScan: ", audio_id);
   let state = getState();
 
   state.user.timers.forEach((timer) => console.log("timer left: ", timer));
@@ -24,9 +24,9 @@ function fakeScan(audio_id) {
 
 function showQRScanner() {
   let state = getState();
-  state.user.showQRScanner = true;
+  // state.user.showQRScanner = true;
+  state.user.QRScannerIsDisplayed = true;
   scanQRCode((stationId) => {
-    console.log("realScan", stationId);
     tryStory(stationId);
   });
 }
@@ -40,7 +40,6 @@ export function tryStory(stationId) {
   let visitedStationIds = state.user.stationsVisited.map(
     (station) => station.id
   );
-  console.log("visited: ", visitedStationIds);
 
   // If we have already been here
   if (visitedStationIds.includes(stationId)) {
@@ -62,10 +61,7 @@ export function tryStory(stationId) {
     // If we have NOT already been here
 
     loadStory(stationId, (station) => {
-      console.log("load Story callback");
-      console.log(station);
       interpretStation(state, station);
-      console.log("BACK FROM INTERPRET STATION");
 
       // if (station.level && station.level !== state.user.onLevel) {
       //   state.user.onLevel = station.level;
@@ -95,6 +91,7 @@ export function playAudio(filename, type) {
       onend: () => {
         state.audio.story.isPlaying = false;
         state.user.showQRScanner = false;
+        state.user.QRScannerCanBeDisplayed = true;
       },
     });
 
@@ -107,14 +104,12 @@ export function playAudio(filename, type) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("===============================");
-
-  initQR();
+ initQR();
   increaseDummyCounter(1);
 
-  setInterval(() => {
-    increaseDummyCounter(1);
-  }, 1000 * 60 * 60);
+ setInterval(() => {
+   increaseDummyCounter(1);
+ }, 1000 * 60 * 60);
 });
 
 function loadStory(stationId, callback) {
@@ -123,7 +118,12 @@ function loadStory(stationId, callback) {
   // $.get("data/stations/" + stationId + ".json", callback);
   fetch(url)
     .then((response) => response.json())
-    .then((data) => callback(data));
+    .then((data) => 
+    {
+      stations[stationId] = data;
+      callback(data)}
+  
+    );
 }
 
 // Initialize state and put it in a Alpine store
@@ -136,4 +136,3 @@ window.showQRScanner = showQRScanner;
 // Instructions from the alpine js docs for starting Alpine
 window.Alpine = Alpine;
 Alpine.start();
-console.log("alpine started");

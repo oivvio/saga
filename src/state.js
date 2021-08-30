@@ -5,7 +5,9 @@ let STATE = "state";
 let initialState = {
   dummyCounter: 1,
   user: {
-    showQRScanner: true,
+    QRScannerCanBeDisplayed: true,
+    QRScannerIsDisplayed: false,
+    // showQRScanner: true,
     stationsVisited: [],
     tags: [],
     timers: [],
@@ -31,6 +33,7 @@ let initialState = {
 let STATEKEYS = ["dummyCounter", "user", "audio", "fakeId"];
 //let STATEKEYS = ["dummyCounter", "user", "fakeId"];
 
+export let  stations = {};
 // Pick up stored Alpine.store state from localStorage or null if none exists.
 function getStateFromLocalStorage() {
   // Get the serialized data
@@ -59,8 +62,6 @@ function saveStateToLocalStorage(state) {
     STATEKEYS.forEach((key) => {
       stateCopy[key] = state[key];
     });
-    console.log("==============================");
-    console.log(stateCopy);
     let serializedState = JSON.stringify(stateCopy);
     localStorage.setItem(STATE, serializedState);
   } catch (error) {
@@ -68,13 +69,13 @@ function saveStateToLocalStorage(state) {
     debugger;
   }
 }
-
+ 
 // Run once, on app startup, return an Alpine.store
 export function initializeState() {
   // Try to get persisted state
-  let state = getStateFromLocalStorage();
-  console.log("state from localStorage: ", state);
-
+  // let state = getStateFromLocalStorage();
+  // console.log("state from localStorage: ", state);
+ let state = null;
   // If that was successful, return it
   if (state !== null) {
     return state;
@@ -86,6 +87,7 @@ export function initializeState() {
     saveStateToLocalStorage(JSON.stringify(initialState));
 
     // And return it.
+    console.log(Alpine.store(STATE));     
     return Alpine.store(STATE);
   }
 }

@@ -1,14 +1,11 @@
 {
   "id": "play-timer-1",
-  "stationType": "station",
-  "level": 1,
-  "name": "play audio. starts a level timer that wont end until leaving level 1.",
+  "type": "station",
+  "description": "play audio. starts a level timer that wont end until leaving level 1.",
   "tags": ["play-timer-1"],
   "triggers": [
     {
-      "station_id": "1",
       "action": "playAudio",
-      "audioType": "story",
       "audioFilename": "audio-test-1.mp3"
     },
     {
@@ -16,9 +13,8 @@
       "timerName": "timer-help-1",
       "cancelOnLeave": true,
       "timeLimit": 5,
-      "timeLimitEnd": {
+      "onTimeLimitEnd": {
         "action": "playAudio",
-        "audioType": "timerhelp",
         "audioFilename": "timerhelp-test-1.mp3"
       }
     },
@@ -27,7 +23,7 @@
       "timerName": "timer-story-1-2",
       "cancelOnLeave": true,
       "timeLimit": 10,
-      "timeLimitEnd": {
+      "onTimeLimitEnd": {
         "action": "goToStation",
         "toStation": "play-timer-2"
       }

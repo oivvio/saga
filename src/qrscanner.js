@@ -1,3 +1,5 @@
+import { getState } from "./state";
+
 export function initQR() {
   let canvasElement = document.getElementById("qr-canvas");
   window.qr = {
@@ -9,6 +11,7 @@ export function initQR() {
 }
 
 export function scanQRCode(callback) {
+  let state = getState(); // For debugging
   let qr = window.qr;
   window.qrcode.callback = callback;
   navigator.mediaDevices

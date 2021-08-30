@@ -32,6 +32,7 @@
 }
 
 #circle {
+  position: relative;
   background: #00ffff;
   border-radius: 50%;
   width: 100px;
