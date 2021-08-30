@@ -13,8 +13,8 @@
       "timerName": "timer-story-2-3",
       "cancelOnLeave": true,
       "timeLimit": 10,
-      "timeLimitEnd": {
-        "action": "goToStation"
+      "onTimeLimitEnd": {
+        "action": "wrong"
       }
     },
     {

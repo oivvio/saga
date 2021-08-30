@@ -1,6 +1,7 @@
 // Interpret stations
-//
+
 import { playAudio, tryStory } from "./main";
+import { stations } from "./state";
 
 // Trigger actions
 let triggers = {
@@ -9,7 +10,7 @@ let triggers = {
   },
   startTimeLimit: function (state, trigger) {
     let timer = window.setTimeout(function () {
-      interpretTrigger(state, trigger.timeLimitEnd);
+      interpretTrigger(state, trigger.onTimeLimitEnd);
     }, trigger.timeLimit * 1000);
     state.user.timers[trigger.timerName] = timer;
   },
@@ -82,7 +83,7 @@ let onLeave = {
 
 //
 export function interpretStation(state, station) {
-  switch (station.stationType) {
+  switch (station.type) {
     case "help":
       console.log("station  type help");
       break;
@@ -91,10 +92,10 @@ export function interpretStation(state, station) {
 
       // Pick up the station the user just left, if any.
 
-      let leavingStation =
+      let leavingStationId =
         state.user.stationsVisited[state.user.stationsVisited.length - 1];
-
-      console.log("leavingStation: ", leavingStation);
+      let leavingStation = stations[leavingStationId];
+      console.log("leavingStation: ", leavingStationId);
 
       // Handle triggers for the station the user just left
       if (leavingStation !== undefined) {
@@ -106,13 +107,17 @@ export function interpretStation(state, station) {
       console.log("triggers: ", station.triggers);
       // Handle triggers for the users current station
       station.triggers.forEach((trigger) => {
+        console.log("trigger: ", trigger);
+        if(trigger === undefined) {
+          debugger;
+        }
         if (interpretCondition(state, trigger)) {
           interpretTrigger(state, trigger);
         }
       });
 
       // Add station.id to visited stations
-      if (!state.user.stationsVisited.includes(statio.id)) {
+      if (!state.user.stationsVisited.includes(station.id)) {
         state.user.stationsVisited.push(station.id);
       }
 
@@ -122,7 +127,7 @@ export function interpretStation(state, station) {
           state.user.tags.push(tag);
         }
       });
-
+  
       break;
 
     default:

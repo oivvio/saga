@@ -56,7 +56,9 @@ $camera-height-half: 25%;
 
 // Objects
 #circle {
+  position:relative;
   background: $cyan;
+
   border-radius: 50%;
   width: 100px;
   height: 100px;
