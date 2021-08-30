@@ -3,7 +3,7 @@ import sys
 from invoke import task
 from pathlib import Path
 
-from jsonschema import Draft7Validator
+from jsonschema import Draft7Validator, RefResolver
 from json import load
 
 
@@ -18,16 +18,22 @@ def preflight_checklist():
 
 def validate_station_file(filename):
     """Validate a given file against our schema a return a list of errors"""
-    with open("./schemas/schema.json") as handle:
+
+    schemafile = "./schemas/schema_rewrite.json"
+    with open(schemafile) as handle:
         schema = load(handle)
 
     with open(filename) as handle:
         json_to_check = load(handle)
 
-    validator = Draft7Validator(schema)
+    # Get the project folder
+    base_uri = f"file://{Path(__file__).parents[0].as_posix()}/"
 
-    errors = [e for e in validator.iter_errors(json_to_check)]
-    return errors
+    # So that we can correctly resolve references to local files in our schema
+    resolver = RefResolver(base_uri, schema)
+    validator = Draft7Validator(schema, resolver=resolver)
+
+    return [e for e in validator.iter_errors(json_to_check)]
 
 
 def output_validation_errors(errors, filename):
@@ -40,6 +46,21 @@ def output_validation_errors(errors, filename):
         print(f"{error.validator=}")
         print(f"{error.path=}")
         print(f"{error.message=}")
+
+
+@task
+def validate_schema(ctx, filename):
+    """Validate a json schema itself."""
+    preflight_checklist()
+    with open("./schemas/jsonschema-draft-v7.json") as handle:
+        schema = load(handle)
+
+    with open(filename) as handle:
+        json_to_check = load(handle)
+
+    validator = Draft7Validator(schema)
+    errors = [e for e in validator.iter_errors(json_to_check)]
+    output_validation_errors(errors, filename)
 
 
 @task
