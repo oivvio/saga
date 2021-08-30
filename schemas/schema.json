@@ -9,7 +9,7 @@
             "description": "Unique identifier for the code",
             "type": "string"
         },
-        "codeType": {
+        "type": {
             "description": "Type of code. Can be Story or Help",
             "type": "string",
             "default": "station",
@@ -20,7 +20,7 @@
             "type": "string"
         },
         "triggers": {
-            "description": "Array containg trigger event objects",
+            "description": "Array containing trigger event objects",
             "type": "array",
             "items": { "$ref": "#/$defs/trigger"}
 
@@ -29,9 +29,10 @@
             "type": "array",
             "minItems": 1
         }
+
     },
 
-    "required": ["id","codeType","triggers", "tags"],
+    "required": ["id","type","triggers", "tags"],
 
     "additionalProperties": false,
 
@@ -52,9 +53,12 @@
                 "timerName": {"type": "string" },
                 "cancelOnLeave": {"type": "boolean"},
                 "timeLimit": {"type": "number"},
-                "timeLimitEnd": { 
+                "onTimeLimitEnd": { 
+                    "description": "Define what to be triggered when timer ends",
                     "type": "object",
-                    "properties": {"$ref": "#/$defs/trigger"},
+                    "properties": {
+                        "$ref": "#"
+                    },
                     "required": ["action"]
                 },
 
@@ -68,8 +72,10 @@
                 },
                 "conditionArgs": {"type":"string"}
 
-
              },
+
+
+
             "allOf": [
                 {"if": {
                         "properties": { "action": { "const": "playAudio"}},
@@ -81,7 +87,10 @@
                         "properties": { "action": { "const": "startTimeLimit"}},
                         "required": ["action"]
                     },
-                "then": { "required": ["timerName", "cancelOnLeave", "timeLimit", "timeLimitEnd"] }},
+                "then": { 
+                    "required": ["timerName", "cancelOnLeave", "timeLimit", "onTimeLimitEnd"] 
+                    }               
+                },
 
                 {"if": {
                     "properties": { "action": { "const": "goToStation"}},
@@ -95,20 +104,12 @@
                         "properties": { "condition": { "const": "hasTag"}},
                         "required": ["condition"]
                     },
-                "then": {"required": ["conditionArgs"]}}
-
-            ]
+                "then": {"required": ["conditionArgs", "action"]}}
 
 
-
-
+            ],
+            "additionalProperties": false
         }
-
-        
-
-     
-        
-
-    }
+    }    
 
 }

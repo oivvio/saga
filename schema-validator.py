@@ -5,7 +5,7 @@ from json import load
 
 import os
 
-directory = "./data/stations"
+directory = "./src/data/stations"
 
 with open('./schemas/schema.json') as file:
     schema = load(file)
