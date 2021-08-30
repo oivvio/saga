@@ -4,7 +4,7 @@ import Alpine from "alpinejs";
 
 import { Howl } from "howler";
 import { interpretStation } from "./station";
-import { initQR } from "./qrscanner";
+import { initQR, scanQRCode } from "./qrscanner";
 import {
   initializeState,
   increaseDummyCounter,
@@ -22,7 +22,8 @@ function fakeScan(audio_id) {
   tryStory(audio_id);
 }
 
-function showQRScanner(state) {
+function showQRScanner() {
+  let state = getState();
   state.user.showQRScanner = true;
   scanQRCode((stationId) => {
     console.log("realScan", stationId);
@@ -130,6 +131,7 @@ initializeState();
 
 // Put some functions in global scope so we can access them from our templates.
 window.fakeScan = fakeScan;
+window.showQRScanner = showQRScanner;
 
 // Instructions from the alpine js docs for starting Alpine
 window.Alpine = Alpine;
