@@ -1,24 +1,23 @@
 {
-    "id": "play-audio-timer-2",
-    "name": "play audio with timer part 2",
-    "tags": ["story", "timer"],
-    "triggers": [ 
-        {
-            "station_id": "2",
-            "action": "playAudio",
-            "audioType": "story", 
-            "audioFilename": "audio-test-2.mp3"
-        },
-        {       
-            "action": "startTimeLimit",
-            "timername": "timer-help-1",
-            "cancelOnLeave": true,
-            "timeLimit": 2,
-            "timeLimitEnd": {
-                "action": "playAudio",
-                "audioType": "timerhelp",
-                "audioFilename": "timerhelp-test-2.mp3"
-            }
-        }
-    ]
+  "id": "play-audio-timer-2",
+  "description": "play audio with timer part 2",
+  "tags": ["story", "timer"],
+  "type": "station",
+  "triggers": [
+    {
+      "action": "playAudio",
+      "audioFilename": "audio-test-2.mp3"
+    },
+    {
+      "action": "startTimeLimit",
+      "timerName": "timer-help-1",
+      "cancelOnLeave": true,
+      "timeLimit": 2,
+      "onTimeLimitEnd": {
+        "action": "playAudio",
+        "audioType": "timerhelp",
+        "audioFilename": "timerhelp-test-2.mp3"
+      }
+    }
+  ]
 }

@@ -1,13 +1,13 @@
 {
-    "id": "play-audio",
-    "name": "play simple audio",
-    "tags": ["story"],
-    "triggers": [ 
-        {
-            "station_id": "1",
-            "action": "playAudio",
-            "audioType": "story", 
-            "audioFilename": "audio-test-1.mp3"
-        }
-    ]
+  "id": "play-audio",
+  "type": "station",
+  "description": "play simple audio",
+  "tags": ["story"],
+
+  "triggers": [
+    {
+      "action": "playAudio",
+      "audioFilename": "audio-test-1.mp3"
+    }
+  ]
 }

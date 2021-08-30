@@ -1,11 +1,11 @@
 {
   "id": "test",
-  "type": "stations",
+  "type": "station",
   "description": "Second test station ",
-  "tags": ["story", 1],
+  "tags": ["story"],
   "triggers": [
     {
-      "action": "playAudio_hide",
+      "action": "playAudio",
       "audioFilename": "audio-test-3.mp3"
     },
     {

@@ -1,34 +1,32 @@
 {
-    "id": "station-default",
-    "stationType": "station",
-    "level": 1,
-    "description": "Default station logic",
-    "tags": ["story", "ending"],
-    "triggers": [ 
-        {
-            "action": "playAudio",
-            "audioType": "story", 
-            "audioFilename": "audio-test-1.mp3"
-        },
-        {       
-            "action": "startTimeLimit",
-            "timername": "timer-1",
-            "cancelOnLeave": false,
-            "timeLimit": 20,
-            "timeLimitEnd": {
-                "action": "playAudio",
-                "audioType": "timerhelp",
-                "audioFilename": "timerhelp-1.mp3"
-            }
-        },
-        {       
-            "action": "startTimeLimit",
-            "timername": "timer-2",
-            "cancelOnLeave": true,
-            "timeLimit": 10,
-            "timeLimitEnd": {
-                "action": "goToStation",
-                "toStation": "play-audio-end-2" }
-        }
-    ]
+  "id": "station-default",
+  "type": "station",
+  "description": "Default station logic",
+  "tags": ["story", "ending"],
+  "triggers": [
+    {
+      "action": "playAudio",
+      "audioFilename": "audio-test-1.mp3"
+    },
+    {
+      "action": "startTimeLimit",
+      "timerName": "timer-1",
+      "cancelOnLeave": false,
+      "timeLimit": 20,
+      "onTimeLimitEnd": {
+        "action": "playAudio",
+        "audioFilename": "timerhelp-1.mp3"
+      }
+    },
+    {
+      "action": "startTimeLimit",
+      "timerName": "timer-2",
+      "cancelOnLeave": true,
+      "timeLimit": 10,
+      "onTimeLimitEnd": {
+        "action": "goToStation",
+        "toStation": "play-audio-end-2"
+      }
+    }
+  ]
 }

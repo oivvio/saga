@@ -1,60 +1,53 @@
 {
-    "id": "test-01",
-    "name": "First test station ",
-    "tags": ["story"],
-    "triggers": [ 
-        {
-            "station_id": "1",
-            "action": "playAudio",
-            "audioType": "story", 
-            "audioFilename": "saga-1.mp3"
-        },
-        {       
-            "action": "startTimeLimit",
-            "timeLimit": 1,
-            "timeLimitEnd": {
-                "action": "playAudio",
-                "audioType": "background",
-                "audioFilename": "background-horror-wind.wav"
-            }
-        },
-        {       
-            "action": "startTimeLimit",
-            "timerName": "01-timer-help-01",
-            "cancelOnLeave": true,
-            "timeLimit": 4,
-            "timeLimitEnd": {
-                "action": "playAudio",
-                "audioType": "help",
-                "audioFilename": "timerhelp-1.mp3"
-            }
-        },
-        {       
-            "action": "startTimeLimit",
-            "timerName": "01-timer-help-02",
-            "cancelOnLeave": true,
-            "timeLimit": 10,
-            "timeLimitEnd": {
-                "action": "playAudio",
-                "audioType": "help",
-                "audioFilename": "timerhelp-2.mp3"
-            }
-        },
-        {
-            "action": "onHelp",
-            "runTrigger": {
-                "trigger": "goToStation",
-                "toStation": "help-01"
-            }
-        },
-        {       
-            "trigger": "startTimeLimit",
-            "timerName": "01-timer-act-01",
-            "timeLimit": 45,
-            "timeLimitEnd": {
-                "trigger": "goToStation",
-                "toStation": "test-02"
-            }
-        }
-    ]
+  "id": "test-01",
+  "type": "station",
+  "description": "First test station ",
+  "tags": ["story"],
+  "triggers": [
+    {
+      "action": "playAudio",
+      "audioFilename": "saga-1.mp3"
+    },
+    {
+      "action": "startTimeLimit",
+      "timerName": "02-timer-help-01",
+      "cancelOnLeave": true,
+      "timeLimit": 1,
+      "onTimeLimitEnd": {
+        "action": "playAudio",
+        "audioType": "background",
+        "audioFilename": "background-horror-wind.wav"
+      }
+    },
+    {
+      "action": "startTimeLimit",
+      "timerName": "01-timer-help-01",
+      "cancelOnLeave": true,
+      "timeLimit": 4,
+      "onTimeLimitEnd": {
+        "action": "playAudio",
+        "audioFilename": "timerhelp-1.mp3"
+      }
+    },
+    {
+      "action": "startTimeLimit",
+      "timerName": "01-timer-help-02",
+      "cancelOnLeave": true,
+      "timeLimit": 10,
+      "onTimeLimitEnd": {
+        "action": "playAudio",
+        "audioFilename": "timerhelp-2.mp3"
+      }
+    },
+    {
+      "action": "startTimeLimit",
+      "cancelOnLeave": true,
+      "timerName": "01-timer-act-01",
+      "timeLimit": 45,
+      "onTimeLimitEnd": {
+        "action": "goToStation",
+        "toStation": "test-02"
+      }
+    }
+  ]
 }

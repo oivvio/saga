@@ -34,10 +34,11 @@ def output_validation_errors(errors, filename):
     """ Output validation errors and filename for human consumption """
     if errors:
         print("=" * 100)
-        print(filename)
+        print(f"{filename} has {len(errors)} errors.")
     for error in errors:
         print("-" * 100)
         print(f"{error.validator=}")
+        print(f"{error.path=}")
         print(f"{error.message=}")
 
 
@@ -47,7 +48,8 @@ def validate_test_file(ctx):
     preflight_checklist()
     jsonfile = "./src/data/stations/schema-test.json"
 
-    validate_station_file(jsonfile)
+    errors = validate_station_file(jsonfile)
+    output_validation_errors(errors, jsonfile)
 
 
 @task
