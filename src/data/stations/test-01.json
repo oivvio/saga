@@ -15,7 +15,6 @@
       "timeLimit": 1,
       "onTimeLimitEnd": {
         "action": "playAudio",
-        "audioType": "background",
         "audioFilename": "background-horror-wind.wav"
       }
     },

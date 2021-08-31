@@ -18,12 +18,7 @@
         "cancelOnLeave": { "type": "boolean" },
         "timeLimit": { "type": "number" },
         "onTimeLimitEnd": {
-          "description": "Define what to be triggered when timer ends",
-          "type": "object",
-          "properties": {
-            "$ref": "#"
-          },
-          "required": ["action"]
+          "$ref": "file:./secondLevelTrigger.json#/$defs/secondLevelTrigger"
         },
 
         "goToStation": { "type": "string" },

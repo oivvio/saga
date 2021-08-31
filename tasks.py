@@ -19,7 +19,7 @@ def preflight_checklist():
 def validate_station_file(filename):
     """Validate a given file against our schema a return a list of errors"""
 
-    schemafile = "./schemas/schema_rewrite.json"
+    schemafile = "./schemas/schema.json"
     with open(schemafile) as handle:
         schema = load(handle)
 

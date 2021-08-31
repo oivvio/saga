@@ -15,7 +15,6 @@
       "timeLimit": 16,
       "onTimeLimitEnd": {
         "action": "playAudio",
-        "audioType": "timerhelp",
         "audioFilename": "timerhelp-test-1.mp3"
       }
     },

@@ -9,114 +9,45 @@
       "description": "Unique identifier for the code",
       "type": "string"
     },
+
     "type": {
-      "description": "Type of code. Can be 'story' or 'help'",
+      "description": "Type of code. Can be 'station' or 'help'",
       "type": "string",
       "default": "station",
       "enum": ["station", "help"]
     },
+
     "description": {
       "description": "Information about the station. Not visible to the user",
       "type": "string"
     },
-    "triggers": {
-      "description": "Array containing trigger event objects",
-      "type": "array",
-      "items": { "$ref": "#/$defs/trigger" }
-    },
+
     "tags": {
       "type": "array",
       "items": {
         "type": "string"
       },
       "minItems": 1
+    },
+
+    "triggers": {
+      "description": "Array containing trigger event objects",
+      "type": "array",
+      "items": {
+        "$ref": "file:./schemas/trigger.json#/$defs/trigger"
+      }
+    },
+
+    "foos": {
+      "description": "silly test",
+      "type": "array",
+      "items": {
+        "$ref": "file:./schemas/testSchema.json#/$defs/foo"
+      }
     }
   },
 
   "required": ["id", "type", "triggers", "tags"],
 
-  "additionalProperties": false,
-
-  "$defs": {
-    "trigger": {
-      "type": "object",
-      "properties": {
-        "action": {
-          "description": "Available event triggers",
-          "type": "string",
-          "enum": ["playAudio", "startTimeLimit", "goToStation", "cancelTimer"]
-        },
-        "audioFilename": {
-          "description": "Filename including file name extension",
-          "type": "string"
-        },
-
-        "timerName": { "type": "string" },
-        "cancelOnLeave": { "type": "boolean" },
-        "timeLimit": { "type": "number" },
-        "onTimeLimitEnd": {
-          "description": "Define what to be triggered when timer ends",
-          "type": "object",
-          "properties": {
-            "$ref": "#"
-          },
-          "required": ["action"]
-        },
-
-        "goToStation": { "type": "string" },
-        "toStation": { "type": "string" },
-
-        "condition": {
-          "description": "Name of condition to check",
-          "type": "string",
-          "enum": ["hasTag"]
-        },
-        "conditionArgs": { "type": "string" }
-      },
-
-      "allOf": [
-        {
-          "if": {
-            "properties": { "action": { "const": "playAudio" } },
-            "required": ["action"]
-          },
-          "then": { "required": ["audioFilename"] }
-        },
-
-        {
-          "if": {
-            "properties": { "action": { "const": "startTimeLimit" } },
-            "required": ["action"]
-          },
-          "then": {
-            "required": [
-              "timerName",
-              "cancelOnLeave",
-              "timeLimit",
-              "onTimeLimitEnd"
-            ]
-          }
-        },
-
-        {
-          "if": {
-            "properties": { "action": { "const": "goToStation" } },
-            "required": ["action"]
-          },
-          "then": {
-            "required": ["toStation"]
-          }
-        },
-
-        {
-          "if": {
-            "properties": { "condition": { "const": "hasTag" } },
-            "required": ["condition"]
-          },
-          "then": { "required": ["conditionArgs", "action"] }
-        }
-      ],
-      "additionalProperties": false
-    }
-  }
+  "additionalProperties": false
 }
