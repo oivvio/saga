@@ -1,4 +1,4 @@
-<html lang="”en”">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -9,18 +9,14 @@
 
     <title>SPRICKAN</title>
 
-    <script
-      defer
-      src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"
-    ></script>
-    <!-- <script defer src="qrscanner.js"></script>
-        -->
-    <script
-      defer
-      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-    ></script>
-    <!-- <script defer src="station.js" type="module"></script>
-        -->
+
+    <!-- This is the LazarSoft library        -->
+    <!-- <script
+         defer
+         src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"
+         ></script>
+    -->
+
     <script defer src="/main.bundle.js"></script>
   </head>
   <body>
@@ -51,12 +47,16 @@
             </template>
           </div>
 
-          <div class="container-object">
-            <canvas
-              class="transition-fade"
-              x-show="$store.state.user.QRScannerCanBeDisplayed"
-              id="qr-canvas"
-            ></canvas>
+          <div class="container-object" id="qr-video-container">
+              <!-- <canvas
+                   class="transition-fade"
+                   x-show="$store.state.user.QRScannerCanBeDisplayed"
+                   id="qr-canvas"
+                   ></canvas>
+              -->
+              <video id="qr-video"></video>
+              <img src="./images/qr-brackets-red.svg"></img>
+
           </div>
 
 
@@ -87,7 +87,12 @@
           <p>
              QRScannerCanBeDisplayed:
             <span x-text="$store.state.user.QRScannerCanBeDisplayed"  ></span>
-          </p>  
+          </p>
+
+          <p>
+             QRScannerIsDisplayed:
+            <span x-text="$store.state.user.QRScannerIsDisplayed"  ></span>
+          </p>
 
         </div>
       </div>

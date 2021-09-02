@@ -36,14 +36,6 @@
       "items": {
         "$ref": "file:./schemas/trigger.json#/$defs/trigger"
       }
-    },
-
-    "foos": {
-      "description": "silly test",
-      "type": "array",
-      "items": {
-        "$ref": "file:./schemas/testSchema.json#/$defs/foo"
-      }
     }
   },
 

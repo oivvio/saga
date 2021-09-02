@@ -27,8 +27,18 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
+          from: "./node_modules/qr-scanner/qr-scanner-worker.min.js",
+          to: "js/vendor/qr-scanner-worker.min.js",
+        },
+
+        {
           from: "./src/images/favicon.ico",
           to: "favicon.ico",
+        },
+
+        {
+          from: "./src/images/",
+          to: "images",
         },
 
         {

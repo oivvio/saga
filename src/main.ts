@@ -1,7 +1,6 @@
 import "./styles/style.scss";
 
 import Alpine from "alpinejs";
-
 import { Howl } from "howler";
 import { interpretStation } from "./station";
 import { initQR, scanQRCode } from "./qrscanner";
@@ -15,31 +14,29 @@ import {
 
 const AUDIOFILEBASE = "data/audio/";
 
-function fakeScan(audio_id: number) {
-  let state = getState();
+function fakeScan(stationId: string) {
+  const state = getState();
 
   state.user.timers.forEach((timer) => console.log("timer left: ", timer));
-  tryStory(audio_id);
+  tryStory(stationId);
 }
 
 function showQRScanner() {
-  let state = getState();
+  const state = getState();
   // state.user.showQRScanner = true;
   state.user.QRScannerIsDisplayed = true;
-  scanQRCode((stationId: number) => {
+  scanQRCode((stationId: string) => {
     tryStory(stationId);
   });
 }
 
 // OP Figure out what's going on here
-export function tryStory(stationId) {
+export function tryStory(stationId: string): void {
   // Get the current state
-  let state = getState();
+  const state = getState();
 
   // Figure out which stations are visited
-  let visitedStationIds = state.user.stationsVisited.map(
-    (station) => station.id
-  );
+  const visitedStationIds = state.user.stationsVisited;
 
   // If we have already been here
   if (visitedStationIds.includes(stationId)) {
@@ -51,8 +48,8 @@ export function tryStory(stationId) {
         state.user.helpAvailable
       );
 
-      var story = loadStory(stationId, (station) => {
-        playAudio("help-" + state.user.helpAvailable + ".mp3", "help");
+      loadStory(stationId, () => {
+        playAudio("help-" + state.user.helpAvailable + ".mp3");
 
         decreaseHelpAvailable();
       });
@@ -71,17 +68,18 @@ export function tryStory(stationId) {
   }
 }
 
-export function playAudio(filename, type) {
-  let state = getState();
+// export function playAudio(filename: string, _: "station" | "help"): void {
+export function playAudio(filename: string): void {
+  const state = getState();
 
   // Some other audio is playing so we to nothing
   if (state.audio.story.isPlaying) {
     console.log("Audio is playing. Wait.");
   } else {
     // create a new audioElement
-    let fullAudioPath = AUDIOFILEBASE + filename;
+    const fullAudioPath = AUDIOFILEBASE + filename;
     state.audio.story.isPlaying = false;
-    let audioElement = new Howl({
+    const audioElement = new Howl({
       src: [fullAudioPath],
       html: true, // Stream (i.e.) start playing before downloaded
       onplay: () => {
@@ -95,7 +93,7 @@ export function playAudio(filename, type) {
       },
     });
 
-    state.audio.data = fullAudioPath;
+    state.audio.story.data = fullAudioPath;
     state.audio.volume = audioElement.volume();
     // console.log("state.audio.volume: ", state.audio.volume);
     console.log("press play");
@@ -113,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function loadStory(stationId, callback) {
-  let url = "data/stations/" + stationId + ".json";
+  const url = "data/stations/" + stationId + ".json";
   console.log("loading Story: ", url);
   // $.get("data/stations/" + stationId + ".json", callback);
   fetch(url)

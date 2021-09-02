@@ -6,6 +6,8 @@ from pathlib import Path
 from jsonschema import Draft7Validator, RefResolver
 from json import load
 
+TYPESCRIPT_FILES_FINDER = f"find .|grep '\.ts$'|grep -v '#'"
+
 
 def preflight_checklist():
     """ Stuff we want to check before running our tasks """
@@ -89,3 +91,28 @@ def validate_stations_in_folder(ctx, folder, exit_on_errors=False):
             if exit_on_errors:
                 exit()
             errors = None
+
+
+@task
+def typescript_lint(ctx, watch=True):
+    """ Check that our TypeScript is OK """
+    preflight_checklist()
+
+    if watch:
+        watch_prefix = f"{TYPESCRIPT_FILES_FINDER}|entr "
+    else:
+        watch_prefix = " "
+
+    cmd = f"{watch_prefix} ./node_modules/.bin/eslint . --cache --ext  .ts"
+    ctx.run(cmd, pty=True)
+
+
+@task
+def typescript_typecheck(ctx, watch=True):
+    """ Check that our TypeScript compiles """
+    preflight_checklist()
+
+    watch = " --watch " if watch else ""
+
+    cmd = f"./node_modules/.bin/tsc --project tsconfig.json {watch}"
+    ctx.run(cmd, pty=True)

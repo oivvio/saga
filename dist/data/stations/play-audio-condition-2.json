@@ -1,0 +1,14 @@
+{
+  "id": "play-audio-condition-2",
+  "type": "station",
+  "description": "play audio with conditions",
+  "tags": ["unlocked"],
+  "triggers": [
+    {
+      "condition": "hasTag",
+      "conditionArgs": "key",
+      "action": "playAudio",
+      "audioFilename": "audio-test-2.mp3"
+    }
+  ]
+}

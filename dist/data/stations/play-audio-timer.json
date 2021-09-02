@@ -1,0 +1,32 @@
+{
+  "id": "play-audio-timer",
+  "type": "station",
+  "description": "play simple audio with timer. Both timers cancels onleaving the station/activating another station.",
+  "tags": ["story", "timer"],
+  "triggers": [
+    {
+      "action": "playAudio",
+      "audioFilename": "saga-1.mp3"
+    },
+    {
+      "action": "startTimeLimit",
+      "timerName": "timer-help-1",
+      "cancelOnLeave": true,
+      "timeLimit": 16,
+      "onTimeLimitEnd": {
+        "action": "playAudio",
+        "audioFilename": "timerhelp-test-1.mp3"
+      }
+    },
+    {
+      "action": "startTimeLimit",
+      "timerName": "timer-story-1-2",
+      "cancelOnLeave": true,
+      "timeLimit": 20,
+      "onTimeLimitEnd": {
+        "action": "goToStation",
+        "toStation": "play-audio-timer-2"
+      }
+    }
+  ]
+}

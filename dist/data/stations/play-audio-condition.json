@@ -1,0 +1,23 @@
+{
+  "id": "play-audio-condition",
+  "type": "station",
+  "description": "play audio and set user with condition to play next",
+  "tags": ["key"],
+  "triggers": [
+    {
+      "action": "playAudio",
+
+      "audioFilename": "audio-test-1.mp3"
+    },
+    {
+      "action": "startTimeLimit",
+      "timerName": "timer-story-1-2",
+      "cancelOnLeave": true,
+      "timeLimit": 5,
+      "onTimeLimitEnd": {
+        "action": "goToStation",
+        "toStation": "play-audio-condition-2"
+      }
+    }
+  ]
+}
