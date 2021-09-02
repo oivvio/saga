@@ -1,0 +1,101 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=0"
+    />
+
+    <title>SPRICKAN</title>
+
+
+    <!-- This is the LazarSoft library        -->
+    <!-- <script
+         defer
+         src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"
+         ></script>
+    -->
+
+    <script defer src="/main.bundle.js"></script>
+  </head>
+  <body>
+    <!-- <main x-data="state()">        -->
+    <main x-data>
+      <!-- QR SCANNER -->
+      <div class="container color-change-3x">
+        <div class="container-wrapper"></div>
+          <div
+            class="container-object heartbeat"
+            id="circle"
+            x-show="$store.state.user.QRScannerCanBeDisplayed && !$store.state.user.QRScannerIsDisplayed"
+            @click="showQRScanner()"
+          >
+            <p
+              class="container-object-text"
+              x-show="$store.state.user.stationsVisited.length == 0"
+            >
+              START
+            </p>
+          </div>
+
+          <div class="container-object">
+            <template x-if="$store.state.user.QRScannerCanBeDisplayed" x-state="$store.state.user.QRScannerIsDisplayed">
+              <!-- <ul @click.away="$store.state.user.QRScannerCanBeDisplayed = true"></ul> -->
+              <ul></ul>
+
+            </template>
+          </div>
+
+          <div class="container-object" id="qr-video-container">
+              <!-- <canvas
+                   class="transition-fade"
+                   x-show="$store.state.user.QRScannerCanBeDisplayed"
+                   id="qr-canvas"
+                   ></canvas>
+              -->
+              <video id="qr-video"></video>
+              <img src="./images/qr-brackets-red.svg"></img>
+
+          </div>
+
+
+        </div>
+      </div>
+
+      <!-- DEV stuff // remove before prod. -->
+      <div>
+        <div class="devhelper">
+          <form @submit.prevent="fakeScan($store.state.fakeId)">
+            <input type="text" x-model="$store.state.fakeId" autofocus />
+            <button class="devhelper-button">fakescan</button>
+          </form>
+
+          <template x-for="station in $store.state.user.stationsVisited">
+            <span x-text="station.id"></span>
+          </template>
+          <p>
+            playingAudio:
+            <span x-text="$store.state.audio.story.isPlaying"></span>
+          </p>
+          <p>dummyCounter: <span x-text="$store.state.dummyCounter"></span></p>
+          <p>user tags: <span x-text="$store.state.user.tags"></span></p>
+          <p>
+            showQRScanner:
+            <span x-text="$store.state.user.showQRScanner"></span>
+          </p>
+          <p>
+             QRScannerCanBeDisplayed:
+            <span x-text="$store.state.user.QRScannerCanBeDisplayed"  ></span>
+          </p>
+
+          <p>
+             QRScannerIsDisplayed:
+            <span x-text="$store.state.user.QRScannerIsDisplayed"  ></span>
+          </p>
+
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
