@@ -26,6 +26,7 @@ $ npm start
 Navigate to `http://localhost:8080`
 
 # Run JSON schema to validate json documents
+
 Activate the virtualenv.
 
 ```bash
@@ -52,3 +53,35 @@ State is initialized in main.js like so
 We can then pick up our current state anyware in the project like so
 
     let state = Alpine.store("state");
+
+# my-project-name
+
+# From the README.md `vue create` gave us
+
+## Project setup
+
+```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+
+```
+yarn serve
+```
+
+### Compiles and minifies for production
+
+```
+yarn build
+```
+
+### Lints and fixes files
+
+```
+yarn lint
+```
+
+### Customize configuration
+
+See [Configuration Reference](https://cli.vuejs.org/config/).
