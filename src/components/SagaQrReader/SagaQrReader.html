@@ -1,10 +1,14 @@
 <div id="qrreader">
+
     <p><strong>The qr reader.</strong></p>
     <p class="error">{{ error }}</p>
 
     <p class="decode-result">
         Last result: <b>{{ result }}</b>
     </p>
-
+    <div id="qrvideowrapper">
     <video id="qrvideo" class="foo"></video>
+
+    <canvas id="qrcanvas"></canvas>
+    </div>
 </div>

@@ -3,24 +3,26 @@
   color: red;
 }
 
-#qrreader {
+#qrvideowrapper {
   position: relative;
 
-  video {
+  video#qrvideo {
     position: absolute;
     top: 0;
     left: 0;
+    width: 100vw;
+
     z-index: 1;
   }
 
-  p {
-    background-color: blue;
-    opacity: 0.1;
+  canvas#qrcanvas {
     position: absolute;
-    top: 120px;
-    left: 400px;
-    width: 480px;
-    height: 480px;
+    display: none;
+    top: 0;
+    left: 0;
     z-index: 10;
+    // background-color: rgba(255, 0, 0, 0.5);
+    background-color: red;
+    opacity: 0.5;
   }
 }

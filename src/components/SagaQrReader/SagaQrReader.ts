@@ -2,6 +2,14 @@ import { defineComponent } from "vue";
 
 import QrScanner from "qr-scanner";
 
+interface IScanRegion {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  downScaledWidth: number;
+  downScaledHeight: number;
+}
 // Bundling as a blob with webpack didn't work so we get the worker code separately
 QrScanner.WORKER_PATH = "/js/vendor/qr-scanner-worker.min.js";
 
@@ -12,6 +20,7 @@ export default defineComponent({
     return {
       result: "",
       error: "",
+      foo: "bar",
     };
   },
 
@@ -29,33 +38,41 @@ export default defineComponent({
     //eventNames.forEach((eventName) => {
     const qrScanner = new QrScanner(
       videoElement,
-      (result) => console.log("decoded qr code:", result),
-      (error) => console.log("There was an error: ", error)
+      (result) => {
+        console.log("decoded qr code:", result);
+        const canvas = document.getElementById("qrcanvas");
+        if (canvas) {
+          canvas.style.backgroundColor = "green";
+        }
+      },
+
+      (error) => {
+        const canvas = document.getElementById("qrcanvas");
+        if (canvas) {
+          canvas.style.backgroundColor = "red";
+        }
+      }
     );
 
     qrScanner.start();
     //
     videoElement.addEventListener("canplay", () => {
-      console.log("canplay ", videoElement.videoWidth);
+      const videoNominalWidth = videoElement.videoWidth;
+      const actualWidth = videoElement.offsetWidth;
+      const scalingFactor = actualWidth / videoNominalWidth;
+
       (window as any).qrScanner = qrScanner;
+      const scanRegion = (qrScanner as any)._scanRegion as IScanRegion;
 
-      const canvas = (qrScanner as any).$canvas;
-      console.log("_scanRegion:", (qrScanner as any)._scanRegion);
-      console.log("canvas:", canvas);
-      const ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#FF0000";
-      ctx.fillRect(0, 0, 150, 75);
-
-      const qr = <HTMLVideoElement>document.getElementById("qrreader");
-      const marker = document.createElement("p");
-      marker.setAttribute("id", "marker");
-      // marker.style.width = "300px";
-      // marker.style.height = "300px";
-
-      qr.appendChild(marker);
-      // videoElement.style.display = "none";
-
-      // debugger;
+      const canvas = document.getElementById("qrcanvas");
+      // marker.setAttribute("id", "marker");
+      if (canvas) {
+        canvas.style.left = `${scanRegion.x * scalingFactor}px`;
+        canvas.style.top = `${scanRegion.y * scalingFactor}px`;
+        canvas.style.width = `${scanRegion.width * scalingFactor}px`;
+        canvas.style.height = `${scanRegion.height * scalingFactor}px`;
+        canvas.style.display = "block";
+      }
     });
   },
 
