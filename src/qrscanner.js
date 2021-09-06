@@ -1,27 +1,32 @@
-import { getState } from "./state";
+"use strict";
+// import { getState } from "./state";
 /* eslint-disable @typescript-eslint/no-var-requires */
-import QrScanner from "qr-scanner";
+// import QrScanner from "qr-scanner";
 // Bundling as a blob with webpack didn't work so we get the worker code separately
-QrScanner.WORKER_PATH = "/js/vendor/qr-scanner-worker.min.js";
+// QrScanner.WORKER_PATH = "/js/vendor/qr-scanner-worker.min.js";
 // TODO
-export function initQR() {
-    const videoElement = document.getElementById("qr-video");
-    let state = getState();
-    videoElement.addEventListener("loadeddata", () => {
-        console.log("video is up");
-        state.user.QRScannerIsDisplayed = true;
-        console.log("w3 ", videoElement.videoWidth);
-        console.log("h3 ", videoElement.videoHeight);
-        setTimeout(() => {
-            console.log("w4 ", videoElement.videoWidth);
-            console.log("h4 ", videoElement.videoHeight);
-        }, 2000);
-    });
-    const qrScanner = new QrScanner(videoElement, (result) => console.log("decoded qr code:", result), (error) => console.log("There was an error: ", error));
-    qrScanner.start();
-}
+// export function initQR(): void {
+//   const videoElement = <HTMLVideoElement>document.getElementById("qr-video");
+//   let state = getState();
+//   videoElement.addEventListener("loadeddata", () => {
+//     console.log("video is up");
+//     state.user.QRScannerIsDisplayed = true;
+//     console.log("w3 ", videoElement.videoWidth);
+//     console.log("h3 ", videoElement.videoHeight);
+//     setTimeout(() => {
+//       console.log("w4 ", videoElement.videoWidth);
+//       console.log("h4 ", videoElement.videoHeight);
+//     }, 2000);
+//   });
+//   const qrScanner = new QrScanner(
+//     videoElement,
+//     (result) => console.log("decoded qr code:", result),
+//     (error) => console.log("There was an error: ", error)
+//   );
+//   qrScanner.start();
+// }
 // TODO
-export function scanQRCode(callback) { }
+// export function scanQRCode(callback: (stationId: string) => void): void {}
 //const qr = QRScanner();
 // export function initQR(): void {
 //   const canvasElement = <HTMLCanvasElement>document.getElementById("qr-canvas");

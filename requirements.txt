@@ -1,2 +1,5 @@
 jsonschema==3.2.0
 invoke==1.6.0
+
+# just to make test deployments to AWS s3
+awscli==1.20.36

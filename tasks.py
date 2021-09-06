@@ -116,3 +116,14 @@ def typescript_typecheck(ctx, watch=True):
 
     cmd = f"./node_modules/.bin/tsc --project tsconfig.json {watch}"
     ctx.run(cmd, pty=True)
+
+
+@task
+def deploy_to_s3(ctx):
+    """ Build and deploy to an s3 bucket - requires aws secrects to be configured. """
+
+    preflight_checklist()
+
+    cmd = f"aws s3 sync --acl public-read ./dist/  s3://libtechplayground/sprickan/"
+    print(cmd)
+    ctx.run(cmd, pty=True)

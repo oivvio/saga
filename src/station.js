@@ -1,6 +1,5 @@
 // Interpret stations
-import { playAudio, tryStory } from "./main";
-import { stations } from "./state";
+import { playAudio, tryStory } from "./engine";
 // Trigger actions
 const triggers = {
     playAudio: function (_, trigger) {
@@ -11,6 +10,7 @@ const triggers = {
         const timer = window.setTimeout(function () {
             interpretSecondLevelTrigger(state, trigger.onTimeLimitEnd);
         }, trigger.timeLimit * 1000);
+        console.log(timer * 1);
         state.user.timers[trigger.timerName] = timer;
     },
     goToStation: function (_, trigger) {
@@ -20,7 +20,7 @@ const triggers = {
         const timer = state.user.timers[trigger.timerName];
         if (timer !== undefined) {
             window.clearTimeout(timer);
-            state.user.timers[trigger.timerName] = "cancelled";
+            delete state.user.timers[trigger.timerName];
         }
     },
 };
@@ -85,6 +85,10 @@ const onLeave = {
             delete state.user.timers[trigger.timerName];
         }
     },
+    // required by TypeScript because of how ITrigger.action is defined
+    playAudio: () => { },
+    goToStation: () => { },
+    cancelTimer: () => { },
 };
 //
 export function interpretStation(state, station) {

@@ -1,7 +1,8 @@
 // Interpret stations
 
-import { playAudio, tryStory } from "./main";
-import { stations, IState } from "./state";
+import { playAudio, tryStory } from "./engine";
+// import { stations, IState } from "./state";
+import { IState } from "./store";
 
 // TODO flesh this out
 // Keep this in sync with the json schema
@@ -48,7 +49,10 @@ const triggers = {
   startTimeLimit: function (state: IState, trigger: ITrigger) {
     const timer = window.setTimeout(function () {
       interpretSecondLevelTrigger(state, trigger.onTimeLimitEnd);
-    }, trigger.timeLimit * 1000);
+    }, trigger.timeLimit * 1000) as number;
+
+    console.log(timer * 1);
+
     state.user.timers[trigger.timerName] = timer;
   },
   goToStation: function (_: IState, trigger: ITrigger) {
@@ -58,7 +62,7 @@ const triggers = {
     const timer = state.user.timers[trigger.timerName];
     if (timer !== undefined) {
       window.clearTimeout(timer);
-      state.user.timers[trigger.timerName] = "cancelled";
+      delete state.user.timers[trigger.timerName];
     }
   },
 };
@@ -129,6 +133,11 @@ const onLeave = {
       delete state.user.timers[trigger.timerName];
     }
   },
+
+  // required by TypeScript because of how ITrigger.action is defined
+  playAudio: () => {},
+  goToStation: () => {},
+  cancelTimer: () => {},
 };
 
 //

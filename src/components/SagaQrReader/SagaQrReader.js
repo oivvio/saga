@@ -1,52 +1,65 @@
-// import { QrcodeStream } from "../../../../src";
 import { defineComponent } from "vue";
-// import { QrcodeStream } from "vue-qrcode-reader";
-import * as qcs from "vue-qrcode-reader";
-//import QrcodeStream from "vue-qrcode-reader";
+import QrScanner from "qr-scanner";
+// Bundling as a blob with webpack didn't work so we get the worker code separately
+// QrScanner.WORKER_PATH = "/js/vendor/qr-scanner-worker.min.js";
+// TODO, make this not be sprickan specific.
+QrScanner.WORKER_PATH = "/sprickan/js/vendor/qr-scanner-worker.min.js";
 export default defineComponent({
     name: "SagaQrReader",
-    components: { QrcodeStream: qcs.QrcodeStream },
     data() {
         return {
             result: "",
             error: "",
+            foo: "bar",
         };
+    },
+    setup(props) {
+        console.log("props: ", props);
+    },
+    mounted() {
+        console.log("on mounted");
+        const videoElement = document.getElementById("qrvideo");
+        // events canplay, playing and canplaythrough works in firefox desktop
+        // on google chrome durationchange and loadedmetadata
+        //eventNames.forEach((eventName) => {
+        const qrScanner = new QrScanner(videoElement, (result) => {
+            console.log("decoded qr code:", result);
+            const canvas = document.getElementById("qrcanvas");
+            if (canvas) {
+                canvas.style.backgroundColor = "green";
+            }
+        }, (error) => {
+            const canvas = document.getElementById("qrcanvas");
+            if (canvas) {
+                canvas.style.backgroundColor = "red";
+            }
+        });
+        qrScanner.start();
+        //
+        videoElement.addEventListener("canplay", () => {
+            const videoNominalWidth = videoElement.videoWidth;
+            const actualWidth = videoElement.offsetWidth;
+            const scalingFactor = actualWidth / videoNominalWidth;
+            window.qrScanner = qrScanner;
+            const scanRegion = qrScanner._scanRegion;
+            const canvas = document.getElementById("qrcanvas");
+            // marker.setAttribute("id", "marker");
+            if (canvas) {
+                canvas.style.left = `${scanRegion.x * scalingFactor}px`;
+                canvas.style.top = `${scanRegion.y * scalingFactor}px`;
+                canvas.style.width = `${scanRegion.width * scalingFactor}px`;
+                canvas.style.height = `${scanRegion.height * scalingFactor}px`;
+                canvas.style.display = "block";
+            }
+        });
     },
     methods: {
         onDecode(result) {
-            this.result = result;
+            console.log(result);
+            // this.result = result;
         },
-        async onInit(promise) {
-            try {
-                await promise;
-            }
-            catch (error) {
-                if (error.name === "NotAllowedError") {
-                    this.error = "ERROR: you need to grant camera access permission";
-                }
-                else if (error.name === "NotFoundError") {
-                    this.error = "ERROR: no camera on this device";
-                }
-                else if (error.name === "NotSupportedError") {
-                    this.error = "ERROR: secure context required (HTTPS, localhost)";
-                }
-                else if (error.name === "NotReadableError") {
-                    this.error = "ERROR: is the camera already in use?";
-                }
-                else if (error.name === "OverconstrainedError") {
-                    this.error = "ERROR: installed cameras are not suitable";
-                }
-                else if (error.name === "StreamApiNotSupportedError") {
-                    this.error = "ERROR: Stream API is not supported in this browser";
-                }
-                else if (error.name === "InsecureContextError") {
-                    this.error =
-                        "ERROR: Camera access is only permitted in secure context. Use HTTPS or localhost rather than HTTP.";
-                }
-                else {
-                    this.error = `ERROR: Camera error (${error.name})`;
-                }
-            }
+        onInit() {
+            console.log("in onInit");
         },
     },
 });

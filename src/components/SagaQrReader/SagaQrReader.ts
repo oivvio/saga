@@ -11,7 +11,10 @@ interface IScanRegion {
   downScaledHeight: number;
 }
 // Bundling as a blob with webpack didn't work so we get the worker code separately
-QrScanner.WORKER_PATH = "/js/vendor/qr-scanner-worker.min.js";
+// QrScanner.WORKER_PATH = "/js/vendor/qr-scanner-worker.min.js";
+
+// TODO, make this not be sprickan specific.
+QrScanner.WORKER_PATH = "/sprickan/js/vendor/qr-scanner-worker.min.js";
 
 export default defineComponent({
   name: "SagaQrReader",
