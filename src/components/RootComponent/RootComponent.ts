@@ -1,85 +1,36 @@
 import { defineComponent } from "vue";
 import SagaQrReader from "../SagaQrReader/SagaQrReader.vue";
 
+import { Mutations } from "../../store";
+
 import DevBox from "../DevBox/DevBox.vue";
-import { loadGameConfig } from "../../station";
+// import { loadGameConfig } from "../../station";
 
-interface IUser {
-  firstName: string;
-  lastName: string;
-  age: number;
-}
-interface IData {
-  count: number;
-  isDisabled: boolean;
-  someAttribute: string;
-  callback: () => void;
-  user: IUser;
-  reporter: Reporter;
-  showItAll: boolean;
-  message: string;
-}
-
-class Reporter {
-  firstName: string;
-  age: number;
-
-  constructor(firstName: string, age: number) {
-    this.firstName = firstName;
-    this.age = age;
-  }
-  increment() {
-    console.log("You pushed me");
-    this.age++;
-  }
-}
+// interface IData {}
 
 export default defineComponent({
   name: "RootComponent",
   props: {
     msg: String,
   },
-  data: function (): IData {
+  data: function () {
     return {
       count: 1,
-      isDisabled: false,
-      someAttribute: "disabled",
-      message: "",
-      callback: function () {
-        console.log("Cause I'm close to the edge! ", this.count);
-        this.count--;
-      },
-      user: {
-        firstName: "Mark",
-        lastName: "Felt",
-        age: 42,
-      },
-      showItAll: true,
-      reporter: new Reporter("Bob", 30),
     };
   },
   methods: {
-    increment() {
-      // this.user.age++;
-      this.$store.commit("incrementDummyCounter");
-      console.log(this.$store.state.dummyCounter);
-    },
-    decrement() {
-      this.$store.commit("decrementDummyCounter");
-      console.log(this.$store.state.dummyCounter);
-    },
-
-    identifcationPlease() {
-      return this.user.age * 10;
+    displayQRScanner() {
+      this.$store.commit(Mutations.displayQRScanner);
     },
   },
 
   computed: {
-    fullName() {
-      return this.user.firstName + " " + this.user.lastName;
+    QRScannerCanBeDisplayed() {
+      return this.$store.state.user.QRScannerCanBeDisplayed;
     },
-    tooOld() {
-      return this.user.age > 45;
+
+    QRScannerIsDisplayed() {
+      return this.$store.state.user.QRScannerIsDisplayed;
     },
   },
 
@@ -87,16 +38,5 @@ export default defineComponent({
 
   created: function () {
     console.log("Created the RootComponent");
-
-    //Exctract the configUrl that should have been passed as a query argument
-    const urlParams = new URLSearchParams(window.location.search);
-    const configUrl = urlParams.get("configUrl");
-
-    if (configUrl) {
-      loadGameConfig(new URL(configUrl));
-    } else {
-      // TODO errorlog
-      console.log("failed to load configURL");
-    }
   },
 });

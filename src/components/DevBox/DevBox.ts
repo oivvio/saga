@@ -1,7 +1,7 @@
-// import { tryStory } from "../../main_old";
-import { tryStory } from "../../engine";
-
 import { defineComponent } from "vue";
+
+import { tryStory } from "../../engine";
+import { Mutations } from "../../store";
 
 export default defineComponent({
   name: "DevBox",
@@ -11,18 +11,26 @@ export default defineComponent({
   },
 
   setup(props) {
+    // this not available yet
     console.log("props: ", props);
+  },
+
+  mounted() {
+    console.log("state: ", this.$store.state.user);
   },
 
   methods: {
     onDecode(result: string) {
       console.log(result);
+
       // this.result = result;
     },
 
     onSubmit() {
-      console.log(this.message);
       tryStory(this.message);
+    },
+    wipeHistory() {
+      this.$store.commit(Mutations.wipeHistory);
     },
   },
 });

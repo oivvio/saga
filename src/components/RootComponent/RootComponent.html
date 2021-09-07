@@ -1,16 +1,6 @@
 <div class="RootComponent">
     <h1>Sprickan!</h1>
-
-    <!-- <saga-qr-reader></saga-qr-reader>
-    -->
+    <button v-if="QRScannerCanBeDisplayed && !QRScannerIsDisplayed" v-on:click="displayQRScanner">OPEN QR SCANNER! </button>
+    <saga-qr-reader v-if="QRScannerIsDisplayed"></saga-qr-reader>
     <dev-box></dev-box>
-    <h1>Hello {{ fullName }} {{ this.$store.state.dummyCounter }}</h1>
-    <button  @click="increment">
-        INCREMENT
-    </button>
-    <button  @click="decrement">
-        DECREMENT
-    </button>
-
-
 </div>

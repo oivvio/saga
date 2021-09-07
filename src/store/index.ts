@@ -1,6 +1,9 @@
+// eslint-disable-next-line
 import { ComponentCustomProperties } from "vue";
 import { Store, createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
+import { IGameConfig } from "../station";
+import { loadGameConfig } from "../station";
 
 interface IUserState {
   QRScannerCanBeDisplayed: boolean;
@@ -17,6 +20,8 @@ interface IUserState {
 
 export interface IState {
   dummyCounter: number;
+  gameConfigLoaded: boolean;
+  gameConfig?: IGameConfig;
   user: IUserState;
   audio: {
     volume: number;
@@ -43,6 +48,8 @@ declare module "@vue/runtime-core" {
 
 const initialState: IState = {
   dummyCounter: 1,
+  gameConfigLoaded: false,
+  gameConfig: undefined,
   user: {
     QRScannerCanBeDisplayed: true,
     QRScannerIsDisplayed: false,
@@ -83,6 +90,27 @@ export const store = createStore({
     decreaseHelpAvailable(state) {
       state.user.helpAvailable--;
     },
+
+    displayQRScanner(state) {
+      state.user.QRScannerIsDisplayed = true;
+    },
+
+    async loadGameConfig(state) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const configUrl = urlParams.get("configUrl");
+
+      if (configUrl) {
+        state.gameConfig = await loadGameConfig(new URL(configUrl));
+        state.gameConfigLoaded = true;
+        console.log("gameConfigLoaded");
+      }
+    },
+
+    wipeHistory(state) {
+      state.user = initialState.user;
+      state.audio = initialState.audio;
+      state.dummyCounter = initialState.dummyCounter;
+    },
   },
   actions: {},
   modules: {},
@@ -93,4 +121,7 @@ export enum Mutations {
   incrementDummyCounter = "incrementDummyCounter",
   decrementDummyCounter = "decrementDummyCounter",
   decreaseHelpAvailable = "decreaseHelpAvailable",
+  displayQRScanner = "displayQRScanner",
+  wipeHistory = "wipeHistory",
+  loadGameConfig = "loadGameConfig",
 }

@@ -1,7 +1,6 @@
 // Interpret stations
 
 import { playAudio, tryStory } from "./engine";
-// import { stations, IState } from "./state";
 import { IState } from "./store";
 import { getParentUrl, getChildUrl } from "./utils";
 
@@ -41,47 +40,9 @@ export interface ISecondLevelTrigger {
   conditionArgs?: string;
 }
 
-// TODO This should be loaded from game config not hard coded
-export const stations: Record<string, IStation> = {
-  "play-timer-1": {
-    id: "play-timer-1",
-    type: "station",
-    description:
-      "play audio. starts a level timer that wont end until leaving level 1.",
-    tags: ["play-timer-1"],
-    triggers: [
-      {
-        action: "playAudio",
-        audioFilename: "audio-test-1.mp3",
-      },
-      {
-        action: "startTimeLimit",
-        timerName: "timer-help-1",
-        cancelOnLeave: true,
-        timeLimit: 5,
-        onTimeLimitEnd: {
-          action: "playAudio",
-          audioFilename: "timerhelp-test-1.mp3",
-        },
-      },
-      {
-        action: "startTimeLimit",
-        timerName: "timer-story-1-2",
-        cancelOnLeave: true,
-        timeLimit: 10,
-        onTimeLimitEnd: {
-          action: "goToStation",
-          toStation: "play-timer-2",
-        },
-      },
-    ],
-  },
-};
-
-interface IGameConfig {
+export interface IGameConfig {
   name: string;
   stationPaths: string[];
-  // stationsList: IStation[];
   stations: Record<string, IStation>;
 }
 
@@ -231,7 +192,6 @@ const onLeave = {
   },
 };
 
-//
 export function interpretStation(state: IState, station: IStation): void {
   switch (station.type) {
     case "help":
@@ -241,10 +201,10 @@ export function interpretStation(state: IState, station: IStation): void {
       console.log("station type station");
 
       // Pick up the station the user just left, if any.
-
       const leavingStationId: string =
         state.user.stationsVisited[state.user.stationsVisited.length - 1];
-      const leavingStation: IStation = stations[leavingStationId];
+
+      const leavingStation = state.gameConfig?.stations[leavingStationId];
       console.log("leavingStation: ", leavingStationId);
 
       // Handle triggers for the station the user just left

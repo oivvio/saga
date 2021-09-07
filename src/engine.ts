@@ -1,6 +1,6 @@
 import { Howl } from "howler";
-import { store, Mutations } from "./store";
-import { IStation, interpretStation } from "./station";
+import { interpretStation } from "./station";
+import { Mutations, store } from "./store";
 
 const AUDIOFILEBASE = "data/audio/";
 
@@ -22,22 +22,18 @@ export function tryStory(stationId: string): void {
         store.state.user.helpAvailable
       );
 
-      loadStory(stationId, () => {
-        playAudio("help-" + store.state.user.helpAvailable + ".mp3");
-        store.commit(Mutations.decreaseHelpAvailable);
-      });
+      playAudio("help-" + store.state.user.helpAvailable + ".mp3");
+      store.commit(Mutations.decreaseHelpAvailable);
     }
   } else {
     // If we have NOT already been here
 
-    loadStory(stationId, (station: IStation) => {
+    if (store?.state?.gameConfig) {
+      const station = store.state.gameConfig.stations[stationId];
       interpretStation(store.state, station);
-
-      // if (station.level && station.level !== store.state.user.onLevel) {
-      //   store.state.user.onLevel = station.level;
-      //   this.loadBackground(station);
-      // }
-    });
+    } else {
+      console.log("stations not loaded");
+    }
   }
 }
 
@@ -70,17 +66,4 @@ export function playAudio(filename: string): void {
     console.log("press play");
     audioElement.play();
   }
-}
-
-function loadStory(stationId: string, callback: (data: any) => void) {
-  const url = "data/stations/" + stationId + ".json";
-  console.log("loading Story: ", url);
-  // $.get("data/stations/" + stationId + ".json", callback);
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      // stations[stationId] = data;
-      callback(data);
-    });
 }

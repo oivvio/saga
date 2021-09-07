@@ -1,5 +1,4 @@
 import { defineComponent } from "vue";
-
 import QrScanner from "qr-scanner";
 
 interface IScanRegion {
@@ -10,7 +9,8 @@ interface IScanRegion {
   downScaledWidth: number;
   downScaledHeight: number;
 }
-// Bundling as a blob with webpack didn't work so we get the worker code separately
+
+// // Bundling as a blob with webpack didn't work so we get the worker code separately
 // QrScanner.WORKER_PATH = "/js/vendor/qr-scanner-worker.min.js";
 
 // TODO, make this not be sprickan specific.
@@ -21,9 +21,9 @@ export default defineComponent({
 
   data() {
     return {
+      loading: true,
       result: "",
       error: "",
-      foo: "bar",
     };
   },
 
@@ -51,6 +51,7 @@ export default defineComponent({
 
       (error) => {
         const canvas = document.getElementById("qrcanvas");
+        console.log(error);
         if (canvas) {
           canvas.style.backgroundColor = "red";
         }
@@ -60,11 +61,13 @@ export default defineComponent({
     qrScanner.start();
     //
     videoElement.addEventListener("canplay", () => {
+      this.loading = false;
       const videoNominalWidth = videoElement.videoWidth;
       const actualWidth = videoElement.offsetWidth;
       const scalingFactor = actualWidth / videoNominalWidth;
 
-      (window as any).qrScanner = qrScanner;
+      // (window as any).qrScanner = qrScanner;
+      // const scanRegion = (qrScanner as any)._scanRegion as IScanRegion;
       const scanRegion = (qrScanner as any)._scanRegion as IScanRegion;
 
       const canvas = document.getElementById("qrcanvas");

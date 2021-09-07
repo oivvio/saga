@@ -4,7 +4,6 @@ export function getParentUrl(url: URL): URL {
   pathParts.pop();
   const newPath = pathParts.join("/");
   const newURLString = url.protocol + "//" + url.host + newPath;
-  console.log(newURLString);
   return new URL(newURLString);
 }
 

@@ -9,9 +9,6 @@ export default defineComponent({
     msg: String,
   },
 
-  created() {
-    console.log("Creating the App component");
-  },
   components: {
     RootComponent,
   },
