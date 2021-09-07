@@ -30,5 +30,6 @@ pnpm-debug.log*
 
 # compiler output
 *.js
+*.js.map
 *.map
 .eslintcache
