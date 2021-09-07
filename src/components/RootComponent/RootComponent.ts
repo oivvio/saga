@@ -2,6 +2,7 @@ import { defineComponent } from "vue";
 import SagaQrReader from "../SagaQrReader/SagaQrReader.vue";
 
 import DevBox from "../DevBox/DevBox.vue";
+import { loadGameConfig } from "../../station";
 
 interface IUser {
   firstName: string;
@@ -85,7 +86,17 @@ export default defineComponent({
   components: { SagaQrReader, DevBox },
 
   created: function () {
-    console.log("We were gods on our world!");
-    console.log(this);
+    console.log("Created the RootComponent");
+
+    //Exctract the configUrl that should have been passed as a query argument
+    const urlParams = new URLSearchParams(window.location.search);
+    const configUrl = urlParams.get("configUrl");
+
+    if (configUrl) {
+      loadGameConfig(new URL(configUrl));
+    } else {
+      // TODO errorlog
+      console.log("failed to load configURL");
+    }
   },
 });

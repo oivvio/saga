@@ -8,6 +8,10 @@ export default defineComponent({
   props: {
     msg: String,
   },
+
+  created() {
+    console.log("Creating the App component");
+  },
   components: {
     RootComponent,
   },

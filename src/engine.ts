@@ -5,6 +5,7 @@ import { IStation, interpretStation } from "./station";
 const AUDIOFILEBASE = "data/audio/";
 
 export function tryStory(stationId: string): void {
+  console.log(`in tryStory: ${stationId}`);
   // Get the current state
   //   const state = getState();
 

@@ -3,6 +3,7 @@
 import { playAudio, tryStory } from "./engine";
 // import { stations, IState } from "./state";
 import { IState } from "./store";
+import { getParentUrl, getChildUrl } from "./utils";
 
 // TODO flesh this out
 // Keep this in sync with the json schema
@@ -16,53 +17,133 @@ export interface IStation {
 
 export interface ITrigger {
   action: "playAudio" | "startTimeLimit" | "goToStation" | "cancelTimer";
-  audioFilename: string;
-  timerName: string;
-  cancelOnLeave: boolean;
-  timeLimit: number;
-  goToStation: string;
-  toStation: string;
+  audioFilename?: string;
+  timerName?: string;
+  cancelOnLeave?: boolean;
+  timeLimit?: number;
+  goToStation?: string;
+  toStation?: string;
   condition?: "hasTag";
-  conditionArgs: string;
+  conditionArgs?: string;
   // onTimeLimitEnd: () => {};
-  onTimeLimitEnd: ISecondLevelTrigger;
+  onTimeLimitEnd?: ISecondLevelTrigger;
 }
 
 export interface ISecondLevelTrigger {
   action: "playAudio" | "startTimeLimit" | "goToStation" | "cancelTimer";
-  audioFilename: string;
-  timerName: string;
-  cancelOnLeave: boolean;
-  timeLimit: number;
-  goToStation: string;
-  toStation: string;
+  audioFilename?: string;
+  timerName?: string;
+  cancelOnLeave?: boolean;
+  timeLimit?: number;
+  goToStation?: string;
+  toStation?: string;
   condition?: "hasTag";
-  conditionArgs: string;
+  conditionArgs?: string;
+}
+
+// TODO This should be loaded from game config not hard coded
+export const stations: Record<string, IStation> = {
+  "play-timer-1": {
+    id: "play-timer-1",
+    type: "station",
+    description:
+      "play audio. starts a level timer that wont end until leaving level 1.",
+    tags: ["play-timer-1"],
+    triggers: [
+      {
+        action: "playAudio",
+        audioFilename: "audio-test-1.mp3",
+      },
+      {
+        action: "startTimeLimit",
+        timerName: "timer-help-1",
+        cancelOnLeave: true,
+        timeLimit: 5,
+        onTimeLimitEnd: {
+          action: "playAudio",
+          audioFilename: "timerhelp-test-1.mp3",
+        },
+      },
+      {
+        action: "startTimeLimit",
+        timerName: "timer-story-1-2",
+        cancelOnLeave: true,
+        timeLimit: 10,
+        onTimeLimitEnd: {
+          action: "goToStation",
+          toStation: "play-timer-2",
+        },
+      },
+    ],
+  },
+};
+
+interface IGameConfig {
+  name: string;
+  stationPaths: string[];
+  // stationsList: IStation[];
+  stations: Record<string, IStation>;
+}
+
+// load a game configuration from a given URL,
+// mostly this will load a bunch of stations files
+export async function loadGameConfig(configUrl: URL): Promise<IGameConfig> {
+  //
+  // (http://example.com/parent, "./child/station1.json") -> data
+  async function loadStationFromPath(
+    baseUrl: URL,
+    path: string
+  ): Promise<IStation> {
+    const fullUrl = getChildUrl(baseUrl, path);
+    return fetch(fullUrl.toString()).then((response) => response.json());
+  }
+
+  return fetch(configUrl.toString())
+    .then((response) => response.json())
+    .then(async (gameConfig: IGameConfig) => {
+      // extract baseURL from our configUrl
+      const baseUrl = getParentUrl(configUrl);
+      // Make a set of promises for fetching all stations
+      const stationPromises = gameConfig.stationPaths.map((path) => {
+        return loadStationFromPath(baseUrl, path);
+      });
+
+      // fetch the stations
+      const stations = await Promise.all(stationPromises);
+
+      // Put them into the data structure
+      stations.forEach((station) => {
+        gameConfig.stations[station.id] = station;
+      });
+
+      return gameConfig;
+    });
 }
 
 // Trigger actions
 const triggers = {
   playAudio: function (_: IState, trigger: ITrigger) {
-    //playAudio(trigger.audioFilename, trigger.audioType); TSFIXES
-    playAudio(trigger.audioFilename);
+    trigger.audioFilename && playAudio(trigger.audioFilename);
   },
   startTimeLimit: function (state: IState, trigger: ITrigger) {
-    const timer = window.setTimeout(function () {
-      interpretSecondLevelTrigger(state, trigger.onTimeLimitEnd);
-    }, trigger.timeLimit * 1000) as number;
-
-    console.log(timer * 1);
-
-    state.user.timers[trigger.timerName] = timer;
+    if (trigger.onTimeLimitEnd && trigger.timeLimit && trigger.timerName) {
+      const timer = window.setTimeout(function () {
+        trigger.onTimeLimitEnd &&
+          interpretSecondLevelTrigger(state, trigger.onTimeLimitEnd);
+      }, trigger.timeLimit * 1000) as number;
+      state.user.timers[trigger.timerName] = timer;
+    }
   },
   goToStation: function (_: IState, trigger: ITrigger) {
-    tryStory(trigger.toStation);
+    trigger.toStation && tryStory(trigger.toStation);
   },
   cancelTimer: function (state: IState, trigger: ITrigger) {
-    const timer = state.user.timers[trigger.timerName];
-    if (timer !== undefined) {
-      window.clearTimeout(timer);
-      delete state.user.timers[trigger.timerName];
+    if (trigger.timerName) {
+      const timer = state.user.timers[trigger.timerName];
+      if (timer !== undefined) {
+        window.clearTimeout(timer);
+        delete state.user.timers[trigger.timerName];
+      }
     }
   },
 };
@@ -107,10 +188,10 @@ const conditions = {
 // If trigger has no condition return true.
 // If trigger has a condition, pick it up and evaluate it, return result.
 function interpretCondition(state: IState, trigger: ITrigger): boolean {
-  if (trigger.condition === undefined) {
-    return true;
-  } else {
+  if (trigger.condition && trigger.conditionArgs) {
     return conditions[trigger.condition](state, trigger.conditionArgs);
+  } else {
+    return true;
   }
 }
 
@@ -124,7 +205,11 @@ function triggerOnLeave(state: IState, trigger: ITrigger): void {
 
 const onLeave = {
   startTimeLimit: function (state: IState, trigger: ITrigger): void {
-    if (trigger.cancelOnLeave && state.user.timers[trigger.timerName]) {
+    if (
+      trigger.cancelOnLeave &&
+      trigger.timerName &&
+      state.user.timers[trigger.timerName]
+    ) {
       const timer = state.user.timers[trigger.timerName];
       window.clearTimeout(timer);
       //state.user.timers[trigger.timerName] = "cancelled";
@@ -135,9 +220,15 @@ const onLeave = {
   },
 
   // required by TypeScript because of how ITrigger.action is defined
-  playAudio: () => {},
-  goToStation: () => {},
-  cancelTimer: () => {},
+  playAudio: () => {
+    console.log("playAudio");
+  },
+  goToStation: () => {
+    console.log("goToStation");
+  },
+  cancelTimer: () => {
+    console.log("cancelTimer");
+  },
 };
 
 //
@@ -151,9 +242,9 @@ export function interpretStation(state: IState, station: IStation): void {
 
       // Pick up the station the user just left, if any.
 
-      const leavingStationId =
+      const leavingStationId: string =
         state.user.stationsVisited[state.user.stationsVisited.length - 1];
-      const leavingStation = stations[leavingStationId];
+      const leavingStation: IStation = stations[leavingStationId];
       console.log("leavingStation: ", leavingStationId);
 
       // Handle triggers for the station the user just left
