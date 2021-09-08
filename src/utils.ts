@@ -17,5 +17,5 @@ export function getChildUrl(baseUrl: URL, childPath: string): URL {
 }
 
 export function log(tag: string, msg: string): void {
-  console.log(`${tag} : ${msg} : ${log.callee.caller.name}`);
+  console.log(`${tag} : ${msg}`);
 }

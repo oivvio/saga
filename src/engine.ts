@@ -13,7 +13,8 @@ export function tryStory(stationId: string): void {
   const visitedStationIds = store.state.user.stationsVisited;
 
   // If we have already been here
-  if (visitedStationIds.includes(stationId)) {
+
+  if (visitedStationIds.has(stationId)) {
     if (store.state.user.helpAvailable <= 0) {
       console.warn("User has no more available helptracks");
     } else {

@@ -9,12 +9,12 @@ interface IUserState {
   QRScannerCanBeDisplayed: boolean;
   QRScannerIsDisplayed: boolean;
   showQRScanner: boolean;
-  // showQRScanner: true,
-  stationsVisited: string[];
-  tags: string[];
-  // timers: string[];
+  // stationsVisited: string[];
+  stationsVisited: Set<string>;
+  lastStationVisitedId?: string;
+  // tags: string[];
+  tags: Set<string>;
   timers: Record<string, number>;
-  //onLevel: 0,
   helpAvailable: number;
 }
 
@@ -54,8 +54,8 @@ const initialState: IState = {
     QRScannerCanBeDisplayed: true,
     QRScannerIsDisplayed: false,
     showQRScanner: true,
-    stationsVisited: [],
-    tags: [],
+    stationsVisited: new Set([]),
+    tags: new Set([]),
     timers: {},
     // onLevel: 0,
     helpAvailable: 3,

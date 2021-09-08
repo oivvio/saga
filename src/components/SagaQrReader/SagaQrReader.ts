@@ -68,6 +68,7 @@ export default defineComponent({
 
       // (window as any).qrScanner = qrScanner;
       // const scanRegion = (qrScanner as any)._scanRegion as IScanRegion;
+      // eslint-disable-next-line
       const scanRegion = (qrScanner as any)._scanRegion as IScanRegion;
 
       const canvas = document.getElementById("qrcanvas");
