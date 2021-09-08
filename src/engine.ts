@@ -4,7 +4,7 @@ import { Mutations, store } from "./store";
 
 const AUDIOFILEBASE = "data/audio/";
 
-export function tryStory(stationId: string): void {
+export function runStation(stationId: string): void {
   console.log(`in tryStory: ${stationId}`);
   // Get the current state
   //   const state = getState();
@@ -14,7 +14,9 @@ export function tryStory(stationId: string): void {
 
   // If we have already been here
 
-  if (visitedStationIds.has(stationId)) {
+  console.log(visitedStationIds);
+
+  if (visitedStationIds.includes(stationId)) {
     if (store.state.user.helpAvailable <= 0) {
       console.warn("User has no more available helptracks");
     } else {

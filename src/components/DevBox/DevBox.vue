@@ -21,6 +21,7 @@
     </p>
 
     <p>gameConfigIsLoaded: {{ this.$store.state.gameConfigLoaded }}</p>
+    <p>stationsVisited: {{ this.$store.state.stationsVisited }}</p>
 
     <button v-on:click="wipeHistory">Wipe history</button>
   </div>

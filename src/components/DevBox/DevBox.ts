@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 
-import { tryStory } from "../../engine";
+import { runStation } from "../../engine";
 import { Mutations } from "../../store";
 
 export default defineComponent({
@@ -27,7 +27,7 @@ export default defineComponent({
     },
 
     onSubmit() {
-      tryStory(this.message);
+      runStation(this.message);
     },
     wipeHistory() {
       this.$store.commit(Mutations.wipeHistory);

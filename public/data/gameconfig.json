@@ -1,5 +1,6 @@
 {
   "name": "Test game",
+  "baseUrl": "https://kulturhusetstadsteatern.se/sprickan",
   "sentryDsn": "FIXME",
   "sentryTracingOrigins": ["localhost", "example.com"],
   "stationPaths": [

@@ -1809,11 +1809,6 @@
     "semver" "^6.1.0"
     "strip-ansi" "^6.0.0"
 
-"@vue/compat@^3.1.0":
-  "integrity" "sha512-MnNI4ewSUPebQhm9gZDUQo/myGmSgVbdyd1xR+A/zicJTOf27yQUQSPvCDv/m/Vd7mf+w4VQ+MSZjPmr3eghfA=="
-  "resolved" "https://registry.npmjs.org/@vue/compat/-/compat-3.2.8.tgz"
-  "version" "3.2.8"
-
 "@vue/compiler-core@3.2.7":
   "integrity" "sha512-OcWy72QNTkcNYtZIb927pRx2cRujrlDWsAx7ejWDnRzwo83gIyF8NeTrMv/7wbnHoeA+Gga9AK4Wo9PlCzhuLg=="
   "resolved" "https://registry.npmjs.org/@vue/compiler-core/-/compiler-core-3.2.7.tgz"
@@ -1825,17 +1820,6 @@
     "estree-walker" "^2.0.2"
     "source-map" "^0.6.1"
 
-"@vue/compiler-core@3.2.8":
-  "integrity" "sha512-Sx8qJ030+QM/NakUrkQuUGCeDEb+0d0AgFOl5W4qRvR6e+YgLnW2ew0jREf4T1hak9Fdk8Edl67StECHrhEuew=="
-  "resolved" "https://registry.npmjs.org/@vue/compiler-core/-/compiler-core-3.2.8.tgz"
-  "version" "3.2.8"
-  dependencies:
-    "@babel/parser" "^7.15.0"
-    "@babel/types" "^7.15.0"
-    "@vue/shared" "3.2.8"
-    "estree-walker" "^2.0.2"
-    "source-map" "^0.6.1"
-
 "@vue/compiler-dom@3.2.7":
   "integrity" "sha512-YZyZNoZlTbTMqyY8QMC8IhwmcDVOiE1DdVwjnXbyihg+XVqpGQkDjNcG5nyMTbtZDKXREsYkcjaZntEfKyWK5g=="
   "resolved" "https://registry.npmjs.org/@vue/compiler-dom/-/compiler-dom-3.2.7.tgz"
@@ -1843,14 +1827,6 @@
   dependencies:
     "@vue/compiler-core" "3.2.7"
     "@vue/shared" "3.2.7"
-
-"@vue/compiler-dom@3.2.8":
-  "integrity" "sha512-nxBW6k8FMWQ74294CRbqR+iEJRO5vIjx85I3YCOyZFD6FsDHyFL60g76TcJzucp+F2XXIDaYz+A+F4gQlDatjw=="
-  "resolved" "https://registry.npmjs.org/@vue/compiler-dom/-/compiler-dom-3.2.8.tgz"
-  "version" "3.2.8"
-  dependencies:
-    "@vue/compiler-core" "3.2.8"
-    "@vue/shared" "3.2.8"
 
 "@vue/compiler-sfc@^3.0.0", "@vue/compiler-sfc@^3.0.0-beta.14", "@vue/compiler-sfc@^3.0.8":
   "integrity" "sha512-qjfvRw7/9Q2Qm4cDmrJwTNqnFTXSSI3z/mmS9BSJTYZqh4FC4w+IIYYLWUpS3ef6UTTYY9STC5IUZqfpIod9Uw=="
@@ -1931,13 +1907,6 @@
   dependencies:
     "@vue/shared" "3.2.7"
 
-"@vue/reactivity@3.2.8":
-  "integrity" "sha512-/Hj3Uz28SG+xB5SDWPOXUs0emvHkq82EmTgk44/plTVFeswCZ3i3Hd7WmsrPT4rGajlDKd5uqMmW0ith1ED0FA=="
-  "resolved" "https://registry.npmjs.org/@vue/reactivity/-/reactivity-3.2.8.tgz"
-  "version" "3.2.8"
-  dependencies:
-    "@vue/shared" "3.2.8"
-
 "@vue/ref-transform@3.2.7":
   "integrity" "sha512-5I7IeUqoDEhPmkPHBhw7YlsFCFO/ZXHWwgdrokQATyVRkEkqeAd8erthuZ9a4sZAo5JBYmxjYw8WD9Kx9mabmg=="
   "resolved" "https://registry.npmjs.org/@vue/ref-transform/-/ref-transform-3.2.7.tgz"
@@ -1957,14 +1926,6 @@
     "@vue/reactivity" "3.2.7"
     "@vue/shared" "3.2.7"
 
-"@vue/runtime-core@3.2.8":
-  "integrity" "sha512-hwzXLGw1njBEY5JSyRXIIdCtzMFFF6F38WcKMmoIE3p7da30jEbWt8EwwrBomjT8ZbqzElOGlewBcnXNOiiIUg=="
-  "resolved" "https://registry.npmjs.org/@vue/runtime-core/-/runtime-core-3.2.8.tgz"
-  "version" "3.2.8"
-  dependencies:
-    "@vue/reactivity" "3.2.8"
-    "@vue/shared" "3.2.8"
-
 "@vue/runtime-dom@3.2.7":
   "integrity" "sha512-yuUmc8haFHrDqoU10JV3Fjd3G5Wz/ID+a/XMs0U68vhDLFsTBejhLX4il8Ga8nv+wrdwuGFwEE8t6APS67PxyA=="
   "resolved" "https://registry.npmjs.org/@vue/runtime-dom/-/runtime-dom-3.2.7.tgz"
@@ -1974,24 +1935,10 @@
     "@vue/shared" "3.2.7"
     "csstype" "^2.6.8"
 
-"@vue/runtime-dom@3.2.8":
-  "integrity" "sha512-A/aRrlGLJ5y4Z7eNbnO/xHwx2RiPijQo7D3OIwESroG3HNP+dpuoqamajo5TXS9ZGjbMOih82COoe7xb9P4BZw=="
-  "resolved" "https://registry.npmjs.org/@vue/runtime-dom/-/runtime-dom-3.2.8.tgz"
-  "version" "3.2.8"
-  dependencies:
-    "@vue/runtime-core" "3.2.8"
-    "@vue/shared" "3.2.8"
-    "csstype" "^2.6.8"
-
 "@vue/shared@3.2.7":
   "integrity" "sha512-YwGOcNZjOY/MmadpzFBXWyHEwZSf0lVU4XF5zpD7tXC9dmqjdo38Jkk06wATu4LYHDPW4emXKMB5YLFPWPkwFA=="
   "resolved" "https://registry.npmjs.org/@vue/shared/-/shared-3.2.7.tgz"
   "version" "3.2.7"
-
-"@vue/shared@3.2.8":
-  "integrity" "sha512-E2DQQnG7Qr4GwTs3GlfPPlHliGVADoufTnhpwfoViw7JlyLMmYtjfnTwM6nXAwvSJWiF7D+7AxpnWBBT3VWo6Q=="
-  "resolved" "https://registry.npmjs.org/@vue/shared/-/shared-3.2.8.tgz"
-  "version" "3.2.8"
 
 "@vue/test-utils@^2.0.0-0":
   "integrity" "sha512-+W4HMjKw8rFf0jgUS7bKeSecHMoDkmNBNuUdF1UIfvcUDd0E9NZBTcW/H1ONtj3z6ySotwAbjsJGJb7s90T1ig=="
@@ -2157,20 +2104,6 @@
   "integrity" "sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ=="
   "resolved" "https://registry.npmjs.org/@xtuc/long/-/long-4.2.2.tgz"
   "version" "4.2.2"
-
-"@zxing/library@^0.18.4":
-  "integrity" "sha512-bulZ9JHoLFd9W36pi+7e7DnEYNJhljYjZ1UTsKPOoLMU3qtC+REHITeCRNx40zTRJZx18W5TBRXt5pq2Uopjsw=="
-  "resolved" "https://registry.npmjs.org/@zxing/library/-/library-0.18.6.tgz"
-  "version" "0.18.6"
-  dependencies:
-    "ts-custom-error" "^3.0.0"
-  optionalDependencies:
-    "@zxing/text-encoding" "~0.9.0"
-
-"@zxing/text-encoding@~0.9.0":
-  "integrity" "sha512-U/4aVJ2mxI0aDNI8Uq0wEhMgY+u4CNtEb0om3+y3+niDAsoTCOB33UF0sxpzqzdqXLqmvc+vZyAt4O8pPdfkwA=="
-  "resolved" "https://registry.npmjs.org/@zxing/text-encoding/-/text-encoding-0.9.0.tgz"
-  "version" "0.9.0"
 
 "abab@^2.0.0":
   "integrity" "sha512-9IK9EadsbHo6jLWIpxpR6pL0sazTXV6+SQv25ZB+F7Bj9mJNaOc4nCRabwd5M/JwmUa8idz6Eci6eKfJryPs6Q=="
@@ -2738,22 +2671,6 @@
   "resolved" "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz"
   "version" "1.0.2"
 
-"barcode-detector@^0.7":
-  "integrity" "sha512-SJh+LV6e+W5e6QJe70ralFfqcYwvaOUGWyr+GepuQ5swPH4jF2asyTxOIUZNSU9Z5isD3KWI5hlqQ+b/QaFFOg=="
-  "resolved" "https://registry.npmjs.org/barcode-detector/-/barcode-detector-0.7.0.tgz"
-  "version" "0.7.0"
-  dependencies:
-    "@zxing/library" "^0.18.4"
-    "jsqr" "^1.3.1"
-
-"barcode-detector@^1.0.0":
-  "integrity" "sha512-LZSyqjumoq2WmMOeQZ2BiYYAqwnTlkXgqKOTcJlathpFS6IejsdSb6aIGmoSyOCjBgFNATzLgMJ9shNfklnz6A=="
-  "resolved" "https://registry.npmjs.org/barcode-detector/-/barcode-detector-1.0.0.tgz"
-  "version" "1.0.0"
-  dependencies:
-    "@zxing/library" "^0.18.4"
-    "jsqr" "^1.3.1"
-
 "base@^0.11.1":
   "integrity" "sha512-5T6P4xPgpp0YDFvSWwEZ4NoE3aM4QBQXDzmVbraCkFj8zHM+mba8SyqB5DbZWyR7mYHo6Y7BdQo3MoA4m0TeQg=="
   "resolved" "https://registry.npmjs.org/base/-/base-0.11.2.tgz"
@@ -3155,16 +3072,6 @@
   "version" "2.0.0"
   dependencies:
     "caller-callsite" "^2.0.0"
-
-"callforth@^0.3.1":
-  "integrity" "sha512-Q2zPfqnwoKsb1DTVCr4lmhe49wKNBsMmNlbudjleu3/co+Nw1pOqFHYJHrW3VZ253ou9AAr+xauQR0C55NPdzA=="
-  "resolved" "https://registry.npmjs.org/callforth/-/callforth-0.3.1.tgz"
-  "version" "0.3.1"
-
-"callforth@^0.4":
-  "integrity" "sha512-k3kD3OBPRvYs3Sb41Fn1T7l6vvSmTMPq1a0jxh8QKD+wb+17G8oOq48eBi0stn8ahpNVUJtPlrlYwbfv9Cfhpg=="
-  "resolved" "https://registry.npmjs.org/callforth/-/callforth-0.4.0.tgz"
-  "version" "0.4.0"
 
 "callsites@^2.0.0":
   "integrity" "sha1-BuuE8A7qQT2oav/vrL/7Ngk7PFA="
@@ -3755,7 +3662,7 @@
   "resolved" "https://registry.npmjs.org/core-js/-/core-js-2.6.12.tgz"
   "version" "2.6.12"
 
-"core-js@^3", "core-js@^3.6.5":
+"core-js@^3.6.5":
   "integrity" "sha512-C8i/FNpVN2Ti89QIJcFn9ZQmnM+HaAQr2OpE+ja3TRM9Q34FigsGlAVuwPGkIgydSVClo/1l1D1grP8LVt9IYA=="
   "resolved" "https://registry.npmjs.org/core-js/-/core-js-3.17.1.tgz"
   "version" "3.17.1"
@@ -7332,11 +7239,6 @@
     "json-schema" "0.2.3"
     "verror" "1.10.0"
 
-"jsqr@^1.3.1":
-  "integrity" "sha512-dxLob7q65Xg2DvstYkRpkYtmKm2sPJ9oFhrhmudT1dZvNFFTlroai3AWSpLey/w5vMcLBXRgOJsbXpdN9HzU/A=="
-  "resolved" "https://registry.npmjs.org/jsqr/-/jsqr-1.4.0.tgz"
-  "version" "1.4.0"
-
 "killable@^1.0.1":
   "integrity" "sha512-LzqtLKlUwirEUyl/nicirVmNiPvYs7l5n8wOPP7fyJVpUPkvCnW/vuiXGpylGUlnPDnB7311rARzAt3Mhswpjg=="
   "resolved" "https://registry.npmjs.org/killable/-/killable-1.0.1.tgz"
@@ -9384,17 +9286,6 @@
   "resolved" "https://registry.npmjs.org/qr-scanner/-/qr-scanner-1.3.0.tgz"
   "version" "1.3.0"
 
-"qrcode-reader-vue3@^3.1.2":
-  "integrity" "sha512-OqhJ4lkKHlyV42Fm5qptm7cdV3X2DRbtCgTNMjcFY7plkMNDqGo+bPxxlGkoPMCHowxXa1pPu9knWPfoqu5mUg=="
-  "resolved" "https://registry.npmjs.org/qrcode-reader-vue3/-/qrcode-reader-vue3-3.1.2.tgz"
-  "version" "3.1.2"
-  dependencies:
-    "barcode-detector" "^0.7"
-    "callforth" "^0.4"
-    "core-js" "^3"
-    "vue" "^3"
-    "webrtc-adapter" "^7"
-
 "qs@~6.5.2":
   "integrity" "sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA=="
   "resolved" "https://registry.npmjs.org/qs/-/qs-6.5.2.tgz"
@@ -9877,13 +9768,6 @@
   "resolved" "https://registry.npmjs.org/rsvp/-/rsvp-4.8.5.tgz"
   "version" "4.8.5"
 
-"rtcpeerconnection-shim@^1.2.15":
-  "integrity" "sha512-C6DxhXt7bssQ1nHb154lqeL0SXz5Dx4RczXZu2Aa/L1NJFnEVDxFwCBo3fqtuljhHIGceg5JKBV4XJ0gW5JKyw=="
-  "resolved" "https://registry.npmjs.org/rtcpeerconnection-shim/-/rtcpeerconnection-shim-1.2.15.tgz"
-  "version" "1.2.15"
-  dependencies:
-    "sdp" "^2.6.0"
-
 "run-async@^2.4.0":
   "integrity" "sha512-tvVnVv01b8c1RrA6Ep7JkStj85Guv/YrMcwqYQnwjsAS2cTmmPGBBjAjpCW7RrSodNSoE2/qg9O4bceNvUuDgQ=="
   "resolved" "https://registry.npmjs.org/run-async/-/run-async-2.4.1.tgz"
@@ -9910,7 +9794,7 @@
   dependencies:
     "symbol-observable" "1.0.1"
 
-"rxjs@^6.6.0":
+"rxjs@^6.6.0", "rxjs@^6.6.7":
   "integrity" "sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ=="
   "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-6.6.7.tgz"
   "version" "6.6.7"
@@ -10051,11 +9935,6 @@
     "@types/json-schema" "^7.0.4"
     "ajv" "^6.12.2"
     "ajv-keywords" "^3.4.1"
-
-"sdp@^2.12.0", "sdp@^2.6.0":
-  "integrity" "sha512-jhXqQAQVM+8Xj5EjJGVweuEzgtGWb3tmEEpl3CLP3cStInSbVHSg0QWOGQzNq8pSID4JkpeV2mPqlMDLrm0/Vw=="
-  "resolved" "https://registry.npmjs.org/sdp/-/sdp-2.12.0.tgz"
-  "version" "2.12.0"
 
 "select-hose@^2.0.0":
   "integrity" "sha1-Yl2GWPhlr0Psliv8N2o3NZpJlMo="
@@ -11083,11 +10962,6 @@
   "resolved" "https://registry.npmjs.org/tryer/-/tryer-1.0.1.tgz"
   "version" "1.0.1"
 
-"ts-custom-error@^3.0.0":
-  "integrity" "sha512-cBvC2QjtvJ9JfWLvstVnI45Y46Y5dMxIaG1TDMGAD/R87hpvqFL+7LhvUDhnRCfOnx/xitollFWWvUKKKhbN0A=="
-  "resolved" "https://registry.npmjs.org/ts-custom-error/-/ts-custom-error-3.2.0.tgz"
-  "version" "3.2.0"
-
 "ts-jest@^24.2.0", "ts-jest@>= 24 < 27 ":
   "integrity" "sha512-Hb94C/+QRIgjVZlJyiWwouYUF+siNJHJHknyspaOcZ+OQAIdFG/UrdQVXw/0B8Z3No34xkUXZJpOTy9alOWdVQ=="
   "resolved" "https://registry.npmjs.org/ts-jest/-/ts-jest-24.3.0.tgz"
@@ -11552,18 +11426,6 @@
     "vue-hot-reload-api" "^2.3.0"
     "vue-style-loader" "^4.1.0"
 
-"vue-qrcode-reader@^3.1.0-vue3-compatibility.2":
-  "integrity" "sha512-tGu2zmPGSi9SJR08Yl2favix0vs5SgXudGXdwW2KxcvlU9jfsX9FAYkuaifyiq3CgxKijwRxA/YJpS0Yl9PMfw=="
-  "resolved" "https://registry.npmjs.org/vue-qrcode-reader/-/vue-qrcode-reader-3.1.0-vue3-compatibility.2.tgz"
-  "version" "3.1.0-vue3-compatibility.2"
-  dependencies:
-    "@vue/compat" "^3.1.0"
-    "barcode-detector" "^1.0.0"
-    "callforth" "^0.3.1"
-    "core-js" "^3.6.5"
-    "vue" "^3.1.0"
-    "webrtc-adapter" "7.7.0"
-
 "vue-router@^4.0.0-0":
   "integrity" "sha512-sha6I8fx9HWtvTrFZfxZkiQQBpqSeT+UCwauYjkdOQYRvwsGwimlQQE2ayqUwuuXGzquFpCPoXzYKWlzL4OuXg=="
   "resolved" "https://registry.npmjs.org/vue-router/-/vue-router-4.0.11.tgz"
@@ -11584,7 +11446,7 @@
   "resolved" "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   "version" "1.9.1"
 
-"vue@^2 || ^3.0.0-0", "vue@^2.x", "vue@^3", "vue@^3.0.0", "vue@^3.0.0-0", "vue@^3.0.1", "vue@^3.0.2":
+"vue@^2 || ^3.0.0-0", "vue@^2.x", "vue@^3.0.0", "vue@^3.0.0-0", "vue@^3.0.1", "vue@^3.0.2":
   "integrity" "sha512-kqPYCbvw6rthEA41K45dqxV+C0yrQX24zs1ZmGZTi4Sk6WkzNK8tH4jGd0yAW+lu72E+HQmz0ZhNo6zAT/WKUA=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-3.2.7.tgz"
   "version" "3.2.7"
@@ -11592,15 +11454,6 @@
     "@vue/compiler-dom" "3.2.7"
     "@vue/runtime-dom" "3.2.7"
     "@vue/shared" "3.2.7"
-
-"vue@^3.1.0", "vue@3.2.8":
-  "integrity" "sha512-x7lwdnOSkceHQUXRVVHBaZzcp6v7M2CYtSZH75zZaT1mTjB4plC4KZHKP/5jAvdqOLBHZGwDSMkWXm3YbAufrA=="
-  "resolved" "https://registry.npmjs.org/vue/-/vue-3.2.8.tgz"
-  "version" "3.2.8"
-  dependencies:
-    "@vue/compiler-dom" "3.2.8"
-    "@vue/runtime-dom" "3.2.8"
-    "@vue/shared" "3.2.8"
 
 "vuex-persistedstate@^4.0.0":
   "integrity" "sha512-jDs+awbV9YD2A2F6S5zgtYq1Bjd8v0YldOK6HPv1EJZzGMse0FtZTREfXvA7zlVfq9MpmSZJNmYQVylfpZ5znQ=="
@@ -11805,14 +11658,6 @@
     "terser-webpack-plugin" "^1.4.3"
     "watchpack" "^1.7.4"
     "webpack-sources" "^1.4.1"
-
-"webrtc-adapter@^7", "webrtc-adapter@7.7.0":
-  "integrity" "sha512-7Bp9OBnx642oJRkom1tNAbeJjUadAq2rh5xLL9YXPw5hVyt2h4hHr5bcoPYDs1stp/mZHSPSQA34YISdnr0DBQ=="
-  "resolved" "https://registry.npmjs.org/webrtc-adapter/-/webrtc-adapter-7.7.0.tgz"
-  "version" "7.7.0"
-  dependencies:
-    "rtcpeerconnection-shim" "^1.2.15"
-    "sdp" "^2.12.0"
 
 "websocket-driver@^0.7.4", "websocket-driver@>=0.5.1":
   "integrity" "sha512-b17KeDIQVjvb0ssuSDF2cYXSg2iztliJ4B9WdsuB6J952qCPKmnVq4DyW5motImXHDC1cBT/1UezrJVsKw5zjg=="

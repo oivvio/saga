@@ -1,6 +1,6 @@
 // Interpret stations
 
-import { playAudio, tryStory } from "./engine";
+import { playAudio, runStation } from "./engine";
 import { IState } from "./store";
 import { getParentUrl, getChildUrl } from "./utils";
 
@@ -72,6 +72,7 @@ export interface ISecondLevelTrigger {
 
 export interface IGameConfig {
   name: string;
+  baseUrl: string;
   stationPaths: string[];
   stations: Record<string, IStation>;
 }
@@ -132,7 +133,7 @@ const triggers = {
 
   goToStation: function (_: IState, trigger: ITrigger) {
     const goToStationTrigger = trigger as ITriggerGoToStation;
-    tryStory(goToStationTrigger.toStation);
+    runStation(goToStationTrigger.toStation);
   },
 
   cancelTimer: function (state: IState, trigger: ITrigger) {
@@ -164,7 +165,7 @@ function interpretSecondLevelTrigger(
 // Used in interpretCondition
 const conditions = {
   hasTag: function (state: IState, tag: string) {
-    if (state.user.tags.has(tag)) {
+    if (state.user.tags.includes(tag)) {
       console.log("has tag", tag);
       return true;
     } else {
@@ -258,14 +259,19 @@ export function interpretStation(state: IState, station: IStation): void {
       });
 
       // Add station.id to users set of visited stations
-      state.user.stationsVisited.add(station.id);
+      // state.user.stationsVisited.add(station.id);
+      if (!state.user.stationsVisited.includes(station.id)) {
+        state.user.stationsVisited.push(station.id);
+      }
 
       // Set users last visited station
       state.user.lastStationVisitedId = station.id;
 
       // Add tags from this station to users set of visited tags
       station.tags.forEach((tag: string) => {
-        state.user.tags.add(tag);
+        if (!state.user.tags.includes(tag)) {
+          state.user.tags.push(tag);
+        }
       });
 
       break;

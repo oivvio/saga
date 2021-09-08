@@ -9,11 +9,9 @@ interface IUserState {
   QRScannerCanBeDisplayed: boolean;
   QRScannerIsDisplayed: boolean;
   showQRScanner: boolean;
-  // stationsVisited: string[];
-  stationsVisited: Set<string>;
+  stationsVisited: string[];
   lastStationVisitedId?: string;
-  // tags: string[];
-  tags: Set<string>;
+  tags: string[];
   timers: Record<string, number>;
   helpAvailable: number;
 }
@@ -54,8 +52,8 @@ const initialState: IState = {
     QRScannerCanBeDisplayed: true,
     QRScannerIsDisplayed: false,
     showQRScanner: true,
-    stationsVisited: new Set([]),
-    tags: new Set([]),
+    stationsVisited: [],
+    tags: [],
     timers: {},
     // onLevel: 0,
     helpAvailable: 3,
@@ -80,19 +78,24 @@ export const store = createStore({
   //state: {},
   state: initialState,
   mutations: {
-    incrementDummyCounter(state) {
-      state.dummyCounter++;
-    },
-    decrementDummyCounter(state) {
-      state.dummyCounter--;
-    },
-
     decreaseHelpAvailable(state) {
       state.user.helpAvailable--;
     },
 
     displayQRScanner(state) {
       state.user.QRScannerIsDisplayed = true;
+    },
+
+    hideQRScanner(state) {
+      state.user.QRScannerIsDisplayed = false;
+    },
+
+    displayButtonToOpenQRScanner(state) {
+      state.user.QRScannerCanBeDisplayed = true;
+    },
+
+    hideButtonToOpenQRScanner(state) {
+      state.user.QRScannerCanBeDisplayed = false;
     },
 
     async loadGameConfig(state) {
@@ -118,10 +121,11 @@ export const store = createStore({
 });
 
 export enum Mutations {
-  incrementDummyCounter = "incrementDummyCounter",
-  decrementDummyCounter = "decrementDummyCounter",
   decreaseHelpAvailable = "decreaseHelpAvailable",
   displayQRScanner = "displayQRScanner",
+  hideQRScanner = "hideQRScanner",
+  displayButtonToOpenQRScanner = "displayButtonToOpenQRScanner",
+  hideButtonToOpenQRScanner = "hideButtonToOpenQRScanner",
   wipeHistory = "wipeHistory",
   loadGameConfig = "loadGameConfig",
 }

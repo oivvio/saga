@@ -16,6 +16,12 @@ export function getChildUrl(baseUrl: URL, childPath: string): URL {
   return new URL(newURLString);
 }
 
+// (https://example.com/parent/child) -> child
+export function getLastUrlSegment(url: URL): string {
+  const parts = url.pathname.split("/").filter((part) => part !== "");
+  return parts[parts.length - 1];
+}
+
 export function log(tag: string, msg: string): void {
   console.log(`${tag} : ${msg}`);
 }
