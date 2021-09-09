@@ -1,7 +1,7 @@
 // Interpret stations
 
 import { playAudio, runStation } from "./engine";
-import { IState } from "./store";
+import { store, IState, Mutations } from "./store";
 import { getParentUrl, getChildUrl } from "./utils";
 
 import { log } from "./utils";
@@ -122,13 +122,22 @@ const triggers = {
   startTimeLimit: function (state: IState, trigger: ITrigger) {
     const startTimeLimitTrigger = trigger as ITriggerStartTimeLimit;
     const timer = window.setTimeout(function () {
+      if (startTimeLimitTrigger.timerName) {
+        store.commit(Mutations.removeTimer, startTimeLimitTrigger.timerName);
+      }
+
       startTimeLimitTrigger.onTimeLimitEnd &&
         interpretSecondLevelTrigger(
           state,
           startTimeLimitTrigger.onTimeLimitEnd
         );
     }, startTimeLimitTrigger.timeLimit * 1000) as number;
-    state.user.timers[startTimeLimitTrigger.timerName] = timer;
+    if (timer) {
+      const timerName = startTimeLimitTrigger.timerName;
+      store.commit(Mutations.addTimer, { timerName, timer });
+    }
+
+    // state.user.timers[startTimeLimitTrigger.timerName] = timer;
   },
 
   goToStation: function (_: IState, trigger: ITrigger) {
@@ -142,7 +151,7 @@ const triggers = {
       const timer = state.user.timers[cancelTimerTrigger.timerName];
       if (timer !== undefined) {
         window.clearTimeout(timer);
-        delete state.user.timers[cancelTimerTrigger.timerName];
+        store.commit(Mutations.removeTimer, cancelTimerTrigger.timerName);
       }
     }
   },
@@ -203,10 +212,10 @@ const onLeave = {
 
     const timer = state.user.timers[startTimeLimitTrigger.timerName];
     window.clearTimeout(timer);
-    //state.user.timers[trigger.timerName] = "cancelled";
 
     console.log("cancel timer:", startTimeLimitTrigger.timerName);
-    delete state.user.timers[startTimeLimitTrigger.timerName];
+    // delete state.user.timers[startTimeLimitTrigger.timerName];
+    store.commit(Mutations.removeTimer, startTimeLimitTrigger.timerName);
   },
 
   // required by TypeScript because of how ITrigger.action is defined
@@ -258,10 +267,24 @@ export function interpretStation(state: IState, station: IStation): void {
         }
       });
 
+      log(
+        "interpretStation",
+        `post handle triggers ${state.user.stationsVisited}`
+      );
+
       // Add station.id to users set of visited stations
       // state.user.stationsVisited.add(station.id);
       if (!state.user.stationsVisited.includes(station.id)) {
-        state.user.stationsVisited.push(station.id);
+        log("interpretStation", `push stationid: ${station.id}`);
+        log(
+          "interpretStation",
+          `visited before push: ${state.user.stationsVisited}`
+        );
+        store.commit(Mutations.pushStationIdToStationsVisited, station.id);
+        log(
+          "interpretStation",
+          `visited after push: ${state.user.stationsVisited}`
+        );
       }
 
       // Set users last visited station

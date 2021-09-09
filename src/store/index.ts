@@ -1,4 +1,5 @@
 // eslint-disable-next-line
+import { Subject } from "rxjs";
 import { ComponentCustomProperties } from "vue";
 import { Store, createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
@@ -71,7 +72,6 @@ const initialState: IState = {
       data: null,
     },
   },
-  // fakeId: "play-timer-1",
 };
 
 export const store = createStore({
@@ -98,6 +98,26 @@ export const store = createStore({
       state.user.QRScannerCanBeDisplayed = false;
     },
 
+    pushStationIdToStationsVisited(state, stationId) {
+      state.user.stationsVisited.push(stationId);
+    },
+
+    addTimer(state, payLoad: { timerName: string; timer: number }) {
+      state.user.timers[payLoad.timerName] = payLoad.timer;
+    },
+
+    removeTimer(state, timerName: string) {
+      delete state.user.timers[timerName];
+    },
+
+    setAudioStoryIsPlaying(state, value: boolean) {
+      state.audio.story.isPlaying = value;
+    },
+
+    setAudioBackgroundIsPlaying(state, value: boolean) {
+      state.audio.background.isPlaying = value;
+    },
+
     async loadGameConfig(state) {
       const urlParams = new URLSearchParams(window.location.search);
       const configUrl = urlParams.get("configUrl");
@@ -120,6 +140,41 @@ export const store = createStore({
   plugins: [createPersistedState()],
 });
 
+// const storeClosure = store;
+store.subscribe((mutation, state) => {
+  console.log("mutation type: ", mutation.type);
+  console.log("mutation payload: ", mutation.payload);
+
+  const timersExists = Object.keys(state.user.timers).length !== 0;
+
+  const audioIsPlaying =
+    state.audio.story.isPlaying || state.audio.background.isPlaying;
+  const qrScannerVisible = state.user.QRScannerIsDisplayed;
+  const openQrScannerButtonVisible = state.user.QRScannerCanBeDisplayed;
+  console.log("button visible ", openQrScannerButtonVisible);
+
+  if (
+    !timersExists &&
+    !audioIsPlaying &&
+    !qrScannerVisible &&
+    !openQrScannerButtonVisible
+  ) {
+    console.log("Please display the show qr scanner button");
+    store.commit(Mutations.displayButtonToOpenQRScanner);
+  }
+
+  if (timersExists || audioIsPlaying) {
+    // Hide qrScanner and button to open qrScanner
+    console.log(" Hide qrScanner and button to open qrScanner");
+    if (state.user.QRScannerIsDisplayed) {
+      store.commit(Mutations.hideQRScanner);
+    }
+    if (state.user.QRScannerCanBeDisplayed) {
+      store.commit(Mutations.hideButtonToOpenQRScanner);
+    }
+  }
+});
+
 export enum Mutations {
   decreaseHelpAvailable = "decreaseHelpAvailable",
   displayQRScanner = "displayQRScanner",
@@ -128,4 +183,9 @@ export enum Mutations {
   hideButtonToOpenQRScanner = "hideButtonToOpenQRScanner",
   wipeHistory = "wipeHistory",
   loadGameConfig = "loadGameConfig",
+  pushStationIdToStationsVisited = "pushStationIdToStationsVisited",
+  addTimer = "addTimer",
+  removeTimer = "removeTimer",
+  setAudioStoryIsPlaying = "setAudioStoryIsPlaying",
+  setAudioBackgroundIsPlaying = "setAudioBackgroundIsPlaying",
 }

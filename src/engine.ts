@@ -54,12 +54,10 @@ export function playAudio(filename: string): void {
       html5: true, // Stream (i.e.) start playing before downloaded
       onplay: () => {
         console.log("playing: ", filename);
-        store.state.audio.story.isPlaying = true;
+        store.commit(Mutations.setAudioStoryIsPlaying, true);
       },
       onend: () => {
-        store.state.audio.story.isPlaying = false;
-        store.state.user.showQRScanner = false;
-        store.state.user.QRScannerCanBeDisplayed = true;
+        store.commit(Mutations.setAudioStoryIsPlaying, false);
       },
     });
 

@@ -21,7 +21,14 @@
     </p>
 
     <p>gameConfigIsLoaded: {{ this.$store.state.gameConfigLoaded }}</p>
-    <p>stationsVisited: {{ this.$store.state.stationsVisited }}</p>
+    <p>stationsVisited: {{ this.$store.state.user.stationsVisited }}</p>
+
+    <p>timers: {{ this.$store.state.user.timers }}</p>
+    <p>audioStoryIsPlaying: {{ this.$store.state.audio.story.isPlaying }}</p>
+    <p>
+      audioBackgroundIsPlaying:
+      {{ this.$store.state.audio.background.isPlaying }}
+    </p>
 
     <button v-on:click="wipeHistory">Wipe history</button>
   </div>
