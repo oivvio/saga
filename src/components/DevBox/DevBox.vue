@@ -30,6 +30,11 @@
       {{ this.$store.state.audio.background.isPlaying }}
     </p>
 
+    <p>
+      displayDevBox:
+      {{ this.$store.state.displayDevBox }}
+    </p>
+
     <button v-on:click="wipeHistory">Wipe history</button>
   </div>
 </template>

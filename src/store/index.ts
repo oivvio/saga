@@ -21,6 +21,7 @@ export interface IState {
   dummyCounter: number;
   gameConfigLoaded: boolean;
   gameConfig?: IGameConfig;
+  displayDevBox: boolean;
   user: IUserState;
   audio: {
     volume: number;
@@ -49,6 +50,7 @@ const initialState: IState = {
   dummyCounter: 1,
   gameConfigLoaded: false,
   gameConfig: undefined,
+  displayDevBox: true,
   user: {
     QRScannerCanBeDisplayed: true,
     QRScannerIsDisplayed: false,
@@ -122,6 +124,8 @@ export const store = createStore({
       const urlParams = new URLSearchParams(window.location.search);
       const configUrl = urlParams.get("configUrl");
 
+      state.displayDevBox = urlParams.get("displayDevBox") == "yes";
+      console.log("displayDevBox: ", state.displayDevBox);
       if (configUrl) {
         state.gameConfig = await loadGameConfig(new URL(configUrl));
         state.gameConfigLoaded = true;
@@ -147,6 +151,7 @@ store.subscribe((mutation, state) => {
 
   const timersExists = Object.keys(state.user.timers).length !== 0;
 
+  // TODO background audio is permissible
   const audioIsPlaying =
     state.audio.story.isPlaying || state.audio.background.isPlaying;
   const qrScannerVisible = state.user.QRScannerIsDisplayed;

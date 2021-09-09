@@ -32,6 +32,10 @@ export default defineComponent({
     QRScannerIsDisplayed() {
       return this.$store.state.user.QRScannerIsDisplayed;
     },
+
+    displayDevBox() {
+      return this.$store.state.displayDevBox;
+    },
   },
 
   components: { SagaQrReader, DevBox },

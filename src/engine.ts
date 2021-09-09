@@ -46,6 +46,8 @@ export function playAudio(filename: string): void {
     console.log("Audio is playing. Wait.");
   } else {
     // create a new audioElement
+    //
+
     const fullAudioPath = AUDIOFILEBASE + filename;
     store.state.audio.story.isPlaying = false;
     const audioElement = new Howl({
