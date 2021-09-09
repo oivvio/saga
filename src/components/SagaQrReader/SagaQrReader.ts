@@ -106,13 +106,7 @@ const Component = defineComponent({
     // Setup our RxJS listener
     this.onDecodeSubject
       // only process when the code changes
-      .pipe(
-        tap((value) => {
-          console.log(value.codeContent);
-        }),
-
-        distinctUntilKeyChanged("codeContent")
-      )
+      .pipe(distinctUntilKeyChanged("codeContent"))
 
       // filter out codes that are not valid
       .pipe(filter((value) => qrCodeIsValid(value.codeContent)))
@@ -145,9 +139,9 @@ const Component = defineComponent({
       });
   },
 
-  unmounted() {
-    console.log("RADAC");
-  },
+  // unmounted() {
+  //   console.log("RADAC");
+  // },
 
   methods: {
     // Extract stationId from the raw contents of a scanned qr code
@@ -180,9 +174,9 @@ const Component = defineComponent({
       return result;
     },
 
-    onInit() {
-      console.log("in onInit");
-    },
+    // onInit() {
+    //   console.log("in onInit");
+    // },
   },
 });
 
