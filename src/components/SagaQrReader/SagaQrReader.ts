@@ -3,7 +3,7 @@ import { defineComponent } from "vue";
 // rxjs docs says that this is the way but it does not work.
 // So we pinned rxjs to an older version (6.6.7) to get it to work
 import { Subject } from "rxjs";
-import { distinctUntilKeyChanged, filter } from "rxjs/operators";
+import { distinctUntilKeyChanged, filter, tap } from "rxjs/operators";
 
 import QrScanner from "qr-scanner";
 
@@ -29,7 +29,7 @@ interface IDecodeSubjectValue {
 // QrScanner.WORKER_PATH = "/js/vendor/qr-scanner-worker.min.js";
 
 // TODO, make this not be sprickan specific.
-QrScanner.WORKER_PATH = "/sprickan/js/vendor/qr-scanner-worker.min.js";
+QrScanner.WORKER_PATH = "/js/vendor/qr-scanner-worker.min.js";
 
 // export default defineComponent({
 const Component = defineComponent({
@@ -57,7 +57,8 @@ const Component = defineComponent({
     const videoElement = <HTMLVideoElement>document.getElementById("qrvideo");
 
     // Setup the scanner
-    const qrScanner = new QrScanner(
+
+    let qrScanner: QrScanner | null = new QrScanner(
       videoElement,
       (codeContent) => {
         const canvas = <HTMLCanvasElement>document.getElementById("qrcanvas");
@@ -105,7 +106,13 @@ const Component = defineComponent({
     // Setup our RxJS listener
     this.onDecodeSubject
       // only process when the code changes
-      .pipe(distinctUntilKeyChanged("codeContent"))
+      .pipe(
+        tap((value) => {
+          console.log(value.codeContent);
+        }),
+
+        distinctUntilKeyChanged("codeContent")
+      )
 
       // filter out codes that are not valid
       .pipe(filter((value) => qrCodeIsValid(value.codeContent)))
@@ -127,18 +134,25 @@ const Component = defineComponent({
 
           // feed the stationId to our engine
           if (stationId) {
-            log("saga-qr-reader", `stationId: ${stationId}`);
+            // remove the video/qrScanner
+            if (qrScanner !== null) {
+              qrScanner.destroy();
+              qrScanner = null;
+            }
             runStation(stationId);
           }
         },
       });
   },
 
+  unmounted() {
+    console.log("RADAC");
+  },
+
   methods: {
     // Extract stationId from the raw contents of a scanned qr code
     getStationId(codeContent: string): string | undefined {
       const baseUrl = this.$store.state.gameConfig?.baseUrl;
-      // const stations = this.$store.state.gameConfig?.stations;
 
       // Basic assumption is that there is no stationId in the qr code
       let result = undefined;

@@ -154,6 +154,8 @@ def vue_devserver(ctx, port=8080, host="0.0.0.0"):
     """ Run the Vue dev server """
     preflight_checklist()
 
-    cmd = f"./node_modules/.bin/vue-cli-service serve --port {port} --host {host}"
+    cmd = (
+        f"./node_modules/.bin/vue-cli-service serve --https --port {port} --host {host}"
+    )
     print(cmd)
     ctx.run(cmd, pty=True)
