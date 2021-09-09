@@ -126,7 +126,6 @@ const Component = defineComponent({
           const stationId = getStationId(value.codeContent);
 
           // feed the stationId to our engine
-
           if (stationId) {
             log("saga-qr-reader", `stationId: ${stationId}`);
             runStation(stationId);

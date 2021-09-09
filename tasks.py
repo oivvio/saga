@@ -124,6 +124,36 @@ def deploy_to_s3(ctx):
 
     preflight_checklist()
 
+    # Build
+    vue_build(ctx)
+
+    # Push to s3
     cmd = f"aws s3 sync --acl public-read ./dist/  s3://libtechplayground/sprickan/"
+    print(cmd)
+    ctx.run(cmd, pty=True)
+
+    # Output instructions
+    full_url = "https://libtechplayground.s3.eu-north-1.amazonaws.com/sprickan/index.html?configUrl=https://libtechplayground.s3.eu-north-1.amazonaws.com/sprickan/data/gameconfig.json&displayDevBox=yes"
+    print()
+    print("Deployed to S3. Try it out at the following URL: ")
+    print(full_url)
+
+
+@task
+def vue_build(ctx):
+    """ Build the project for deployment """
+    preflight_checklist()
+
+    cmd = f"./node_modules/.bin/vue-cli-service build"
+    print(cmd)
+    ctx.run(cmd, pty=True)
+
+
+@task
+def vue_devserver(ctx, port=8080, host="0.0.0.0"):
+    """ Run the Vue dev server """
+    preflight_checklist()
+
+    cmd = f"./node_modules/.bin/vue-cli-service serve --port {port} --host {host}"
     print(cmd)
     ctx.run(cmd, pty=True)
