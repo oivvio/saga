@@ -41,32 +41,32 @@ export function runStation(stationId: string): void {
 }
 
 export function playAudio(filename: string): void {
-  // Some other audio is playing so we to nothing
+  // TODO Should we rather queue up
+  // Some other audio is playing so we do to nothing
   if (store.state.audio.story.isPlaying) {
     console.log("Audio is playing. Wait.");
   } else {
     // create a new audioElement
-    //
-
     const fullAudioPath = AUDIOFILEBASE + filename;
     store.state.audio.story.isPlaying = false;
-    const audioElement = new Howl({
+    const sound = new Howl({
       src: [fullAudioPath],
-      //html: true, // Stream (i.e.) start playing before downloaded
       html5: true, // Stream (i.e.) start playing before downloaded
-      onplay: () => {
-        console.log("playing: ", filename);
-        store.commit(Mutations.setAudioStoryIsPlaying, true);
-      },
-      onend: () => {
-        store.commit(Mutations.setAudioStoryIsPlaying, false);
-      },
     });
 
+    sound.once("play", () => {
+      store.commit(Mutations.setAudioStoryIsPlaying, true);
+    });
+
+    sound.once("end", () => {
+      store.commit(Mutations.setAudioStoryIsPlaying, false);
+      sound.unload();
+    });
+
+    // TODO replace with commits
     store.state.audio.story.data = fullAudioPath;
-    store.state.audio.volume = audioElement.volume();
-    // console.log("store.state.audio.volume: ", store.state.audio.volume);
-    console.log("press play");
-    audioElement.play();
+    store.state.audio.volume = sound.volume();
+
+    sound.play();
   }
 }
