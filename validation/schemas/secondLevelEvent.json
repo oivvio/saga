@@ -1,19 +1,13 @@
 {
   "type": "object",
   "$defs": {
-    "event": {
+    "secondLevelEvent": {
       "type": "object",
       "properties": {
         "action": {
           "description": "Available event events",
           "type": "string",
-          "enum": [
-            "playAudio",
-            "playBackgroundAudio",
-            "startTimeLimit",
-            "goToStation",
-            "cancelTimer"
-          ]
+          "enum": ["playAudio", "startTimeLimit", "goToStation", "cancelTimer"]
         },
         "audioFilename": {
           "description": "Filename including file name extension",
@@ -22,12 +16,14 @@
 
         "timerName": { "type": "string" },
         "cancelOnLeave": { "type": "boolean" },
-        "wait": { "type": "number" },
-        "loop": { "type": "boolean" },
-        "opens": { "type": "string" },
         "timeLimit": { "type": "number" },
         "onTimeLimitEnd": {
-          "$ref": "file:./secondLevelEvent.json#/$defs/secondLevelEvent"
+          "description": "Define what to be triggered when timer ends",
+          "type": "object",
+          "properties": {
+            "$ref": "#"
+          },
+          "required": ["action"]
         },
 
         "goToStation": { "type": "string" },
@@ -48,16 +44,6 @@
             "required": ["action"]
           },
           "then": { "required": ["audioFilename"] }
-        },
-
-        {
-          "if": {
-            "properties": { "action": { "const": "playBackgroundAudio" } },
-            "required": ["action"]
-          },
-          "then": {
-            "required": ["audioFilename", "loop", "cancelOnLeave", "wait"]
-          }
         },
 
         {

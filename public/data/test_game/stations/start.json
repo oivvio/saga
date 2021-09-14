@@ -1,0 +1,20 @@
+{
+  "id": "start",
+  "type": "station",
+  "description": "play audio. starts a level timer that wont end until leaving level 1.",
+  "tags": ["why-do-we-have-tags"],
+  "opens": ["start-option-a", "start-option-b"],
+  "events": [
+    {
+      "action": "playAudio",
+      "audioFilename": "start.mp3"
+    },
+    {
+      "action": "playBackgroundAudio",
+      "audioFilename": "startBackground.mp3",
+      "loop": true,
+      "cancelOnLeave": false,
+      "wait": 0
+    }
+  ]
+}

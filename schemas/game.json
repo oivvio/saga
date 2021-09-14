@@ -1,0 +1,67 @@
+{
+  "$id": "game.json",
+  "title": "game",
+  "description": "A global definition file for an entire game",
+  "type": "object",
+
+  "properties": {
+    "name": {
+      "description": "The name of the game",
+      "type": "string"
+    },
+
+    "baseUrl": { "$ref": "#/definitions/saneUrl" },
+
+    "sentryDsn": {
+      "description": "Our sentry config",
+      "$ref": "#/definitions/saneUrl"
+    },
+
+    "stations": {
+      "descriptions": "This will get filled up with station data later in the process. But on load we expect this to be empty",
+      "type": "object"
+    },
+    "stationPaths": {
+      "description": "Relative paths to the station definition files",
+      "items": {
+        "type": "string"
+      }
+    },
+    "choicePrefix": {
+      "description": "Prefix to use in choice station ids",
+      "type": "string"
+    },
+
+    "choiceNames": {
+      "description": "A list of choice suffixes that are allowed",
+      "items": {
+        "type": "string"
+      }
+    },
+
+    "sentryOptions": {
+      "descriptions": "This will get filled up with station data later in the process. But on load we expect this to be empty",
+      "type": "object"
+    },
+    "open": {
+      "description": "A list of stations ids that are open at the start of the game",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+
+  "definitions": {
+    "saneUrl": { "format": "uri", "pattern": "^https?://" }
+  },
+
+  "required": [
+    "name",
+    "baseUrl",
+    "stationPaths",
+    "choicePrefix",
+    "choiceNames",
+    "open"
+  ],
+  "additionalProperties": false
+}

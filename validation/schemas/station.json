@@ -1,0 +1,54 @@
+{
+  "$id": "station.json",
+  "title": "station",
+  "description": "Stations in a QR-code based audio game ",
+  "type": "object",
+
+  "properties": {
+    "id": {
+      "description": "Unique identifier for the station",
+      "type": "string"
+    },
+
+    "opens": {
+      "description": "Station ids that this station 'opens'",
+
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+
+    "type": {
+      "description": "Type of station. Can be 'station' or 'help'",
+      "type": "string",
+      "default": "station",
+      "enum": ["station", "help", "choice"]
+    },
+
+    "description": {
+      "description": "Information about the station. Not visible to the user",
+      "type": "string"
+    },
+
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+
+    "events": {
+      "description": "Array containing events that executing a station will fire",
+      "type": "array",
+      "items": {
+        "$ref": "file:./schemas/event.json#/$defs/event"
+      }
+    }
+  },
+
+  "required": ["id", "type", "events", "tags"],
+
+  "additionalProperties": false
+}

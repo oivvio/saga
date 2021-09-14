@@ -1,0 +1,15 @@
+{
+  "name": "Test game",
+  "baseUrl": "https://kulturhusetstadsteatern.se/sprickan",
+
+  "sentryOptions": {
+    "dns": "FIXME",
+    "tracingOrigins": ["localhost", "example.com"]
+  },
+  "stationPaths": ["./stations/start.json"],
+  "choicePrefix": "option-",
+
+  "choiceNames": ["a", "b"],
+  "stations": {},
+  "open": ["play-timer-1"]
+}
