@@ -1,6 +1,44 @@
 from pathlib import Path
 from jsonschema import Draft7Validator, RefResolver
 from json import load
+from pprint import pprint
+
+
+def load_complete_game(filename):
+    """
+    load a gameconfig from file name + stations files
+
+    return complete gameconfig (with stations data added)
+
+    """
+    with open(filename) as handle:
+        data = load(handle)
+
+    for station_path in data["stationPaths"]:
+        path = Path(filename).parent.joinpath(station_path)
+
+        with open(path) as handle:
+            station_data = load(handle)
+        station_id = station_data["id"]
+        data["stations"][station_id] = station_data
+    return data
+
+
+def validate_game_helper(filename):
+    """Validate a complete game consisting of a gameconfig, multiple station files and multiple audio files """
+
+    # load all game data
+    data = load_complete_game(filename)
+
+    # calidate game config
+
+    # validate all individual stations
+
+    # check that all referenced audio files exist
+
+    # check that all references stations exist
+
+    pass
 
 
 def validate_stations_in_folder_helper(folder, exit_on_errors=False):

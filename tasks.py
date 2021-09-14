@@ -1,13 +1,13 @@
 import os
 import sys
 from invoke import task
-from pathlib import Path
 
 from validation.validation import validate_gameconfig_helper
 from validation.validation import validate_station_file
 from validation.validation import output_validation_errors
 from validation.validation import validate_schema_helper
 from validation.validation import validate_stations_in_folder_helper
+from validation.validation import validate_game_helper
 
 from jsonschema import Draft7Validator, RefResolver
 from json import load
@@ -24,9 +24,11 @@ def preflight_checklist():
         exit()
 
 
-def validate_game(filename):
+@task
+def validate_game(ctx, filename):
     """Validate a complete game consisting of a gameconfig, multiple station files and multiple audio files """
-    pass
+    preflight_checklist()
+    validate_game_helper(filename)
 
 
 @task
