@@ -3,7 +3,7 @@
   "type": "help",
   "description": "play simple audio with backgroundmusic for level 2",
   "tags": ["story", "ending"],
-  "triggers": [
+  "events": [
     {
       "condition": "hasTag",
       "conditionArgs": "backgroundtimer",

@@ -3,7 +3,7 @@
   "type": "station",
   "description": "Default station logic",
   "tags": ["story", "ending"],
-  "triggers": [
+  "events": [
     {
       "action": "playAudio",
       "audioFilename": "audio-test-1.mp3"

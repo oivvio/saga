@@ -3,7 +3,7 @@
   "type": "station",
   "description": "play audio and set user with condition to play next",
   "tags": ["key"],
-  "triggers": [
+  "events": [
     {
       "action": "playAudio",
 

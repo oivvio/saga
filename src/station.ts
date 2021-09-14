@@ -14,51 +14,46 @@ export interface IStation {
   type: "station" | "help";
   description: string;
   tags: string[];
-  triggers: ITrigger[];
+  events: IEvent[];
 }
 
-export interface ITriggerPlayAudio {
+export interface IEventPlayAudio {
   action: "playAudio";
   audioFilename: string;
 }
 
-export interface ITriggerStartTimeLimit {
+export interface IEventStartTimeLimit {
   action: "startTimeLimit";
   timerName: string;
   cancelOnLeave: boolean;
   timeLimit: number;
-  onTimeLimitEnd: ISecondLevelTrigger;
+  onTimeLimitEnd: ISecondLevelEvent;
 }
 
-export interface ITriggerGoToStation {
+export interface IEventGoToStation {
   action: "goToStation";
   toStation: string;
 }
 
-export interface ITriggerGoToStation {
-  action: "goToStation";
-  toStation: string;
-}
-
-export interface ITriggerCancelTimer {
+export interface IEventCancelTimer {
   action: "cancelTimer";
   timerName: string;
 }
 
-export interface ITriggerCondition {
+export interface IEventCondition {
   condition: "hasTag";
   conditionArgs: string;
 }
 
-export type ITriggerAction =
-  | ITriggerPlayAudio
-  | ITriggerStartTimeLimit
-  | ITriggerGoToStation
-  | ITriggerCancelTimer;
+export type IEventAction =
+  | IEventPlayAudio
+  | IEventStartTimeLimit
+  | IEventGoToStation
+  | IEventCancelTimer;
 
-export type ITrigger = ITriggerAction | ITriggerCondition;
+export type IEvent = IEventAction | IEventCondition;
 
-export interface ISecondLevelTrigger {
+export interface ISecondLevelEvent {
   action: "playAudio" | "startTimeLimit" | "goToStation" | "cancelTimer";
   audioFilename?: string;
   timerName?: string;
@@ -112,62 +107,54 @@ export async function loadGameConfig(configUrl: URL): Promise<IGameConfig> {
     });
 }
 
-// Trigger actions
+// Events
 // this object serves as lookup function for our
-const triggers = {
-  playAudio: function (_: IState, trigger: ITrigger) {
-    const playAudioTrigger = trigger as ITriggerPlayAudio;
-    playAudio(playAudioTrigger.audioFilename);
+const events = {
+  playAudio: function (_: IState, event: IEvent) {
+    const playAudioEvent = event as IEventPlayAudio;
+    playAudio(playAudioEvent.audioFilename);
   },
-  startTimeLimit: function (state: IState, trigger: ITrigger) {
-    const startTimeLimitTrigger = trigger as ITriggerStartTimeLimit;
+  startTimeLimit: function (state: IState, event: IEvent) {
+    const startTimeLimitEvent = event as IEventStartTimeLimit;
     const timer = window.setTimeout(function () {
-      if (startTimeLimitTrigger.timerName) {
-        store.commit(Mutations.removeTimer, startTimeLimitTrigger.timerName);
+      if (startTimeLimitEvent.timerName) {
+        store.commit(Mutations.removeTimer, startTimeLimitEvent.timerName);
       }
 
-      startTimeLimitTrigger.onTimeLimitEnd &&
-        interpretSecondLevelTrigger(
-          state,
-          startTimeLimitTrigger.onTimeLimitEnd
-        );
-    }, startTimeLimitTrigger.timeLimit * 1000) as number;
+      startTimeLimitEvent.onTimeLimitEnd &&
+        interpretSecondLevelEvent(state, startTimeLimitEvent.onTimeLimitEnd);
+    }, startTimeLimitEvent.timeLimit * 1000) as number;
     if (timer) {
-      const timerName = startTimeLimitTrigger.timerName;
+      const timerName = startTimeLimitEvent.timerName;
       store.commit(Mutations.addTimer, { timerName, timer });
     }
-
-    // state.user.timers[startTimeLimitTrigger.timerName] = timer;
   },
 
-  goToStation: function (_: IState, trigger: ITrigger) {
-    const goToStationTrigger = trigger as ITriggerGoToStation;
-    runStation(goToStationTrigger.toStation);
+  goToStation: function (_: IState, event: IEvent) {
+    const goToStationEvent = event as IEventGoToStation;
+    runStation(goToStationEvent.toStation);
   },
 
-  cancelTimer: function (state: IState, trigger: ITrigger) {
-    const cancelTimerTrigger = trigger as ITriggerCancelTimer;
-    if (cancelTimerTrigger.timerName) {
-      const timer = state.user.timers[cancelTimerTrigger.timerName];
+  cancelTimer: function (state: IState, event: IEvent) {
+    const cancelTimerEvent = event as IEventCancelTimer;
+    if (cancelTimerEvent.timerName) {
+      const timer = state.user.timers[cancelTimerEvent.timerName];
       if (timer !== undefined) {
         window.clearTimeout(timer);
-        store.commit(Mutations.removeTimer, cancelTimerTrigger.timerName);
+        store.commit(Mutations.removeTimer, cancelTimerEvent.timerName);
       }
     }
   },
 };
 
-function interpretTrigger(state: IState, intrigger: ITrigger) {
-  const trigger = intrigger as ITriggerAction;
-  triggers[trigger.action](state, trigger);
+function interpretEvent(state: IState, inEvent: IEvent) {
+  const event = inEvent as IEventAction;
+  events[event.action](state, event);
 }
 
-function interpretSecondLevelTrigger(
-  state: IState,
-  trigger: ISecondLevelTrigger
-) {
-  if (trigger.action !== undefined) {
-    triggers[trigger.action](state, trigger as ITrigger);
+function interpretSecondLevelEvent(state: IState, event: ISecondLevelEvent) {
+  if (event.action !== undefined) {
+    events[event.action](state, event as IEvent);
   }
 }
 
@@ -184,41 +171,40 @@ const conditions = {
   },
 };
 
-// Takes a state a and trigger.
-// If trigger has no condition return true.
-// If trigger has a condition, pick it up and evaluate it, return result.
-function interpretCondition(state: IState, trigger: ITrigger): boolean {
-  const conditionTrigger = trigger as ITriggerCondition;
-  if (conditionTrigger.condition && conditionTrigger.conditionArgs) {
-    return conditions[conditionTrigger.condition](
+// Takes a state a and event.
+// If event has no condition return true.
+// If event has a condition, pick it up and evaluate it, return result.
+function interpretCondition(state: IState, event: IEvent): boolean {
+  const conditionEvent = event as IEventCondition;
+  if (conditionEvent.condition && conditionEvent.conditionArgs) {
+    return conditions[conditionEvent.condition](
       state,
-      conditionTrigger.conditionArgs
+      conditionEvent.conditionArgs
     );
   } else {
     return true;
   }
 }
 
-function triggerOnLeave(state: IState, trigger: ITrigger): void {
-  const actionTrigger = trigger as ITriggerAction;
-  if (onLeave[actionTrigger.action] !== undefined) {
-    onLeave[actionTrigger.action](state, actionTrigger);
+function runEventOnLeave(state: IState, event: IEvent): void {
+  const actionEvent = event as IEventAction;
+  if (onLeave[actionEvent.action] !== undefined) {
+    onLeave[actionEvent.action](state, actionEvent);
   }
 }
 
 const onLeave = {
-  startTimeLimit: function (state: IState, trigger: ITrigger): void {
-    const startTimeLimitTrigger = trigger as ITriggerStartTimeLimit;
+  startTimeLimit: function (state: IState, event: IEvent): void {
+    const startTimeLimitEvent = event as IEventStartTimeLimit;
 
-    const timer = state.user.timers[startTimeLimitTrigger.timerName];
+    const timer = state.user.timers[startTimeLimitEvent.timerName];
     window.clearTimeout(timer);
 
-    console.log("cancel timer:", startTimeLimitTrigger.timerName);
-    // delete state.user.timers[startTimeLimitTrigger.timerName];
-    store.commit(Mutations.removeTimer, startTimeLimitTrigger.timerName);
+    console.log("cancel timer:", startTimeLimitEvent.timerName);
+    store.commit(Mutations.removeTimer, startTimeLimitEvent.timerName);
   },
 
-  // required by TypeScript because of how ITrigger.action is defined
+  // required by TypeScript because of how IEvent.action is defined
   playAudio: () => {
     console.log("playAudio");
   },
@@ -247,29 +233,29 @@ export function interpretStation(state: IState, station: IStation): void {
             "interpretStation",
             `leavingStationId: ${state.user.lastStationVisitedId}`
           );
-          // Handle triggers for the station the user just left
+          // Handle events for the station the user just left
           if (leavingStation !== undefined) {
-            leavingStation.triggers.forEach((trigger) => {
-              triggerOnLeave(state, trigger);
+            leavingStation.events.forEach((event) => {
+              runEventOnLeave(state, event);
             });
           }
         }
       }
 
-      // Handle triggers for the users current station
-      station.triggers.forEach((trigger) => {
+      // Handle events for the users current station
+      station.events.forEach((event) => {
         log(
           "interpretStation",
-          `handle triggers for users current station  ${trigger}`
+          `handle events for users current station  ${event}`
         );
-        if (interpretCondition(state, trigger)) {
-          interpretTrigger(state, trigger);
+        if (interpretCondition(state, event)) {
+          interpretEvent(state, event);
         }
       });
 
       log(
         "interpretStation",
-        `post handle triggers ${state.user.stationsVisited}`
+        `post handle events ${state.user.stationsVisited}`
       );
 
       // Add station.id to users set of visited stations

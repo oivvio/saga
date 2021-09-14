@@ -3,7 +3,7 @@
   "type": "station",
   "description": "play ending track",
   "tags": ["ending"],
-  "triggers": [
+  "events": [
     {
       "action": "playAudio",
       "audioFilename": "end-1.mp3"

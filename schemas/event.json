@@ -1,11 +1,11 @@
 {
   "type": "object",
   "$defs": {
-    "secondLevelTrigger": {
+    "event": {
       "type": "object",
       "properties": {
         "action": {
-          "description": "Available event triggers",
+          "description": "Available event events",
           "type": "string",
           "enum": ["playAudio", "startTimeLimit", "goToStation", "cancelTimer"]
         },
@@ -18,12 +18,7 @@
         "cancelOnLeave": { "type": "boolean" },
         "timeLimit": { "type": "number" },
         "onTimeLimitEnd": {
-          "description": "Define what to be triggered when timer ends",
-          "type": "object",
-          "properties": {
-            "$ref": "#"
-          },
-          "required": ["action"]
+          "$ref": "file:./secondLevelEvent.json#/$defs/secondLevelEvent"
         },
 
         "goToStation": { "type": "string" },

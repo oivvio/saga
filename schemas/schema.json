@@ -30,16 +30,16 @@
       "minItems": 1
     },
 
-    "triggers": {
-      "description": "Array containing trigger event objects",
+    "events": {
+      "description": "Array containing events that executing a station will fire",
       "type": "array",
       "items": {
-        "$ref": "file:./schemas/trigger.json#/$defs/trigger"
+        "$ref": "file:./schemas/event.json#/$defs/event"
       }
     }
   },
 
-  "required": ["id", "type", "triggers", "tags"],
+  "required": ["id", "type", "events", "tags"],
 
   "additionalProperties": false
 }

@@ -3,7 +3,7 @@
   "type": "station",
   "description": "Second test station ",
   "tags": ["story"],
-  "triggers": [
+  "events": [
     {
       "action": "playAudio",
       "audioFilename": "audio-test-3.mp3"

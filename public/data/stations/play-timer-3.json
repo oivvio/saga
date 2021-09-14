@@ -3,7 +3,7 @@
   "type": "station",
   "description": "play audio. continue with level-timer that wont end until leaving level 1.",
   "tags": ["play-timer-3"],
-  "triggers": [
+  "events": [
     {
       "condition": "hasTag",
       "conditionArgs": "play-timer-2",

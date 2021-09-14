@@ -3,7 +3,7 @@
   "type": "station",
   "description": "play audio with conditions",
   "tags": ["unlocked"],
-  "triggers": [
+  "events": [
     {
       "condition": "hasTag",
       "conditionArgs": "key",

@@ -4,7 +4,7 @@
   "description": "play simple audio",
   "tags": ["story"],
 
-  "triggers": [
+  "events": [
     {
       "action": "playAudio",
       "audioFilename": "audio-test-1.mp3"

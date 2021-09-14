@@ -3,7 +3,7 @@
   "type": "station",
   "description": "First test station ",
   "tags": ["story"],
-  "triggers": [
+  "events": [
     {
       "action": "playAudio",
       "audioFilename": "saga-1.mp3"

@@ -3,7 +3,7 @@
   "type": "station",
   "description": "play simple audio with backgroundmusic",
   "tags": ["story", "backgroundtimer"],
-  "triggers": [
+  "events": [
     {
       "action": "playAudio",
       "audioFilename": "audio-test-1.mp3"
