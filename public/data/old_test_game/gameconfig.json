@@ -22,5 +22,6 @@
     "./stations/test-01.json",
     "./stations/test-02.json"
   ],
-  "stations": {}
+  "stations": {},
+  "open": ["play-timer-1"]
 }
