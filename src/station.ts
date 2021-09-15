@@ -2,9 +2,7 @@
 
 import { playAudio, runStation } from "./engine";
 import { store, IState, Mutations } from "./store";
-import { getParentUrl, getChildUrl } from "./utils";
-
-import { log } from "./utils";
+import { getParentUrl, getChildUrl, log } from "./utils";
 
 // Keep these types in sync with our json schema
 // We validate all our game definition json files so we can be fully confident that
@@ -70,7 +68,7 @@ export interface IGameConfig {
   baseUrl: string;
   stationPaths: string[];
   stations: Record<string, IStation>;
-  choicePrefix: string;
+  choiceInfix: string;
   openAtStart: string[];
 }
 

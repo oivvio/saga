@@ -7,11 +7,11 @@
   "events": [
     {
       "action": "playAudio",
-      "audioFilename": "southern-chamber.mp3"
+      "audioFilenames": ["./audio/southern-chamber.mp3"]
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "southern-chamber-background.mp3",
+      "audioFilename": "./audio/southern-chamber-background.mp3",
       "loop": true,
       "cancelOnLeave": false,
       "wait": 0

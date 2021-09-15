@@ -7,13 +7,13 @@
     "tracingOrigins": ["localhost", "example.com"]
   },
   "stationPaths": [
-    "start.json",
-    "start-option-a.json",
-    "start-option-b.json",
-    "northern-chamber.json",
-    "southern-chamber.json"
+    "./stations/start.json",
+    "./stations/start-option-a.json",
+    "./stations/start-option-b.json",
+    "./stations/northern-chamber.json",
+    "./stations/southern-chamber.json"
   ],
-  "choicePrefix": "option-",
+  "choiceInfix": "-option-",
 
   "choiceNames": ["a", "b"],
   "stations": {},

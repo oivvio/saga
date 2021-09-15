@@ -22,6 +22,11 @@
           }
         },
 
+        "audioFilename": {
+          "description": "Filename including file name extension. For background audio events.",
+          "type": "string"
+        },
+
         "timerName": { "type": "string" },
         "cancelOnLeave": { "type": "boolean" },
         "wait": { "type": "number" },
@@ -49,7 +54,7 @@
             "properties": { "action": { "const": "playAudio" } },
             "required": ["action"]
           },
-          "then": { "required": ["audioFilename"] }
+          "then": { "required": ["audioFilenames"] }
         },
 
         {

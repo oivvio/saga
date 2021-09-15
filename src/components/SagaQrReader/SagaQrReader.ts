@@ -156,8 +156,17 @@ const Component = defineComponent({
         result = getLastUrlSegment(new URL(codeContent));
 
         // Figure out if this represent a choice station
-        const choicePrefix = this.$store.state.gameConfig?.choicePrefix;
-        if (result.startsWith(choicePrefix)) {
+        const choiceInfix = this.$store.state.gameConfig?.choiceInfix;
+
+        if (choiceInfix && result.indexOf(choiceInfix) !== -1) {
+          const lastStationVisitedId =
+            this.$store.state.user.lastStationVisitedId;
+          const choice = result
+            .split(choiceInfix)
+            .filter((val) => val !== "")[0];
+
+          result = lastStationVisitedId + choiceInfix + choice;
+          console.log("This is a choice station: ", result);
         }
       }
       return result;

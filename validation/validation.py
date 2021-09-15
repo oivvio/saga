@@ -15,7 +15,7 @@ def load_complete_game(filename):
         data = load(handle)
 
     for station_path in data["stationPaths"]:
-        path = Path(filename).parent.joinpath("stations").joinpath(station_path)
+        path = Path(filename).parent.joinpath(station_path)
 
         with open(path) as handle:
             station_data = load(handle)
@@ -60,11 +60,12 @@ def output_validation_errors(errors, filename):
     if errors:
         print("=" * 100)
         print(f"{filename} has {len(errors)} errors.")
-    for error in errors:
-        print("-" * 100)
-        print(f"{error.validator=}")
-        print(f"{error.path=}")
-        print(f"{error.message=}")
+        for error in errors:
+            print("-" * 100)
+            print(f"{error.validator=}")
+            print(f"{error.path=}")
+            print(f"{error.message=}")
+        print()
 
 
 def validate_station_file(filename):
@@ -93,7 +94,7 @@ def validate_station(station):
 
 
 def validate_gameconfig_helper(filename):
-    """Validate a given game config file. Not the enire game"""
+    """Validate a given game config file. Not the entire game"""
 
     schemafile = "./validation/schemas/game.json"
     with open(schemafile) as handle:
@@ -108,7 +109,11 @@ def validate_gameconfig_helper(filename):
 
 
 def validate_game_helper(filename):
-    """Validate a complete game consisting of a gameconfig, multiple station files and multiple audio files """
+    """
+    Validate a complete game consisting of a gameconfig, multiple station files and multiple audio files.
+
+    Also do some checks that are hard to do with json schema
+    """
 
     # load all game data
     data = load_complete_game(filename)
@@ -120,22 +125,48 @@ def validate_game_helper(filename):
     stations = data["stations"]
     station_ids = data["stations"].keys()
 
-    # validate all individual stations
+    # validate all individual stations against the station schema
     for station_id in station_ids:
         station = stations[station_id]
         errors = validate_station(station)
         station_filename = station["filePath"]
         output_validation_errors(errors, station_filename)
 
+    # check that any choice stations have valid ids
+    for station in [s for s in stations.values() if s["type"] == "choice"]:
+        station_id = station["id"]
+        station_filepath = station["filePath"]
+        choice_infix = data["choiceInfix"]
+
+        choice = station_id.split("-")[-1]
+
+        invalid_choice_name = choice not in data["choiceNames"]
+        if choice_infix not in station_id or invalid_choice_name:
+            print(
+                f"The station id '{station_id}' defined in {station_filepath}, is not valid for a choice station."
+            )
+
     # check that all referenced audio files exist
     for station in stations.values():
-
         for event in station["events"]:
-            if event["action"] in ["playAudio", "playBackgroundAudio"]:
+
+            # Check for existance of main audio
+            if event["action"] == "playAudio":
+                for audiofile_base in event["audioFilenames"]:
+
+                    audiofile_path = Path(filename).parent.joinpath(audiofile_base)
+
+                    if not audiofile_path.exists():
+                        station_id = station["id"]
+                        station_filepath = station["filePath"]
+                        print(
+                            f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                        )
+            # Check for existance of background audio
+            if event["action"] == "playBackgroundAudio":
                 audiofile_base = event["audioFilename"]
-                audiofile_path = (
-                    Path(filename).parent.joinpath("audio").joinpath(audiofile_base)
-                )
+
+                audiofile_path = Path(filename).parent.joinpath(audiofile_base)
 
                 if not audiofile_path.exists():
                     station_id = station["id"]

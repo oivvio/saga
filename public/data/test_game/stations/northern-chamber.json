@@ -7,11 +7,11 @@
   "events": [
     {
       "action": "playAudio",
-      "audioFilename": "northern-chamber.mp3"
+      "audioFilenames": ["./audio/northern-chamber.mp3"]
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "startBackground.mp3",
+      "audioFilename": "./audio/startBackground.mp3",
       "loop": true,
       "cancelOnLeave": false,
       "wait": 0
