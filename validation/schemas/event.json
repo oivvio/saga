@@ -15,9 +15,11 @@
             "cancelTimer"
           ]
         },
-        "audioFilename": {
-          "description": "Filename including file name extension",
-          "type": "string"
+        "audioFilenames": {
+          "description": "Filename including file name extension. Order is important. The first represent the 'A'track. The second the 'B' track and so on ",
+          "items": {
+            "type": "string"
+          }
         },
 
         "timerName": { "type": "string" },

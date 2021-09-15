@@ -70,6 +70,8 @@ export interface IGameConfig {
   baseUrl: string;
   stationPaths: string[];
   stations: Record<string, IStation>;
+  choicePrefix: string;
+  openAtStart: string[];
 }
 
 // load a game configuration from a given URL,

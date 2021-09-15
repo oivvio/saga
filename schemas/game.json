@@ -43,7 +43,7 @@
       "descriptions": "This will get filled up with station data later in the process. But on load we expect this to be empty",
       "type": "object"
     },
-    "open": {
+    "openAtStart": {
       "description": "A list of stations ids that are open at the start of the game",
       "items": {
         "type": "string"
@@ -61,7 +61,7 @@
     "stationPaths",
     "choicePrefix",
     "choiceNames",
-    "open"
+    "openAtStart"
   ],
   "additionalProperties": false
 }

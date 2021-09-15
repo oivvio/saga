@@ -45,6 +45,11 @@
       "items": {
         "$ref": "file:./schemas/event.json#/$defs/event"
       }
+    },
+
+    "filePath": {
+      "description": "The relative path to the file the station definition was loaded from. This is value is added by the validation script to make the validation error output more useable.",
+      "type": "string"
     }
   },
 

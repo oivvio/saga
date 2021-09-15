@@ -1,0 +1,20 @@
+{
+  "id": "northern-chamber",
+  "type": "station",
+  "description": "a dark chamber",
+  "tags": ["why-do-we-have-tags"],
+  "opens": [],
+  "events": [
+    {
+      "action": "playAudio",
+      "audioFilename": "northern-chamber.mp3"
+    },
+    {
+      "action": "playBackgroundAudio",
+      "audioFilename": "startBackground.mp3",
+      "loop": true,
+      "cancelOnLeave": false,
+      "wait": 0
+    }
+  ]
+}

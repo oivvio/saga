@@ -6,10 +6,16 @@
     "dns": "FIXME",
     "tracingOrigins": ["localhost", "example.com"]
   },
-  "stationPaths": ["./stations/start.json"],
+  "stationPaths": [
+    "start.json",
+    "start-option-a.json",
+    "start-option-b.json",
+    "northern-chamber.json",
+    "southern-chamber.json"
+  ],
   "choicePrefix": "option-",
 
   "choiceNames": ["a", "b"],
   "stations": {},
-  "open": ["play-timer-1"]
+  "openAtStart": ["start-option-a", "start-option-b"]
 }

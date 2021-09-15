@@ -15,30 +15,14 @@ def load_complete_game(filename):
         data = load(handle)
 
     for station_path in data["stationPaths"]:
-        path = Path(filename).parent.joinpath(station_path)
+        path = Path(filename).parent.joinpath("stations").joinpath(station_path)
 
         with open(path) as handle:
             station_data = load(handle)
         station_id = station_data["id"]
         data["stations"][station_id] = station_data
+        data["stations"][station_id]["filePath"] = path.as_posix()
     return data
-
-
-def validate_game_helper(filename):
-    """Validate a complete game consisting of a gameconfig, multiple station files and multiple audio files """
-
-    # load all game data
-    data = load_complete_game(filename)
-
-    # calidate game config
-
-    # validate all individual stations
-
-    # check that all referenced audio files exist
-
-    # check that all references stations exist
-
-    pass
 
 
 def validate_stations_in_folder_helper(folder, exit_on_errors=False):
@@ -60,7 +44,7 @@ def validate_stations_in_folder_helper(folder, exit_on_errors=False):
 
 def validate_schema_helper(filename):
     """Validate a json schema itself."""
-    with open("./schemas/jsonschema-draft-v7.json") as handle:
+    with open("./validation/schemas/jsonschema-draft-v7.json") as handle:
         schema = load(handle)
 
     with open(filename) as handle:
@@ -86,12 +70,17 @@ def output_validation_errors(errors, filename):
 def validate_station_file(filename):
     """Validate a given file against our schema a return a list of errors"""
 
-    schemafile = "./schemas/station.json"
-    with open(schemafile) as handle:
-        schema = load(handle)
-
     with open(filename) as handle:
         json_to_check = load(handle)
+    return validate_station(json_to_check)
+
+
+def validate_station(station):
+    """Validate a station against our schema a return a list of errors"""
+
+    schemafile = "./validation/schemas/station.json"
+    with open(schemafile) as handle:
+        schema = load(handle)
 
     # Get the project folder
     base_uri = f"file://{Path(__file__).parents[0].as_posix()}/"
@@ -100,13 +89,13 @@ def validate_station_file(filename):
     resolver = RefResolver(base_uri, schema)
     validator = Draft7Validator(schema, resolver=resolver)
 
-    return [e for e in validator.iter_errors(json_to_check)]
+    return [e for e in validator.iter_errors(station)]
 
 
 def validate_gameconfig_helper(filename):
     """Validate a given game config file. Not the enire game"""
 
-    schemafile = "./schemas/game.json"
+    schemafile = "./validation/schemas/game.json"
     with open(schemafile) as handle:
         schema = load(handle)
 
@@ -116,3 +105,51 @@ def validate_gameconfig_helper(filename):
     validator = Draft7Validator(schema)
 
     return [e for e in validator.iter_errors(json_to_check)]
+
+
+def validate_game_helper(filename):
+    """Validate a complete game consisting of a gameconfig, multiple station files and multiple audio files """
+
+    # load all game data
+    data = load_complete_game(filename)
+
+    # validate game config
+    errors = validate_gameconfig_helper(filename)
+    output_validation_errors(errors, filename)
+
+    stations = data["stations"]
+    station_ids = data["stations"].keys()
+
+    # validate all individual stations
+    for station_id in station_ids:
+        station = stations[station_id]
+        errors = validate_station(station)
+        station_filename = station["filePath"]
+        output_validation_errors(errors, station_filename)
+
+    # check that all referenced audio files exist
+    for station in stations.values():
+
+        for event in station["events"]:
+            if event["action"] in ["playAudio", "playBackgroundAudio"]:
+                audiofile_base = event["audioFilename"]
+                audiofile_path = (
+                    Path(filename).parent.joinpath("audio").joinpath(audiofile_base)
+                )
+
+                if not audiofile_path.exists():
+                    station_id = station["id"]
+                    station_filepath = station["filePath"]
+                    print(
+                        f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                    )
+
+    # check that all references stations exist
+    for station in stations.values():
+        for station_open_id in station["opens"]:
+            if station_open_id not in station_ids:
+                print(
+                    f"The station  '{station_open_id}' referenced from station '{station_id}' defined in {station['filePath']}, does not exist."
+                )
+
+    pass

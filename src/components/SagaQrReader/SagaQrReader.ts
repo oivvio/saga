@@ -154,6 +154,11 @@ const Component = defineComponent({
       if (baseUrl && codeContent.startsWith(baseUrl)) {
         //Now extract the stationId
         result = getLastUrlSegment(new URL(codeContent));
+
+        // Figure out if this represent a choice station
+        const choicePrefix = this.$store.state.gameConfig?.choicePrefix;
+        if (result.startsWith(choicePrefix)) {
+        }
       }
       return result;
     },
