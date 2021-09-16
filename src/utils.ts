@@ -25,3 +25,12 @@ export function getLastUrlSegment(url: URL): string {
 export function log(tag: string, msg: string): void {
   console.log(`${tag} : ${msg}`);
 }
+
+// ["./a/b/c", "d/e"] -> 'a/b/c/d/e'
+export function joinPaths(parts: string[]): string {
+  return parts
+    .flatMap((part) =>
+      part.split("/").filter((val) => val !== "." && val !== "")
+    )
+    .join("/");
+}

@@ -1,9 +1,15 @@
 {
   "id": "start",
-  "type": "station",
+  "type": "story",
   "description": "play audio. starts a level timer that wont end until leaving level 1.",
   "tags": ["why-do-we-have-tags"],
   "opens": ["start-option-a", "start-option-b"],
+
+  "helpAudioFilenames": [
+    "./audio/start-help-1.mp3",
+    "./audio/start-help-2.mp3"
+  ],
+
   "events": [
     {
       "action": "playAudio",
@@ -13,8 +19,16 @@
       "action": "playBackgroundAudio",
       "audioFilename": "./audio/startBackground.mp3",
       "loop": true,
-      "cancelOnLeave": false,
+      "cancelOnLeave": true,
       "wait": 0
+    },
+
+    {
+      "action": "playBackgroundAudio",
+      "audioFilename": "./audio/startBackground2.mp3",
+      "loop": true,
+      "cancelOnLeave": false,
+      "wait": 3
     }
   ]
 }

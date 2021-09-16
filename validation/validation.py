@@ -125,6 +125,14 @@ def validate_game_helper(filename):
     stations = data["stations"]
     station_ids = data["stations"].keys()
 
+    # check that globalHelpAudio files exist
+    for key, audiofile_base in data["globalHelpAudio"].items():
+        audiofile_path = Path(filename).parent.joinpath(audiofile_base)
+        if not audiofile_path.exists():
+            print(
+                f"The audiofile '{audiofile_base}' referenced from 'globalHelpAudio.{key}' in {filename}  does not exist. "
+            )
+
     # validate all individual stations against the station schema
     for station_id in station_ids:
         station = stations[station_id]
@@ -146,10 +154,48 @@ def validate_game_helper(filename):
                 f"The station id '{station_id}' defined in {station_filepath}, is not valid for a choice station."
             )
 
-    # check that all referenced audio files exist
-    for station in stations.values():
-        for event in station["events"]:
+    # check that all story stations have exactly 2 help tracks
+    # for station in [s for s in stations.values() if s["type"] == "story"]:
+    #     station_id = station["id"]
+    #     station_filepath = station["filePath"]
 
+    #     play_help_audio_events = [
+    #         e for e in station["events"] if e["action"] == "playHelpAudio"
+    #     ]
+    #     if len(play_help_audio_events) == 1:
+    #         play_help_audio_event = play_help_audio_events[0]
+
+    #         if ("audioHelpFilenames" in play_help_audio_event) and len(
+    #             play_help_audio_event["audioHelpFilenames"]
+    #         ) != 2:
+    #             print(
+    #                 f"The 'playHelpAudio' section in the  story station '{station_id}' defined in {station_filepath} should define two 'audioHelpFilenames'."
+    #             )
+
+    #     else:
+    #         print(
+    #             f"The story station '{station_id}' defined in {station_filepath} should define exactly one 'playHelpAudio' event."
+    #         )
+
+    # check that all referenced audio files exist
+    #
+
+    for station in stations.values():
+
+        station_id = station["id"]
+        station_filepath = station["filePath"]
+
+        # Check for existance of help audio
+        if station["type"] == "story":
+            for audiofile_base in station["helpAudioFilenames"]:
+                audiofile_path = Path(filename).parent.joinpath(audiofile_base)
+
+                if not audiofile_path.exists():
+                    print(
+                        f"The help audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                    )
+
+        for event in station["events"]:
             # Check for existance of main audio
             if event["action"] == "playAudio":
                 for audiofile_base in event["audioFilenames"]:
@@ -157,8 +203,6 @@ def validate_game_helper(filename):
                     audiofile_path = Path(filename).parent.joinpath(audiofile_base)
 
                     if not audiofile_path.exists():
-                        station_id = station["id"]
-                        station_filepath = station["filePath"]
                         print(
                             f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
                         )

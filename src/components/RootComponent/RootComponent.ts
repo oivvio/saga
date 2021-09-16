@@ -4,9 +4,6 @@ import SagaQrReader from "../SagaQrReader/SagaQrReader.vue";
 import { Mutations } from "../../store";
 
 import DevBox from "../DevBox/DevBox.vue";
-// import { loadGameConfig } from "../../station";
-
-// interface IData {}
 
 export default defineComponent({
   name: "RootComponent",
@@ -39,8 +36,4 @@ export default defineComponent({
   },
 
   components: { SagaQrReader, DevBox },
-
-  created: function () {
-    console.log("Created the RootComponent");
-  },
 });

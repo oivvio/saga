@@ -48,6 +48,18 @@
       "items": {
         "type": "string"
       }
+    },
+
+    "globalHelpAudio": {
+      "description": "An object containing global help audio files",
+      "type": "object",
+      "properties": {
+        "twoHelpLeftAudioFilename": { "type": "string" },
+        "oneHelpLeftAudioFilename": { "type": "string" },
+        "noHelpLeftAudioFilename": { "type": "string" },
+        "allHelpUsedAudioFilename": { "type": "string" },
+        "noHelpAtThisPointAudioFilename": { "type": "string" }
+      }
     }
   },
 
@@ -61,7 +73,8 @@
     "stationPaths",
     "choiceInfix",
     "choiceNames",
-    "openAtStart"
+    "openAtStart",
+    "globalHelpAudio"
   ],
   "additionalProperties": false
 }

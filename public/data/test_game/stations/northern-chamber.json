@@ -1,9 +1,14 @@
 {
   "id": "northern-chamber",
-  "type": "station",
+  "type": "story",
   "description": "a dark chamber",
   "tags": ["why-do-we-have-tags"],
   "opens": [],
+  "helpAudioFilenames": [
+    "./audio/start-help-1.mp3",
+    "./audio/start-help-2.mp3"
+  ],
+
   "events": [
     {
       "action": "playAudio",

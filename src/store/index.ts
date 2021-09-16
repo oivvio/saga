@@ -3,22 +3,24 @@ import { Subject } from "rxjs";
 import { ComponentCustomProperties } from "vue";
 import { Store, createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
-import { IGameConfig } from "../station";
+import { IGameConfig, StationID } from "../station";
 import { loadGameConfig } from "../station";
+import { log } from "../utils";
 
 interface IUserState {
   QRScannerCanBeDisplayed: boolean;
   QRScannerIsDisplayed: boolean;
   showQRScanner: boolean;
-  stationsVisited: string[];
-  lastStationVisitedId?: string;
+  stationsVisited: StationID[];
+  stationsVisitCount: Record<StationID, number>;
+  lastStationVisitedId?: StationID;
   tags: string[];
   timers: Record<string, number>;
   helpAvailable: number;
+  currentStation: StationID | undefined;
 }
 
 export interface IState {
-  dummyCounter: number;
   gameConfigLoaded: boolean;
   gameConfig?: IGameConfig;
   displayDevBox: boolean;
@@ -47,19 +49,21 @@ declare module "@vue/runtime-core" {
 }
 
 const initialState: IState = {
-  dummyCounter: 1,
   gameConfigLoaded: false,
   gameConfig: undefined,
   displayDevBox: true,
+
   user: {
     QRScannerCanBeDisplayed: true,
     QRScannerIsDisplayed: false,
     showQRScanner: true,
     stationsVisited: [],
+    stationsVisitCount: {} as Record<StationID, number>,
     tags: [],
     timers: {},
     // onLevel: 0,
     helpAvailable: 3,
+    currentStation: undefined,
   },
   audio: {
     volume: 0,
@@ -100,8 +104,13 @@ export const store = createStore({
       state.user.QRScannerCanBeDisplayed = false;
     },
 
-    pushStationIdToStationsVisited(state, stationId) {
+    pushStationIdToStationsVisited(state, stationId: StationID) {
       state.user.stationsVisited.push(stationId);
+      if (stationId in state.user.stationsVisitCount) {
+        state.user.stationsVisitCount[stationId]++;
+      } else {
+        state.user.stationsVisitCount[stationId] = 1;
+      }
     },
 
     addTimer(state, payLoad: { timerName: string; timer: number }) {
@@ -125,30 +134,31 @@ export const store = createStore({
       const configUrl = urlParams.get("configUrl");
 
       state.displayDevBox = urlParams.get("displayDevBox") == "yes";
-      console.log("displayDevBox: ", state.displayDevBox);
+
       if (configUrl) {
         state.gameConfig = await loadGameConfig(new URL(configUrl));
         state.gameConfigLoaded = true;
-        console.log("gameConfigLoaded");
+        log("store", "gameConfigLoaded");
       }
     },
 
     wipeHistory(state) {
       state.user = initialState.user;
       state.audio = initialState.audio;
-      state.dummyCounter = initialState.dummyCounter;
+    },
+
+    setCurrentStation(state, stationId: StationID) {
+      state.user.currentStation = stationId;
     },
   },
   actions: {},
   modules: {},
-  plugins: [createPersistedState()],
+  // TODO reinstate
+  // plugins: [createPersistedState()],
 });
 
 // const storeClosure = store;
 store.subscribe((mutation, state) => {
-  console.log("mutation type: ", mutation.type);
-  console.log("mutation payload: ", mutation.payload);
-
   const timersExists = Object.keys(state.user.timers).length !== 0;
 
   // TODO background audio is permissible
@@ -156,7 +166,6 @@ store.subscribe((mutation, state) => {
     state.audio.story.isPlaying || state.audio.background.isPlaying;
   const qrScannerVisible = state.user.QRScannerIsDisplayed;
   const openQrScannerButtonVisible = state.user.QRScannerCanBeDisplayed;
-  console.log("button visible ", openQrScannerButtonVisible);
 
   if (
     !timersExists &&
@@ -164,13 +173,11 @@ store.subscribe((mutation, state) => {
     !qrScannerVisible &&
     !openQrScannerButtonVisible
   ) {
-    console.log("Please display the show qr scanner button");
     store.commit(Mutations.displayButtonToOpenQRScanner);
   }
 
   if (timersExists || audioIsPlaying) {
     // Hide qrScanner and button to open qrScanner
-    console.log(" Hide qrScanner and button to open qrScanner");
     if (state.user.QRScannerIsDisplayed) {
       store.commit(Mutations.hideQRScanner);
     }
@@ -193,4 +200,5 @@ export enum Mutations {
   removeTimer = "removeTimer",
   setAudioStoryIsPlaying = "setAudioStoryIsPlaying",
   setAudioBackgroundIsPlaying = "setAudioBackgroundIsPlaying",
+  setCurrentStation = "setCurrentStation",
 }

@@ -17,5 +17,14 @@
 
   "choiceNames": ["a", "b"],
   "stations": {},
-  "openAtStart": ["start-option-a", "start-option-b"]
+  "openAtStart": ["start-option-a", "start-option-b"],
+  "globalHelpAudio": {
+    "twoHelpLeftAudioFilename": "./audio/twoHelpLeft.mp3",
+    "oneHelpLeftAudioFilename": "./audio/oneHelpLeft.mp3",
+    "noHelpLeftAudioFilename": "./audio/noHelpLeft.mp3",
+    "allHelpUsedAudioFilename": "./audio/allHelpUsed.mp3",
+    "noHelpAtThisPointAudioFilename": "./audio/noHelpAtThisPoint.mp3"
+  },
+
+  "audioFileUrlBase": "data/test_game/"
 }

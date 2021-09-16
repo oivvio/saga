@@ -10,6 +10,7 @@ import QrScanner from "qr-scanner";
 import { store, Mutations } from "../../store";
 import { log, getLastUrlSegment } from "../../utils";
 import { runStation } from "../../engine";
+import { StationID } from "../../station";
 
 interface IScanRegion {
   x: number;
@@ -45,14 +46,11 @@ const Component = defineComponent({
     };
   },
 
-  setup(props) {
-    console.log("props: ", props);
-  },
+  // Is this required even if empty?
+  // setup(props) {  },
 
   // Most setup happens here where we have access to this
   mounted() {
-    console.log("on mounted");
-
     // Get the video element
     const videoElement = <HTMLVideoElement>document.getElementById("qrvideo");
 
@@ -139,37 +137,33 @@ const Component = defineComponent({
       });
   },
 
-  // unmounted() {
-  //   console.log("RADAC");
-  // },
-
   methods: {
     // Extract stationId from the raw contents of a scanned qr code
-    getStationId(codeContent: string): string | undefined {
+    getStationId(codeContent: string): StationID | undefined {
       const baseUrl = this.$store.state.gameConfig?.baseUrl;
 
       // Basic assumption is that there is no stationId in the qr code
-      let result = undefined;
+      let stationId = undefined;
 
       if (baseUrl && codeContent.startsWith(baseUrl)) {
         //Now extract the stationId
-        result = getLastUrlSegment(new URL(codeContent));
+        stationId = getLastUrlSegment(new URL(codeContent)) as StationID;
 
         // Figure out if this represent a choice station
         const choiceInfix = this.$store.state.gameConfig?.choiceInfix;
-
-        if (choiceInfix && result.indexOf(choiceInfix) !== -1) {
+        if (choiceInfix && stationId.indexOf(choiceInfix) !== -1) {
           const lastStationVisitedId =
             this.$store.state.user.lastStationVisitedId;
-          const choice = result
+          const choice = stationId
             .split(choiceInfix)
             .filter((val) => val !== "")[0];
 
-          result = lastStationVisitedId + choiceInfix + choice;
-          console.log("This is a choice station: ", result);
+          stationId = (lastStationVisitedId +
+            choiceInfix +
+            choice) as StationID;
         }
       }
-      return result;
+      return stationId;
     },
 
     // Pass content of scanned qrcode.
@@ -187,10 +181,6 @@ const Component = defineComponent({
       }
       return result;
     },
-
-    // onInit() {
-    //   console.log("in onInit");
-    // },
   },
 });
 

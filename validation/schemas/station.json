@@ -23,7 +23,7 @@
       "description": "Type of station. Can be 'station' or 'help'",
       "type": "string",
       "default": "station",
-      "enum": ["station", "help", "choice"]
+      "enum": ["story", "help", "choice"]
     },
 
     "description": {
@@ -37,6 +37,16 @@
         "type": "string"
       },
       "minItems": 1
+    },
+
+    "helpAudioFilenames": {
+      "description": "Filename including file name extension. Order is important. The first represent the first help track and so on ",
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "string"
+      }
     },
 
     "events": {
@@ -55,5 +65,17 @@
 
   "required": ["id", "type", "events", "tags"],
 
-  "additionalProperties": false
+  "additionalProperties": false,
+
+  "allOf": [
+    {
+      "if": {
+        "properties": { "type": { "const": "story" } },
+        "required": ["type"]
+      },
+      "then": {
+        "required": ["helpAudioFilenames"]
+      }
+    }
+  ]
 }

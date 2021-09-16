@@ -1,23 +1,46 @@
 // Interpret stations
 
-import { playAudio, runStation } from "./engine";
+import { AudioEventHandler, playAudioFile, runStation } from "./engine";
 import { store, IState, Mutations } from "./store";
 import { getParentUrl, getChildUrl, log } from "./utils";
 
 // Keep these types in sync with our json schema
 // We validate all our game definition json files so we can be fully confident that
 // our data conforms to our types
+//
+// type StationID = string;
+
+// https://basarat.gitbook.io/typescript/main-1/nominaltyping
+export interface IStationID_ extends String {
+  _stationIdBrand: string; // To prevent type errors
+}
+
+enum StationIDBrand {
+  _ = "",
+}
+export type StationID = StationIDBrand & string;
+
 export interface IStation {
-  id: string;
-  type: "station" | "help";
+  // id: string;
+  id: StationID;
+  type: "story" | "help" | "choice";
   description: string;
   tags: string[];
+  opens: StationID[];
   events: IEvent[];
 }
 
 export interface IEventPlayAudio {
   action: "playAudio";
+  audioFilenames: string;
+}
+
+export interface IEventPlayBackgroundAudio {
+  action: "playAudio";
   audioFilename: string;
+  wait: number;
+  cancelOnLeave: boolean;
+  loop: boolean;
 }
 
 export interface IEventStartTimeLimit {
@@ -30,7 +53,7 @@ export interface IEventStartTimeLimit {
 
 export interface IEventGoToStation {
   action: "goToStation";
-  toStation: string;
+  toStation: StationID;
 }
 
 export interface IEventCancelTimer {
@@ -45,6 +68,7 @@ export interface IEventCondition {
 
 export type IEventAction =
   | IEventPlayAudio
+  | IEventPlayBackgroundAudio
   | IEventStartTimeLimit
   | IEventGoToStation
   | IEventCancelTimer;
@@ -67,9 +91,10 @@ export interface IGameConfig {
   name: string;
   baseUrl: string;
   stationPaths: string[];
-  stations: Record<string, IStation>;
+  stations: Record<StationID, IStation>;
   choiceInfix: string;
   openAtStart: string[];
+  audioFileUrlBase: string;
 }
 
 // load a game configuration from a given URL,
@@ -109,11 +134,27 @@ export async function loadGameConfig(configUrl: URL): Promise<IGameConfig> {
 
 // Events
 // this object serves as lookup function for our
-const events = {
+const eventHandlers = {
   playAudio: function (_: IState, event: IEvent) {
     const playAudioEvent = event as IEventPlayAudio;
-    playAudio(playAudioEvent.audioFilename);
+
+    // TODO, figure out which audioFile to play
+    // const audioFile = playAudioEvent.audioFilenames[0];
+    // playAudioFile(audioFile, false);
+    const audioEventHandler = AudioEventHandler.getInstance();
+    audioEventHandler.handlePlayAudioEvent(playAudioEvent);
   },
+
+  playBackgroundAudio: function (_: IState, event: IEvent) {
+    const playBackgroundAudioEvent = event as IEventPlayBackgroundAudio;
+
+    // TODO, figure out which audioFile to play
+    const audioFile = playBackgroundAudioEvent.audioFilename;
+    // const sound = playAudioFile(audioFile, true);
+    const audioEventHandler = AudioEventHandler.getInstance();
+    audioEventHandler.handlePlayBackgroundAudioEvent(playBackgroundAudioEvent);
+  },
+
   startTimeLimit: function (state: IState, event: IEvent) {
     const startTimeLimitEvent = event as IEventStartTimeLimit;
     const timer = window.setTimeout(function () {
@@ -149,25 +190,19 @@ const events = {
 
 function interpretEvent(state: IState, inEvent: IEvent) {
   const event = inEvent as IEventAction;
-  events[event.action](state, event);
+  eventHandlers[event.action](state, event);
 }
 
 function interpretSecondLevelEvent(state: IState, event: ISecondLevelEvent) {
   if (event.action !== undefined) {
-    events[event.action](state, event as IEvent);
+    eventHandlers[event.action](state, event as IEvent);
   }
 }
 
 // Used in interpretCondition
 const conditions = {
   hasTag: function (state: IState, tag: string) {
-    if (state.user.tags.includes(tag)) {
-      console.log("has tag", tag);
-      return true;
-    } else {
-      console.log("no tag", tag);
-      return false;
-    }
+    return state.user.tags.includes(tag);
   },
 };
 
@@ -200,32 +235,31 @@ const onLeave = {
     const timer = state.user.timers[startTimeLimitEvent.timerName];
     window.clearTimeout(timer);
 
-    console.log("cancel timer:", startTimeLimitEvent.timerName);
     store.commit(Mutations.removeTimer, startTimeLimitEvent.timerName);
   },
 
   // required by TypeScript because of how IEvent.action is defined
-  playAudio: () => {
-    console.log("playAudio");
-  },
-  goToStation: () => {
-    console.log("goToStation");
-  },
-  cancelTimer: () => {
-    console.log("cancelTimer");
-  },
+  // eslint-disable-next-line
+  playAudio: () => {},
+  // eslint-disable-next-line
+  goToStation: () => {},
+  // eslint-disable-next-line
+  cancelTimer: () => {},
 };
 
 export function interpretStation(state: IState, station: IStation): void {
+  // For any station, check if there is any background audio running that should be stopped
+  const audioEventHandler = AudioEventHandler.getInstance();
+  audioEventHandler.cancelDueBackgroundSounds();
+
   switch (station.type) {
     case "help":
-      console.log("station  type help");
       break;
-    case "station": {
-      console.log("station type station");
 
+    case "choice":
+    case "story": {
       // Pick up the station the user just left, if any.
-      if (state.user.lastStationVisitedId) {
+      if (state.user.lastStationVisitedId !== undefined) {
         const leavingStation =
           state.gameConfig?.stations[state.user.lastStationVisitedId];
         if (leavingStation !== undefined) {
@@ -259,18 +293,9 @@ export function interpretStation(state: IState, station: IStation): void {
       );
 
       // Add station.id to users set of visited stations
-      // state.user.stationsVisited.add(station.id);
       if (!state.user.stationsVisited.includes(station.id)) {
         log("interpretStation", `push stationid: ${station.id}`);
-        log(
-          "interpretStation",
-          `visited before push: ${state.user.stationsVisited}`
-        );
         store.commit(Mutations.pushStationIdToStationsVisited, station.id);
-        log(
-          "interpretStation",
-          `visited after push: ${state.user.stationsVisited}`
-        );
       }
 
       // Set users last visited station
@@ -283,10 +308,15 @@ export function interpretStation(state: IState, station: IStation): void {
         }
       });
 
+      // Open next stations, close previous
+      if (station.opens !== undefined) {
+        log("station", `interpretStation ${station.opens}`);
+      }
       break;
     }
+
     default:
-      console.log("no station type given");
+      // TODO log to sentry
       break;
   }
 }

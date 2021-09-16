@@ -1389,6 +1389,11 @@
   dependencies:
     "source-map" "^0.6.1"
 
+"@types/url-join@^4.0.1":
+  "integrity" "sha512-wDXw9LEEUHyV+7UWy7U315nrJGJ7p1BzaCxDpEoLr789Dk1WDVMMlf3iBfbG2F8NdWnYyFbtTxUn2ZNbm1Q4LQ=="
+  "resolved" "https://registry.npmjs.org/@types/url-join/-/url-join-4.0.1.tgz"
+  "version" "4.0.1"
+
 "@types/webpack-dev-server@^3.11.0":
   "integrity" "sha512-XCph0RiiqFGetukCTC3KVnY1jwLcZ84illFRMbyFzCcWl90B/76ew0tSqF46oBhnLC4obNDG7dMO0JfTN0MgMQ=="
   "resolved" "https://registry.npmjs.org/@types/webpack-dev-server/-/webpack-dev-server-3.11.6.tgz"
@@ -11228,6 +11233,11 @@
   "integrity" "sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI="
   "resolved" "https://registry.npmjs.org/urix/-/urix-0.1.0.tgz"
   "version" "0.1.0"
+
+"url-join@^4.0.1":
+  "integrity" "sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA=="
+  "resolved" "https://registry.npmjs.org/url-join/-/url-join-4.0.1.tgz"
+  "version" "4.0.1"
 
 "url-loader@^2.2.0":
   "integrity" "sha512-goSdg8VY+7nPZKUEChZSEtW5gjbS66USIGCeSJ1OVOJ7Yfuh/36YxCwMi5HVEJh6mqUYOoy3NJ0vlOMrWsSHog=="
