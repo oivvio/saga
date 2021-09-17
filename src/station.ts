@@ -1,6 +1,5 @@
 // Interpret stations
-
-import { AudioEventHandler, playAudioFile, runStation } from "./engine";
+import { AudioEventHandler, runStation } from "./engine";
 import { store, IState, Mutations } from "./store";
 import { getParentUrl, getChildUrl, log } from "./utils";
 
@@ -93,13 +92,16 @@ export interface IGameConfig {
   stationPaths: string[];
   stations: Record<StationID, IStation>;
   choiceInfix: string;
-  openAtStart: string[];
+  openStationsAtStart: StationID[];
   audioFileUrlBase: string;
 }
 
 // load a game configuration from a given URL,
 // mostly this will load a bunch of stations files
-export async function loadGameConfig(configUrl: URL): Promise<IGameConfig> {
+export async function loadGameConfigAndStations(
+  configUrl: URL
+): Promise<IGameConfig> {
+  log("station", `in loadGameConfigAndStations ${configUrl}`);
   //
   // (http://example.com/parent, "./child/station1.json") -> data
   async function loadStationFromPath(
@@ -147,10 +149,6 @@ const eventHandlers = {
 
   playBackgroundAudio: function (_: IState, event: IEvent) {
     const playBackgroundAudioEvent = event as IEventPlayBackgroundAudio;
-
-    // TODO, figure out which audioFile to play
-    const audioFile = playBackgroundAudioEvent.audioFilename;
-    // const sound = playAudioFile(audioFile, true);
     const audioEventHandler = AudioEventHandler.getInstance();
     audioEventHandler.handlePlayBackgroundAudioEvent(playBackgroundAudioEvent);
   },
@@ -252,71 +250,94 @@ export function interpretStation(state: IState, station: IStation): void {
   const audioEventHandler = AudioEventHandler.getInstance();
   audioEventHandler.cancelDueBackgroundSounds();
 
-  switch (station.type) {
-    case "help":
-      break;
+  const stationIsOpen = state.user.openStations.includes(station.id);
 
-    case "choice":
-    case "story": {
-      // Pick up the station the user just left, if any.
-      if (state.user.lastStationVisitedId !== undefined) {
-        const leavingStation =
-          state.gameConfig?.stations[state.user.lastStationVisitedId];
-        if (leavingStation !== undefined) {
-          log(
-            "interpretStation",
-            `leavingStationId: ${state.user.lastStationVisitedId}`
-          );
-          // Handle events for the station the user just left
+  if (stationIsOpen) {
+    // User scanned an open station
+    switch (station.type) {
+      case "help":
+        console.log("HELP STATIONS ARE NOT YET IMPLEMENTED");
+        break;
+
+      case "choice":
+      case "story": {
+        // Pick up the station the user just left, if any.
+        if (state.user.lastStationVisitedId !== undefined) {
+          const leavingStation =
+            state.gameConfig?.stations[state.user.lastStationVisitedId];
           if (leavingStation !== undefined) {
-            leavingStation.events.forEach((event) => {
-              runEventOnLeave(state, event);
-            });
+            log(
+              "interpretStation",
+              `leavingStationId: ${state.user.lastStationVisitedId}`
+            );
+            // Handle events for the station the user just left
+            if (leavingStation !== undefined) {
+              leavingStation.events.forEach((event) => {
+                runEventOnLeave(state, event);
+              });
+            }
           }
         }
-      }
 
-      // Handle events for the users current station
-      station.events.forEach((event) => {
+        // Handle events for the users current station
+        station.events.forEach((event) => {
+          log(
+            "interpretStation",
+            `handle events for users current station  ${event}`
+          );
+          if (interpretCondition(state, event)) {
+            interpretEvent(state, event);
+          }
+        });
+
         log(
           "interpretStation",
-          `handle events for users current station  ${event}`
+          `post handle events ${state.user.stationsVisited}`
         );
-        if (interpretCondition(state, event)) {
-          interpretEvent(state, event);
+
+        // Add station.id to users set of visited stations
+        if (!state.user.stationsVisited.includes(station.id)) {
+          log("interpretStation", `push stationid: ${station.id}`);
+          store.commit(Mutations.pushStationIdToStationsVisited, station.id);
         }
-      });
 
-      log(
-        "interpretStation",
-        `post handle events ${state.user.stationsVisited}`
-      );
+        // Set users last visited station
+        state.user.lastStationVisitedId = station.id;
 
-      // Add station.id to users set of visited stations
-      if (!state.user.stationsVisited.includes(station.id)) {
-        log("interpretStation", `push stationid: ${station.id}`);
-        store.commit(Mutations.pushStationIdToStationsVisited, station.id);
+        // Add tags from this station to users set of visited tags
+        station.tags.forEach((tag: string) => {
+          if (!state.user.tags.includes(tag)) {
+            state.user.tags.push(tag);
+          }
+        });
+
+        // Open next stations, close previous
+        if (station.opens !== undefined && state.gameConfig) {
+          log("station", `interpretStation ${station.opens}`);
+          store.commit(Mutations.updateOpenStations, station.opens);
+        }
+        break;
       }
 
-      // Set users last visited station
-      state.user.lastStationVisitedId = station.id;
-
-      // Add tags from this station to users set of visited tags
-      station.tags.forEach((tag: string) => {
-        if (!state.user.tags.includes(tag)) {
-          state.user.tags.push(tag);
-        }
-      });
-
-      // Open next stations, close previous
-      if (station.opens !== undefined) {
-        log("station", `interpretStation ${station.opens}`);
-      }
-      break;
+      default:
+        // TODO log to sentry
+        break;
     }
+  } else {
+    // User scanned a closed station
+    console.log("YOU'VE SCANNED A CLOSED STATION");
+    switch (station.type) {
+      case "help":
+        console.log("HELP STATIONS ARE NOT YET IMPLEMENTED");
+        break;
 
-    default:
-      // TODO log to sentry
-      break;
+      case "choice":
+      case "story":
+        break;
+
+      default:
+        // TODO log to sentry
+        break;
+    }
   }
 }

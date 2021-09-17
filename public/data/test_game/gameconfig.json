@@ -17,7 +17,7 @@
 
   "choiceNames": ["a", "b"],
   "stations": {},
-  "openAtStart": ["start-option-a", "start-option-b"],
+  "openStationsAtStart": ["start"],
   "globalHelpAudio": {
     "twoHelpLeftAudioFilename": "./audio/twoHelpLeft.mp3",
     "oneHelpLeftAudioFilename": "./audio/oneHelpLeft.mp3",

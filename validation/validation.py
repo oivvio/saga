@@ -1,6 +1,9 @@
 from pathlib import Path
 from jsonschema import Draft7Validator, RefResolver
 from json import load
+from json.decoder import JSONDecodeError
+
+# from json.decode import JSONDecodeError
 from pprint import pprint
 
 
@@ -12,13 +15,27 @@ def load_complete_game(filename):
 
     """
     with open(filename) as handle:
-        data = load(handle)
+        try:
+            data = load(handle)
+            # except JSONDecodeError as err:
+        except JSONDecodeError:
+            print(
+                f"Game config file at path {filename} is not valid JSON. Terminating validation."
+            )
+            exit()
 
     for station_path in data["stationPaths"]:
         path = Path(filename).parent.joinpath(station_path)
 
         with open(path) as handle:
-            station_data = load(handle)
+            try:
+                station_data = load(handle)
+            # except JSONDecodeError as err:
+            except JSONDecodeError:
+                print(
+                    f"Station file at path {path} is not valid JSON. Terminating validation."
+                )
+                exit()
         station_id = station_data["id"]
         data["stations"][station_id] = station_data
         data["stations"][station_id]["filePath"] = path.as_posix()

@@ -3,15 +3,6 @@
 <template>
   <div class="DevBox">
     <h1>Devtools</h1>
-
-    <form v-on:submit.prevent="onSubmit">
-      <input v-model="message" />
-      <div class="control">
-        <button>Play from this station</button>
-      </div>
-    </form>
-
-    <p>Message is: {{ message }}</p>
     <p>
       QRScannerCanBeDisplayed:
       {{ this.$store.state.user.QRScannerCanBeDisplayed }}
@@ -21,6 +12,7 @@
     </p>
 
     <p>gameConfigIsLoaded: {{ this.$store.state.gameConfigLoaded }}</p>
+
     <p>stationsVisited: {{ this.$store.state.user.stationsVisited }}</p>
 
     <p>timers: {{ this.$store.state.user.timers }}</p>
@@ -30,11 +22,33 @@
       {{ this.$store.state.audio.background.isPlaying }}
     </p>
 
+    <p>openStations: {{ this.$store.state.user.openStations }}</p>
+
+    <p>nStations: {{ nStations }}</p>
+
     <p>
-      displayDevBox:
-      {{ this.$store.state.displayDevBox }}
+      no change:
+      {{ theSame }}
     </p>
 
+    <div id="example-1" v-if="gameConfigLoaded">
+      <p><strong>Execute a station</strong></p>
+      <p
+        v-for="station in this.$store.state.gameConfig.stations"
+        :key="station.id"
+      >
+        <button
+          v-on:click="runStationOnButtonPress(station.id)"
+          :disabled="!this.$store.state.user.QRScannerCanBeDisplayed"
+        >
+          {{ station.id }}
+        </button>
+
+        <span v-if="this.$store.state.user.openStations.includes(station.id)">
+          &nbsp; open</span
+        >
+      </p>
+    </div>
     <button v-on:click="wipeHistory">Wipe history</button>
   </div>
 </template>

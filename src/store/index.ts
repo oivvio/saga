@@ -1,10 +1,14 @@
 // eslint-disable-next-line
 import { Subject } from "rxjs";
+// eslint-disable-next-line
 import { ComponentCustomProperties } from "vue";
-import { Store, createStore } from "vuex";
+
+// eslint-disable-next-line
 import createPersistedState from "vuex-persistedstate";
+
+import { Store, createStore } from "vuex";
 import { IGameConfig, StationID } from "../station";
-import { loadGameConfig } from "../station";
+import { loadGameConfigAndStations } from "../station";
 import { log } from "../utils";
 
 interface IUserState {
@@ -18,6 +22,7 @@ interface IUserState {
   timers: Record<string, number>;
   helpAvailable: number;
   currentStation: StationID | undefined;
+  openStations: StationID[];
 }
 
 export interface IState {
@@ -54,7 +59,7 @@ const initialState: IState = {
   displayDevBox: true,
 
   user: {
-    QRScannerCanBeDisplayed: true,
+    QRScannerCanBeDisplayed: false,
     QRScannerIsDisplayed: false,
     showQRScanner: true,
     stationsVisited: [],
@@ -64,6 +69,7 @@ const initialState: IState = {
     // onLevel: 0,
     helpAvailable: 3,
     currentStation: undefined,
+    openStations: [],
   },
   audio: {
     volume: 0,
@@ -136,7 +142,11 @@ export const store = createStore({
       state.displayDevBox = urlParams.get("displayDevBox") == "yes";
 
       if (configUrl) {
-        state.gameConfig = await loadGameConfig(new URL(configUrl));
+        state.gameConfig = await loadGameConfigAndStations(new URL(configUrl));
+        // const loadedGameConfig = await loadGameConfigAndStations(new URL(configUrl));
+
+        state.user.openStations = state.gameConfig.openStationsAtStart;
+
         state.gameConfigLoaded = true;
         log("store", "gameConfigLoaded");
       }
@@ -149,6 +159,10 @@ export const store = createStore({
 
     setCurrentStation(state, stationId: StationID) {
       state.user.currentStation = stationId;
+    },
+
+    updateOpenStations(state, stationIds: StationID[]) {
+      state.user.openStations = stationIds;
     },
   },
   actions: {},
@@ -201,4 +215,5 @@ export enum Mutations {
   setAudioStoryIsPlaying = "setAudioStoryIsPlaying",
   setAudioBackgroundIsPlaying = "setAudioBackgroundIsPlaying",
   setCurrentStation = "setCurrentStation",
+  updateOpenStations = "updateOpenStations",
 }

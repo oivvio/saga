@@ -3,12 +3,12 @@ import { defineComponent } from "vue";
 // rxjs docs says that this is the way but it does not work.
 // So we pinned rxjs to an older version (6.6.7) to get it to work
 import { Subject } from "rxjs";
-import { distinctUntilKeyChanged, filter, tap } from "rxjs/operators";
+import { distinctUntilKeyChanged, filter } from "rxjs/operators";
 
 import QrScanner from "qr-scanner";
 
 import { store, Mutations } from "../../store";
-import { log, getLastUrlSegment } from "../../utils";
+import { getLastUrlSegment } from "../../utils";
 import { runStation } from "../../engine";
 import { StationID } from "../../station";
 
@@ -24,11 +24,8 @@ interface IScanRegion {
 interface IDecodeSubjectValue {
   codeContent: string;
   canvas: HTMLCanvasElement;
-  // component: any;
 }
-// // Bundling as a blob with webpack didn't work so we get the worker code separately
-// QrScanner.WORKER_PATH = "/js/vendor/qr-scanner-worker.min.js";
-
+// Bundling as a blob with webpack didn't work so we get the worker code separately
 // TODO, make this not be sprickan specific.
 QrScanner.WORKER_PATH = "/js/vendor/qr-scanner-worker.min.js";
 

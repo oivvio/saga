@@ -9,131 +9,142 @@ import {
 import { Mutations, store } from "./store";
 import { log, joinPaths } from "./utils";
 
-// const AUDIOFILEBASE = "data/";
-
 export function runStation(stationId: StationID): void {
   log("engine", ` runStation: ${stationId}`);
-  // Get the current state
-  //   const state = getState();
 
   // set the currently executing station
   store.commit(Mutations.setCurrentStation, stationId);
+
   // Figure out which stations are visited
-  const visitedStationIds = store.state.user.stationsVisited;
+  // const visitedStationIds = store.state.user.stationsVisited;
 
   // If we have already been here
 
-  if (visitedStationIds.includes(stationId)) {
-    // if (store.state.user.helpAvailable <= 0) {
-    //   console.warn("User has no more available helptracks");
-    // } else {
-    //     "User already visited this story. Playing helpfile: ",
-    //     store.state.user.helpAvailable
-    //   );
-    //   playAudio("help-" + store.state.user.helpAvailable + ".mp3");
-    //   store.commit(Mutations.decreaseHelpAvailable);
-    // }
-  } else {
-    // If we have NOT already been here
+  if (store?.state?.gameConfig) {
+    const station = store.state.gameConfig.stations[stationId];
 
-    if (store?.state?.gameConfig) {
-      const station = store.state.gameConfig.stations[stationId];
+    // Will also play audio
+    interpretStation(store.state, station);
 
-      // Will also play audio
-      interpretStation(store.state, station);
-    }
+    // Update open stations
   }
+
+  // if (visitedStationIds.includes(stationId)) {
+  //   // if (store.state.user.helpAvailable <= 0) {
+  //   //   console.warn("User has no more available helptracks");
+  //   // } else {
+  //   //     "User already visited this story. Playing helpfile: ",
+  //   //     store.state.user.helpAvailable
+  //   //   );
+  //   //   playAudio("help-" + store.state.user.helpAvailable + ".mp3");
+  //   //   store.commit(Mutations.decreaseHelpAvailable);
+  //   // }
+  // } else {
+  //   // If we have NOT already been here
+
+  //   if (store?.state?.gameConfig) {
+  //     const station = store.state.gameConfig.stations[stationId];
+
+  //     // Will also play audio
+  //     interpretStation(store.state, station);
+
+  //     // Update open stations
+  //   }
+  // }
 }
 
-export function playAudioFile(filename: string): Howl | undefined {
-  // Some other audio is playing so we do to nothing
-  if (!store.state.audio.story.isPlaying) {
-    // create a new audioElement
-    // const fullAudioPath = AUDIOFILEBASE + filename;
-    let fullAudioPath = "";
-    if (store.state.gameConfig) {
-      fullAudioPath = joinPaths([
-        store.state.gameConfig.audioFileUrlBase,
-        filename,
-      ]);
-    } else {
-      // TODO fire some error log and display error on screen.
-    }
+// export function playAudioFile(filename: string): Howl | undefined {
+//   // Some other audio is playing so we do to nothing
+//   if (!store.state.audio.story.isPlaying) {
+//     // create a new audioElement
+//     // const fullAudioPath = AUDIOFILEBASE + filename;
+//     let fullAudioPath = "";
+//     if (store.state.gameConfig) {
+//       fullAudioPath = joinPaths([
+//         store.state.gameConfig.audioFileUrlBase,
+//         filename,
+//       ]);
+//     } else {
+//       // TODO fire some error log and display error on screen.
+//     }
 
-    store.state.audio.story.isPlaying = false;
+//     store.state.audio.story.isPlaying = false;
 
-    const sound = new Howl({
-      src: [fullAudioPath],
-      html5: true, // Stream (i.e.) start playing before downloaded
-    });
+//     const sound = new Howl({
+//       src: [fullAudioPath],
+//       html5: true, // Stream (i.e.) start playing before downloaded
+//     });
 
-    sound.once("play", () => {
-      store.commit(Mutations.setAudioStoryIsPlaying, true);
-    });
+//     sound.once("play", () => {
+//       store.commit(Mutations.setAudioStoryIsPlaying, true);
+//     });
 
-    sound.once("end", () => {
-      console.log("AUDIO END");
-      store.commit(Mutations.setAudioStoryIsPlaying, false);
-      // sound.unload();
-    });
+//     sound.once("end", () => {
+//       console.log("AUDIO END");
+//       store.commit(Mutations.setAudioStoryIsPlaying, false);
+//       // sound.unload();
+//     });
 
-    // TODO replace with commits
-    store.state.audio.story.data = fullAudioPath;
-    store.state.audio.volume = sound.volume();
+//     // TODO replace with commits
+//     store.state.audio.story.data = fullAudioPath;
+//     store.state.audio.volume = sound.volume();
 
-    sound.play();
-    return sound;
-  }
-}
+//     sound.play();
+//     return sound;
+//   }
+// }
 
-export function handleBackgroundAudioRequest(
-  filename: string,
-  loop: boolean
-): void {
-  // Some other audio is playing so we do to nothing
-  if (!store.state.audio.story.isPlaying) {
-    // create a new audioElement
-    // const fullAudioPath = AUDIOFILEBASE + filename;
-    let fullAudioPath = "";
-    if (store.state.gameConfig) {
-      fullAudioPath = joinPaths([
-        store.state.gameConfig.audioFileUrlBase,
-        filename,
-      ]);
-    } else {
-      // TODO fire some error log and display error on screen.
-    }
+// export function handleBackgroundAudioRequest(
+//   filename: string,
+//   loop: boolean
+// ): void {
+//   // Some other audio is playing so we do to nothing
+//   if (!store.state.audio.story.isPlaying) {
+//     // create a new audioElement
+//     // const fullAudioPath = AUDIOFILEBASE + filename;
+//     let fullAudioPath = "";
+//     if (store.state.gameConfig) {
+//       fullAudioPath = joinPaths([
+//         store.state.gameConfig.audioFileUrlBase,
+//         filename,
+//       ]);
+//     } else {
+//       // TODO fire some error log and display error on screen.
+//     }
 
-    store.state.audio.story.isPlaying = false;
+//     store.state.audio.story.isPlaying = false;
 
-    const sound = new Howl({
-      src: [fullAudioPath],
-      loop: loop,
-      html5: true, // Stream (i.e.) start playing before downloaded
-    });
+//     const sound = new Howl({
+//       src: [fullAudioPath],
+//       loop: loop,
+//       html5: true, // Stream (i.e.) start playing before downloaded
+//     });
 
-    sound.once("play", () => {
-      store.commit(Mutations.setAudioStoryIsPlaying, true);
-    });
+//     sound.once("play", () => {
+//       store.commit(Mutations.setAudioStoryIsPlaying, true);
+//     });
 
-    sound.once("end", () => {
-      console.log("AUDIO END");
-      store.commit(Mutations.setAudioStoryIsPlaying, false);
-      // sound.unload();
-    });
+//     sound.once("end", () => {
+//       console.log("AUDIO END");
+//       store.commit(Mutations.setAudioStoryIsPlaying, false);
+//       // sound.unload();
+//     });
 
-    // TODO replace with commits
-    store.state.audio.story.data = fullAudioPath;
-    store.state.audio.volume = sound.volume();
+//     // TODO replace with commits
+//     store.state.audio.story.data = fullAudioPath;
+//     store.state.audio.volume = sound.volume();
 
-    sound.play();
-  }
-}
+//     sound.play();
+//   }
+// }
 
 // https://refactoring.guru/design-patterns/singleton/typescript/example
 export class AudioEventHandler {
   private static instance: AudioEventHandler;
-
+  private static bgDuckedVolume = 0.3;
+  private static bgFullVolume = 1;
+  private static bgFadeInDuration = 2000;
+  private static bgFadeOutDuration = 2000;
   private mainSound: Howl | undefined;
   // private backgroundSounds: [StationID, Howl][];
   private backgroundSounds: {
@@ -147,11 +158,26 @@ export class AudioEventHandler {
 
   private duckBackgroundAudio() {
     console.log("ducking background audio");
+    this.backgroundSounds.forEach((bgSound) =>
+      bgSound.sound.fade(
+        AudioEventHandler.bgFullVolume,
+        AudioEventHandler.bgDuckedVolume,
+        AudioEventHandler.bgFadeOutDuration
+      )
+    );
   }
 
   private unduckBackgroundAudio() {
     console.log("unducking background audio");
+    this.backgroundSounds.forEach((bgSound) =>
+      bgSound.sound.fade(
+        AudioEventHandler.bgDuckedVolume,
+        AudioEventHandler.bgFullVolume,
+        AudioEventHandler.bgFadeInDuration
+      )
+    );
   }
+
   private getAudioPath(filename: string): string {
     let result = "";
     if (store.state.gameConfig) {
@@ -171,7 +197,7 @@ export class AudioEventHandler {
     return AudioEventHandler.instance;
   }
 
-  public handlePlayAudioEvent(event: IEventPlayAudio) {
+  public handlePlayAudioEvent(event: IEventPlayAudio): void {
     const filename = event.audioFilenames[0];
 
     //1. Check that no other main audio is playing
@@ -180,11 +206,7 @@ export class AudioEventHandler {
       return undefined;
     }
 
-    //2. If backgroundAudio is playing duck that.
-    // TODO
-
     //3. Play audio until end
-
     this.mainSound = new Howl({
       src: [this.getAudioPath(filename)],
       html5: true, // Stream (i.e.) start playing before downloaded
@@ -209,7 +231,9 @@ export class AudioEventHandler {
     store.commit(Mutations.setAudioStoryIsPlaying, true);
   }
 
-  public handlePlayBackgroundAudioEvent(event: IEventPlayBackgroundAudio) {
+  public handlePlayBackgroundAudioEvent(
+    event: IEventPlayBackgroundAudio
+  ): void {
     // Find bgSounds that are not from the current station
     const bgSoundsToCancel = this.backgroundSounds.filter(
       (bgSound) => bgSound.stationId !== store.state.user.currentStation
@@ -256,6 +280,10 @@ export class AudioEventHandler {
 
     // Set a timeout for when to actually play the sound
     setTimeout(() => {
+      // Before hitting play check if this audio should start out ducked
+      if (store.state.audio.story.isPlaying) {
+        backgroundSound.volume(AudioEventHandler.bgDuckedVolume);
+      }
       backgroundSound.play();
     }, event.wait * 1000);
   }
