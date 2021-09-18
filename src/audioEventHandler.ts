@@ -1,142 +1,11 @@
 import { Howl } from "howler";
-// import urljoin from "url-join";
 import {
   IEventPlayAudio,
   IEventPlayBackgroundAudio,
-  interpretStation,
   StationID,
 } from "./station";
 import { Mutations, store } from "./store";
-import { log, joinPaths } from "./utils";
-
-export function runStation(stationId: StationID): void {
-  log("engine", ` runStation: ${stationId}`);
-
-  // set the currently executing station
-  store.commit(Mutations.setCurrentStation, stationId);
-
-  // Figure out which stations are visited
-  // const visitedStationIds = store.state.user.stationsVisited;
-
-  // If we have already been here
-
-  if (store?.state?.gameConfig) {
-    const station = store.state.gameConfig.stations[stationId];
-
-    // Will also play audio
-    interpretStation(store.state, station);
-
-    // Update open stations
-  }
-
-  // if (visitedStationIds.includes(stationId)) {
-  //   // if (store.state.user.helpAvailable <= 0) {
-  //   //   console.warn("User has no more available helptracks");
-  //   // } else {
-  //   //     "User already visited this story. Playing helpfile: ",
-  //   //     store.state.user.helpAvailable
-  //   //   );
-  //   //   playAudio("help-" + store.state.user.helpAvailable + ".mp3");
-  //   //   store.commit(Mutations.decreaseHelpAvailable);
-  //   // }
-  // } else {
-  //   // If we have NOT already been here
-
-  //   if (store?.state?.gameConfig) {
-  //     const station = store.state.gameConfig.stations[stationId];
-
-  //     // Will also play audio
-  //     interpretStation(store.state, station);
-
-  //     // Update open stations
-  //   }
-  // }
-}
-
-// export function playAudioFile(filename: string): Howl | undefined {
-//   // Some other audio is playing so we do to nothing
-//   if (!store.state.audio.story.isPlaying) {
-//     // create a new audioElement
-//     // const fullAudioPath = AUDIOFILEBASE + filename;
-//     let fullAudioPath = "";
-//     if (store.state.gameConfig) {
-//       fullAudioPath = joinPaths([
-//         store.state.gameConfig.audioFileUrlBase,
-//         filename,
-//       ]);
-//     } else {
-//       // TODO fire some error log and display error on screen.
-//     }
-
-//     store.state.audio.story.isPlaying = false;
-
-//     const sound = new Howl({
-//       src: [fullAudioPath],
-//       html5: true, // Stream (i.e.) start playing before downloaded
-//     });
-
-//     sound.once("play", () => {
-//       store.commit(Mutations.setAudioStoryIsPlaying, true);
-//     });
-
-//     sound.once("end", () => {
-//       console.log("AUDIO END");
-//       store.commit(Mutations.setAudioStoryIsPlaying, false);
-//       // sound.unload();
-//     });
-
-//     // TODO replace with commits
-//     store.state.audio.story.data = fullAudioPath;
-//     store.state.audio.volume = sound.volume();
-
-//     sound.play();
-//     return sound;
-//   }
-// }
-
-// export function handleBackgroundAudioRequest(
-//   filename: string,
-//   loop: boolean
-// ): void {
-//   // Some other audio is playing so we do to nothing
-//   if (!store.state.audio.story.isPlaying) {
-//     // create a new audioElement
-//     // const fullAudioPath = AUDIOFILEBASE + filename;
-//     let fullAudioPath = "";
-//     if (store.state.gameConfig) {
-//       fullAudioPath = joinPaths([
-//         store.state.gameConfig.audioFileUrlBase,
-//         filename,
-//       ]);
-//     } else {
-//       // TODO fire some error log and display error on screen.
-//     }
-
-//     store.state.audio.story.isPlaying = false;
-
-//     const sound = new Howl({
-//       src: [fullAudioPath],
-//       loop: loop,
-//       html5: true, // Stream (i.e.) start playing before downloaded
-//     });
-
-//     sound.once("play", () => {
-//       store.commit(Mutations.setAudioStoryIsPlaying, true);
-//     });
-
-//     sound.once("end", () => {
-//       console.log("AUDIO END");
-//       store.commit(Mutations.setAudioStoryIsPlaying, false);
-//       // sound.unload();
-//     });
-
-//     // TODO replace with commits
-//     store.state.audio.story.data = fullAudioPath;
-//     store.state.audio.volume = sound.volume();
-
-//     sound.play();
-//   }
-// }
+import { joinPaths } from "./utils";
 
 // https://refactoring.guru/design-patterns/singleton/typescript/example
 export class AudioEventHandler {
@@ -198,7 +67,7 @@ export class AudioEventHandler {
   }
 
   public handlePlayAudioEvent(event: IEventPlayAudio): void {
-    const filename = event.audioFilenames[0];
+    const filename = event.audioFilename;
 
     //1. Check that no other main audio is playing
     if (store.state.audio.story.isPlaying) {

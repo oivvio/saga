@@ -11,12 +11,20 @@ import { IGameConfig, StationID } from "../station";
 import { loadGameConfigAndStations } from "../station";
 import { log } from "../utils";
 
+// type stationVisitCount = {
+//   stationId: StationID;
+//   status: "open" | "closed";
+//   count: number;
+// };
+
 interface IUserState {
   QRScannerCanBeDisplayed: boolean;
   QRScannerIsDisplayed: boolean;
   showQRScanner: boolean;
   stationsVisited: StationID[];
-  stationsVisitCount: Record<StationID, number>;
+  // stationsVisitCount: Record<[StationID, openState], number>;
+  //stationVisitCounts: stationVisitCount[];
+  stationVisitCounts: Record<StationID, { open: number; closed: number }>;
   lastStationVisitedId?: StationID;
   tags: string[];
   timers: Record<string, number>;
@@ -63,7 +71,11 @@ const initialState: IState = {
     QRScannerIsDisplayed: false,
     showQRScanner: true,
     stationsVisited: [],
-    stationsVisitCount: {} as Record<StationID, number>,
+    // stationVisitCounts: {} as Record<StationID, number>,
+    stationVisitCounts: {} as Record<
+      StationID,
+      { open: number; closed: number }
+    >,
     tags: [],
     timers: {},
     // onLevel: 0,
@@ -111,12 +123,30 @@ export const store = createStore({
     },
 
     pushStationIdToStationsVisited(state, stationId: StationID) {
-      state.user.stationsVisited.push(stationId);
-      if (stationId in state.user.stationsVisitCount) {
-        state.user.stationsVisitCount[stationId]++;
-      } else {
-        state.user.stationsVisitCount[stationId] = 1;
+      const status = state.user.openStations.includes(stationId)
+        ? "open"
+        : "closed";
+
+      // Only push to stationsVisisited if the current station is "open".
+      // i.e. scanning a closed station dosen't count as a regular visit.
+      if (status === "open") {
+        state.user.stationsVisited.push(stationId);
       }
+
+      // But we want to keep track of the times closed stations have been scanned as well
+      // because that's have we decide what help file to play
+
+      // Get the station visit count
+      let stationVisitCountEntry = state.user.stationVisitCounts[stationId];
+
+      // Add to the state if doesn't exist
+      if (!stationVisitCountEntry) {
+        stationVisitCountEntry = { open: 0, closed: 0 };
+        state.user.stationVisitCounts[stationId] = stationVisitCountEntry;
+      }
+
+      // Bump the count
+      stationVisitCountEntry[status]++;
     },
 
     addTimer(state, payLoad: { timerName: string; timer: number }) {

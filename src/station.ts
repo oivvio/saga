@@ -1,5 +1,5 @@
 // Interpret stations
-import { AudioEventHandler, runStation } from "./engine";
+import { AudioEventHandler } from "./audioEventHandler";
 import { store, IState, Mutations } from "./store";
 import { getParentUrl, getChildUrl, log } from "./utils";
 
@@ -27,11 +27,12 @@ export interface IStation {
   tags: string[];
   opens: StationID[];
   events: IEvent[];
+  helpAudioFilenames: string[];
 }
 
 export interface IEventPlayAudio {
   action: "playAudio";
-  audioFilenames: string;
+  audioFilename: string;
 }
 
 export interface IEventPlayBackgroundAudio {
@@ -94,6 +95,14 @@ export interface IGameConfig {
   choiceInfix: string;
   openStationsAtStart: StationID[];
   audioFileUrlBase: string;
+  globalHelpAudio: {
+    twoHelpLeftAudioFilename: string;
+    oneHelpLeftAudioFilename: string;
+    noHelpLeftAudioFilename: string;
+    allHelpUsedAudioFilename: string;
+    noHelpAtThisPointAudioFilename: string;
+    globalHelpAudioFilename: string;
+  };
 }
 
 // load a game configuration from a given URL,
@@ -245,12 +254,56 @@ const onLeave = {
   cancelTimer: () => {},
 };
 
+export function runStation(stationId: StationID): void {
+  log("engine", ` runStation: ${stationId}`);
+
+  // set the currently executing station
+  store.commit(Mutations.setCurrentStation, stationId);
+
+  // Figure out which stations are visited
+  // const visitedStationIds = store.state.user.stationsVisited;
+
+  // If we have already been here
+
+  if (store?.state?.gameConfig) {
+    const station = store.state.gameConfig.stations[stationId];
+
+    // Will also play audio
+    interpretStation(store.state, station);
+
+    // Update open stations
+  }
+
+  // if (visitedStationIds.includes(stationId)) {
+  //   // if (store.state.user.helpAvailable <= 0) {
+  //   //   console.warn("User has no more available helptracks");
+  //   // } else {
+  //   //     "User already visited this story. Playing helpfile: ",
+  //   //     store.state.user.helpAvailable
+  //   //   );
+  //   //   playAudio("help-" + store.state.user.helpAvailable + ".mp3");
+  //   //   store.commit(Mutations.decreaseHelpAvailable);
+  //   // }
+  // } else {
+  //   // If we have NOT already been here
+
+  //   if (store?.state?.gameConfig) {
+  //     const station = store.state.gameConfig.stations[stationId];
+
+  //     // Will also play audio
+  //     interpretStation(store.state, station);
+
+  //     // Update open stations
+  //   }
+  // }
+}
+
 export function interpretStation(state: IState, station: IStation): void {
   // For any station, check if there is any background audio running that should be stopped
   const audioEventHandler = AudioEventHandler.getInstance();
   audioEventHandler.cancelDueBackgroundSounds();
 
-  const stationIsOpen = state.user.openStations.includes(station.id);
+  const stationIsOpen = state.user.openStations?.includes(station.id);
 
   if (stationIsOpen) {
     // User scanned an open station
@@ -326,6 +379,8 @@ export function interpretStation(state: IState, station: IStation): void {
   } else {
     // User scanned a closed station
     console.log("YOU'VE SCANNED A CLOSED STATION");
+
+    store.commit(Mutations.pushStationIdToStationsVisited, station.id);
     switch (station.type) {
       case "help":
         console.log("HELP STATIONS ARE NOT YET IMPLEMENTED");
@@ -333,6 +388,20 @@ export function interpretStation(state: IState, station: IStation): void {
 
       case "choice":
       case "story":
+        // Figure out if there is a help track to play for this station
+
+        if (
+          station.helpAudioFilenames === undefined ||
+          station.helpAudioFilenames.length === 0
+        ) {
+          // There are not station specific help files
+          console.log("THERE ARE NO STATION  SPECIFIC HELP FILES");
+          // store.state.gameConfig?.globalHelpAudio
+        } else {
+          // There is at least on1 station specific help file
+          console.log("THERE IS AT LEAST ONE STATION SPECIFIC HELP FILE");
+        }
+
         break;
 
       default:

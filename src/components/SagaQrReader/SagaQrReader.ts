@@ -9,8 +9,8 @@ import QrScanner from "qr-scanner";
 
 import { store, Mutations } from "../../store";
 import { getLastUrlSegment } from "../../utils";
-import { runStation } from "../../engine";
-import { StationID } from "../../station";
+
+import { StationID, runStation } from "../../station";
 
 interface IScanRegion {
   x: number;

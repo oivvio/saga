@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
-import { runStation } from "../../engine";
+
 import { Mutations } from "../../store";
-import { StationID } from "../../station";
+import { StationID, runStation } from "../../station";
 
 export default defineComponent({
   name: "DevBox",
@@ -21,6 +21,28 @@ export default defineComponent({
     runStationOnButtonPress(stationId: StationID) {
       runStation(stationId);
     },
+
+    visitCount(stationId: StationID) {
+      const store = this.$store;
+      function helper(status: "open" | "closed"): number {
+        const entry = store.state.user?.stationVisitCounts[stationId];
+        if (entry) {
+          const visits = entry[status] as number | undefined;
+          return visits ? visits : 0;
+        }
+        return 0;
+      }
+      const openVisits = helper("open");
+      const closedVisits = helper("closed");
+
+      return ` visits:[${openVisits}/${closedVisits}]`;
+    },
+
+    openOrClosed(stationId: StationID) {
+      return this.$store.state.user.openStations.includes(stationId)
+        ? "open"
+        : "closed";
+    },
   },
 
   computed: {
@@ -34,10 +56,6 @@ export default defineComponent({
         return Object.keys(stations).length;
       }
       return "-";
-    },
-
-    theSame() {
-      return "Hello";
     },
   },
 });

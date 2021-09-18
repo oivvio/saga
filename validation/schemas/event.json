@@ -15,11 +15,12 @@
             "cancelTimer"
           ]
         },
+
         "audioFilenames": {
-          "description": "Filename including file name extension. Order is important. The first represent the 'A'track. The second the 'B' track and so on ",
-          "items": {
-            "type": "string"
-          }
+          "description": "Filename including file name extension. For main audio events. Order is important. The first is our A track, second C and so on.",
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
         },
 
         "audioFilename": {

@@ -26,29 +26,33 @@
 
     <p>nStations: {{ nStations }}</p>
 
-    <p>
-      no change:
-      {{ theSame }}
-    </p>
-
     <div id="example-1" v-if="gameConfigLoaded">
       <p><strong>Execute a station</strong></p>
-      <p
-        v-for="station in this.$store.state.gameConfig.stations"
-        :key="station.id"
-      >
-        <button
-          v-on:click="runStationOnButtonPress(station.id)"
-          :disabled="!this.$store.state.user.QRScannerCanBeDisplayed"
+      <table>
+        <tr
+          v-for="station in this.$store.state.gameConfig.stations"
+          :key="station.id"
         >
-          {{ station.id }}
-        </button>
+          <td>
+            <button
+              v-on:click="runStationOnButtonPress(station.id)"
+              :disabled="!this.$store.state.user.QRScannerCanBeDisplayed"
+            >
+              {{ station.id }}
+            </button>
+          </td>
 
-        <span v-if="this.$store.state.user.openStations.includes(station.id)">
-          &nbsp; open</span
-        >
-      </p>
+          <td>
+            <span> {{ openOrClosed(station.id) }}</span>
+          </td>
+
+          <td>
+            <span> {{ visitCount(station.id) }}</span>
+          </td>
+        </tr>
+      </table>
     </div>
+    <p><strong>Reset</strong></p>
     <button v-on:click="wipeHistory">Wipe history</button>
   </div>
 </template>
