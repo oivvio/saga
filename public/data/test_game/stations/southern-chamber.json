@@ -2,7 +2,6 @@
   "id": "southern-chamber",
   "type": "story",
   "description": "another dark chamber",
-  "tags": ["why-do-we-have-tags"],
   "opens": [],
   "helpAudioFilenames": [
     "./audio/start-help-1.mp3",

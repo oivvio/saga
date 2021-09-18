@@ -1,7 +1,6 @@
 {
   "id": "start-option-b",
   "type": "choice",
-  "tags": ["do-we-need-tags"],
   "description": "Chose the path to the south.",
   "opens": ["southern-chamber"],
   "events": []

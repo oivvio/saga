@@ -7,6 +7,7 @@
     "tracingOrigins": ["localhost", "example.com"]
   },
   "stationPaths": [
+    "./stations/help.json",
     "./stations/start.json",
     "./stations/start-option-a.json",
     "./stations/start-option-b.json",
@@ -17,7 +18,7 @@
 
   "choiceNames": ["a", "b"],
   "stations": {},
-  "openStationsAtStart": ["start"],
+  "openStationsAtStart": ["help"],
   "globalHelpAudio": {
     "twoHelpLeftAudioFilename": "./audio/twoHelpLeft.mp3",
     "oneHelpLeftAudioFilename": "./audio/oneHelpLeft.mp3",

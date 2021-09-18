@@ -25,18 +25,13 @@
       "default": "station",
       "enum": ["story", "help", "choice"]
     },
-
+    "startStation": {
+      "description": "Only available on the help station. This is the station that the gets executed on the first scan of the help station qr code",
+      "type": "string"
+    },
     "description": {
       "description": "Information about the station. Not visible to the user",
       "type": "string"
-    },
-
-    "tags": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "minItems": 1
     },
 
     "helpAudioFilenames": {
@@ -63,7 +58,7 @@
     }
   },
 
-  "required": ["id", "type", "events", "tags"],
+  "required": ["id", "type"],
 
   "additionalProperties": false,
 
@@ -75,6 +70,35 @@
       },
       "then": {
         "required": ["helpAudioFilenames"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "type": { "const": "story" } },
+        "required": ["type"]
+      },
+      "then": {
+        "required": ["events"]
+      }
+    },
+
+    {
+      "if": {
+        "properties": { "type": { "const": "choice" } },
+        "required": ["type"]
+      },
+      "then": {
+        "required": ["events"]
+      }
+    },
+
+    {
+      "if": {
+        "properties": { "type": { "const": "help" } },
+        "required": ["type"]
+      },
+      "then": {
+        "required": ["startStation"]
       }
     }
   ]

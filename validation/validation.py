@@ -198,7 +198,6 @@ def validate_game_helper(filename):
     #
 
     for station in stations.values():
-
         station_id = station["id"]
         station_filepath = station["filePath"]
 
@@ -212,36 +211,35 @@ def validate_game_helper(filename):
                         f"The help audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
                     )
 
-        for event in station["events"]:
-            # Check for existance of main audio
-            if event["action"] == "playAudio":
-                for audiofile_base in event["audioFilenames"]:
+        if station["type"] in ["story", "choice"]:
+            for event in station["events"]:
+                # Check for existance of main audio
+                if event["action"] == "playAudio":
+                    for audiofile_base in event["audioFilenames"]:
+
+                        audiofile_path = Path(filename).parent.joinpath(audiofile_base)
+
+                        if not audiofile_path.exists():
+                            print(
+                                f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                            )
+                # Check for existance of background audio
+                if event["action"] == "playBackgroundAudio":
+                    audiofile_base = event["audioFilename"]
 
                     audiofile_path = Path(filename).parent.joinpath(audiofile_base)
 
                     if not audiofile_path.exists():
+                        station_id = station["id"]
+                        station_filepath = station["filePath"]
                         print(
                             f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
                         )
-            # Check for existance of background audio
-            if event["action"] == "playBackgroundAudio":
-                audiofile_base = event["audioFilename"]
 
-                audiofile_path = Path(filename).parent.joinpath(audiofile_base)
+            # check that all references stations exist
 
-                if not audiofile_path.exists():
-                    station_id = station["id"]
-                    station_filepath = station["filePath"]
+            for station_open_id in station["opens"]:
+                if station_open_id not in station_ids:
                     print(
-                        f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                        f"The station  '{station_open_id}' referenced from station '{station_id}' defined in {station['filePath']}, does not exist."
                     )
-
-    # check that all references stations exist
-    for station in stations.values():
-        for station_open_id in station["opens"]:
-            if station_open_id not in station_ids:
-                print(
-                    f"The station  '{station_open_id}' referenced from station '{station_id}' defined in {station['filePath']}, does not exist."
-                )
-
-    pass

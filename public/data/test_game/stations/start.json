@@ -2,7 +2,6 @@
   "id": "start",
   "type": "story",
   "description": "play audio. starts a level timer that wont end until leaving level 1.",
-  "tags": ["why-do-we-have-tags"],
   "opens": ["start-option-a", "start-option-b"],
 
   "helpAudioFilenames": [
