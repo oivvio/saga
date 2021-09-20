@@ -1,4 +1,5 @@
 import { Howl } from "howler";
+
 import {
   IEventPlayAudio,
   IEventPlayBackgroundAudio,
@@ -6,6 +7,8 @@ import {
 } from "./station";
 import { Mutations, store } from "./store";
 import { joinPaths } from "./utils";
+
+// Howler.autoUnlock = true;
 
 // https://refactoring.guru/design-patterns/singleton/typescript/example
 export class AudioEngine {
@@ -79,7 +82,6 @@ export class AudioEngine {
     // setup the sound
     this.foregroundSound = new Howl({
       src: [this.getAudioPath(audioFilename)],
-      html5: true, // Stream (i.e.) start playing before downloaded
     });
 
     // setup callback for start of audio
@@ -118,7 +120,6 @@ export class AudioEngine {
       // setup the sound
       this.foregroundSound = new Howl({
         src: [this.getAudioPath(audioFilename)],
-        html5: true, // Stream (i.e.) start playing before downloaded
       });
 
       // setup callback for start of audio
@@ -177,7 +178,6 @@ export class AudioEngine {
     // Setup the current background sound
     const backgroundSound = new Howl({
       src: [this.getAudioPath(event.audioFilename)],
-      html5: true, // Stream (i.e.) start playing before downloaded
       loop: event.loop,
     });
 

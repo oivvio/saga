@@ -26,8 +26,7 @@ interface IDecodeSubjectValue {
   canvas: HTMLCanvasElement;
 }
 // Bundling as a blob with webpack didn't work so we get the worker code separately
-// TODO, make this not be sprickan specific.
-QrScanner.WORKER_PATH = "/js/vendor/qr-scanner-worker.min.js";
+QrScanner.WORKER_PATH = "js/vendor/qr-scanner-worker.min.js";
 
 // export default defineComponent({
 const Component = defineComponent({
@@ -110,7 +109,7 @@ const Component = defineComponent({
       .subscribe({
         next: (value: IDecodeSubjectValue) => {
           // make the scanRegion marker green
-          value.canvas.style.backgroundColor = "green";
+          // value.canvas.style.backgroundColor = "green";
 
           // Hide the QR reader
           store.commit(Mutations.hideQRScanner);
