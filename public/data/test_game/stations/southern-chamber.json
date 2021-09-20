@@ -4,8 +4,8 @@
   "description": "another dark chamber",
   "opens": [],
   "helpAudioFilenames": [
-    "./audio/start-help-1.mp3",
-    "./audio/start-help-2.mp3"
+    "./audio/southern-chamber-help-1.mp3",
+    "./audio/southern-chamber-help-2.mp3"
   ],
 
   "events": [

@@ -73,7 +73,7 @@ def typescript_lint(ctx, watch=True):
     preflight_checklist()
 
     if watch:
-        watch_prefix = f"{TYPESCRIPT_FILES_FINDER}|entr "
+        watch_prefix = f"{TYPESCRIPT_FILES_FINDER}|entr -c "
     else:
         watch_prefix = " "
 

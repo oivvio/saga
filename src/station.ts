@@ -143,10 +143,10 @@ export interface IGameConfig {
   openStationsAtStart: StationID[];
   audioFileUrlBase: string;
   globalHelpAudio: {
+    allHelpLeftAudioFilename: string;
     twoHelpLeftAudioFilename: string;
     oneHelpLeftAudioFilename: string;
     noHelpLeftAudioFilename: string;
-    allHelpUsedAudioFilename: string;
     noHelpAtThisPointAudioFilename: string;
     globalHelpAudioFilename: string;
   };
@@ -194,7 +194,7 @@ export async function loadGameConfigAndStations(
 }
 
 // Events
-// this object serves as lookup function for our
+
 const eventHandlers = {
   playAudio: function (_: IState, event: IEvent) {
     const playAudioEvent = event as IEventPlayAudio;
@@ -257,11 +257,11 @@ function interpretSecondLevelEvent(state: IState, event: ISecondLevelEvent) {
 }
 
 // Used in interpretCondition
-const conditions = {
-  // hasTag: function (state: IState, tag: string) {
-  //   return state.user.tags.includes(tag);
-  // },
-};
+// const conditions = {
+//   // hasTag: function (state: IState, tag: string) {
+//   //   return state.user.tags.includes(tag);
+//   // },
+// };
 
 // Takes a state a and event.
 // If event has no condition return true.
@@ -348,6 +348,191 @@ export function runStation(stationId: StationID): void {
   // }
 }
 
+// Used by interpretStation
+// broken out for readability
+function handleHelpOpen(
+  station: Station,
+  visitCounts: { open: number; closed: number }
+): void {
+  console.log("handleHelpOpen");
+
+  if (visitCounts.open === 1 && station.startStationId && store) {
+    // If this is the first scan it opens the game.
+    // This is a special case. It doesn't provide help. It opens the game
+
+    // Open up the start station
+    store.commit(Mutations.updateOpenStations, [station.startStationId]);
+
+    // And run the startstation
+    const startStation =
+      store.state.gameConfig?.stations[station.startStationId];
+    if (startStation) {
+      interpretStation(startStation);
+    }
+  }
+}
+
+/** Figure out which help track to play, and if users available help should be decrease or not */
+function pickHelpTrack(currentStation: Station): {
+  audioFilename: string;
+  decreaseHelpAvailable: boolean;
+  playHelp: boolean;
+} {
+  const result = {
+    audioFilename: "",
+    decreaseHelpAvailable: false,
+    playHelp: false,
+  };
+  if (currentStation.hasHelpTracks()) {
+    // This  station defines help tracks
+
+    if (store.state.user.helpAvailable > 0) {
+      // User still has help left
+      // Find unused helptracks
+      const heardHelptracks =
+        store.state.user.playedHelpTracks[currentStation.id];
+      const heardHelptracksExist =
+        heardHelptracks && heardHelptracks.length !== 0;
+
+      if (heardHelptracksExist) {
+        const firstUnheardHelpTrack = currentStation.helpAudioFilenames?.filter(
+          (track) => !heardHelptracks.includes(track)
+        )[0];
+
+        if (firstUnheardHelpTrack) {
+          // There is one or more unheard helptracks
+          // audioEngine.playForegroundAudio(firstUnheardHelpTrack);
+          result.audioFilename = firstUnheardHelpTrack;
+          result.decreaseHelpAvailable = true;
+          result.playHelp = true;
+        } else {
+          console.log("HERE 4");
+          // There no  unheard help tracks for this station left
+          // Play the last help track free of charge
+
+          if (currentStation.helpAudioFilenames) {
+            const audioFilename =
+              currentStation.helpAudioFilenames[
+                currentStation.helpAudioFilenames.length - 1
+              ];
+            console.log("HERE 6: ", audioFilename);
+            if (audioFilename) {
+              result.audioFilename = audioFilename;
+              result.decreaseHelpAvailable = false;
+              result.playHelp = true;
+            }
+          }
+        }
+      } else {
+        console.log("HERE 6");
+        // There are no played help tracks. Grab the first on and play it.
+        console.log("");
+
+        if (currentStation.helpAudioFilenames) {
+          console.log("HERE 7");
+          const firstUnheardHelpTrack = currentStation.helpAudioFilenames[0];
+
+          if (firstUnheardHelpTrack) {
+            console.log("HERE 8");
+            // There is one ore more unheard helptracks
+            // audioEngine.playForegroundAudio(firstUnheardHelpTrack);
+            result.audioFilename = firstUnheardHelpTrack;
+            result.decreaseHelpAvailable = true;
+            result.playHelp = true;
+
+            // Add it to list of played helptracks. TODO add a mutation for this
+            // store.state.user.playedHelpTracks[currentStation.id] = [
+            //   firstUnheardHelpTrack,
+            // ];
+
+            // store.commit(Mutations.decreaseHelpAvailable);
+          }
+        }
+      }
+    } else {
+      // User has no help left
+      console.log("User has no help left");
+
+      const audioFilename =
+        store.state.gameConfig?.globalHelpAudio.noHelpLeftAudioFilename;
+      if (audioFilename) {
+        result.audioFilename = audioFilename;
+        result.decreaseHelpAvailable = false;
+        result.playHelp = true;
+      }
+    }
+  } else {
+    // This station defines no help tracks. Notify user of that.
+    const audioFilename =
+      store.state.gameConfig?.globalHelpAudio.noHelpAtThisPointAudioFilename;
+    if (audioFilename) {
+      result.audioFilename = audioFilename;
+      result.decreaseHelpAvailable = false;
+      result.playHelp = true;
+    }
+  }
+  return result;
+}
+
+/**
+ *
+ * @param currentStation
+ *
+ * Figure out which help file to play, play it, decrease help available,
+ * inform user of how much help is available;
+ */
+function handleHelpClosed(currentStation: Station) {
+  // This is not the first scan of the start station
+  const playInstructions = pickHelpTrack(currentStation);
+
+  if (playInstructions.playHelp) {
+    const audioEngine = AudioEngine.getInstance();
+
+    if (playInstructions.decreaseHelpAvailable) {
+      store.commit(Mutations.decreaseHelpAvailable);
+    }
+
+    // Figure out how much help is left
+    let helpLeftAudioFile =
+      store.state.gameConfig?.globalHelpAudio.allHelpLeftAudioFilename;
+    // audioEngine.playForegroundAudio(playInstructions.audioFilename);
+    //
+    switch (store.state.user.helpAvailable) {
+      case 3:
+        // helpLeftAudioFile = store.state.gameConfig?.globalHelpAudio.
+        break;
+      case 2:
+        helpLeftAudioFile =
+          store.state.gameConfig?.globalHelpAudio.twoHelpLeftAudioFilename;
+        break;
+      case 1:
+        helpLeftAudioFile =
+          store.state.gameConfig?.globalHelpAudio.oneHelpLeftAudioFilename;
+        break;
+
+      case 0:
+        helpLeftAudioFile =
+          store.state.gameConfig?.globalHelpAudio.noHelpLeftAudioFilename;
+        break;
+      default:
+        break;
+    }
+
+    if (helpLeftAudioFile) {
+      audioEngine.playMultipleForegroundAudio([
+        playInstructions.audioFilename,
+        helpLeftAudioFile,
+      ]);
+
+      // Add track to list of played help tracks for the current station
+      store.commit(Mutations.pushPlayedHelpTrack, {
+        audioFilename: playInstructions.audioFilename,
+        currentStation: currentStation,
+      });
+    }
+  }
+}
+
 export function interpretStation(station: Station): void {
   // For any station, check if there is any background audio running that should be stopped
   const audioEngine = AudioEngine.getInstance();
@@ -364,21 +549,7 @@ export function interpretStation(station: Station): void {
 
     switch (station.type) {
       case "help":
-        if (counts.open === 1 && station.startStationId && store) {
-          // If this is the first scan it opens the game.
-          // This is a special case. It doesn't provide help. It opens the game
-
-          // Open up the start station
-          store.commit(Mutations.updateOpenStations, [station.startStationId]);
-
-          // And run the startstation
-          const startStation =
-            store.state.gameConfig?.stations[station.startStationId];
-          if (startStation) {
-            interpretStation(startStation);
-          }
-        }
-        console.log("HELP OPEN");
+        handleHelpOpen(station, counts);
         break;
 
       case "choice":
@@ -464,102 +635,10 @@ export function interpretStation(station: Station): void {
 
     switch (station.type) {
       case "help":
-        // This is not the first scan of the start station
-
-        if (currentStation && currentStation.hasHelpTracks()) {
-          // This  station defines help tracks
-
-          if (store.state.user.helpAvailable > 0) {
-            // User still has help left
-            // Find unused helptracks
-            const heardHelptracks =
-              store.state.user.playedHelpTracks[currentStation.id];
-
-            console.log("HHT: ", heardHelptracks);
-            if (heardHelptracks && heardHelptracks.length !== 0) {
-              console.log("HERE 1");
-              const firstUnheardHelpTrack =
-                currentStation.helpAudioFilenames?.filter(
-                  (track) => !heardHelptracks.includes(track)
-                )[0];
-
-              if (firstUnheardHelpTrack) {
-                console.log("HERE 2");
-                // There is one or more unheard helptracks
-                audioEngine.playForegroundAudio(firstUnheardHelpTrack);
-
-                // Add it to list of played helptracks. TODO add a mutation for this
-                store.state.user.playedHelpTracks[currentStation.id].push(
-                  firstUnheardHelpTrack
-                );
-                store.commit(Mutations.decreaseHelpAvailable);
-              } else {
-                console.log("HERE 4");
-                // There no  unheard help tracks for this station left
-                // Play the last help track free of charge
-                if (currentStation.helpAudioFilenames) {
-                  console.log("HERE 5");
-                  const audioFilename =
-                    currentStation.helpAudioFilenames[
-                      currentStation.helpAudioFilenames.length - 1
-                    ];
-                  console.log("HERE 6: ", audioFilename);
-                  if (audioFilename) {
-                    audioEngine.playForegroundAudio(audioFilename);
-                  }
-                }
-              }
-            } else {
-              console.log("HERE 6");
-              // There are no played help tracks. Grab the first on and play it.
-              console.log("");
-
-              if (currentStation && currentStation.helpAudioFilenames) {
-                console.log("HERE 7");
-                const firstUnheardHelpTrack =
-                  currentStation.helpAudioFilenames[0];
-
-                if (firstUnheardHelpTrack) {
-                  console.log("HERE 8");
-                  // There is one ore more unheard helptracks
-                  audioEngine.playForegroundAudio(firstUnheardHelpTrack);
-
-                  // Add it to list of played helptracks. TODO add a mutation for this
-                  store.state.user.playedHelpTracks[currentStation.id] = [
-                    firstUnheardHelpTrack,
-                  ];
-
-                  store.commit(Mutations.decreaseHelpAvailable);
-                }
-              }
-            }
-          } else {
-            // User has no help left
-            console.log("User has no help left");
-
-            const audioFilename =
-              store.state.gameConfig?.globalHelpAudio.allHelpUsedAudioFilename;
-            if (audioFilename) {
-              audioEngine.playForegroundAudio(audioFilename);
-            }
-          }
-        } else {
-          // This station defines no help tracks. Notify user of that.
-          const audioFilename =
-            store.state.gameConfig?.globalHelpAudio
-              .noHelpAtThisPointAudioFilename;
-          if (audioFilename) {
-            audioEngine.playForegroundAudio(audioFilename);
-          }
+        if (currentStation) {
+          handleHelpClosed(currentStation);
         }
-        // Figure out if there is any help to provide at this point in the game
 
-        // if (station.helpAudioFilenames) {
-        // } else {
-        // }
-        // // Here we provide the user with actual help
-
-        console.log("HELP STATION CLOSED");
         break;
 
       case "choice":

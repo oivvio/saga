@@ -20,10 +20,10 @@
   "stations": {},
   "openStationsAtStart": ["help"],
   "globalHelpAudio": {
+    "allHelpLeftAudioFilename": "./audio/allHelpLeft.mp3",
     "twoHelpLeftAudioFilename": "./audio/twoHelpLeft.mp3",
     "oneHelpLeftAudioFilename": "./audio/oneHelpLeft.mp3",
     "noHelpLeftAudioFilename": "./audio/noHelpLeft.mp3",
-    "allHelpUsedAudioFilename": "./audio/allHelpUsed.mp3",
     "noHelpAtThisPointAudioFilename": "./audio/noHelpAtThisPoint.mp3"
   },
 

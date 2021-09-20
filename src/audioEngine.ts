@@ -10,8 +10,8 @@ import { joinPaths } from "./utils";
 // https://refactoring.guru/design-patterns/singleton/typescript/example
 export class AudioEngine {
   private static instance: AudioEngine;
-  private static bgDuckedVolume = 0.3;
-  private static bgFullVolume = 1;
+  private static bgDuckedVolume = 0; // TODO Set to 0.3
+  private static bgFullVolume = 0; // TODO Set to 1
   private static bgFadeInDuration = 2000;
   private static bgFadeOutDuration = 2000;
   private foregroundSound: Howl | undefined;
@@ -99,6 +99,52 @@ export class AudioEngine {
 
     // Press play
     this.foregroundSound.play();
+  }
+
+  /**
+   *
+   * @param audioFilenames
+   *
+   * play one or more consecutive audioFiles
+   */
+  public playMultipleForegroundAudio(audioFilenames: string[]): void {
+    //1. Check that no other main audio is playing
+    if (store.state.audio.foreground.isPlaying) {
+      // TODO log error
+      console.log("sorry");
+      return undefined;
+    }
+
+    if (audioFilenames.length > 0) {
+      const audioFilename = audioFilenames[0];
+      // setup the sound
+      this.foregroundSound = new Howl({
+        src: [this.getAudioPath(audioFilename)],
+        html5: true, // Stream (i.e.) start playing before downloaded
+      });
+
+      // setup callback for start of audio
+      this.foregroundSound.once("play", () => {
+        this.duckBackgroundAudio();
+        store.commit(Mutations.setForegroundAudioIsPlaying, true);
+      });
+
+      // setup callback for end of audio
+      this.foregroundSound.once("end", () => {
+        store.commit(Mutations.setForegroundAudioIsPlaying, false);
+        this.unduckBackgroundAudio();
+        this.foregroundSound?.unload();
+
+        // Remove the first element an run again.
+        audioFilenames.shift();
+        if (audioFilenames.length > 0) {
+          this.playMultipleForegroundAudio(audioFilenames);
+        }
+      });
+
+      // Press play
+      this.foregroundSound.play();
+    }
   }
 
   public handlePlayAudioEvent(event: IEventPlayAudio): void {

@@ -59,12 +59,21 @@
       "description": "An object containing global help audio files",
       "type": "object",
       "properties": {
+        "allHelpLeftAudioFilename": { "type": "string" },
         "twoHelpLeftAudioFilename": { "type": "string" },
         "oneHelpLeftAudioFilename": { "type": "string" },
         "noHelpLeftAudioFilename": { "type": "string" },
-        "allHelpUsedAudioFilename": { "type": "string" },
         "noHelpAtThisPointAudioFilename": { "type": "string" }
-      }
+      },
+
+      "required": [
+        "allHelpLeftAudioFilename",
+        "twoHelpLeftAudioFilename",
+        "oneHelpLeftAudioFilename",
+        "noHelpLeftAudioFilename",
+        "noHelpAtThisPointAudioFilename"
+      ],
+      "additionalProperties": false
     }
   },
 

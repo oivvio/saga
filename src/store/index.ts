@@ -1,5 +1,6 @@
 // eslint-disable-next-line
 // import { Subject } from "rxjs";
+import { has } from "lodash";
 // eslint-disable-next-line
 import { ComponentCustomProperties } from "vue";
 
@@ -7,7 +8,7 @@ import { ComponentCustomProperties } from "vue";
 import createPersistedState from "vuex-persistedstate";
 
 import { Store, createStore } from "vuex";
-import { IGameConfig, StationID } from "../station";
+import { IGameConfig, StationID, Station } from "../station";
 import { loadGameConfigAndStations } from "../station";
 import { log } from "../utils";
 
@@ -98,30 +99,29 @@ const initialState: IState = {
 };
 
 export const store = createStore({
-  //state: {},
   state: initialState,
   mutations: {
-    decreaseHelpAvailable(state) {
+    decreaseHelpAvailable(state: IState) {
       state.user.helpAvailable--;
     },
 
-    displayQRScanner(state) {
+    displayQRScanner(state: IState) {
       state.user.QRScannerIsDisplayed = true;
     },
 
-    hideQRScanner(state) {
+    hideQRScanner(state: IState) {
       state.user.QRScannerIsDisplayed = false;
     },
 
-    displayButtonToOpenQRScanner(state) {
+    displayButtonToOpenQRScanner(state: IState) {
       state.user.QRScannerCanBeDisplayed = true;
     },
 
-    hideButtonToOpenQRScanner(state) {
+    hideButtonToOpenQRScanner(state: IState) {
       state.user.QRScannerCanBeDisplayed = false;
     },
 
-    pushStationIdToStationsVisited(state, stationId: StationID) {
+    pushStationIdToStationsVisited(state: IState, stationId: StationID) {
       const status = state.user.openStations.includes(stationId)
         ? "open"
         : "closed";
@@ -148,23 +148,23 @@ export const store = createStore({
       stationVisitCountEntry[status]++;
     },
 
-    addTimer(state, payLoad: { timerName: string; timer: number }) {
+    addTimer(state: IState, payLoad: { timerName: string; timer: number }) {
       state.user.timers[payLoad.timerName] = payLoad.timer;
     },
 
-    removeTimer(state, timerName: string) {
+    removeTimer(state: IState, timerName: string) {
       delete state.user.timers[timerName];
     },
 
-    setForegroundAudioIsPlaying(state, value: boolean) {
+    setForegroundAudioIsPlaying(state: IState, value: boolean) {
       state.audio.foreground.isPlaying = value;
     },
 
-    setAudioBackgroundIsPlaying(state, value: boolean) {
+    setAudioBackgroundIsPlaying(state: IState, value: boolean) {
       state.audio.background.isPlaying = value;
     },
 
-    async loadGameConfig(state) {
+    async loadGameConfig(state: IState) {
       const urlParams = new URLSearchParams(window.location.search);
       const configUrl = urlParams.get("configUrl");
 
@@ -181,17 +181,30 @@ export const store = createStore({
       }
     },
 
-    wipeHistory(state) {
+    wipeHistory(state: IState) {
       state.user = initialState.user;
       state.audio = initialState.audio;
     },
 
-    setCurrentStation(state, stationId: StationID) {
+    setCurrentStation(state: IState, stationId: StationID) {
       state.user.currentStation = stationId;
     },
 
-    updateOpenStations(state, stationIds: StationID[]) {
+    updateOpenStations(state: IState, stationIds: StationID[]) {
       state.user.openStations = stationIds;
+    },
+
+    pushPlayedHelpTrack(
+      state: IState,
+      payload: { audioFilename: string; currentStation: Station }
+    ) {
+      if (!has(state.user.playedHelpTracks, payload.currentStation.id)) {
+        state.user.playedHelpTracks[payload.currentStation.id] = [];
+      }
+
+      state.user.playedHelpTracks[payload.currentStation.id].push(
+        payload.audioFilename
+      );
     },
   },
   actions: {},
@@ -201,12 +214,11 @@ export const store = createStore({
 });
 
 // const storeClosure = store;
-store.subscribe((mutation, state) => {
+// store.subscribe((mutation, state: IState) => {
+store.subscribe((_, state: IState) => {
   const timersExists = Object.keys(state.user.timers).length !== 0;
 
-  // TODO background audio is permissible
-  const audioIsPlaying =
-    state.audio.foreground.isPlaying || state.audio.background.isPlaying;
+  const audioIsPlaying = state.audio.foreground.isPlaying;
   const qrScannerVisible = state.user.QRScannerIsDisplayed;
   const openQrScannerButtonVisible = state.user.QRScannerCanBeDisplayed;
 
@@ -230,6 +242,11 @@ store.subscribe((mutation, state) => {
   }
 });
 
+// We use an enum for our commits to bring some semblance of
+// sanity to this stringly typed API
+//
+// TODO There are better ways of doing this
+// https://dev.to/3vilarthas/vuex-typescript-m4j
 export enum Mutations {
   decreaseHelpAvailable = "decreaseHelpAvailable",
   displayQRScanner = "displayQRScanner",
@@ -245,4 +262,5 @@ export enum Mutations {
   setAudioBackgroundIsPlaying = "setAudioBackgroundIsPlaying",
   setCurrentStation = "setCurrentStation",
   updateOpenStations = "updateOpenStations",
+  pushPlayedHelpTrack = "pushPlayedHelpTrack",
 }
