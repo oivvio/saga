@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import { Subject } from "rxjs";
+// import { Subject } from "rxjs";
 // eslint-disable-next-line
 import { ComponentCustomProperties } from "vue";
 
@@ -22,15 +22,14 @@ interface IUserState {
   QRScannerIsDisplayed: boolean;
   showQRScanner: boolean;
   stationsVisited: StationID[];
-  // stationsVisitCount: Record<[StationID, openState], number>;
-  //stationVisitCounts: stationVisitCount[];
   stationVisitCounts: Record<StationID, { open: number; closed: number }>;
   lastStationVisitedId?: StationID;
-  tags: string[];
+  // tags: string[];
   timers: Record<string, number>;
   helpAvailable: number;
   currentStation: StationID | undefined;
   openStations: StationID[];
+  playedHelpTracks: Record<StationID, string[]>;
 }
 
 export interface IState {
@@ -40,7 +39,7 @@ export interface IState {
   user: IUserState;
   audio: {
     volume: number;
-    story: {
+    foreground: {
       isPlaying: boolean;
       data: string | null;
     };
@@ -71,21 +70,21 @@ const initialState: IState = {
     QRScannerIsDisplayed: false,
     showQRScanner: true,
     stationsVisited: [],
-    // stationVisitCounts: {} as Record<StationID, number>,
     stationVisitCounts: {} as Record<
       StationID,
       { open: number; closed: number }
     >,
-    tags: [],
+    //     tags: [],
     timers: {},
     // onLevel: 0,
     helpAvailable: 3,
     currentStation: undefined,
     openStations: [],
+    playedHelpTracks: {} as Record<StationID, string[]>,
   },
   audio: {
     volume: 0,
-    story: {
+    foreground: {
       isPlaying: false,
       // data: {},
       data: null,
@@ -157,8 +156,8 @@ export const store = createStore({
       delete state.user.timers[timerName];
     },
 
-    setAudioStoryIsPlaying(state, value: boolean) {
-      state.audio.story.isPlaying = value;
+    setForegroundAudioIsPlaying(state, value: boolean) {
+      state.audio.foreground.isPlaying = value;
     },
 
     setAudioBackgroundIsPlaying(state, value: boolean) {
@@ -207,7 +206,7 @@ store.subscribe((mutation, state) => {
 
   // TODO background audio is permissible
   const audioIsPlaying =
-    state.audio.story.isPlaying || state.audio.background.isPlaying;
+    state.audio.foreground.isPlaying || state.audio.background.isPlaying;
   const qrScannerVisible = state.user.QRScannerIsDisplayed;
   const openQrScannerButtonVisible = state.user.QRScannerCanBeDisplayed;
 
@@ -242,7 +241,7 @@ export enum Mutations {
   pushStationIdToStationsVisited = "pushStationIdToStationsVisited",
   addTimer = "addTimer",
   removeTimer = "removeTimer",
-  setAudioStoryIsPlaying = "setAudioStoryIsPlaying",
+  setForegroundAudioIsPlaying = "setForegroundAudioIsPlaying",
   setAudioBackgroundIsPlaying = "setAudioBackgroundIsPlaying",
   setCurrentStation = "setCurrentStation",
   updateOpenStations = "updateOpenStations",

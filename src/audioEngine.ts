@@ -8,13 +8,13 @@ import { Mutations, store } from "./store";
 import { joinPaths } from "./utils";
 
 // https://refactoring.guru/design-patterns/singleton/typescript/example
-export class AudioEventHandler {
-  private static instance: AudioEventHandler;
+export class AudioEngine {
+  private static instance: AudioEngine;
   private static bgDuckedVolume = 0.3;
   private static bgFullVolume = 1;
   private static bgFadeInDuration = 2000;
   private static bgFadeOutDuration = 2000;
-  private mainSound: Howl | undefined;
+  private foregroundSound: Howl | undefined;
   // private backgroundSounds: [StationID, Howl][];
   private backgroundSounds: {
     stationId: StationID;
@@ -29,9 +29,9 @@ export class AudioEventHandler {
     console.log("ducking background audio");
     this.backgroundSounds.forEach((bgSound) =>
       bgSound.sound.fade(
-        AudioEventHandler.bgFullVolume,
-        AudioEventHandler.bgDuckedVolume,
-        AudioEventHandler.bgFadeOutDuration
+        AudioEngine.bgFullVolume,
+        AudioEngine.bgDuckedVolume,
+        AudioEngine.bgFadeOutDuration
       )
     );
   }
@@ -40,9 +40,9 @@ export class AudioEventHandler {
     console.log("unducking background audio");
     this.backgroundSounds.forEach((bgSound) =>
       bgSound.sound.fade(
-        AudioEventHandler.bgDuckedVolume,
-        AudioEventHandler.bgFullVolume,
-        AudioEventHandler.bgFadeInDuration
+        AudioEngine.bgDuckedVolume,
+        AudioEngine.bgFullVolume,
+        AudioEngine.bgFadeInDuration
       )
     );
   }
@@ -59,45 +59,52 @@ export class AudioEventHandler {
   }
 
   // always return the same instance
-  public static getInstance(): AudioEventHandler {
-    if (!AudioEventHandler.instance) {
-      AudioEventHandler.instance = new AudioEventHandler();
+  public static getInstance(): AudioEngine {
+    if (!AudioEngine.instance) {
+      AudioEngine.instance = new AudioEngine();
     }
-    return AudioEventHandler.instance;
+    return AudioEngine.instance;
   }
 
-  public handlePlayAudioEvent(event: IEventPlayAudio): void {
-    const filename = event.audioFilename;
+  public handleHelpAudio(audioFilename: string): void {
+    this.playForegroundAudio(audioFilename);
+  }
 
+  public playForegroundAudio(audioFilename: string): void {
     //1. Check that no other main audio is playing
-    if (store.state.audio.story.isPlaying) {
+    if (store.state.audio.foreground.isPlaying) {
+      // TODO log error
       console.log("sorry");
       return undefined;
     }
 
-    //3. Play audio until end
-    this.mainSound = new Howl({
-      src: [this.getAudioPath(filename)],
+    // setup the sound
+    this.foregroundSound = new Howl({
+      src: [this.getAudioPath(audioFilename)],
       html5: true, // Stream (i.e.) start playing before downloaded
     });
 
-    //this.mainSound.once("play", () => {
-    //  store.commit(Mutations.setAudioStoryIsPlaying, true);
-    // });
-
-    this.mainSound.once("end", () => {
-      store.commit(Mutations.setAudioStoryIsPlaying, false);
-      this.unduckBackgroundAudio();
-      this.mainSound?.unload();
+    // setup callback for start of audio
+    this.foregroundSound.once("play", () => {
+      this.duckBackgroundAudio();
+      store.commit(Mutations.setForegroundAudioIsPlaying, true);
     });
 
-    // TODO replace with commits
-    // store.state.audio.story.data = fullAudioPath;
-    // store.state.audio.volume = sound.volume();
+    // setup callback for end of audio
+    this.foregroundSound.once("end", () => {
+      store.commit(Mutations.setForegroundAudioIsPlaying, false);
+      this.unduckBackgroundAudio();
+      this.foregroundSound?.unload();
+    });
 
-    this.duckBackgroundAudio();
-    this.mainSound.play();
-    store.commit(Mutations.setAudioStoryIsPlaying, true);
+    // Press play
+    this.foregroundSound.play();
+  }
+
+  public handlePlayAudioEvent(event: IEventPlayAudio): void {
+    // TODO For now just grab the first audio
+    const filename = event.audioFilenames[0];
+    this.playForegroundAudio(filename);
   }
 
   public handlePlayBackgroundAudioEvent(
@@ -150,8 +157,8 @@ export class AudioEventHandler {
     // Set a timeout for when to actually play the sound
     setTimeout(() => {
       // Before hitting play check if this audio should start out ducked
-      if (store.state.audio.story.isPlaying) {
-        backgroundSound.volume(AudioEventHandler.bgDuckedVolume);
+      if (store.state.audio.foreground.isPlaying) {
+        backgroundSound.volume(AudioEngine.bgDuckedVolume);
       }
       backgroundSound.play();
     }, event.wait * 1000);

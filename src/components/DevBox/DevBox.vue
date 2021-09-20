@@ -16,13 +16,16 @@
     <p>stationsVisited: {{ this.$store.state.user.stationsVisited }}</p>
 
     <p>timers: {{ this.$store.state.user.timers }}</p>
-    <p>audioStoryIsPlaying: {{ this.$store.state.audio.story.isPlaying }}</p>
+    <p>
+      audioStoryIsPlaying: {{ this.$store.state.audio.foreground.isPlaying }}
+    </p>
     <p>
       audioBackgroundIsPlaying:
       {{ this.$store.state.audio.background.isPlaying }}
     </p>
 
     <p>openStations: {{ this.$store.state.user.openStations }}</p>
+    <p>currentStation: {{ this.$store.state.user.currentStation }}</p>
 
     <p>nStations: {{ nStations }}</p>
 

@@ -25,7 +25,7 @@
       "default": "station",
       "enum": ["story", "help", "choice"]
     },
-    "startStation": {
+    "startStationId": {
       "description": "Only available on the help station. This is the station that the gets executed on the first scan of the help station qr code",
       "type": "string"
     },
@@ -98,7 +98,7 @@
         "required": ["type"]
       },
       "then": {
-        "required": ["startStation"]
+        "required": ["startStationId"]
       }
     }
   ]
