@@ -151,6 +151,7 @@ const Component = defineComponent({
         if (choiceInfix && stationId.indexOf(choiceInfix) !== -1) {
           const lastStationVisitedId =
             this.$store.state.user.lastStationVisitedId;
+
           const choice = stationId
             .split(choiceInfix)
             .filter((val) => val !== "")[0];

@@ -55,7 +55,7 @@
       "type": "string"
     },
 
-    "globalHelpAudio": {
+    "globalAudioFilenames": {
       "description": "An object containing global help audio files",
       "type": "object",
       "properties": {
@@ -63,7 +63,8 @@
         "twoHelpLeftAudioFilename": { "type": "string" },
         "oneHelpLeftAudioFilename": { "type": "string" },
         "noHelpLeftAudioFilename": { "type": "string" },
-        "noHelpAtThisPointAudioFilename": { "type": "string" }
+        "noHelpAtThisPointAudioFilename": { "type": "string" },
+        "storyFallbackAudioFilename": { "type": "string" }
       },
 
       "required": [
@@ -71,7 +72,8 @@
         "twoHelpLeftAudioFilename",
         "oneHelpLeftAudioFilename",
         "noHelpLeftAudioFilename",
-        "noHelpAtThisPointAudioFilename"
+        "noHelpAtThisPointAudioFilename",
+        "storyFallbackAudioFilename"
       ],
       "additionalProperties": false
     }
@@ -88,7 +90,7 @@
     "choiceInfix",
     "choiceNames",
     "openStationsAtStart",
-    "globalHelpAudio"
+    "globalAudioFilenames"
   ],
   "additionalProperties": false
 }

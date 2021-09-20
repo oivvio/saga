@@ -12,7 +12,7 @@
   "events": [
     {
       "action": "playAudio",
-      "audioFilenames": ["./audio/start.mp3"]
+      "audioFilenames": ["./audio/start.mp3", "./audio/start-b.mp3"]
     },
     {
       "action": "playBackgroundAudio",

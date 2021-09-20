@@ -1,5 +1,5 @@
 {
-  "name": "Test game",
+  "name": "test-game",
   "baseUrl": "https://kulturhusetstadsteatern.se/sprickan",
 
   "sentryOptions": {
@@ -19,12 +19,13 @@
   "choiceNames": ["a", "b"],
   "stations": {},
   "openStationsAtStart": ["help"],
-  "globalHelpAudio": {
+  "globalAudioFilenames": {
     "allHelpLeftAudioFilename": "./audio/allHelpLeft.mp3",
     "twoHelpLeftAudioFilename": "./audio/twoHelpLeft.mp3",
     "oneHelpLeftAudioFilename": "./audio/oneHelpLeft.mp3",
     "noHelpLeftAudioFilename": "./audio/noHelpLeft.mp3",
-    "noHelpAtThisPointAudioFilename": "./audio/noHelpAtThisPoint.mp3"
+    "noHelpAtThisPointAudioFilename": "./audio/noHelpAtThisPoint.mp3",
+    "storyFallbackAudioFilename": "./audio/storyFallbackAudioFilename.mp3"
   },
 
   "audioFileUrlBase": "data/test_game/"

@@ -1,6 +1,7 @@
 from pathlib import Path
 from jsonschema import Draft7Validator, RefResolver
 from json import load
+
 from json.decoder import JSONDecodeError
 
 # from json.decode import JSONDecodeError
@@ -143,7 +144,7 @@ def validate_game_helper(filename):
     station_ids = data["stations"].keys()
 
     # check that globalHelpAudio files exist
-    for key, audiofile_base in data["globalHelpAudio"].items():
+    for key, audiofile_base in data["globalAudioFilenames"].items():
         audiofile_path = Path(filename).parent.joinpath(audiofile_base)
         if not audiofile_path.exists():
             print(

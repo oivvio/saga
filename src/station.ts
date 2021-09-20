@@ -142,13 +142,14 @@ export interface IGameConfig {
   choiceInfix: string;
   openStationsAtStart: StationID[];
   audioFileUrlBase: string;
-  globalHelpAudio: {
+  globalAudioFilenames: {
     allHelpLeftAudioFilename: string;
     twoHelpLeftAudioFilename: string;
     oneHelpLeftAudioFilename: string;
     noHelpLeftAudioFilename: string;
     noHelpAtThisPointAudioFilename: string;
     globalHelpAudioFilename: string;
+    storyFallbackAudioFilename: string;
   };
 }
 
@@ -200,9 +201,13 @@ const eventHandlers = {
     const playAudioEvent = event as IEventPlayAudio;
 
     // TODO, figure out which audioFile to play
-    // const audioFile = playAudioEvent.audioFilenames[0];
-    // playAudioFile(audioFile, false);
+    // Since this is only run for the audio events if we are scanning an open station
+    // we know that we should play the first track in our audioFilenames array.
+    // This is the A-track
+    //
+
     const audioEventHandler = AudioEngine.getInstance();
+
     audioEventHandler.handlePlayAudioEvent(playAudioEvent);
   },
 
@@ -256,28 +261,6 @@ function interpretSecondLevelEvent(state: IState, event: ISecondLevelEvent) {
   }
 }
 
-// Used in interpretCondition
-// const conditions = {
-//   // hasTag: function (state: IState, tag: string) {
-//   //   return state.user.tags.includes(tag);
-//   // },
-// };
-
-// Takes a state a and event.
-// If event has no condition return true.
-// If event has a condition, pick it up and evaluate it, return result.
-// function interpretCondition(state: IState, event: IEvent): boolean {
-//   const conditionEvent = event as IEventCondition;
-//   if (conditionEvent.condition && conditionEvent.conditionArgs) {
-//     return conditions[conditionEvent.condition](
-//       state,
-//       conditionEvent.conditionArgs
-//     );
-//   } else {
-//     return true;
-//   }
-// }
-
 function runEventOnLeave(state: IState, event: IEvent): void {
   const actionEvent = event as IEventAction;
   if (onLeave[actionEvent.action] !== undefined) {
@@ -323,29 +306,6 @@ export function runStation(stationId: StationID): void {
 
     // Update open stations
   }
-
-  // if (visitedStationIds.includes(stationId)) {
-  //   // if (store.state.user.helpAvailable <= 0) {
-  //   //   console.warn("User has no more available helptracks");
-  //   // } else {
-  //   //     "User already visited this story. Playing helpfile: ",
-  //   //     store.state.user.helpAvailable
-  //   //   );
-  //   //   playAudio("help-" + store.state.user.helpAvailable + ".mp3");
-  //   //   store.commit(Mutations.decreaseHelpAvailable);
-  //   // }
-  // } else {
-  //   // If we have NOT already been here
-
-  //   if (store?.state?.gameConfig) {
-  //     const station = store.state.gameConfig.stations[stationId];
-
-  //     // Will also play audio
-  //     interpretStation(store.state, station);
-
-  //     // Update open stations
-  //   }
-  // }
 }
 
 // Used by interpretStation
@@ -354,8 +314,6 @@ function handleHelpOpen(
   station: Station,
   visitCounts: { open: number; closed: number }
 ): void {
-  console.log("handleHelpOpen");
-
   if (visitCounts.open === 1 && station.startStationId && store) {
     // If this is the first scan it opens the game.
     // This is a special case. It doesn't provide help. It opens the game
@@ -406,7 +364,6 @@ function pickHelpTrack(currentStation: Station): {
           result.decreaseHelpAvailable = true;
           result.playHelp = true;
         } else {
-          console.log("HERE 4");
           // There no  unheard help tracks for this station left
           // Play the last help track free of charge
 
@@ -415,7 +372,7 @@ function pickHelpTrack(currentStation: Station): {
               currentStation.helpAudioFilenames[
                 currentStation.helpAudioFilenames.length - 1
               ];
-            console.log("HERE 6: ", audioFilename);
+
             if (audioFilename) {
               result.audioFilename = audioFilename;
               result.decreaseHelpAvailable = false;
@@ -424,37 +381,22 @@ function pickHelpTrack(currentStation: Station): {
           }
         }
       } else {
-        console.log("HERE 6");
         // There are no played help tracks. Grab the first on and play it.
-        console.log("");
-
         if (currentStation.helpAudioFilenames) {
-          console.log("HERE 7");
           const firstUnheardHelpTrack = currentStation.helpAudioFilenames[0];
 
           if (firstUnheardHelpTrack) {
-            console.log("HERE 8");
             // There is one ore more unheard helptracks
-            // audioEngine.playForegroundAudio(firstUnheardHelpTrack);
             result.audioFilename = firstUnheardHelpTrack;
             result.decreaseHelpAvailable = true;
             result.playHelp = true;
-
-            // Add it to list of played helptracks. TODO add a mutation for this
-            // store.state.user.playedHelpTracks[currentStation.id] = [
-            //   firstUnheardHelpTrack,
-            // ];
-
-            // store.commit(Mutations.decreaseHelpAvailable);
           }
         }
       }
     } else {
       // User has no help left
-      console.log("User has no help left");
-
       const audioFilename =
-        store.state.gameConfig?.globalHelpAudio.noHelpLeftAudioFilename;
+        store.state.gameConfig?.globalAudioFilenames.noHelpLeftAudioFilename;
       if (audioFilename) {
         result.audioFilename = audioFilename;
         result.decreaseHelpAvailable = false;
@@ -464,7 +406,8 @@ function pickHelpTrack(currentStation: Station): {
   } else {
     // This station defines no help tracks. Notify user of that.
     const audioFilename =
-      store.state.gameConfig?.globalHelpAudio.noHelpAtThisPointAudioFilename;
+      store.state.gameConfig?.globalAudioFilenames
+        .noHelpAtThisPointAudioFilename;
     if (audioFilename) {
       result.audioFilename = audioFilename;
       result.decreaseHelpAvailable = false;
@@ -494,25 +437,25 @@ function handleHelpClosed(currentStation: Station) {
 
     // Figure out how much help is left
     let helpLeftAudioFile =
-      store.state.gameConfig?.globalHelpAudio.allHelpLeftAudioFilename;
+      store.state.gameConfig?.globalAudioFilenames.allHelpLeftAudioFilename;
     // audioEngine.playForegroundAudio(playInstructions.audioFilename);
     //
     switch (store.state.user.helpAvailable) {
       case 3:
-        // helpLeftAudioFile = store.state.gameConfig?.globalHelpAudio.
+        // helpLeftAudioFile = store.state.gameConfig?.globalAudioFilenames.
         break;
       case 2:
         helpLeftAudioFile =
-          store.state.gameConfig?.globalHelpAudio.twoHelpLeftAudioFilename;
+          store.state.gameConfig?.globalAudioFilenames.twoHelpLeftAudioFilename;
         break;
       case 1:
         helpLeftAudioFile =
-          store.state.gameConfig?.globalHelpAudio.oneHelpLeftAudioFilename;
+          store.state.gameConfig?.globalAudioFilenames.oneHelpLeftAudioFilename;
         break;
 
       case 0:
         helpLeftAudioFile =
-          store.state.gameConfig?.globalHelpAudio.noHelpLeftAudioFilename;
+          store.state.gameConfig?.globalAudioFilenames.noHelpLeftAudioFilename;
         break;
       default:
         break;
@@ -539,7 +482,8 @@ export function interpretStation(station: Station): void {
   audioEngine.cancelDueBackgroundSounds();
 
   const stationIsOpen = store.state.user.openStations?.includes(station.id);
-  console.log("openStations: ", store.state.user.openStations);
+
+  // Add station.id to users set of visited stations, regardless of what happens later
   store.commit(Mutations.pushStationIdToStationsVisited, station.id);
   const counts = store.state.user.stationVisitCounts[station.id];
 
@@ -590,21 +534,8 @@ export function interpretStation(station: Station): void {
           `post handle events ${store.state.user.stationsVisited}`
         );
 
-        // Add station.id to users set of visited stations
-        if (!store.state.user.stationsVisited.includes(station.id)) {
-          log("interpretStation", `push stationid: ${station.id}`);
-          store.commit(Mutations.pushStationIdToStationsVisited, station.id);
-        }
-
         // Set users last visited station
         store.state.user.lastStationVisitedId = station.id;
-
-        // Add tags from this station to users set of visited tags
-        // station.tags.forEach((tag: string) => {
-        //   if (!store.state.user.tags.includes(tag)) {
-        //     store.state.user.tags.push(tag);
-        //   }
-        // });
 
         // Open next stations, close previous
         if (station.opens !== undefined && store.state.gameConfig) {
@@ -620,41 +551,50 @@ export function interpretStation(station: Station): void {
     }
   } else {
     // User scanned a closed station
-    console.log("YOU'VE SCANNED A CLOSED STATION");
-
-    store.commit(Mutations.pushStationIdToStationsVisited, station.id);
-
-    let currentStation = undefined;
-    if (
-      store.state.gameConfig?.stations !== undefined &&
-      store.state.user.currentStation !== undefined
-    ) {
-      currentStation =
-        store.state.gameConfig.stations[store.state.user.currentStation];
-    }
-
+    const visitCounts = store.state.user.stationVisitCounts[station.id];
     switch (station.type) {
       case "help":
-        if (currentStation) {
-          handleHelpClosed(currentStation);
-        }
+        handleHelpClosed(station);
 
         break;
 
       case "choice":
+        // choice stations have no B or C tracks, play the global
+        break;
       case "story":
-        // Figure out if there is a help track to play for this station
+        // We're working with a closed station here
+        // so we figure out which B or C track to play.
 
-        if (
-          station.helpAudioFilenames === undefined ||
-          station.helpAudioFilenames.length === 0
-        ) {
-          // There are not station specific help files
-          console.log("THERE ARE NO STATION  SPECIFIC HELP FILES");
-          // store.state.gameConfig?.globalHelpAudio
-        } else {
-          // There is at least on1 station specific help file
-          console.log("THERE IS AT LEAST ONE STATION SPECIFIC HELP FILE");
+        if (visitCounts) {
+          let audioFilename = undefined;
+          // Dig out the event
+          const event = station.events.filter(
+            (event) => event.action == "playAudio"
+          )[0] as IEventPlayAudio;
+
+          if (event) {
+            if (event.audioFilenames.length > 1) {
+              // There is more than an A track
+              // Add 1 to skip the A-track
+              let index = visitCounts.closed + 1;
+
+              // But don't go pass the last audioFilename
+              if (index > event.audioFilenames.length - 1) {
+                index = event.audioFilenames.length - 1;
+              }
+
+              audioFilename = event.audioFilenames[index];
+            } else {
+              // There is NO more than an A track
+              audioFilename =
+                store.state.gameConfig?.globalAudioFilenames
+                  .storyFallbackAudioFilename;
+            }
+
+            if (audioFilename) {
+              audioEngine.playForegroundAudio(audioFilename);
+            }
+          }
         }
 
         break;

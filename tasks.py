@@ -8,9 +8,16 @@ from validation.validation import output_validation_errors
 from validation.validation import validate_schema_helper
 from validation.validation import validate_stations_in_folder_helper
 from validation.validation import validate_game_helper
+from validation.validation import load_complete_game
 
 from jsonschema import Draft7Validator, RefResolver
 from json import load
+
+from json import dumps
+from urllib.parse import urljoin
+import qrcode
+from PIL import ImageDraw
+
 
 TYPESCRIPT_FILES_FINDER = f"find .|grep '\.ts$'|grep -v '#'"
 
@@ -111,6 +118,34 @@ def deploy_to_s3(ctx):
     print()
     print("Deployed to S3. Try it out at the following URL: ")
     print(full_url)
+
+
+@task
+def generate_qr_codes(ctx, filename):
+    """ Generate qr codes for the game defined in the supplied game config. Outputs to /tmp """
+    game_data = load_complete_game(filename)
+    choice_infix = game_data["choiceInfix"]
+
+    station_ids = [s for s in game_data["stations"].keys() if choice_infix not in s]
+
+    # Add global choice stations
+    for choice in game_data["choiceNames"]:
+        station_ids.append(f"{choice_infix}{choice}")
+
+    for station_id in station_ids:
+
+        full_url = urljoin(
+            game_data["baseUrl"] + "/", station_id, allow_fragments=False
+        )
+        qr_img = qrcode.make(full_url)
+        filename = f"/tmp/{game_data['name']}-{station_id}.png"
+
+        ImageDraw.Draw(qr_img).text((0, 0), station_id, 0)
+        print(full_url)
+        print(filename)
+        qr_img.save(filename)
+
+    # print(dumps(game_data, indent=2))
 
 
 @task

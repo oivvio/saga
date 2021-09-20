@@ -10,8 +10,8 @@ import { joinPaths } from "./utils";
 // https://refactoring.guru/design-patterns/singleton/typescript/example
 export class AudioEngine {
   private static instance: AudioEngine;
-  private static bgDuckedVolume = 0; // TODO Set to 0.3
-  private static bgFullVolume = 0; // TODO Set to 1
+  private static bgDuckedVolume = 0.3; //
+  private static bgFullVolume = 1; // TODO Set to 1
   private static bgFadeInDuration = 2000;
   private static bgFadeOutDuration = 2000;
   private foregroundSound: Howl | undefined;
@@ -26,7 +26,6 @@ export class AudioEngine {
   private constructor() {}
 
   private duckBackgroundAudio() {
-    console.log("ducking background audio");
     this.backgroundSounds.forEach((bgSound) =>
       bgSound.sound.fade(
         AudioEngine.bgFullVolume,
@@ -37,7 +36,6 @@ export class AudioEngine {
   }
 
   private unduckBackgroundAudio() {
-    console.log("unducking background audio");
     this.backgroundSounds.forEach((bgSound) =>
       bgSound.sound.fade(
         AudioEngine.bgDuckedVolume,
@@ -149,6 +147,10 @@ export class AudioEngine {
 
   public handlePlayAudioEvent(event: IEventPlayAudio): void {
     // TODO For now just grab the first audio
+    // Figure out which audio we should play.
+
+    // store.state.user.currentStation
+
     const filename = event.audioFilenames[0];
     this.playForegroundAudio(filename);
   }
@@ -213,8 +215,6 @@ export class AudioEngine {
   // Check for background sounds that should be cancelled
   // when leaving the station that started them.
   public cancelDueBackgroundSounds(): void {
-    console.log("cancel due bg sounds");
-
     // Find bgSounds that are not from the current station and
     // should be cancelled when "their" station is no longer current
     const bgSoundsToCancel = this.backgroundSounds.filter(

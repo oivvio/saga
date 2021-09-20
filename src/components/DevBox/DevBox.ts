@@ -6,14 +6,6 @@ import { StationID, runStation } from "../../station";
 export default defineComponent({
   name: "DevBox",
 
-  // data() {
-  //   return { message: "start" };
-  // },
-
-  // setup(props) {
-  //   console.log("props");
-  // },
-
   methods: {
     wipeHistory() {
       this.$store.commit(Mutations.wipeHistory);
