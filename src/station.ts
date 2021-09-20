@@ -559,8 +559,6 @@ export function interpretStation(station: Station): void {
         break;
 
       case "choice":
-        // choice stations have no B or C tracks, play the global
-        break;
       case "story":
         // We're working with a closed station here
         // so we figure out which B or C track to play.

@@ -3,5 +3,10 @@
   "type": "choice",
   "description": "Chose the path to the south.",
   "opens": ["southern-chamber"],
-  "events": []
+  "events": [
+    {
+      "action": "playAudio",
+      "audioFilenames": ["./audio/start-option-b.mp3"]
+    }
+  ]
 }

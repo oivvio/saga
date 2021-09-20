@@ -1,5 +1,4 @@
 <div class="RootComponent">
-    <h1>Sprickan!</h1>
     <button v-if="QRScannerCanBeDisplayed && !QRScannerIsDisplayed" v-on:click="displayQRScanner">OPEN QR SCANNER! </button>
     <saga-qr-reader v-if="QRScannerIsDisplayed"></saga-qr-reader>
     <dev-box v-if="displayDevBox"></dev-box>
