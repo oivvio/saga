@@ -341,6 +341,7 @@ function pickHelpTrack(currentStation: Station): {
     decreaseHelpAvailable: false,
     playHelp: false,
   };
+
   if (currentStation.hasHelpTracks()) {
     // This  station defines help tracks
 
@@ -434,7 +435,6 @@ function handleHelpClosed(currentStation: Station) {
     if (playInstructions.decreaseHelpAvailable) {
       store.commit(Mutations.decreaseHelpAvailable);
     }
-
     // Figure out how much help is left
     let helpLeftAudioFile =
       store.state.gameConfig?.globalAudioFilenames.allHelpLeftAudioFilename;
@@ -456,16 +456,24 @@ function handleHelpClosed(currentStation: Station) {
       case 0:
         helpLeftAudioFile =
           store.state.gameConfig?.globalAudioFilenames.noHelpLeftAudioFilename;
+        // helpLeftAudioFile = undefined; // Because
         break;
       default:
         break;
     }
 
     if (helpLeftAudioFile) {
-      audioEngine.playMultipleForegroundAudio([
-        playInstructions.audioFilename,
-        helpLeftAudioFile,
-      ]);
+      if (playInstructions.audioFilename !== helpLeftAudioFile) {
+        audioEngine.playMultipleForegroundAudio([
+          playInstructions.audioFilename,
+          helpLeftAudioFile,
+        ]);
+      } else {
+        // There's an edge case where playInstructions.audioFilename === helpAudioFile
+        // this makes sure we catch that and don't play the same file twice back to back.
+        // A bit of a hack...
+        audioEngine.playForegroundAudio(playInstructions.audioFilename);
+      }
 
       // Add track to list of played help tracks for the current station
       store.commit(Mutations.pushPlayedHelpTrack, {
@@ -552,9 +560,16 @@ export function interpretStation(station: Station): void {
   } else {
     // User scanned a closed station
     const visitCounts = store.state.user.stationVisitCounts[station.id];
+
+    const currentStation =
+      store.state.gameConfig?.stations[store.state.user.currentStation || ""];
+
     switch (station.type) {
       case "help":
-        handleHelpClosed(station);
+        // Help is run on the station the user is currently "at", not the help station itself.
+        if (currentStation) {
+          handleHelpClosed(currentStation);
+        }
 
         break;
 
