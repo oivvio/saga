@@ -10,10 +10,19 @@
           "enum": [
             "playAudio",
             "playBackgroundAudio",
-            "startTimeLimit",
             "goToStation",
-            "cancelTimer"
+            "pickRandomSample"
           ]
+        },
+
+        "key": {
+          "description": "Used with pickRandomSample",
+          "type": "string"
+        },
+
+        "population": {
+          "description": "Used with pickRandomSample",
+          "type": "array"
         },
 
         "audioFilenames": {

@@ -1,6 +1,14 @@
 import os
 import sys
+
+from json import load
+from json import dumps
+from urllib.parse import urljoin
+
 from invoke import task
+from jsonschema import Draft7Validator, RefResolver
+import qrcode
+from PIL import ImageDraw
 
 from validation.validation import validate_gameconfig_helper
 from validation.validation import validate_station_file
@@ -9,14 +17,6 @@ from validation.validation import validate_schema_helper
 from validation.validation import validate_stations_in_folder_helper
 from validation.validation import validate_game_helper
 from validation.validation import load_complete_game
-
-from jsonschema import Draft7Validator, RefResolver
-from json import load
-
-from json import dumps
-from urllib.parse import urljoin
-import qrcode
-from PIL import ImageDraw
 
 
 TYPESCRIPT_FILES_FINDER = f"find .|grep '\.ts$'|grep -v '#'"
@@ -168,3 +168,18 @@ def vue_devserver(ctx, port=8080, host="0.0.0.0"):
     )
     print(cmd)
     ctx.run(cmd, pty=True)
+
+
+@task
+def cartesian_product(ctx, lst1, lst2):
+    """ Provide commaseparated list of strings """
+
+    lst1 = [t.strip() for t in lst1.split(",")]
+    lst2 = [t.strip() for t in lst2.split(",")]
+
+    result = []
+    for item1 in lst1:
+        for item2 in lst2:
+            result.append([item1, item2])
+
+    print(dumps(result, indent=4))

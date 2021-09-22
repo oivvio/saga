@@ -27,6 +27,7 @@
     <p>openStations: {{ this.$store.state.user.openStations }}</p>
     <p>currentStation: {{ this.$store.state.user.currentStation }}</p>
     <p>helpAvailable: {{ this.$store.state.user.helpAvailable }}</p>
+    <p>adHocData: {{ this.$store.state.user.adHocData }}</p>
 
     <p>nStations: {{ nStations }}</p>
 

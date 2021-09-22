@@ -28,6 +28,21 @@
       "loop": true,
       "cancelOnLeave": false,
       "wait": 3
+    },
+
+    {
+      "action": "pickRandomSample",
+      "population": [
+        ["sad", "sun"],
+        ["sad", "wind"],
+        ["happy", "moon"],
+        ["happy", "sun"],
+        ["happy", "wind"],
+        ["angry", "moon"],
+        ["angry", "sun"],
+        ["angry", "wind"]
+      ],
+      "key": "powerName"
     }
   ]
 }

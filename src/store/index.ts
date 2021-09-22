@@ -1,6 +1,7 @@
 // eslint-disable-next-line
-// import { Subject } from "rxjs";
+
 import { has } from "lodash";
+
 // eslint-disable-next-line
 import { ComponentCustomProperties } from "vue";
 
@@ -25,12 +26,14 @@ interface IUserState {
   stationsVisited: StationID[];
   stationVisitCounts: Record<StationID, { open: number; closed: number }>;
   lastStationVisitedId?: StationID;
-  // tags: string[];
   timers: Record<string, number>;
   helpAvailable: number;
   currentStation: StationID | undefined;
   openStations: StationID[];
   playedHelpTracks: Record<StationID, string[]>;
+
+  // eslint-disable-next-line
+  adHocData: Record<string, any>;
 }
 
 export interface IState {
@@ -82,6 +85,8 @@ const initialState: IState = {
     currentStation: undefined,
     openStations: [],
     playedHelpTracks: {} as Record<StationID, string[]>,
+    // eslint-disable-next-line
+    adHocData: {} as Record<string, any>,
   },
   audio: {
     volume: 0,
@@ -206,6 +211,11 @@ export const store = createStore({
         payload.audioFilename
       );
     },
+
+    // eslint-disable-next-line
+    setAdHocData(state: IState, payload: { key: string; value: any }) {
+      state.user.adHocData[payload.key] = payload.value;
+    },
   },
   actions: {},
   modules: {},
@@ -263,4 +273,5 @@ export enum Mutations {
   setCurrentStation = "setCurrentStation",
   updateOpenStations = "updateOpenStations",
   pushPlayedHelpTrack = "pushPlayedHelpTrack",
+  setAdHocData = "setAdHocData",
 }

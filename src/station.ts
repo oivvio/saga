@@ -1,4 +1,6 @@
 // Interpret stations
+
+import { sample } from "lodash";
 import { AudioEngine } from "./audioEngine";
 import { store, IState, Mutations } from "./store";
 import { getParentUrl, getChildUrl, log } from "./utils";
@@ -76,6 +78,12 @@ export class Station implements IStation {
   }
 }
 
+export interface IEventPickRandomSample {
+  action: "pickRandomSample";
+  population: [];
+  key: string;
+}
+
 export interface IEventPlayAudio {
   action: "playAudio";
   audioFilenames: string[];
@@ -89,13 +97,13 @@ export interface IEventPlayBackgroundAudio {
   loop: boolean;
 }
 
-export interface IEventStartTimeLimit {
-  action: "startTimeLimit";
-  timerName: string;
-  cancelOnLeave: boolean;
-  timeLimit: number;
-  onTimeLimitEnd: ISecondLevelEvent;
-}
+// export interface IEventStartTimeLimit {
+//   action: "startTimeLimit";
+//   timerName: string;
+//   cancelOnLeave: boolean;
+//   timeLimit: number;
+//   onTimeLimitEnd: ISecondLevelEvent;
+// }
 
 export interface IEventGoToStation {
   action: "goToStation";
@@ -112,27 +120,28 @@ export interface IEventCancelTimer {
 //   conditionArgs: string;
 // }
 
-export type IEventAction =
+export type IEvent =
   | IEventPlayAudio
   | IEventPlayBackgroundAudio
-  | IEventStartTimeLimit
-  | IEventGoToStation
-  | IEventCancelTimer;
+  | IEventPickRandomSample
+  | IEventGoToStation;
+// | IEventStartTimeLimit
+// | IEventCancelTimer
 
 // export type IEvent = IEventAction | IEventCondition;
-export type IEvent = IEventAction;
+// export type IEvent = IEventAction;
 
-export interface ISecondLevelEvent {
-  action: "playAudio" | "startTimeLimit" | "goToStation" | "cancelTimer";
-  audioFilename?: string;
-  timerName?: string;
-  cancelOnLeave?: boolean;
-  timeLimit?: number;
-  goToStation?: string;
-  toStation?: string;
-  condition?: "hasTag";
-  conditionArgs?: string;
-}
+// export interface ISecondLevelEvent {
+//   action: "playAudio" | "startTimeLimit" | "goToStation" | "cancelTimer";
+//   audioFilename?: string;
+//   timerName?: string;
+//   cancelOnLeave?: boolean;
+//   timeLimit?: number;
+//   goToStation?: string;
+//   toStation?: string;
+//   condition?: "hasTag";
+//   conditionArgs?: string;
+// }
 
 export interface IGameConfig {
   name: string;
@@ -217,75 +226,83 @@ const eventHandlers = {
     audioEventHandler.handlePlayBackgroundAudioEvent(playBackgroundAudioEvent);
   },
 
-  startTimeLimit: function (state: IState, event: IEvent) {
-    const startTimeLimitEvent = event as IEventStartTimeLimit;
-    const timer = window.setTimeout(function () {
-      if (startTimeLimitEvent.timerName) {
-        store.commit(Mutations.removeTimer, startTimeLimitEvent.timerName);
-      }
+  // startTimeLimit: function (state: IState, event: IEvent) {
+  //   const startTimeLimitEvent = event as IEventStartTimeLimit;
+  //   const timer = window.setTimeout(function () {
+  //     if (startTimeLimitEvent.timerName) {
+  //       store.commit(Mutations.removeTimer, startTimeLimitEvent.timerName);
+  //     }
 
-      startTimeLimitEvent.onTimeLimitEnd &&
-        interpretSecondLevelEvent(state, startTimeLimitEvent.onTimeLimitEnd);
-    }, startTimeLimitEvent.timeLimit * 1000) as number;
-    if (timer) {
-      const timerName = startTimeLimitEvent.timerName;
-      store.commit(Mutations.addTimer, { timerName, timer });
-    }
-  },
+  //     startTimeLimitEvent.onTimeLimitEnd &&
+  //       interpretSecondLevelEvent(state, startTimeLimitEvent.onTimeLimitEnd);
+  //   }, startTimeLimitEvent.timeLimit * 1000) as number;
+  //   if (timer) {
+  //     const timerName = startTimeLimitEvent.timerName;
+  //     store.commit(Mutations.addTimer, { timerName, timer });
+  //   }
+  // },
 
   goToStation: function (_: IState, event: IEvent) {
     const goToStationEvent = event as IEventGoToStation;
     runStation(goToStationEvent.toStation);
   },
 
-  cancelTimer: function (state: IState, event: IEvent) {
-    const cancelTimerEvent = event as IEventCancelTimer;
-    if (cancelTimerEvent.timerName) {
-      const timer = state.user.timers[cancelTimerEvent.timerName];
-      if (timer !== undefined) {
-        window.clearTimeout(timer);
-        store.commit(Mutations.removeTimer, cancelTimerEvent.timerName);
-      }
-    }
+  // cancelTimer: function (state: IState, event: IEvent) {
+  //   const cancelTimerEvent = event as IEventCancelTimer;
+  //   if (cancelTimerEvent.timerName) {
+  //     const timer = state.user.timers[cancelTimerEvent.timerName];
+  //     if (timer !== undefined) {
+  //       window.clearTimeout(timer);
+  //       store.commit(Mutations.removeTimer, cancelTimerEvent.timerName);
+  //     }
+  //   }
+  // },
+
+  pickRandomSample: function (_: IState, event: IEvent) {
+    const pickRandomSampleEvent = event as IEventPickRandomSample;
+    const value = sample(pickRandomSampleEvent.population);
+    const key = pickRandomSampleEvent.key;
+    store.commit(Mutations.setAdHocData, { key, value });
   },
 };
 
 function interpretEvent(state: IState, inEvent: IEvent) {
-  const event = inEvent as IEventAction;
+  //const event = inEvent as IEventAction;
+  const event = inEvent as IEvent;
   eventHandlers[event.action](state, event);
 }
 
-function interpretSecondLevelEvent(state: IState, event: ISecondLevelEvent) {
-  if (event.action !== undefined) {
-    eventHandlers[event.action](state, event as IEvent);
-  }
-}
+// function interpretSecondLevelEvent(state: IState, event: ISecondLevelEvent) {
+//   if (event.action !== undefined) {
+//     eventHandlers[event.action](state, event as IEvent);
+//   }
+// }
 
-function runEventOnLeave(state: IState, event: IEvent): void {
-  const actionEvent = event as IEventAction;
-  if (onLeave[actionEvent.action] !== undefined) {
-    onLeave[actionEvent.action](state, actionEvent);
-  }
-}
+// function runEventOnLeave(state: IState, event: IEvent): void {
+//   const actionEvent = event as IEventAction;
+//   if (onLeave[actionEvent.action] !== undefined) {
+//     onLeave[actionEvent.action](state, actionEvent);
+//   }
+// }
 
-const onLeave = {
-  startTimeLimit: function (state: IState, event: IEvent): void {
-    const startTimeLimitEvent = event as IEventStartTimeLimit;
+// const onLeave = {
+//   startTimeLimit: function (state: IState, event: IEvent): void {
+//     const startTimeLimitEvent = event as IEventStartTimeLimit;
 
-    const timer = state.user.timers[startTimeLimitEvent.timerName];
-    window.clearTimeout(timer);
+//     const timer = state.user.timers[startTimeLimitEvent.timerName];
+//     window.clearTimeout(timer);
 
-    store.commit(Mutations.removeTimer, startTimeLimitEvent.timerName);
-  },
+//     store.commit(Mutations.removeTimer, startTimeLimitEvent.timerName);
+//   },
 
-  // required by TypeScript because of how IEvent.action is defined
-  // eslint-disable-next-line
-  playAudio: () => {},
-  // eslint-disable-next-line
-  goToStation: () => {},
-  // eslint-disable-next-line
-  cancelTimer: () => {},
-};
+//   // required by TypeScript because of how IEvent.action is defined
+//   // eslint-disable-next-line
+//   playAudio: () => {},
+//   // eslint-disable-next-line
+//   goToStation: () => {},
+//   // eslint-disable-next-line
+//   cancelTimer: () => {},
+// };
 
 export function runStation(stationId: StationID): void {
   log("engine", ` runStation: ${stationId}`);
@@ -507,24 +524,25 @@ export function interpretStation(station: Station): void {
       case "choice":
       case "story": {
         // Pick up the station the user just left, if any.
-        if (store.state.user.lastStationVisitedId !== undefined) {
-          const leavingStation =
-            store.state.gameConfig?.stations[
-              store.state.user.lastStationVisitedId
-            ];
-          if (leavingStation !== undefined) {
-            log(
-              "interpretStation",
-              `leavingStationId: ${store.state.user.lastStationVisitedId}`
-            );
-            // Handle events for the station the user just left
-            if (leavingStation !== undefined) {
-              leavingStation.events.forEach((event) => {
-                runEventOnLeave(store.state, event);
-              });
-            }
-          }
-        }
+        // if (store.state.user.lastStationVisitedId !== undefined) {
+        //   const leavingStation =
+        //     store.state.gameConfig?.stations[
+        //       store.state.user.lastStationVisitedId
+        //     ];
+
+        //   if (leavingStation !== undefined) {
+        //     log(
+        //       "interpretStation",
+        //       `leavingStationId: ${store.state.user.lastStationVisitedId}`
+        //     );
+        //     // Handle events for the station the user just left
+        //     if (leavingStation !== undefined) {
+        //       leavingStation.events.forEach((event) => {
+        //         runEventOnLeave(store.state, event);
+        //       });
+        //     }
+        //   }
+        // }
 
         // Handle events for the users current station
         station.events.forEach((event) => {
@@ -599,6 +617,8 @@ export function interpretStation(station: Station): void {
               audioFilename = event.audioFilenames[index];
             } else {
               // There is NO more than an A track
+              //
+              // TODO IS THIS NEEDED?
               audioFilename =
                 store.state.gameConfig?.globalAudioFilenames
                   .storyFallbackAudioFilename;
