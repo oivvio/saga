@@ -216,6 +216,13 @@ export const store = createStore({
     setAdHocData(state: IState, payload: { key: string; value: any }) {
       state.user.adHocData[payload.key] = payload.value;
     },
+
+    pushToAdHocArray(state: IState, payload: { key: string; value: any }) {
+      if (state.user.adHocData[payload.key] === undefined) {
+        state.user.adHocData[payload.key] = [];
+      }
+      state.user.adHocData[payload.key].push(payload.value);
+    },
   },
   actions: {},
   modules: {},
@@ -274,4 +281,5 @@ export enum Mutations {
   updateOpenStations = "updateOpenStations",
   pushPlayedHelpTrack = "pushPlayedHelpTrack",
   setAdHocData = "setAdHocData",
+  pushToAdHocArray = "pushToAdHocArray",
 }
