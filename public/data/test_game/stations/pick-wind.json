@@ -1,0 +1,47 @@
+{
+  "id": "pick-wind",
+  "type": "story",
+  "description": "picking first part of power name",
+  "opens": ["pick-sun", "pick-wind", "pick-moon"],
+
+  "helpAudioFilenames": [
+    "./audio/unreachable-help1.mp3",
+    "./audio/unreachable-help2.mp3"
+  ],
+
+  "events": [
+    {
+      "action": "playAudio",
+      "audioFilenames": ["./audio/you-picked-wind.mp3"]
+    },
+
+    {
+      "action": "pushToAdHocArray",
+      "key": "pickedPowerName",
+      "value": "wind"
+    },
+
+    {
+      "action": "switchGotoStation",
+      "switch": [
+        {
+          "condition": "adHocKeysAreEqual",
+          "parameters": {
+            "firstKey": "powerName",
+            "secondKey": "pickedPowerName",
+            "toStation": "you-win"
+          }
+        },
+
+        {
+          "condition": "adHocKeysAreNotEqual",
+          "parameters": {
+            "firstKey": "powerName",
+            "secondKey": "pickedPowerName",
+            "toStation": "you-loose"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -11,18 +11,29 @@
             "playAudio",
             "playBackgroundAudio",
             "goToStation",
-            "pickRandomSample"
+            "pickRandomSample",
+            "pushToAdHocArray",
+            "switchGotoStation"
           ]
         },
 
+        "switch": {
+          "description": "Used with pickRandomSample & pushToAdHocArray",
+          "type": "array"
+        },
+
         "key": {
-          "description": "Used with pickRandomSample",
+          "description": "Used with pickRandomSample & pushToAdHocArray",
           "type": "string"
         },
 
         "population": {
           "description": "Used with pickRandomSample",
           "type": "array"
+        },
+
+        "value": {
+          "description": "Used with pushToAdHocArray"
         },
 
         "audioFilenames": {
@@ -65,6 +76,22 @@
             "required": ["action"]
           },
           "then": { "required": ["audioFilenames"] }
+        },
+
+        {
+          "if": {
+            "properties": { "action": { "const": "pickRandomSample" } },
+            "required": ["action"]
+          },
+          "then": { "required": ["population", "key"] }
+        },
+
+        {
+          "if": {
+            "properties": { "action": { "const": "pushToAdHocArray" } },
+            "required": ["action"]
+          },
+          "then": { "required": ["key", "value"] }
         },
 
         {

@@ -10,7 +10,7 @@ import {
   // IEventPickRandomSample,
   // IEventGoToStation,
   eventHandlers,
-} from "./events";
+} from "./event";
 
 // Keep these types in sync with our json schema
 // We validate all our game definition json files so we can be fully confident that

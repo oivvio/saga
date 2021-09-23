@@ -31,7 +31,7 @@ export default defineComponent({
     },
 
     displayDevBox() {
-      return this.$store.state.displayDevBox;
+      return this.$store.state.debugDisplayDevBox;
     },
   },
 

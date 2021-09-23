@@ -94,6 +94,13 @@ def validate_station_file(filename):
     return validate_station(json_to_check)
 
 
+def validate_station_file_and_output_errors(filename):
+    """Validate a given file against our schema an print a list of errors"""
+
+    errors = validate_station_file(filename)
+    output_validation_errors(errors, filename)
+
+
 def validate_station(station):
     """Validate a station against our schema a return a list of errors"""
 

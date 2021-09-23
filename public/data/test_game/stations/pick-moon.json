@@ -1,0 +1,47 @@
+{
+  "id": "pick-moon",
+  "type": "story",
+  "description": "picking first part of power name",
+  "opens": ["pick-sun", "pick-wind", "pick-moon"],
+
+  "helpAudioFilenames": [
+    "./audio/pick-second-part-of-powername-help1.mp3",
+    "./audio/pick-second-part-of-powername-help2.mp3"
+  ],
+
+  "events": [
+    {
+      "action": "playAudio",
+      "audioFilenames": ["./audio/you-picked-moon.mp3"]
+    },
+
+    {
+      "action": "pushToAdHocArray",
+      "key": "pickedPowerName",
+      "value": "moon"
+    },
+
+    {
+      "action": "switchGotoStation",
+      "switch": [
+        {
+          "case": "adHocKeysAreEqual",
+          "parameters": {
+            "firstKey": "powerName",
+            "secondKey": "pickedPowerName",
+            "toStation": "you-win"
+          }
+        },
+
+        {
+          "case": "adHocKeysAreNotEqual",
+          "parameters": {
+            "firstKey": "powerName",
+            "secondKey": "pickedPowerName",
+            "toStation": "you-loose"
+          }
+        }
+      ]
+    }
+  ]
+}

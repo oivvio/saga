@@ -48,8 +48,20 @@ export interface IEventCancelTimer {
 export interface IEventPushToAdHocArrayEvent {
   action: "pushToAdHocArray";
   key: string;
+  // eslint-disable-next-line
   value: any;
 }
+
+export interface IEventSwitchGotoStation {
+  action: "switchGotoStation";
+  // key: string;
+  // eslint-disable-next-line
+  switch: {
+    condition: "adHocKeysAreEqual" | "adHocKeysAreNotEqual";
+    parameters: { firstKey: string; secondKey: string; toStation: StationID };
+  }[];
+}
+
 // export interface IEventCondition {
 //   condition: "hasTag";
 //   conditionArgs: string;
@@ -60,7 +72,8 @@ export type IEvent =
   | IEventPlayBackgroundAudio
   | IEventPickRandomSample
   | IEventGoToStation
-  | IEventPushToAdHocArrayEvent;
+  | IEventPushToAdHocArrayEvent
+  | IEventSwitchGotoStation;
 
 // | IEventStartTimeLimit
 // | IEventCancelTimer
@@ -148,5 +161,48 @@ export const eventHandlers = {
     const value = pushToAdHocArrayEvent.value;
 
     store.commit(Mutations.pushToAdHocArray, { key, value });
+  },
+
+  switchGotoStation: function (_: IState, event: IEvent): void {
+    const switchGotoStationEvent = event as IEventSwitchGotoStation;
+
+    // Find the first switch that evaluates to true
+    const matches = switchGotoStationEvent.switch.filter((currentCase) => {
+      const firstKey = currentCase.parameters.firstKey;
+      const secondKey = currentCase.parameters.secondKey;
+
+      // Get string representation of proxy so we can do proper comparisons
+      const firstValue = store.state.user.adHocData[firstKey].toString();
+
+      const secondValue = store.state.user.adHocData[secondKey].toString();
+      console.log(firstValue, secondValue, firstValue === secondValue);
+      switch (currentCase.condition) {
+        case "adHocKeysAreEqual":
+          if (firstValue === secondValue) {
+            return true;
+          }
+          break;
+
+        case "adHocKeysAreNotEqual":
+          if (firstValue !== secondValue) {
+            return true;
+          }
+          break;
+
+        default:
+          break;
+      }
+    });
+
+    const firstMatch = matches[0];
+
+    // extract the stationId and go there;
+    if (firstMatch !== undefined) {
+      const toStation = firstMatch.parameters.toStation;
+      console.log("DID WE GET HERE: ", toStation);
+      runStation(toStation);
+    }
+
+    debugger;
   },
 };

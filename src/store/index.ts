@@ -39,7 +39,10 @@ interface IUserState {
 export interface IState {
   gameConfigLoaded: boolean;
   gameConfig?: IGameConfig;
-  displayDevBox: boolean;
+
+  debugDisplayDevBox: boolean;
+  debugQuickAudio: boolean;
+
   user: IUserState;
   audio: {
     volume: number;
@@ -67,7 +70,8 @@ declare module "@vue/runtime-core" {
 const initialState: IState = {
   gameConfigLoaded: false,
   gameConfig: undefined,
-  displayDevBox: true,
+  debugDisplayDevBox: false,
+  debugQuickAudio: false,
 
   user: {
     QRScannerCanBeDisplayed: false,
@@ -173,7 +177,8 @@ export const store = createStore({
       const urlParams = new URLSearchParams(window.location.search);
       const configUrl = urlParams.get("configUrl");
 
-      state.displayDevBox = urlParams.get("displayDevBox") == "yes";
+      state.debugDisplayDevBox = urlParams.get("displayDevBox") === "yes";
+      state.debugQuickAudio = urlParams.get("quickAudio") === "yes";
 
       if (configUrl) {
         state.gameConfig = await loadGameConfigAndStations(new URL(configUrl));

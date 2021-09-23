@@ -2,7 +2,7 @@ import { Howl } from "howler";
 
 import { StationID } from "./station";
 
-import { IEventPlayAudio, IEventPlayBackgroundAudio } from "./events";
+import { IEventPlayAudio, IEventPlayBackgroundAudio } from "./event";
 
 import { Mutations, store } from "./store";
 import { joinPaths } from "./utils";

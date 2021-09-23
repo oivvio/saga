@@ -12,6 +12,7 @@ from PIL import ImageDraw
 
 from validation.validation import validate_gameconfig_helper
 from validation.validation import validate_station_file
+from validation.validation import validate_station_file_and_output_errors
 from validation.validation import output_validation_errors
 from validation.validation import validate_schema_helper
 from validation.validation import validate_stations_in_folder_helper
@@ -36,6 +37,13 @@ def validate_game(ctx, filename):
     """Validate a complete game consisting of a gameconfig, multiple station files and multiple audio files """
     preflight_checklist()
     validate_game_helper(filename)
+
+
+@task
+def validate_station(ctx, filename):
+    """Validate a single station file """
+    preflight_checklist()
+    validate_station_file_and_output_errors(filename)
 
 
 @task
