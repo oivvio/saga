@@ -70,34 +70,46 @@ export class AudioEngine {
     this.playForegroundAudio(audioFilename);
   }
 
-  public playForegroundAudio(audioFilename: string): void {
+  public playForegroundAudio(audioFilename: string): Promise<boolean> {
     //1. Check that no other main audio is playing
-    if (store.state.audio.foreground.isPlaying) {
-      // TODO log error
-      console.log("sorry");
-      return undefined;
-    }
+    //
 
-    // setup the sound
-    this.foregroundSound = new Howl({
-      src: [this.getAudioPath(audioFilename)],
+    const promise = new Promise<boolean>((resolve, reject) => {
+      if (store.state.audio.foreground.isPlaying) {
+        // TODO log error
+        console.log("sorry");
+        reject(false);
+      }
+
+      if (store.state.debugQuickAudio) {
+        console.log("PLAYING DEBUG AUDIO");
+        audioFilename = "./audio/quick-audio.mp3";
+      }
+
+      // setup the sound
+      this.foregroundSound = new Howl({
+        src: [this.getAudioPath(audioFilename)],
+      });
+
+      // setup callback for start of audio
+      this.foregroundSound.once("play", () => {
+        this.duckBackgroundAudio();
+        store.commit(Mutations.setForegroundAudioIsPlaying, true);
+      });
+
+      // setup callback for end of audio
+      this.foregroundSound.once("end", () => {
+        store.commit(Mutations.setForegroundAudioIsPlaying, false);
+        this.unduckBackgroundAudio();
+        this.foregroundSound?.unload();
+        resolve(true);
+      });
+
+      // Press play
+      this.foregroundSound.play();
     });
 
-    // setup callback for start of audio
-    this.foregroundSound.once("play", () => {
-      this.duckBackgroundAudio();
-      store.commit(Mutations.setForegroundAudioIsPlaying, true);
-    });
-
-    // setup callback for end of audio
-    this.foregroundSound.once("end", () => {
-      store.commit(Mutations.setForegroundAudioIsPlaying, false);
-      this.unduckBackgroundAudio();
-      this.foregroundSound?.unload();
-    });
-
-    // Press play
-    this.foregroundSound.play();
+    return promise;
   }
 
   /**
@@ -145,14 +157,11 @@ export class AudioEngine {
     }
   }
 
-  public handlePlayAudioEvent(event: IEventPlayAudio): void {
+  public handlePlayAudioEvent(event: IEventPlayAudio): Promise<boolean> {
     // TODO For now just grab the first audio
-    // Figure out which audio we should play.
-
-    // store.state.user.currentStation
-
     const filename = event.audioFilenames[0];
-    this.playForegroundAudio(filename);
+    const promise = this.playForegroundAudio(filename);
+    return promise;
   }
 
   public handlePlayBackgroundAudioEvent(

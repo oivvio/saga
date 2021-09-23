@@ -10,7 +10,7 @@ import QrScanner from "qr-scanner";
 import { store, Mutations } from "../../store";
 import { getLastUrlSegment } from "../../utils";
 
-import { StationID, runStation } from "../../station";
+import { StationID, runStationById } from "../../station";
 
 interface IScanRegion {
   x: number;
@@ -127,7 +127,7 @@ const Component = defineComponent({
               qrScanner.destroy();
               qrScanner = null;
             }
-            runStation(stationId);
+            runStationById(stationId);
           }
         },
       });

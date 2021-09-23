@@ -12,7 +12,22 @@
   "events": [
     {
       "action": "playAudio",
-      "audioFilenames": ["./audio/start.mp3", "./audio/start-b.mp3"]
+      "audioFilenames": ["./audio/start.mp3", "./audio/start-b.mp3"],
+
+      "then": {
+        "action": "playAudioBasedOnAdHocValue",
+        "key": "powerName",
+        "audioFilenameMap": {
+          "sad,sun": "./audio/your-name-is-sad-sun.mp3",
+          "sad,wind": "./audio/your-name-is-sad-wind.mp3",
+          "happy,moon": "./audio/your-name-is-happy-moon.mp3",
+          "happy,sun": "./audio/your-name-is-happy-sun.mp3",
+          "happy,wind": "./audio/your-name-is-happy-wind.mp3",
+          "angry,moon": "./audio/your-name-is-angry-moon.mp3",
+          "angry,sun": "./audio/your-name-is-angry-sun.mp3",
+          "angry,wind": "./audio/your-name-is-angry-wind.mp3"
+        }
+      }
     },
     {
       "action": "playBackgroundAudio",

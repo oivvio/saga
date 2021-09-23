@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 
 import { Mutations } from "../../store";
-import { StationID, runStation } from "../../station";
+import { StationID, runStationById } from "../../station";
 
 export default defineComponent({
   name: "DevBox",
@@ -11,7 +11,7 @@ export default defineComponent({
       this.$store.commit(Mutations.wipeHistory);
     },
     runStationOnButtonPress(stationId: StationID) {
-      runStation(stationId);
+      runStationById(stationId);
     },
 
     visitCount(stationId: StationID) {

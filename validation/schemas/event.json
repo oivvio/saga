@@ -9,6 +9,7 @@
           "type": "string",
           "enum": [
             "playAudio",
+            "playAudioBasedOnAdHocValue",
             "playBackgroundAudio",
             "goToStation",
             "pickRandomSample",
@@ -23,8 +24,13 @@
         },
 
         "key": {
-          "description": "Used with pickRandomSample & pushToAdHocArray",
+          "description": "Used with pickRandomSample & pushToAdHocArray & playAudioBaseOnAdHocValue",
           "type": "string"
+        },
+
+        "audioFilenameMap": {
+          "description": "Map from a value to a filname in playAudioBasedOnAdHocValue",
+          "type": "object"
         },
 
         "population": {
@@ -54,8 +60,8 @@
         "loop": { "type": "boolean" },
         "opens": { "type": "string" },
         "timeLimit": { "type": "number" },
-        "onTimeLimitEnd": {
-          "$ref": "file:./secondLevelEvent.json#/$defs/secondLevelEvent"
+        "then": {
+          "$ref": "file:./event.json#/$defs/event"
         },
 
         "goToStation": { "type": "string" },

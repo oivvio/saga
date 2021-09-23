@@ -118,6 +118,77 @@ def validate_station(station):
     return [e for e in validator.iter_errors(station)]
 
 
+def deep_validation_of_event(station, event, filename):
+
+    station_id = station["id"]
+    station_filepath = station["filePath"]
+
+    # Check for existance of main audio
+    if event["action"] == "playAudio":
+        for audiofile_base in event["audioFilenames"]:
+
+            audiofile_path = Path(filename).parent.joinpath(audiofile_base)
+
+            if not audiofile_path.exists():
+                print(
+                    f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                )
+    # Check for existance of background audio
+    if event["action"] == "playBackgroundAudio":
+        audiofile_base = event["audioFilename"]
+
+        audiofile_path = Path(filename).parent.joinpath(audiofile_base)
+
+        if not audiofile_path.exists():
+            # station_id = station["id"]
+            # station_filepath = station["filePath"]
+            print(
+                f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+            )
+
+    # Check that this files exist
+    if event["action"] == "playAudioBasedOnAdHocValue":
+        for audiofile_base in event["audioFilenameMap"].values():
+            audiofile_path = Path(filename).parent.joinpath(audiofile_base)
+            if not audiofile_path.exists():
+                print(
+                    f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                )
+
+    # Check the next level events
+    if "then" in event:
+        next_level_event = event["then"]
+        deep_validation_of_event(station, next_level_event, filename)
+
+
+def deep_validation_of_station(station, station_ids, filename):
+    """ Validate stuff about a station that json schema can not give us """
+    station_id = station["id"]
+    station_filepath = station["filePath"]
+
+    # Check for existance of help audio
+    if station["type"] == "story":
+        for audiofile_base in station["helpAudioFilenames"]:
+            audiofile_path = Path(filename).parent.joinpath(audiofile_base)
+
+            if not audiofile_path.exists():
+                print(
+                    f"The help audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                )
+
+    if station["type"] in ["story", "choice"]:
+        for event in station["events"]:
+            deep_validation_of_event(station, event, filename)
+
+        # check that all references stations exist
+
+        for station_open_id in station["opens"]:
+            if station_open_id not in station_ids:
+                print(
+                    f"The station  '{station_open_id}' referenced from station '{station_id}' defined in {station['filePath']}, does not exist."
+                )
+
+
 def validate_gameconfig_helper(filename):
     """Validate a given game config file. Not the entire game"""
 
@@ -179,75 +250,5 @@ def validate_game_helper(filename):
                 f"The station id '{station_id}' defined in {station_filepath}, is not valid for a choice station."
             )
 
-    # check that all story stations have exactly 2 help tracks
-    # for station in [s for s in stations.values() if s["type"] == "story"]:
-    #     station_id = station["id"]
-    #     station_filepath = station["filePath"]
-
-    #     play_help_audio_events = [
-    #         e for e in station["events"] if e["action"] == "playHelpAudio"
-    #     ]
-    #     if len(play_help_audio_events) == 1:
-    #         play_help_audio_event = play_help_audio_events[0]
-
-    #         if ("audioHelpFilenames" in play_help_audio_event) and len(
-    #             play_help_audio_event["audioHelpFilenames"]
-    #         ) != 2:
-    #             print(
-    #                 f"The 'playHelpAudio' section in the  story station '{station_id}' defined in {station_filepath} should define two 'audioHelpFilenames'."
-    #             )
-
-    #     else:
-    #         print(
-    #             f"The story station '{station_id}' defined in {station_filepath} should define exactly one 'playHelpAudio' event."
-    #         )
-
-    # check that all referenced audio files exist
-    #
-
     for station in stations.values():
-        station_id = station["id"]
-        station_filepath = station["filePath"]
-
-        # Check for existance of help audio
-        if station["type"] == "story":
-            for audiofile_base in station["helpAudioFilenames"]:
-                audiofile_path = Path(filename).parent.joinpath(audiofile_base)
-
-                if not audiofile_path.exists():
-                    print(
-                        f"The help audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
-                    )
-
-        if station["type"] in ["story", "choice"]:
-            for event in station["events"]:
-                # Check for existance of main audio
-                if event["action"] == "playAudio":
-                    for audiofile_base in event["audioFilenames"]:
-
-                        audiofile_path = Path(filename).parent.joinpath(audiofile_base)
-
-                        if not audiofile_path.exists():
-                            print(
-                                f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
-                            )
-                # Check for existance of background audio
-                if event["action"] == "playBackgroundAudio":
-                    audiofile_base = event["audioFilename"]
-
-                    audiofile_path = Path(filename).parent.joinpath(audiofile_base)
-
-                    if not audiofile_path.exists():
-                        station_id = station["id"]
-                        station_filepath = station["filePath"]
-                        print(
-                            f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
-                        )
-
-            # check that all references stations exist
-
-            for station_open_id in station["opens"]:
-                if station_open_id not in station_ids:
-                    print(
-                        f"The station  '{station_open_id}' referenced from station '{station_id}' defined in {station['filePath']}, does not exist."
-                    )
+        deep_validation_of_station(station, station_ids, filename)

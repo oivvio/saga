@@ -5,16 +5,11 @@
   "opens": ["pick-sun", "pick-wind", "pick-moon"],
 
   "helpAudioFilenames": [
-    "./audio/pick-second-part-of-powername-help1.mp3",
-    "./audio/pick-second-part-of-powername-help2.mp3"
+    "./audio/unreachable-help1.mp3",
+    "./audio/unreachable-help2.mp3"
   ],
 
   "events": [
-    {
-      "action": "playAudio",
-      "audioFilenames": ["./audio/you-picked-moon.mp3"]
-    },
-
     {
       "action": "pushToAdHocArray",
       "key": "pickedPowerName",
@@ -22,26 +17,31 @@
     },
 
     {
-      "action": "switchGotoStation",
-      "switch": [
-        {
-          "case": "adHocKeysAreEqual",
-          "parameters": {
-            "firstKey": "powerName",
-            "secondKey": "pickedPowerName",
-            "toStation": "you-win"
-          }
-        },
+      "action": "playAudio",
+      "audioFilenames": ["./audio/you-picked-moon.mp3"],
 
-        {
-          "case": "adHocKeysAreNotEqual",
-          "parameters": {
-            "firstKey": "powerName",
-            "secondKey": "pickedPowerName",
-            "toStation": "you-loose"
+      "then": {
+        "action": "switchGotoStation",
+        "switch": [
+          {
+            "condition": "adHocKeysAreEqual",
+            "parameters": {
+              "firstKey": "powerName",
+              "secondKey": "pickedPowerName",
+              "toStation": "you-win"
+            }
+          },
+
+          {
+            "condition": "adHocKeysAreNotEqual",
+            "parameters": {
+              "firstKey": "powerName",
+              "secondKey": "pickedPowerName",
+              "toStation": "you-loose"
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   ]
 }

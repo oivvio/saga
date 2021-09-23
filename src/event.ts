@@ -1,7 +1,7 @@
 import { sample } from "lodash";
 import { AudioEngine } from "./audioEngine";
 import { store, IState, Mutations } from "./store";
-import { StationID, runStation } from "./station";
+import { StationID, runStationById } from "./station";
 
 export interface IEventPickRandomSample {
   action: "pickRandomSample";
@@ -12,6 +12,13 @@ export interface IEventPickRandomSample {
 export interface IEventPlayAudio {
   action: "playAudio";
   audioFilenames: string[];
+  then?: IEvent;
+}
+
+export interface IEventPlayAudioBasedOnAdHocValue {
+  action: "playAudio";
+  key: string;
+  audioFilenameMap: Record<string, string>;
 }
 
 export interface IEventPlayBackgroundAudio {
@@ -21,14 +28,6 @@ export interface IEventPlayBackgroundAudio {
   cancelOnLeave: boolean;
   loop: boolean;
 }
-
-// export interface IEventStartTimeLimit {
-//   action: "startTimeLimit";
-//   timerName: string;
-//   cancelOnLeave: boolean;
-//   timeLimit: number;
-//   onTimeLimitEnd: ISecondLevelEvent;
-// }
 
 export interface IEventGoToStation {
   action: "goToStation";
@@ -52,62 +51,81 @@ export interface IEventPushToAdHocArrayEvent {
   value: any;
 }
 
-export interface IEventSwitchGotoStation {
-  action: "switchGotoStation";
-  // key: string;
-  // eslint-disable-next-line
-  switch: {
-    condition: "adHocKeysAreEqual" | "adHocKeysAreNotEqual";
-    parameters: { firstKey: string; secondKey: string; toStation: StationID };
-  }[];
+interface ISwitchCompareTwoAdHocKeys {
+  condition: "adHocKeysAreEqual" | "adHocKeysAreNotEqual";
+  parameters: {
+    firstKey: string;
+    secondKey: string;
+    toStation: StationID;
+  };
 }
 
-// export interface IEventCondition {
-//   condition: "hasTag";
-//   conditionArgs: string;
-// }
+interface ISwitchAdHocKeyEquals {
+  condition: "adHocKeyEquals";
+
+  parameters: {
+    key: string;
+    // eslint-disable-next-line
+    value: any;
+    toStation: StationID;
+  };
+}
+
+type ISwitch = ISwitchAdHocKeyEquals | ISwitchCompareTwoAdHocKeys;
+export interface IEventSwitchGotoStation {
+  action: "switchGotoStation";
+  switch: ISwitch[];
+}
 
 export type IEvent =
   | IEventPlayAudio
+  | IEventPlayAudioBasedOnAdHocValue
   | IEventPlayBackgroundAudio
   | IEventPickRandomSample
   | IEventGoToStation
   | IEventPushToAdHocArrayEvent
   | IEventSwitchGotoStation;
 
-// | IEventStartTimeLimit
-// | IEventCancelTimer
-
-// export type IEvent = IEventAction | IEventCondition;
-// export type IEvent = IEventAction;
-
-// export interface ISecondLevelEvent {
-//   action: "playAudio" | "startTimeLimit" | "goToStation" | "cancelTimer";
-//   audioFilename?: string;
-//   timerName?: string;
-//   cancelOnLeave?: boolean;
-//   timeLimit?: number;
-//   goToStation?: string;
-//   toStation?: string;
-//   condition?: "hasTag";
-//   conditionArgs?: string;
-// }
-
 // Events
 
 export const eventHandlers = {
-  playAudio: function (_: IState, event: IEvent): void {
+  playAudio: function (state: IState, event: IEvent): void {
     const playAudioEvent = event as IEventPlayAudio;
+    const audioEventHandler = AudioEngine.getInstance();
+    const audioPromise = audioEventHandler.handlePlayAudioEvent(playAudioEvent);
 
-    // TODO, figure out which audioFile to play
-    // Since this is only run for the audio events if we are scanning an open station
-    // we know that we should play the first track in our audioFilenames array.
-    // This is the A-track
-    //
+    // eslint-disable-next-line
+    audioPromise.then((_) => {
+      if (playAudioEvent.then !== undefined) {
+        const childEvent = playAudioEvent.then;
+        eventHandlers[childEvent.action](state, childEvent);
+      }
+    });
+  },
 
+  playAudioBasedOnAdHocValue: function (state: IState, event: IEvent): void {
+    const playAudioEvent = event as IEventPlayAudioBasedOnAdHocValue;
     const audioEventHandler = AudioEngine.getInstance();
 
-    audioEventHandler.handlePlayAudioEvent(playAudioEvent);
+    const secondLevelKey = state.user.adHocData[playAudioEvent.key];
+
+    console.log("SecondLevelKey: ", secondLevelKey);
+
+    const audioFilename = playAudioEvent.audioFilenameMap[secondLevelKey];
+    console.log("audioFIlename: ", audioFilename);
+    if (audioFilename) {
+      audioEventHandler.playForegroundAudio(audioFilename);
+    }
+
+    // const audioPromise = audioEventHandler.handlePlayAudioEvent(playAudioEvent);
+
+    // eslint-disable-next-line
+    // audioPromise.then((_) => {
+    //   if (playAudioEvent.then !== undefined) {
+    //     const childEvent = playAudioEvent.then;
+    //     eventHandlers[childEvent.action](state, childEvent);
+    //   }
+    // });
   },
 
   playBackgroundAudio: function (_: IState, event: IEvent): void {
@@ -134,7 +152,7 @@ export const eventHandlers = {
 
   goToStation: function (_: IState, event: IEvent): void {
     const goToStationEvent = event as IEventGoToStation;
-    runStation(goToStationEvent.toStation);
+    runStationById(goToStationEvent.toStation);
   },
 
   // cancelTimer: function (state: IState, event: IEvent) {
@@ -167,31 +185,56 @@ export const eventHandlers = {
     const switchGotoStationEvent = event as IEventSwitchGotoStation;
 
     // Find the first switch that evaluates to true
+
     const matches = switchGotoStationEvent.switch.filter((currentCase) => {
-      const firstKey = currentCase.parameters.firstKey;
-      const secondKey = currentCase.parameters.secondKey;
+      // Used to check for one parameter in adHocData
 
       // Get string representation of proxy so we can do proper comparisons
-      const firstValue = store.state.user.adHocData[firstKey].toString();
+      //
 
-      const secondValue = store.state.user.adHocData[secondKey].toString();
-      console.log(firstValue, secondValue, firstValue === secondValue);
+      let result = false;
       switch (currentCase.condition) {
+        case "adHocKeysAreNotEqual":
         case "adHocKeysAreEqual":
-          if (firstValue === secondValue) {
-            return true;
+          // eslint-disable-next-line
+          const cc1 = currentCase as ISwitchCompareTwoAdHocKeys;
+          // eslint-disable-next-line
+          const firstKey = cc1.parameters.firstKey;
+          // eslint-disable-next-line
+          const secondKey = cc1.parameters.secondKey;
+          // eslint-disable-next-line
+          const firstValue = store.state.user.adHocData[firstKey]?.toString();
+          // eslint-disable-next-line
+          const secondValue = store.state.user.adHocData[secondKey]?.toString();
+
+          if (
+            cc1.condition === "adHocKeysAreEqual" &&
+            firstValue === secondValue
+          ) {
+            result = true;
           }
+
+          if (
+            cc1.condition === "adHocKeysAreNotEqual" &&
+            firstValue !== secondValue
+          ) {
+            result = true;
+          }
+
           break;
 
-        case "adHocKeysAreNotEqual":
-          if (firstValue !== secondValue) {
-            return true;
-          }
+        case "adHocKeyEquals":
+          // eslint-disable-next-line
+          const cc2 = currentCase as ISwitchAdHocKeyEquals;
+          result =
+            store.state.user.adHocData[cc2.parameters.key] ==
+            cc2.parameters.key;
           break;
 
         default:
           break;
       }
+      return result;
     });
 
     const firstMatch = matches[0];
@@ -199,10 +242,12 @@ export const eventHandlers = {
     // extract the stationId and go there;
     if (firstMatch !== undefined) {
       const toStation = firstMatch.parameters.toStation;
-      console.log("DID WE GET HERE: ", toStation);
-      runStation(toStation);
-    }
 
-    debugger;
+      // Open up the destination
+      store.commit(Mutations.updateOpenStations, [toStation]);
+
+      // And go to that station
+      runStationById(toStation);
+    }
   },
 };

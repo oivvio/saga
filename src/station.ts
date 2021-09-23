@@ -183,7 +183,7 @@ function interpretEvent(state: IState, inEvent: IEvent) {
 //   cancelTimer: () => {},
 // };
 
-export function runStation(stationId: StationID): void {
+export function runStationById(stationId: StationID): void {
   log("engine", ` runStation: ${stationId}`);
 
   // set the currently executing station
@@ -198,7 +198,7 @@ export function runStation(stationId: StationID): void {
     const station = store.state.gameConfig.stations[stationId];
 
     // Will also play audio
-    interpretStation(station);
+    runStation(station);
 
     // Update open stations
   }
@@ -221,7 +221,7 @@ function handleHelpOpen(
     const startStation =
       store.state.gameConfig?.stations[station.startStationId];
     if (startStation) {
-      interpretStation(startStation);
+      runStation(startStation);
     }
   }
 }
@@ -256,7 +256,6 @@ function pickHelpTrack(currentStation: Station): {
 
         if (firstUnheardHelpTrack) {
           // There is one or more unheard helptracks
-          // audioEngine.playForegroundAudio(firstUnheardHelpTrack);
           result.audioFilename = firstUnheardHelpTrack;
           result.decreaseHelpAvailable = true;
           result.playHelp = true;
@@ -334,8 +333,7 @@ function handleHelpClosed(currentStation: Station) {
     // Figure out how much help is left
     let helpLeftAudioFile =
       store.state.gameConfig?.globalAudioFilenames.allHelpLeftAudioFilename;
-    // audioEngine.playForegroundAudio(playInstructions.audioFilename);
-    //
+
     switch (store.state.user.helpAvailable) {
       case 3:
         // helpLeftAudioFile = store.state.gameConfig?.globalAudioFilenames.
@@ -380,7 +378,7 @@ function handleHelpClosed(currentStation: Station) {
   }
 }
 
-export function interpretStation(station: Station): void {
+export function runStation(station: Station): void {
   // For any station, check if there is any background audio running that should be stopped
   const audioEngine = AudioEngine.getInstance();
   audioEngine.cancelDueBackgroundSounds();
@@ -508,7 +506,6 @@ export function interpretStation(station: Station): void {
             }
           }
         }
-
         break;
 
       default:

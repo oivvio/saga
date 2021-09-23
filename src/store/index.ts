@@ -222,6 +222,7 @@ export const store = createStore({
       state.user.adHocData[payload.key] = payload.value;
     },
 
+    // eslint-disable-next-line
     pushToAdHocArray(state: IState, payload: { key: string; value: any }) {
       if (state.user.adHocData[payload.key] === undefined) {
         state.user.adHocData[payload.key] = [];
