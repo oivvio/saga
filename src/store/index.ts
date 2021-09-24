@@ -236,8 +236,8 @@ export const store = createStore({
   },
   actions: {},
   modules: {},
-  // TODO reinstate
-  // plugins: [createPersistedState()],
+  // TODO Hide this in development
+  plugins: [createPersistedState()],
 });
 
 // const storeClosure = store;
