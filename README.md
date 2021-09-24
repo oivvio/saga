@@ -7,81 +7,50 @@ A webb application for non-linear story telling.
 - Clone the repo
 
 ```bash
-$ git clone https://github.com/jeneljenel/saga [PROJECT_NAME]
+$ git clone git@github.com:oivvio/saga.git [PROJECT_NAME]
 ```
 
 - Install dependencies
 
 ```bash
 $ cd PROJECT_NAME
-npm install
+$ npm install
+
+
 ```
 
-- build and run the project
+- Make, populate & activate a python virtualenv
+
+This assumes that `virtualenvwrapper` is installed on your system.
 
 ```bash
-$ npm start
+$ mkvirtualenv  --python=/usr/bin/python3.9 [VENV_NAME]
+
+$ pip install -r requirements.txt
+```
+
+- Run the project i development mode
+
+```bash
+$ invoke vue-devserver
 ```
 
 Navigate to `http://localhost:8080`
 
-# Run JSON schema to validate json documents
+# Run JSON schema to validate the json documents
 
-Activate the virtualenv.
+A game built with Saga consists of two parts: the game engine and the game definition files and audio files. The game engine is provided and it's up to you to write the game definition files and provide the audio files for your game.
+
+We include test game in `public/data/test_game` to get you started.
+
+The game definition files are written in `json` and we provide a set of json schema files that you should use to validate your game definition files. We provide a set of `invoke` tasks that make it easy to validate your game definition files.
+
+Make sure your virtualenv is active.
 
 ```bash
-$ source ./venv/bin/activate
+$ workon [VENV_NAME]
 ```
 
 ```bash
-$ python schema-validator.py
+$ invoke validate-game -f ./path/to/your/gameconfig.json
 ```
-
-# Info
-
-This project is to be used in a specific project and is very customized for the artistic ideas of the story telling.
-
-There is an example of how to set it up saga-example.md.
-
-# Handling state
-
-State is initialized in main.js like so
-
-    let initialState = stateInit();
-    Alpine.store("state", initialState);
-
-We can then pick up our current state anyware in the project like so
-
-    let state = Alpine.store("state");
-
-# my-project-name
-
-# From the README.md `vue create` gave us
-
-## Project setup
-
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-
-```
-yarn build
-```
-
-### Lints and fixes files
-
-```
-yarn lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
