@@ -3,33 +3,62 @@
 <template>
   <div class="DevBox">
     <h1>Devtools</h1>
-    <p>
-      QRScannerCanBeDisplayed:
-      {{ this.$store.state.user.QRScannerCanBeDisplayed }}
-    </p>
-    <p>
-      QRScannerIsDisplayed: {{ this.$store.state.user.QRScannerIsDisplayed }}
-    </p>
+    <table>
+      <tr>
+        <td>QRScannerCanBeDisplayed:</td>
+        <td>{{ this.$store.state.user.QRScannerCanBeDisplayed }}</td>
+      </tr>
+      <tr>
+        <td>QRScannerIsDisplayed:</td>
+        <td>{{ this.$store.state.user.QRScannerIsDisplayed }}</td>
+      </tr>
 
-    <p>gameConfigIsLoaded: {{ this.$store.state.gameConfigLoaded }}</p>
+      <tr>
+        <td>gameConfigIsLoaded:</td>
+        <td>{{ this.$store.state.gameConfigLoaded }}</td>
+      </tr>
 
-    <p>stationsVisited: {{ this.$store.state.user.stationsVisited }}</p>
+      <tr>
+        <td>stationsVisited:</td>
+        <td>{{ this.$store.state.user.stationsVisited }}</td>
+      </tr>
+      <tr>
+        <td>audioStoryIsPlaying:</td>
+        <td>{{ this.$store.state.audio.foreground.isPlaying }}</td>
+      </tr>
+      <tr>
+        <td>audioBackgroundIsPlaying:</td>
+        <td>{{ this.$store.state.audio.background.isPlaying }}</td>
+      </tr>
 
-    <p>timers: {{ this.$store.state.user.timers }}</p>
-    <p>
-      audioStoryIsPlaying: {{ this.$store.state.audio.foreground.isPlaying }}
-    </p>
-    <p>
-      audioBackgroundIsPlaying:
-      {{ this.$store.state.audio.background.isPlaying }}
-    </p>
+      <tr>
+        <td>openStations:</td>
+        <td>{{ this.$store.state.user.openStations }}</td>
+      </tr>
 
-    <p>openStations: {{ this.$store.state.user.openStations }}</p>
-    <p>currentStation: {{ this.$store.state.user.currentStation }}</p>
-    <p>helpAvailable: {{ this.$store.state.user.helpAvailable }}</p>
-    <p>adHocData: {{ this.$store.state.user.adHocData }}</p>
+      <tr>
+        <td>lastStationVisitedId:</td>
+        <td>{{ this.$store.state.user.lastStationVisitedId }}</td>
+      </tr>
 
-    <p>nStations: {{ nStations }}</p>
+      <tr>
+        <td>currentStation:</td>
+        <td>{{ this.$store.state.user.currentStation }}</td>
+      </tr>
+      <tr>
+        <td>helpAvailable:</td>
+        <td>{{ this.$store.state.user.helpAvailable }}</td>
+      </tr>
+      <tr>
+        <td>adHocData:</td>
+        <td>{{ this.$store.state.user.adHocData }}</td>
+      </tr>
+
+      <tr>
+        <td>nStations:</td>
+        <td>{{ nStations }}</td>
+      </tr>
+    </table>
 
     <div id="example-1" v-if="gameConfigLoaded">
       <p><strong>Execute a station</strong></p>
@@ -65,5 +94,9 @@
 <style scoped lang="scss">
 div.DevBox {
   background-color: lightgreen;
+}
+
+td {
+  border: 1px solid black;
 }
 </style>

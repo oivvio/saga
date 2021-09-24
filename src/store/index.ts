@@ -229,6 +229,10 @@ export const store = createStore({
       }
       state.user.adHocData[payload.key].push(payload.value);
     },
+
+    setLastStationVisitedId(state: IState, stationId: StationID) {
+      state.user.lastStationVisitedId = stationId;
+    },
   },
   actions: {},
   modules: {},
@@ -271,21 +275,22 @@ store.subscribe((_, state: IState) => {
 // TODO There are better ways of doing this
 // https://dev.to/3vilarthas/vuex-typescript-m4j
 export enum Mutations {
-  decreaseHelpAvailable = "decreaseHelpAvailable",
-  displayQRScanner = "displayQRScanner",
-  hideQRScanner = "hideQRScanner",
-  displayButtonToOpenQRScanner = "displayButtonToOpenQRScanner",
-  hideButtonToOpenQRScanner = "hideButtonToOpenQRScanner",
-  wipeHistory = "wipeHistory",
-  loadGameConfig = "loadGameConfig",
-  pushStationIdToStationsVisited = "pushStationIdToStationsVisited",
   addTimer = "addTimer",
+  decreaseHelpAvailable = "decreaseHelpAvailable",
+  displayButtonToOpenQRScanner = "displayButtonToOpenQRScanner",
+  displayQRScanner = "displayQRScanner",
+  hideButtonToOpenQRScanner = "hideButtonToOpenQRScanner",
+  hideQRScanner = "hideQRScanner",
+  loadGameConfig = "loadGameConfig",
+  pushPlayedHelpTrack = "pushPlayedHelpTrack",
+  pushStationIdToStationsVisited = "pushStationIdToStationsVisited",
+  pushToAdHocArray = "pushToAdHocArray",
   removeTimer = "removeTimer",
-  setForegroundAudioIsPlaying = "setForegroundAudioIsPlaying",
+  setAdHocData = "setAdHocData",
   setAudioBackgroundIsPlaying = "setAudioBackgroundIsPlaying",
   setCurrentStation = "setCurrentStation",
+  setForegroundAudioIsPlaying = "setForegroundAudioIsPlaying",
   updateOpenStations = "updateOpenStations",
-  pushPlayedHelpTrack = "pushPlayedHelpTrack",
-  setAdHocData = "setAdHocData",
-  pushToAdHocArray = "pushToAdHocArray",
+  wipeHistory = "wipeHistory",
+  setLastStationVisitedId = "setLastStationVisitedId",
 }

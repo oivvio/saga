@@ -1,9 +1,6 @@
 import { Howl } from "howler";
-
 import { StationID } from "./station";
-
 import { IEventPlayAudio, IEventPlayBackgroundAudio } from "./event";
-
 import { Mutations, store } from "./store";
 import { joinPaths } from "./utils";
 
@@ -12,12 +9,12 @@ import { joinPaths } from "./utils";
 // https://refactoring.guru/design-patterns/singleton/typescript/example
 export class AudioEngine {
   private static instance: AudioEngine;
-  private static bgDuckedVolume = 0.3; //
-  private static bgFullVolume = 1; // TODO Set to 1
+  private static bgDuckedVolume = 0.03; // TODO set to 0.3
+  private static bgFullVolume = 0.03;
   private static bgFadeInDuration = 2000;
   private static bgFadeOutDuration = 2000;
   private foregroundSound: Howl | undefined;
-  // private backgroundSounds: [StationID, Howl][];
+
   private backgroundSounds: {
     stationId: StationID;
     event: IEventPlayBackgroundAudio;

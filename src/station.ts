@@ -1,8 +1,9 @@
 // Interpret stations
 import { AudioEngine } from "./audioEngine";
 import { store, IState, Mutations } from "./store";
-import { getParentUrl, getChildUrl, log } from "./utils";
+import { getParentUrl, getChildUrl } from "./utils";
 
+import { last } from "lodash";
 import {
   IEvent,
   IEventPlayAudio,
@@ -109,9 +110,6 @@ export interface IGameConfig {
 export async function loadGameConfigAndStations(
   configUrl: URL
 ): Promise<IGameConfig> {
-  log("station", `in loadGameConfigAndStations ${configUrl}`);
-  //
-  // (http://example.com/parent, "./child/station1.json") -> data
   async function loadStationFromPath(
     baseUrl: URL,
     path: string
@@ -149,59 +147,6 @@ function interpretEvent(state: IState, inEvent: IEvent) {
   //const event = inEvent as IEventAction;
   const event = inEvent as IEvent;
   eventHandlers[event.action](state, event);
-}
-
-// function interpretSecondLevelEvent(state: IState, event: ISecondLevelEvent) {
-//   if (event.action !== undefined) {
-//     eventHandlers[event.action](state, event as IEvent);
-//   }
-// }
-
-// function runEventOnLeave(state: IState, event: IEvent): void {
-//   const actionEvent = event as IEventAction;
-//   if (onLeave[actionEvent.action] !== undefined) {
-//     onLeave[actionEvent.action](state, actionEvent);
-//   }
-// }
-
-// const onLeave = {
-//   startTimeLimit: function (state: IState, event: IEvent): void {
-//     const startTimeLimitEvent = event as IEventStartTimeLimit;
-
-//     const timer = state.user.timers[startTimeLimitEvent.timerName];
-//     window.clearTimeout(timer);
-
-//     store.commit(Mutations.removeTimer, startTimeLimitEvent.timerName);
-//   },
-
-//   // required by TypeScript because of how IEvent.action is defined
-//   // eslint-disable-next-line
-//   playAudio: () => {},
-//   // eslint-disable-next-line
-//   goToStation: () => {},
-//   // eslint-disable-next-line
-//   cancelTimer: () => {},
-// };
-
-export function runStationById(stationId: StationID): void {
-  log("engine", ` runStation: ${stationId}`);
-
-  // set the currently executing station
-  // store.commit(Mutations.setCurrentStation, stationId);
-
-  // Figure out which stations are visited
-  // const visitedStationIds = store.state.user.stationsVisited;
-
-  // If we have already been here
-
-  if (store?.state?.gameConfig) {
-    const station = store.state.gameConfig.stations[stationId];
-
-    // Will also play audio
-    runStation(station);
-
-    // Update open stations
-  }
 }
 
 // Used by interpretStation
@@ -264,10 +209,7 @@ function pickHelpTrack(currentStation: Station): {
           // Play the last help track free of charge
 
           if (currentStation.helpAudioFilenames) {
-            const audioFilename =
-              currentStation.helpAudioFilenames[
-                currentStation.helpAudioFilenames.length - 1
-              ];
+            const audioFilename = last(currentStation.helpAudioFilenames);
 
             if (audioFilename) {
               result.audioFilename = audioFilename;
@@ -378,6 +320,15 @@ function handleHelpClosed(currentStation: Station) {
   }
 }
 
+export function runStationById(stationId: StationID): void {
+  if (store?.state?.gameConfig) {
+    const station = store.state.gameConfig.stations[stationId];
+    if (station) {
+      runStation(station);
+    }
+  }
+}
+
 export function runStation(station: Station): void {
   // For any station, check if there is any background audio running that should be stopped
   const audioEngine = AudioEngine.getInstance();
@@ -390,7 +341,15 @@ export function runStation(station: Station): void {
   const counts = store.state.user.stationVisitCounts[station.id];
 
   if (stationIsOpen) {
-    //  We scanned an open station, so we set that station as our current station
+    // We scanned an open station. Which means we "move" the user to a new station
+    // If we are currently at a station we should stick that id in our "lastStationVisited"
+    if (store.state.user.currentStation) {
+      store.commit(
+        Mutations.setLastStationVisitedId,
+        store.state.user.currentStation
+      );
+    }
+    //  And then we update the current station
     store.commit(Mutations.setCurrentStation, station.id);
 
     switch (station.type) {
@@ -423,26 +382,11 @@ export function runStation(station: Station): void {
 
         // Handle events for the users current station
         station.events.forEach((event) => {
-          log(
-            "interpretStation",
-            `handle events for users current station  ${event}`
-          );
-          // if (interpretCondition(store.state, event)) {
           interpretEvent(store.state, event);
-          // }
         });
-
-        log(
-          "interpretStation",
-          `post handle events ${store.state.user.stationsVisited}`
-        );
-
-        // Set users last visited station
-        store.state.user.lastStationVisitedId = station.id;
 
         // Open next stations, close previous
         if (station.opens !== undefined && store.state.gameConfig) {
-          log("station", `interpretStation ${station.opens}`);
           store.commit(Mutations.updateOpenStations, station.opens);
         }
         break;
@@ -456,8 +400,20 @@ export function runStation(station: Station): void {
     // User scanned a closed station
     const visitCounts = store.state.user.stationVisitCounts[station.id];
 
-    const currentStation =
-      store.state.gameConfig?.stations[store.state.user.currentStation || ""];
+    const currentStationID = store.state.user.currentStation || "";
+
+    // The station the user is currently at
+    const currentStation = store.state.gameConfig?.stations[currentStationID];
+
+    const userJustLeftScannedStation =
+      store.state.user.lastStationVisitedId === station.id;
+
+    const userScannedCurrentStation =
+      store.state.user.currentStation === station.id;
+
+    // Per default we will play the storyFallbackAudioFilename
+    let audioFilename =
+      store.state.gameConfig?.globalAudioFilenames.storyFallbackAudioFilename;
 
     switch (station.type) {
       case "help":
@@ -471,10 +427,11 @@ export function runStation(station: Station): void {
       case "choice":
       case "story":
         // We're working with a closed station here
-        // so we figure out which B or C track to play.
+        // so we might want to play a B or C track
+        // but only if we just left the scanned station
 
-        if (visitCounts) {
-          let audioFilename = undefined;
+        // if (userJustLeftScannedStation || userScannedCurrentStation && visitCounts) {
+        if (userJustLeftScannedStation || userScannedCurrentStation) {
           // Dig out the event
           const event = station.events.filter(
             (event) => event.action == "playAudio"
@@ -490,22 +447,16 @@ export function runStation(station: Station): void {
               if (index > event.audioFilenames.length - 1) {
                 index = event.audioFilenames.length - 1;
               }
-
               audioFilename = event.audioFilenames[index];
-            } else {
-              // There is NO more than an A track
-              //
-              // TODO IS THIS NEEDED?
-              audioFilename =
-                store.state.gameConfig?.globalAudioFilenames
-                  .storyFallbackAudioFilename;
-            }
-
-            if (audioFilename) {
-              audioEngine.playForegroundAudio(audioFilename);
             }
           }
         }
+
+        if (audioFilename) {
+          audioEngine.playForegroundAudio(audioFilename);
+        }
+        console.log("PLAYING: ", audioFilename);
+
         break;
 
       default:
