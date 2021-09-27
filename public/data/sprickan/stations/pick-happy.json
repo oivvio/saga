@@ -12,6 +12,7 @@
   "events": [
     {
       "action": "playAudio",
+      "wait": 0,
       "audioFilenames": ["./audio/pick-second-part-of-powername.mp3"]
     },
 

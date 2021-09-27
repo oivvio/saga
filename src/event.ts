@@ -11,6 +11,7 @@ export interface IEventPickRandomSample {
 
 export interface IEventPlayAudio {
   action: "playAudio";
+  wait: number;
   audioFilenames: string[];
   then?: IEvent;
 }
@@ -112,9 +113,9 @@ export const eventHandlers = {
     console.log("SecondLevelKey: ", secondLevelKey);
 
     const audioFilename = playAudioEvent.audioFilenameMap[secondLevelKey];
-    console.log("audioFIlename: ", audioFilename);
+    console.log("audioFilename: ", audioFilename);
     if (audioFilename) {
-      audioEventHandler.playForegroundAudio(audioFilename);
+      audioEventHandler.playForegroundAudio(audioFilename, 0);
     }
 
     // const audioPromise = audioEventHandler.handlePlayAudioEvent(playAudioEvent);

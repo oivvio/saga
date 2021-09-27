@@ -6,6 +6,7 @@
   "events": [
     {
       "action": "playAudio",
+      "wait": 0,
       "audioFilenames": ["./audio/start-val-rund.mp3"]
     }
   ]

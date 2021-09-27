@@ -2,7 +2,7 @@
   "id": "start",
   "type": "story",
   "description": "play audio. starts a level timer that wont end until leaving level 1.",
-  "opens": ["start-val-rund", "start-val-fyrkant"],
+  "opens": ["start-val-fyrkant", "start-val-rund"],
 
   "helpAudioFilenames": [
     "./audio/start-help-1.mp3",
@@ -13,7 +13,7 @@
     {
       "action": "playAudio",
       "audioFilenames": ["./audio/start.mp3", "./audio/start-b.mp3"],
-
+      "wait": 0,
       "then": {
         "action": "playAudioBasedOnAdHocValue",
         "key": "powerName",
@@ -36,13 +36,7 @@
       "cancelOnLeave": true,
       "wait": 0
     },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./audio/startBackgroundMusic1.mp3",
-      "loop": true,
-      "cancelOnLeave": true,
-      "wait": 0
-    },
+
     {
       "action": "playBackgroundAudio",
       "audioFilename": "./audio/startBackground2.mp3",

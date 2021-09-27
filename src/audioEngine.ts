@@ -64,10 +64,13 @@ export class AudioEngine {
   }
 
   public handleHelpAudio(audioFilename: string): void {
-    this.playForegroundAudio(audioFilename);
+    this.playForegroundAudio(audioFilename, 0);
   }
 
-  public playForegroundAudio(audioFilename: string): Promise<boolean> {
+  public playForegroundAudio(
+    audioFilename: string,
+    wait: number
+  ): Promise<boolean> {
     //1. Check that no other main audio is playing
     //
 
@@ -102,8 +105,11 @@ export class AudioEngine {
         resolve(true);
       });
 
-      // Press play
-      this.foregroundSound.play();
+      // Press play, with a delay of wait
+      const foregroundSoundClosure = this.foregroundSound;
+      setTimeout(() => {
+        foregroundSoundClosure.play();
+      }, wait * 1000);
     });
 
     return promise;
@@ -157,7 +163,8 @@ export class AudioEngine {
   public handlePlayAudioEvent(event: IEventPlayAudio): Promise<boolean> {
     // TODO For now just grab the first audio
     const filename = event.audioFilenames[0];
-    const promise = this.playForegroundAudio(filename);
+    const wait = event.wait;
+    const promise = this.playForegroundAudio(filename, wait);
     return promise;
   }
 

@@ -18,6 +18,7 @@
 
     {
       "action": "playAudio",
+      "wait": 0,
       "audioFilenames": ["./audio/you-picked-sun.mp3"],
 
       "then": {

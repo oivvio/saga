@@ -308,7 +308,7 @@ function handleHelpClosed(currentStation: Station) {
         // There's an edge case where playInstructions.audioFilename === helpAudioFile
         // this makes sure we catch that and don't play the same file twice back to back.
         // A bit of a hack...
-        audioEngine.playForegroundAudio(playInstructions.audioFilename);
+        audioEngine.playForegroundAudio(playInstructions.audioFilename, 0);
       }
 
       // Add track to list of played help tracks for the current station
@@ -453,7 +453,7 @@ export function runStation(station: Station): void {
         }
 
         if (audioFilename) {
-          audioEngine.playForegroundAudio(audioFilename);
+          audioEngine.playForegroundAudio(audioFilename, 0);
         }
         console.log("PLAYING: ", audioFilename);
 

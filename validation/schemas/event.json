@@ -81,7 +81,7 @@
             "properties": { "action": { "const": "playAudio" } },
             "required": ["action"]
           },
-          "then": { "required": ["audioFilenames"] }
+          "then": { "required": ["audioFilenames", "wait"] }
         },
 
         {

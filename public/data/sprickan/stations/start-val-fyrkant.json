@@ -6,9 +6,8 @@
   "events": [
     {
       "action": "playAudio",
-      "audioFilenames": ["./audio/start-val-fyrkant.mp3"] 
+      "wait": 0,
+      "audioFilenames": ["./audio/start-val-fyrkant.mp3"]
     }
- 
-    
   ]
 }
