@@ -9,8 +9,8 @@
   "stationPaths": [
     "./stations/help.json",
     "./stations/start.json",
-    "./stations/start-option-a.json",
-    "./stations/start-option-b.json",
+    "./stations/start-val-rund.json",
+    "./stations/start-val-fyrkant.json",
     "./stations/northern-chamber.json",
     "./stations/southern-chamber.json",
     "./stations/pick-angry.json",
@@ -22,9 +22,9 @@
     "./stations/you-win.json",
     "./stations/you-loose.json"
   ],
-  "choiceInfix": "-option-",
+  "choiceInfix": "-val-",
 
-  "choiceNames": ["a", "b"],
+  "choiceNames": ["rund", "fyrkant"],
   "stations": {},
   "openStationsAtStart": ["help"],
   "globalAudioFilenames": {
