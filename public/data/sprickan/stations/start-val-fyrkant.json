@@ -7,13 +7,8 @@
     {
       "action": "playAudio",
       "audioFilenames": ["./audio/start-val-fyrkant.mp3"] 
-    },
-    {
-
-      
-      "action": "playAudio",
-      "audioFilenames": ["./audio/start-val-fyrkant.mp3"]
-      }
+    }
+ 
     
   ]
 }
