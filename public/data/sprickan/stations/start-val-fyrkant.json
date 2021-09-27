@@ -1,0 +1,19 @@
+{
+  "id": "start-val-fyrkant",
+  "type": "choice",
+  "description": "Chose the path to the south.",
+  "opens": ["southern-chamber"],
+  "events": [
+    {
+      "action": "playAudio",
+      "audioFilenames": ["./audio/start-val-fyrkant.mp3"] 
+    },
+    {
+
+      
+      "action": "playAudio",
+      "audioFilenames": ["./audio/start-val-fyrkant.mp3"]
+      }
+    
+  ]
+}

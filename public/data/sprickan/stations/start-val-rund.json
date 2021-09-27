@@ -1,0 +1,12 @@
+{
+  "id": "start-val-rund",
+  "type": "choice",
+  "description": "Chose the northern path.",
+  "opens": ["northern-chamber"],
+  "events": [
+    {
+      "action": "playAudio",
+      "audioFilenames": ["./audio/start-val-rund.mp3"]
+    }
+  ]
+}
