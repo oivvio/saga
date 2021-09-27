@@ -1,0 +1,24 @@
+{
+  "id": "northern-chamber",
+  "type": "story",
+  "description": "a dark chamber",
+  "opens": [],
+  "helpAudioFilenames": [
+    "./audio/northern-chamber-help-1.mp3",
+    "./audio/northern-chamber-help-2.mp3"
+  ],
+
+  "events": [
+    {
+      "action": "playAudio",
+      "audioFilenames": ["./audio/northern-chamber.mp3"]
+    },
+    {
+      "action": "playBackgroundAudio",
+      "audioFilename": "./audio/startBackground.mp3",
+      "loop": true,
+      "cancelOnLeave": false,
+      "wait": 0
+    }
+  ]
+}

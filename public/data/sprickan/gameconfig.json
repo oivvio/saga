@@ -1,0 +1,40 @@
+{
+  "name": "test-game",
+  "baseUrl": "https://kulturhusetstadsteatern.se/sprickan",
+
+  "sentryOptions": {
+    "dns": "FIXME",
+    "tracingOrigins": ["localhost", "example.com"]
+  },
+  "stationPaths": [
+    "./stations/help.json",
+    "./stations/start.json",
+    "./stations/start-option-a.json",
+    "./stations/start-option-b.json",
+    "./stations/northern-chamber.json",
+    "./stations/southern-chamber.json",
+    "./stations/pick-angry.json",
+    "./stations/pick-happy.json",
+    "./stations/pick-sad.json",
+    "./stations/pick-sun.json",
+    "./stations/pick-wind.json",
+    "./stations/pick-moon.json",
+    "./stations/you-win.json",
+    "./stations/you-loose.json"
+  ],
+  "choiceInfix": "-option-",
+
+  "choiceNames": ["a", "b"],
+  "stations": {},
+  "openStationsAtStart": ["help"],
+  "globalAudioFilenames": {
+    "allHelpLeftAudioFilename": "./audio/allHelpLeft.mp3",
+    "twoHelpLeftAudioFilename": "./audio/twoHelpLeft.mp3",
+    "oneHelpLeftAudioFilename": "./audio/oneHelpLeft.mp3",
+    "noHelpLeftAudioFilename": "./audio/noHelpLeft.mp3",
+    "noHelpAtThisPointAudioFilename": "./audio/noHelpAtThisPoint.mp3",
+    "storyFallbackAudioFilename": "./audio/storyFallbackAudioFilename.mp3"
+  },
+
+  "audioFileUrlBase": "data/test_game/"
+}

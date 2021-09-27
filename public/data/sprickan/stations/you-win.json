@@ -1,0 +1,17 @@
+{
+  "id": "you-win",
+  "type": "story",
+  "description": "the player won",
+  "opens": [],
+  "helpAudioFilenames": [
+    "./audio/unreachable-help1.mp3",
+    "./audio/unreachable-help2.mp3"
+  ],
+
+  "events": [
+    {
+      "action": "playAudio",
+      "audioFilenames": ["./audio/you-win.mp3"]
+    }
+  ]
+}

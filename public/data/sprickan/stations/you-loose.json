@@ -1,0 +1,17 @@
+{
+  "id": "you-loose",
+  "type": "story",
+  "description": "the player lost the game",
+  "opens": [],
+  "helpAudioFilenames": [
+    "./audio/unreachable-help1.mp3",
+    "./audio/unreachable-help2.mp3"
+  ],
+
+  "events": [
+    {
+      "action": "playAudio",
+      "audioFilenames": ["./audio/you-loose.mp3"]
+    }
+  ]
+}
