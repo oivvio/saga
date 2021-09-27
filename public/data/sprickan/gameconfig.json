@@ -36,5 +36,5 @@
     "storyFallbackAudioFilename": "./audio/storyFallbackAudioFilename.mp3"
   },
 
-  "audioFileUrlBase": "data/test_game/"
+  "audioFileUrlBase": "data/sprickan/"
 }
