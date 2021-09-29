@@ -14,7 +14,8 @@
             "goToStation",
             "pickRandomSample",
             "pushToAdHocArray",
-            "switchGotoStation"
+            "switchGotoStation",
+            "choiceBasedOnTags"
           ]
         },
 
@@ -52,6 +53,21 @@
         "audioFilename": {
           "description": "Filename including file name extension. For background audio events.",
           "type": "string"
+        },
+
+        "tags": {
+          "description": "choiceBasedTags requires",
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+
+        "eventIfPresent": {
+          "$ref": "file:./event.json#/$defs/event"
+        },
+
+        "eventIfNotPresent": {
+          "$ref": "file:./event.json#/$defs/event"
         },
 
         "timerName": { "type": "string" },
@@ -132,6 +148,16 @@
           },
           "then": {
             "required": ["toStation"]
+          }
+        },
+
+        {
+          "if": {
+            "properties": { "action": { "const": "choiceBaseOnTags" } },
+            "required": ["action"]
+          },
+          "then": {
+            "required": ["tags", "eventIfPresent", "eventIfNotPresent"]
           }
         },
 

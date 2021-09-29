@@ -4,6 +4,7 @@ import sys
 from json import load
 from json import dumps
 from urllib.parse import urljoin
+import graphviz
 
 from invoke import task
 from jsonschema import Draft7Validator, RefResolver
@@ -191,3 +192,79 @@ def cartesian_product(ctx, lst1, lst2):
             result.append([item1, item2])
 
     print(dumps(result, indent=4))
+
+
+@task
+def graph(ctx, filename, output="/tmp/gamegraph.gv"):
+    """ Create a graphviz png graph from a gameconfig  """
+    preflight_checklist()
+    game_data = load_complete_game(filename)
+
+    dot = graphviz.Digraph(comment=game_data["name"], format="png")
+
+    stations = game_data["stations"]
+    # add a node for each station
+    #
+    def add_edge(src_station, dst_station):
+        # print(f"{src_station} -> {dst_station}")
+        dot.edge(src_station, dst_station)
+
+    def handle_event(station, event):
+
+        station_id = station["id"]
+
+        if event["action"] == "goToStation":
+            to_station = event["toStation"]
+            add_edge(station_id, to_station)
+
+        if event["action"] == "switchGotoStation":
+            for switch in event["switch"]:
+                to_station = switch["parameters"]["toStation"]
+                add_edge(station_id, to_station)
+
+        if event["action"] == "choiceBasedOnTags":
+            handle_event(station, event["eventIfPresent"])
+            handle_event(station, event["eventIfNotPresent"])
+
+        if "condition" in event and event["condition"] in [
+            "adHocKeysAreEqual",
+            "adHocKeysAreNotEqual",
+        ]:
+
+            for switch in event["switch"]:
+                to_station = switch["parameters"]["toStation"]
+                add_edge(station_id, to_station)
+
+        if "then" in event:
+            handle_event(station, event["then"])
+
+    def handle_station(station):
+        station_id = station["id"]
+
+        # nodes for open
+        try:
+            for sub_station_id in station["opens"]:
+                add_edge(station_id, sub_station_id)
+        except KeyError:
+            pass
+
+        if station["type"] == "help":
+            add_edge(station_id, station["startStationId"])
+
+        try:
+            for event in station["events"]:
+                handle_event(station, event)
+        except KeyError:
+            pass
+
+    for station in stations.values():
+        dot.node(station["id"], station["id"])
+
+    for station_id, station in game_data["stations"].items():
+        # print("=" * 100)
+        # print(station_id)
+        handle_station(station)
+
+    # print(dot.source)
+    # exit()
+    dot.render(output)

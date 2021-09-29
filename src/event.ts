@@ -1,4 +1,4 @@
-import { sample } from "lodash";
+import { sample, every, includes } from "lodash";
 import { AudioEngine } from "./audioEngine";
 import { store, IState, Mutations } from "./store";
 import { StationID, runStationById } from "./station";
@@ -20,6 +20,13 @@ export interface IEventPlayAudioBasedOnAdHocValue {
   action: "playAudio";
   key: string;
   audioFilenameMap: Record<string, string>;
+}
+
+export interface IEventChoiceBasedOnTags {
+  action: "choiceBasedOnTags";
+  tags: string[];
+  eventIfPresent: IEvent;
+  eventIfNotPresent: IEvent;
 }
 
 export interface IEventPlayBackgroundAudio {
@@ -85,6 +92,7 @@ export type IEvent =
   | IEventPickRandomSample
   | IEventGoToStation
   | IEventPushToAdHocArrayEvent
+  | IEventChoiceBasedOnTags
   | IEventSwitchGotoStation;
 
 // Events
@@ -154,6 +162,29 @@ export const eventHandlers = {
   goToStation: function (_: IState, event: IEvent): void {
     const goToStationEvent = event as IEventGoToStation;
     runStationById(goToStationEvent.toStation);
+  },
+
+  choiceBasedOnTags: function (state: IState, event: IEvent): void {
+    const choiceBasedOnTagsEvent = event as IEventChoiceBasedOnTags;
+    const tagsUserHasSeen = store.state.user.tags;
+    const tagsUserIsRequiredToHaveSeen = choiceBasedOnTagsEvent.tags;
+
+    const userHasSeenAllRequiredTags = every(
+      tagsUserIsRequiredToHaveSeen.map((tagToCheckFor) => {
+        includes(tagsUserHasSeen, tagToCheckFor);
+      })
+    );
+
+    // We default to the user not having seen all required tags.
+    let childEvent = choiceBasedOnTagsEvent.eventIfNotPresent;
+
+    // And are suprised if the user has
+    if (userHasSeenAllRequiredTags) {
+      childEvent = choiceBasedOnTagsEvent.eventIfPresent;
+    }
+
+    // Run the choice event
+    eventHandlers[childEvent.action](state, childEvent);
   },
 
   // cancelTimer: function (state: IState, event: IEvent) {

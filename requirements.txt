@@ -6,3 +6,6 @@ awscli==1.20.36
 
 # generate qr codes from
 qrcode[pil]==7.3
+
+# generate graphviz graphs from games
+graphviz==0.17

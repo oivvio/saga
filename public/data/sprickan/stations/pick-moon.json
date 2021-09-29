@@ -1,8 +1,8 @@
 {
   "id": "pick-moon",
   "type": "story",
-  "description": "picking first part of power name",
-  "opens": ["pick-sun", "pick-wind", "pick-moon"],
+  "description": "picking second part of power name",
+  "opens": [],
 
   "helpAudioFilenames": [
     "./audio/unreachable-help1.mp3",

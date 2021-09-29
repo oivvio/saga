@@ -34,6 +34,7 @@ interface IUserState {
 
   // eslint-disable-next-line
   adHocData: Record<string, any>;
+  tags: string[];
 }
 
 export interface IState {
@@ -91,6 +92,7 @@ const initialState: IState = {
     playedHelpTracks: {} as Record<StationID, string[]>,
     // eslint-disable-next-line
     adHocData: {} as Record<string, any>,
+    tags: [],
   },
   audio: {
     volume: 0,
