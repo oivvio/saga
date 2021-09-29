@@ -10,10 +10,21 @@
 
   "events": [
     {
-      "action": "playAudio",
-      "wait": 0,
-      "audioFilenames": ["./audio/northern-chamber.mp3"]
+      "action": "choiceBasedOnTags",
+      "tags": ["lost"],
+
+      "eventIfNotPresent": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./audio/northern-chamber.mp3"]
+      },
+
+      "eventIfPresent": {
+        "action": "goToStation",
+        "toStation": "northern-chamber-after-loosing"
+      }
     },
+
     {
       "action": "playBackgroundAudio",
       "audioFilename": "./audio/startBackground.mp3",

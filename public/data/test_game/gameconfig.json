@@ -12,6 +12,7 @@
     "./stations/start-option-a.json",
     "./stations/start-option-b.json",
     "./stations/northern-chamber.json",
+    "./stations/northern-chamber-after-loosing.json",
     "./stations/southern-chamber.json",
     "./stations/pick-angry.json",
     "./stations/pick-happy.json",

@@ -34,6 +34,7 @@ export interface IStation {
   type: "story" | "help" | "choice";
   description: string;
   opens: StationID[];
+  tags: string[];
   events: IEvent[];
   helpAudioFilenames?: string[];
   startStationId?: StationID; // only on "help" stations
@@ -45,6 +46,7 @@ export class Station implements IStation {
   description: string;
   opens: StationID[];
   events: IEvent[];
+  tags: string[];
   helpAudioFilenames?: string[];
   startStationId?: StationID; // only on "help" stations
   //
@@ -54,6 +56,7 @@ export class Station implements IStation {
     description: string,
     opens: StationID[],
     events: IEvent[],
+    tags: string[],
     helpAudioFilenames?: string[],
     startStationId?: StationID
   ) {
@@ -62,6 +65,7 @@ export class Station implements IStation {
     this.description = description;
     this.opens = opens;
     this.events = events;
+    this.tags = tags;
     this.helpAudioFilenames = helpAudioFilenames;
     this.startStationId = startStationId;
   }
@@ -73,6 +77,7 @@ export class Station implements IStation {
       obj.description,
       obj.opens,
       obj.events,
+      obj.tags,
       obj.helpAudioFilenames,
       obj.startStationId
     );

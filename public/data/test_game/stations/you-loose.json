@@ -1,8 +1,10 @@
 {
   "id": "you-loose",
   "type": "story",
+
   "description": "the player lost the game",
-  "opens": [],
+  "opens": ["northern-chamber"],
+  "tags": ["lost"],
   "helpAudioFilenames": [
     "./audio/unreachable-help1.mp3",
     "./audio/unreachable-help2.mp3"

@@ -19,6 +19,15 @@
       }
     },
 
+    "tags": {
+      "description": "Tags that this station sets",
+
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+
     "type": {
       "description": "Type of station. Can be 'station' or 'help'",
       "type": "string",
