@@ -1,5 +1,5 @@
 {
-  "id": "pick-wind",
+  "id": "pick-moon",
   "type": "story",
   "description": "picking second part of power name",
   "opens": [],
@@ -13,13 +13,13 @@
     {
       "action": "pushToAdHocArray",
       "key": "pickedPowerName",
-      "value": "wind"
+      "value": "moon"
     },
 
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/you-picked-wind.mp3"],
+      "audioFilenames": ["./audio/you-picked-moon.mp3"],
 
       "then": {
         "action": "switchGotoStation",

@@ -1,5 +1,5 @@
 {
-  "id": "pick-angry",
+  "id": "pick-happy",
   "type": "story",
   "description": "picking first part of power name",
   "opens": ["pick-sun", "pick-wind", "pick-moon"],
@@ -19,7 +19,7 @@
     {
       "action": "pushToAdHocArray",
       "key": "pickedPowerName",
-      "value": "angry"
+      "value": "happy"
     }
   ]
 }

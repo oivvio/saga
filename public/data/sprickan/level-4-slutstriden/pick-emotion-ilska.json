@@ -1,8 +1,9 @@
 {
-  "id": "pick-sad",
+  "id": "pick-happy",
   "type": "story",
   "description": "picking first part of power name",
   "opens": ["pick-sun", "pick-wind", "pick-moon"],
+
   "helpAudioFilenames": [
     "./audio/pick-second-part-of-powername-help1.mp3",
     "./audio/pick-second-part-of-powername-help2.mp3"
@@ -18,7 +19,7 @@
     {
       "action": "pushToAdHocArray",
       "key": "pickedPowerName",
-      "value": "sad"
+      "value": "happy"
     }
   ]
 }
