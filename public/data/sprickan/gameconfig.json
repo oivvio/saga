@@ -7,7 +7,6 @@
     "tracingOrigins": ["localhost", "example.com"]
   },
   "stationPaths": [
-
     "./level-0-restart/level-0-restart.json",
 
     "./level-0-start/checkin-start.json",
@@ -75,7 +74,7 @@
     "./level-4-slutstriden/pick-nature-regn.json",
     "./level-4-slutstriden/pick-nature-sno.json",
     "./level-4-slutstriden/pick-nature-sol.json",
-    "./level-4-slutstriden/pick-nature-vind.json",
+    "./level-4-slutstriden/pick-nature-vind.json"
   ],
   "choiceInfix": "-choice-",
 
