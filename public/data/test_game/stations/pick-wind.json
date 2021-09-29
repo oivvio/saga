@@ -18,6 +18,7 @@
 
     {
       "action": "playAudio",
+      "wait": 0,
       "audioFilenames": ["./audio/you-picked-wind.mp3"],
 
       "then": {

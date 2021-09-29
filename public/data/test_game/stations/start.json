@@ -13,7 +13,7 @@
     {
       "action": "playAudio",
       "audioFilenames": ["./audio/start.mp3", "./audio/start-b.mp3"],
-
+      "wait": 0,
       "then": {
         "action": "playAudioBasedOnAdHocValue",
         "key": "powerName",
