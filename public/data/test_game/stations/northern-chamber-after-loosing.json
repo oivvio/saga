@@ -1,0 +1,18 @@
+{
+  "id": "northern-chamber-after-loosing",
+  "type": "story",
+  "description": "a dark chamber, but now with a secret passage to the southern chamber",
+  "opens": ["southern-chamber"],
+  "helpAudioFilenames": [
+    "./audio/northern-chamber-help-1.mp3",
+    "./audio/northern-chamber-help-2.mp3"
+  ],
+
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./audio/northern-chamber.mp3"]
+    }
+  ]
+}
