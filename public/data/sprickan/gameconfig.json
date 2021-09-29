@@ -1,5 +1,5 @@
 {
-  "name": "test-game",
+  "name": "sprickan",
   "baseUrl": "https://kulturhusetstadsteatern.se/sprickan",
 
   "sentryOptions": {
@@ -7,24 +7,79 @@
     "tracingOrigins": ["localhost", "example.com"]
   },
   "stationPaths": [
-    "./stations/help.json",
-    "./stations/start.json",
-    "./stations/start-val-rund.json",
-    "./stations/start-val-fyrkant.json",
-    "./stations/northern-chamber.json",
-    "./stations/southern-chamber.json",
-    "./stations/pick-angry.json",
-    "./stations/pick-happy.json",
-    "./stations/pick-sad.json",
-    "./stations/pick-sun.json",
-    "./stations/pick-wind.json",
-    "./stations/pick-moon.json",
-    "./stations/you-win.json",
-    "./stations/you-loose.json"
-  ],
-  "choiceInfix": "-val-",
 
-  "choiceNames": ["rund", "fyrkant"],
+    "./level-0-restart/level-0-restart.json",
+
+    "./level-0-start/checkin-start.json",
+    "./level-0-start/choice-square-barngravarna.json",
+    "./level-0-start/choice-circle-gravkapellet.json",
+
+    "./level-0-gravkapellet/checkin-gravkapellet.json",
+    "./level-0-gravkapellet/help-gravkapellet.json",
+    "./level-0-gravkapellet/choice-square-gravkapellet-anglamakerskan.json",
+    "./level-0-gravkapellet/choice-circle-gravkapellet-mammon.json",
+
+    "./level-0-barngravarna/checkin-barngravarna.json",
+    "./level-0-barngravarna/help-barngravarna.json",
+    "./level-0-barngravarna/choice-square-barngravarna-anglamakerskan.json",
+    "./level-0-barngravarna/choice-circle-barngravarna-mammon.json",
+
+    "./level-1-anglamakerskan/checkin-anglamakerskan.json",
+    "./level-1-anglamakerskan/help-anglamakerskan.json",
+    "./level-1-anglamakerskan/qr-assemble-anglamakerskan.json",
+    "./level-1-anglamakerskan/ring-tillbaka-anglamakerskan.json",
+    "./level-1-anglamakerskan/choice-square-anglamakerskan-lilith.json",
+    "./level-1-anglamakerskan/choice-circle-anglamakerskan-stadsungarna.json",
+
+    "./level-1-mammon/checkin-mammon.json",
+    "./level-1-mammon/help-mammon.json",
+    "./level-1-mammon/qr-assemble-mammon.json",
+    "./level-1-mammon/ring-tillbaka-mammon.json",
+    "./level-1-mammon/choice-square-ring-ge-till-mammon.json",
+    "./level-1-mammon/choice-circle-ring-behalla-sjalv.json",
+
+    "./level-2-lilith/checkin-lilith.json",
+    "./level-2-lilith/help-lilith.json",
+    "./level-2-lilith/choice-circle-lilith-follow.json",
+    "./level-2-lilith/choice-square-lilith-not-follow.json",
+    "./level-2-lilith/choice-square-lilith-ordmagikern.json",
+    "./level-2-lilith/choice-circle-lilith-tennstopet.json",
+
+    "./level-2-stadsungarna/checkin-stadsungarna.json",
+    "./level-2-stadsungarna/help-stadsungarna.json",
+    "./level-2-stadsungarna/choice-square-stadsungarna-ordmagikern.json",
+    "./level-2-stadsungarna/choice-circle-stadsungarna-tennstopet.json",
+
+    "./level-3-ordmagikern/checkin-ordmagikern.json",
+    "./level-3-ordmagikern/help-ordmagikern.json",
+    "./level-3-ordmagikern/choice-circle-ordmagikern-damonhunden.json",
+    "./level-3-ordmagikern/choice-square-ordmagikern-slutstriden.json",
+
+    "./level-3-tennstopet/checkin-tennstopet.json",
+    "./level-3-tennstopet/help-tennstopet.json",
+    "./level-3-tennstopet/choice-circle-tennstopet-bannvin.json",
+    "./level-3-tennstopet/choice-square-tennstopet-appeldricka.json",
+
+    "./level-4-damonhunden/checkin-damonhunden.json",
+    "./level-4-damonhunden/help-damonhunden.json",
+    "./level-4-damonhunden/qr-assemble-damonhund.json",
+
+    "./level-4-slutstriden/checkin-slutstriden.json",
+    "./level-4-slutstriden/help-slutstriden.json",
+    "./level-4-slutstriden/pick-emotion-gladje.json",
+    "./level-4-slutstriden/pick-emotion-ilska.json",
+    "./level-4-slutstriden/pick-emotion-lycka.json",
+    "./level-4-slutstriden/pick-emotion-sorg.json",
+    "./level-4-slutstriden/pick-emotion-vild.json",
+    "./level-4-slutstriden/pick-nature-mane.json",
+    "./level-4-slutstriden/pick-nature-regn.json",
+    "./level-4-slutstriden/pick-nature-sno.json",
+    "./level-4-slutstriden/pick-nature-sol.json",
+    "./level-4-slutstriden/pick-nature-vind.json",
+  ],
+  "choiceInfix": "-choice-",
+
+  "choiceNames": ["circle", "square"],
   "stations": {},
   "openStationsAtStart": ["help"],
   "globalAudioFilenames": {
