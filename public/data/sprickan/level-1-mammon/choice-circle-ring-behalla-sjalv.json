@@ -1,8 +1,8 @@
 {
-  "id": "start-val-fyrkant",
+  "id": "choice-circle-ring-behalla-sjalv",
   "type": "choice",
-  "description": "Chose the path to the south.",
-  "opens": ["southern-chamber"],
+  "description": "You keep the ring",
+  "opens": ["checkin-restart"],
   "events": [
     {
       "action": "playAudio",
