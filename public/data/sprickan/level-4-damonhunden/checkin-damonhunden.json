@@ -1,8 +1,8 @@
 {
-  "id": "southern-chamber",
+  "id": "checkin-damonhunden",
   "type": "story",
-  "description": "another dark chamber",
-  "opens": ["pick-sad", "pick-happy", "pick-angry"],
+  "description": "You are at damonhunden",
+  "opens": ["qr-assemble-damonhund"],
   "helpAudioFilenames": [
     "./audio/southern-chamber-help-1.mp3",
     "./audio/southern-chamber-help-2.mp3"

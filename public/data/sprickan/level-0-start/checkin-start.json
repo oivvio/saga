@@ -1,8 +1,8 @@
 {
-  "id": "start",
+  "id": "checkin-start",
   "type": "story",
   "description": "play audio. starts a level timer that wont end until leaving level 1.",
-  "opens": ["start-val-fyrkant", "start-val-rund"],
+  "opens": ["checkin-fonstret"],
 
   "helpAudioFilenames": [
     "./audio/start-help-1.mp3",

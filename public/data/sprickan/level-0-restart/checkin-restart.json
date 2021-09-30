@@ -1,8 +1,8 @@
 {
-  "id": "southern-chamber",
+  "id": "checkin-restart",
   "type": "story",
   "description": "another dark chamber",
-  "opens": ["pick-sad", "pick-happy", "pick-angry"],
+  "opens": ["checkin-mammon-restart"],
   "helpAudioFilenames": [
     "./audio/southern-chamber-help-1.mp3",
     "./audio/southern-chamber-help-2.mp3"

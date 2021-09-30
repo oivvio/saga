@@ -1,9 +1,9 @@
 
-'{
-  "id": "start-val-fyrkant",
+{
+  "id": "schoice-square-ring-ge-till-mammon",
   "type": "choice",
-  "description": "Chose the path to the south.",
-  "opens": ["southern-chamber"],
+  "description": "You gave mammon the ring.",
+  "opens": ["checkin-stadsungarna"],
   "events": [
     {
       "action": "playAudio",

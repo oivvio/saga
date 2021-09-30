@@ -1,8 +1,8 @@
 {
-  "id": "start-val-fyrkant",
+  "id": "choice-square-lilith-not-follow",
   "type": "choice",
   "description": "Chose the path to the south.",
-  "opens": ["southern-chamber"],
+  "opens": ["choice-circle-lilith-tennstopet", "choice-square-lilith-ordmagikern"],
   "events": [
     {
       "action": "playAudio",

@@ -1,8 +1,8 @@
 {
-  "id": "start-val-fyrkant",
+  "id": "choice-circle-stadsungarna-tennstopet",
   "type": "choice",
-  "description": "Chose the path to the south.",
-  "opens": ["southern-chamber"],
+  "description": "Chose the path to tennstopet",
+  "opens": ["checkin-tennstopet"],
   "events": [
     {
       "action": "playAudio",

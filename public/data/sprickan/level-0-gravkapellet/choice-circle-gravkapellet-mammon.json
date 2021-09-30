@@ -1,8 +1,8 @@
 {
-  "id": "start-val-fyrkant",
+  "id": "choice-circle-gravkapellet-mammon",
   "type": "choice",
-  "description": "Chose the path to the south.",
-  "opens": ["southern-chamber"],
+  "description": "Chose the path to anglamakerskan",
+  "opens": ["checkin-mammon"],
   "events": [
     {
       "action": "playAudio",

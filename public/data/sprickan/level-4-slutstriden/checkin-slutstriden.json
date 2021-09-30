@@ -1,5 +1,5 @@
 {
-  "id": "southern-chamber",
+  "id": "checkin-slutstriden",
   "type": "story",
   "description": "another dark chamber",
   "opens": ["pick-sad", "pick-happy", "pick-angry"],

@@ -1,8 +1,8 @@
 {
-  "id": "start-val-rund",
+  "id": "choice-circle-ordmagikern-damonhunden",
   "type": "choice",
-  "description": "Chose the northern path.",
-  "opens": ["northern-chamber"],
+  "description": "Chose the path to damonhunden",
+  "opens": ["checkin-damonhunden"],
   "events": [
     {
       "action": "playAudio",

@@ -1,8 +1,8 @@
 {
-  "id": "southern-chamber",
+  "id": "checkin-stadsungarna",
   "type": "story",
-  "description": "another dark chamber",
-  "opens": ["pick-sad", "pick-happy", "pick-angry"],
+  "description": "You are with stadsungarna",
+  "opens": ["choice-circle-stadsungarna-tennstopet", "choice-square-stadsungarna-ordmagikern"],
   "helpAudioFilenames": [
     "./audio/southern-chamber-help-1.mp3",
     "./audio/southern-chamber-help-2.mp3"
