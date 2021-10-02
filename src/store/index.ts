@@ -203,6 +203,7 @@ export const store = createStore({
     },
 
     updateOpenStations(state: IState, stationIds: StationID[]) {
+      console.log("updateOpenStations: ", stationIds);
       state.user.openStations = stationIds;
     },
 
@@ -234,6 +235,14 @@ export const store = createStore({
 
     setLastStationVisitedId(state: IState, stationId: StationID) {
       state.user.lastStationVisitedId = stationId;
+    },
+
+    pushTags(state: IState, tags: string[]) {
+      tags.forEach((tag) => {
+        if (!state.user.tags.includes(tag)) {
+          state.user.tags.push(tag);
+        }
+      });
     },
   },
   actions: {},
@@ -295,4 +304,8 @@ export enum Mutations {
   updateOpenStations = "updateOpenStations",
   wipeHistory = "wipeHistory",
   setLastStationVisitedId = "setLastStationVisitedId",
+  pushTags = "pushTags",
 }
+
+// TODO remove
+// (window as any).store = store;

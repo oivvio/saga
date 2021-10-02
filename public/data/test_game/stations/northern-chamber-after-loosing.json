@@ -12,7 +12,13 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/northern-chamber.mp3"]
+      "audioFilenames": ["./audio/northern-chamber-after-loosing.mp3"]
+    },
+
+    {
+      "action": "setAdHocData",
+      "key": "pickedPowerName",
+      "value": []
     }
   ]
 }

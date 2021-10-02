@@ -22,6 +22,12 @@
         <td>stationsVisited:</td>
         <td>{{ this.$store.state.user.stationsVisited }}</td>
       </tr>
+
+      <tr>
+        <td>tags seen:</td>
+        <td>{{ this.$store.state.user.tags }}</td>
+      </tr>
+
       <tr>
         <td>audioStoryIsPlaying:</td>
         <td>{{ this.$store.state.audio.foreground.isPlaying }}</td>

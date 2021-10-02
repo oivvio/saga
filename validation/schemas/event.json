@@ -15,7 +15,8 @@
             "pickRandomSample",
             "pushToAdHocArray",
             "switchGotoStation",
-            "choiceBasedOnTags"
+            "choiceBasedOnTags",
+            "setAdHocData"
           ]
         },
 
@@ -158,6 +159,16 @@
           },
           "then": {
             "required": ["tags", "eventIfPresent", "eventIfNotPresent"]
+          }
+        },
+
+        {
+          "if": {
+            "properties": { "action": { "const": "setAdHocData" } },
+            "required": ["action"]
+          },
+          "then": {
+            "required": ["key", "value"]
           }
         },
 

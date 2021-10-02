@@ -1,4 +1,4 @@
-import { sample, every, includes } from "lodash";
+import { sample, every } from "lodash";
 import { AudioEngine } from "./audioEngine";
 import { store, IState, Mutations } from "./store";
 import { StationID, runStationById } from "./station";
@@ -59,6 +59,13 @@ export interface IEventPushToAdHocArrayEvent {
   value: any;
 }
 
+export interface IEventSetAdHocDataEvent {
+  action: "setAdHocData";
+  key: string;
+  // eslint-disable-next-line
+  value: any;
+}
+
 interface ISwitchCompareTwoAdHocKeys {
   condition: "adHocKeysAreEqual" | "adHocKeysAreNotEqual";
   parameters: {
@@ -93,6 +100,7 @@ export type IEvent =
   | IEventGoToStation
   | IEventPushToAdHocArrayEvent
   | IEventChoiceBasedOnTags
+  | IEventSetAdHocDataEvent
   | IEventSwitchGotoStation;
 
 // Events
@@ -161,6 +169,13 @@ export const eventHandlers = {
 
   goToStation: function (_: IState, event: IEvent): void {
     const goToStationEvent = event as IEventGoToStation;
+
+    store.commit(Mutations.updateOpenStations, [goToStationEvent.toStation]);
+    console.log(
+      "GOTOSTATION: ",
+      goToStationEvent.toStation,
+      store.state.user.openStations
+    );
     runStationById(goToStationEvent.toStation);
   },
 
@@ -169,9 +184,18 @@ export const eventHandlers = {
     const tagsUserHasSeen = store.state.user.tags;
     const tagsUserIsRequiredToHaveSeen = choiceBasedOnTagsEvent.tags;
 
+    console.log(tagsUserHasSeen, tagsUserIsRequiredToHaveSeen);
+
+    console.log(
+      "includes: ",
+      tagsUserIsRequiredToHaveSeen.map((tagToCheckFor) => {
+        return tagsUserHasSeen.includes(tagToCheckFor);
+      })
+    );
+
     const userHasSeenAllRequiredTags = every(
       tagsUserIsRequiredToHaveSeen.map((tagToCheckFor) => {
-        includes(tagsUserHasSeen, tagToCheckFor);
+        return tagsUserHasSeen.includes(tagToCheckFor);
       })
     );
 
@@ -182,6 +206,8 @@ export const eventHandlers = {
     if (userHasSeenAllRequiredTags) {
       childEvent = choiceBasedOnTagsEvent.eventIfPresent;
     }
+
+    console.log("childEvent: ", childEvent, userHasSeenAllRequiredTags);
 
     // Run the choice event
     eventHandlers[childEvent.action](state, childEvent);
@@ -211,6 +237,13 @@ export const eventHandlers = {
     const value = pushToAdHocArrayEvent.value;
 
     store.commit(Mutations.pushToAdHocArray, { key, value });
+  },
+
+  setAdHocData: function (_: IState, event: IEvent): void {
+    const setAdHocDataEvent = event as IEventSetAdHocDataEvent;
+    const key = setAdHocDataEvent.key;
+    const value = setAdHocDataEvent.value;
+    store.commit(Mutations.setAdHocData, { key, value });
   },
 
   switchGotoStation: function (_: IState, event: IEvent): void {
@@ -282,4 +315,5 @@ export const eventHandlers = {
       runStationById(toStation);
     }
   },
+  // End of switchGotoStation
 };

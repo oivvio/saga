@@ -34,3 +34,12 @@ export function joinPaths(parts: string[]): string {
     )
     .join("/");
 }
+
+// eslint-disable-next-line
+export function unwrapProxy(proxy: any): any {
+  try {
+    return JSON.parse(JSON.stringify(proxy));
+  } catch (error) {
+    return {};
+  }
+}
