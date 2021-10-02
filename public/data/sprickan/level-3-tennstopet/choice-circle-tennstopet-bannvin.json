@@ -1,8 +1,8 @@
 {
-  "id": "start-val-rund",
+  "id": "choice-circle-tennstopet-bannvin",
   "type": "choice",
-  "description": "Chose the northern path.",
-  "opens": ["northern-chamber"],
+  "description": "Chose the to bring brannvin to ordmagikern",
+  "opens": ["checkin-ordmagikern-brannvin"],
   "events": [
     {
       "action": "playAudio",

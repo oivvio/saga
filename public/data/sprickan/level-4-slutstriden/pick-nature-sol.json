@@ -1,5 +1,5 @@
 {
-  "id": "pick-moon",
+  "id": "pick-nature-sol",
   "type": "story",
   "description": "picking first part of power name",
   "opens": ["pick-sun", "pick-wind", "pick-moon"],
@@ -13,7 +13,7 @@
     {
       "action": "pushToAdHocArray",
       "key": "pickedPowerName",
-      "value": "moon"
+      "value": "sol"
     },
 
     {
@@ -29,7 +29,7 @@
             "parameters": {
               "firstKey": "powerName",
               "secondKey": "pickedPowerName",
-              "toStation": "you-win"
+              "toStation": "checkin-sprickan-stangs"
             }
           },
 
@@ -38,7 +38,7 @@
             "parameters": {
               "firstKey": "powerName",
               "secondKey": "pickedPowerName",
-              "toStation": "you-loose"
+              "toStation": "checkin-sprickan-oppnas"
             }
           }
         ]

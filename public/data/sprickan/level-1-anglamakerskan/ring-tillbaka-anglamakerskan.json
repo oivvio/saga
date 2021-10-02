@@ -1,8 +1,8 @@
 {
-  "id": "start-val-fyrkant",
+  "id": "ring-tillbaka-anglamakerskan",
   "type": "choice",
   "description": "Chose the path to the south.",
-  "opens": ["southern-chamber"],
+  "opens": ["choice-circle-anglamakerskan-stadsungarna", "choice-square-anglamakerskan-lilith"],
   "events": [
     {
       "action": "playAudio",

@@ -1,8 +1,8 @@
 {
-  "id": "checkin-start",
+  "id": "fonstret",
   "type": "story",
   "description": "play audio. starts a level timer that wont end until leaving level 1.",
-  "opens": ["checkin-fonstret"],
+  "opens": ["choice-circle-gravkapellet", "choice-square-barngravarna"],
 
   "helpAudioFilenames": [
     "./audio/start-help-1.mp3",

@@ -1,0 +1,13 @@
+{
+  "id": "choice-square-barngravarna-mammon",
+  "type": "choice",
+  "description": "From barngravarna to Mammon",
+  "opens": ["level-1-mammon"],
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./audio/choice-square-barngravarna-mammon.mp3"]
+    }
+  ]
+}

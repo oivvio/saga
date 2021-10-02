@@ -1,8 +1,8 @@
 {
-  "id": "qr-assemble-damonhund",
+  "id": "checkin-ordmagikern-brannvin",
   "type": "story",
-  "description": "Runt to slutstriden",
-  "opens": ["checkin-slutstriden"],
+  "description": "You are with ordmagikern with brannvin",
+  "opens": ["choice-circle-ordmagikern-damonhunden", "choice-square-ordmagikern-slutstriden"],
   "helpAudioFilenames": [
     "./audio/southern-chamber-help-1.mp3",
     "./audio/southern-chamber-help-2.mp3"

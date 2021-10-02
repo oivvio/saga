@@ -1,8 +1,8 @@
 {
-  "id": "start-val-fyrkant",
+  "id": "qr-assemble-anglamakerskan",
   "type": "choice",
-  "description": "Chose the path to the south.",
-  "opens": ["southern-chamber"],
+  "description": "You assembled the ring",
+  "opens": ["ring-tillbaka-anglamakerskan"],
   "events": [
     {
       "action": "playAudio",

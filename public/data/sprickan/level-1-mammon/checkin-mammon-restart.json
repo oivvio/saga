@@ -1,8 +1,8 @@
 {
-  "id": "qr-assemble-damonhund",
+  "id": "checkin-mammon-restart",
   "type": "story",
-  "description": "Runt to slutstriden",
-  "opens": ["checkin-slutstriden"],
+  "description": "You are back with mammon",
+  "opens": ["choice-circle-ring-behalla-sjalv", "choice-square-ring-ge-till-mammon.json"],
   "helpAudioFilenames": [
     "./audio/southern-chamber-help-1.mp3",
     "./audio/southern-chamber-help-2.mp3"

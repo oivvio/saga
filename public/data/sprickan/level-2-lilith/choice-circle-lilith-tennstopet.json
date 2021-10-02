@@ -1,8 +1,8 @@
 {
-  "id": "start-val-fyrkant",
+  "id": "choice-circle-lilith-tennstopet",
   "type": "choice",
   "description": "Chose the path to the south.",
-  "opens": ["southern-chamber"],
+  "opens": ["checkin-tennstopet"],
   "events": [
     {
       "action": "playAudio",

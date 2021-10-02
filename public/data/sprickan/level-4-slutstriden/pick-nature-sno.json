@@ -1,5 +1,5 @@
 {
-  "id": "pick-moon",
+  "id": "pick-nature-sno",
   "type": "story",
   "description": "picking second part of power name",
   "opens": [],
@@ -13,7 +13,7 @@
     {
       "action": "pushToAdHocArray",
       "key": "pickedPowerName",
-      "value": "moon"
+      "value": "sno"
     },
 
     {
@@ -29,7 +29,7 @@
             "parameters": {
               "firstKey": "powerName",
               "secondKey": "pickedPowerName",
-              "toStation": "you-win"
+              "toStation": "checkin-sprickan-stangs"
             }
           },
 
@@ -38,7 +38,7 @@
             "parameters": {
               "firstKey": "powerName",
               "secondKey": "pickedPowerName",
-              "toStation": "you-loose"
+              "toStation": "checkin-sprickan-oppnas"
             }
           }
         ]

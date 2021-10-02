@@ -1,5 +1,5 @@
 {
-  "id": "help",
+  "id": "help-gravkapellet",
   "type": "help",
   "description": "On first scan moves player to start. On subsequent scans plays help files",
   "startStationId": "start"

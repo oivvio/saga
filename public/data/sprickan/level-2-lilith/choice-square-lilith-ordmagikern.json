@@ -1,8 +1,8 @@
 {
-  "id": "start-val-rund",
+  "id": "choice-square-lilith-ordmagikern",
   "type": "choice",
-  "description": "Chose the northern path.",
-  "opens": ["northern-chamber"],
+  "description": "Chose the path to ordmagikern",
+  "opens": ["checkin-ordmagikern"],
   "events": [
     {
       "action": "playAudio",

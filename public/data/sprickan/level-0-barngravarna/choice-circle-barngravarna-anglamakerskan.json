@@ -1,0 +1,13 @@
+{
+  "id": "choice-circle-barngravarna-anglamakerskan",
+  "type": "choice",
+  "description": "From barngravarna to anglamakerskan.",
+  "opens": ["level-1-anglamakerskan"],
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./audio/choice-circle-barngravarna-anglamakerskan.mp3"]
+    }
+  ]
+}

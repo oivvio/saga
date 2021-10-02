@@ -1,8 +1,8 @@
 {
-  "id": "southern-chamber",
+  "id": "checkin-lilith",
   "type": "story",
-  "description": "another dark chamber",
-  "opens": ["pick-sad", "pick-happy", "pick-angry"],
+  "description": "You are with lilith",
+  "opens": ["choice-square-lilith-not-follow", "choice-circle-lilith-follow"],
   "helpAudioFilenames": [
     "./audio/southern-chamber-help-1.mp3",
     "./audio/southern-chamber-help-2.mp3"

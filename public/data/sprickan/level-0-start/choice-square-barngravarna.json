@@ -1,13 +1,13 @@
 {
-  "id": "start-val-rund",
+  "id": "choice-square-barngravarna",
   "type": "choice",
-  "description": "Chose the northern path.",
-  "opens": ["northern-chamber"],
+  "description": "Chose the path to barngravarna.",
+  "opens": ["checkin-barngravarna"],
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/start-val-rund.mp3"]
+      "audioFilenames": ["./audio/start-val-fyrkant.mp3"]
     }
   ]
 }
