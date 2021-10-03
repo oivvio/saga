@@ -195,8 +195,6 @@ export const store = createStore({
           );
           state.gameConfigLoaded = true;
         }
-
-        log("store", "gameConfigLoaded");
       }
     },
 
