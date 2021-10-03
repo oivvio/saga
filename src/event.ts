@@ -125,11 +125,8 @@ export const eventHandlers = {
     const audioEventHandler = AudioEngine.getInstance();
 
     const secondLevelKey = state.user.adHocData[playAudioEvent.key];
-
-    console.log("SecondLevelKey: ", secondLevelKey);
-
     const audioFilename = playAudioEvent.audioFilenameMap[secondLevelKey];
-    console.log("audioFilename: ", audioFilename);
+
     if (audioFilename) {
       audioEventHandler.playForegroundAudio(audioFilename, 0);
     }
@@ -171,11 +168,7 @@ export const eventHandlers = {
     const goToStationEvent = event as IEventGoToStation;
 
     store.commit(Mutations.updateOpenStations, [goToStationEvent.toStation]);
-    console.log(
-      "GOTOSTATION: ",
-      goToStationEvent.toStation,
-      store.state.user.openStations
-    );
+
     runStationById(goToStationEvent.toStation);
   },
 
@@ -183,15 +176,6 @@ export const eventHandlers = {
     const choiceBasedOnTagsEvent = event as IEventChoiceBasedOnTags;
     const tagsUserHasSeen = store.state.user.tags;
     const tagsUserIsRequiredToHaveSeen = choiceBasedOnTagsEvent.tags;
-
-    console.log(tagsUserHasSeen, tagsUserIsRequiredToHaveSeen);
-
-    console.log(
-      "includes: ",
-      tagsUserIsRequiredToHaveSeen.map((tagToCheckFor) => {
-        return tagsUserHasSeen.includes(tagToCheckFor);
-      })
-    );
 
     const userHasSeenAllRequiredTags = every(
       tagsUserIsRequiredToHaveSeen.map((tagToCheckFor) => {
@@ -206,8 +190,6 @@ export const eventHandlers = {
     if (userHasSeenAllRequiredTags) {
       childEvent = choiceBasedOnTagsEvent.eventIfPresent;
     }
-
-    console.log("childEvent: ", childEvent, userHasSeenAllRequiredTags);
 
     // Run the choice event
     eventHandlers[childEvent.action](state, childEvent);

@@ -11,7 +11,7 @@ import createPersistedState from "vuex-persistedstate";
 import { Store, createStore } from "vuex";
 import { IGameConfig, StationID, Station } from "../station";
 import { loadGameConfigAndStations } from "../station";
-import { log } from "../utils";
+import { log, unwrapProxy } from "../utils";
 
 // type stationVisitCount = {
 //   stationId: StationID;
@@ -183,12 +183,19 @@ export const store = createStore({
       state.debugQuickAudio = urlParams.get("quickAudio") === "yes";
 
       if (configUrl) {
-        state.gameConfig = await loadGameConfigAndStations(new URL(configUrl));
-        // const loadedGameConfig = await loadGameConfigAndStations(new URL(configUrl));
+        // If gameConfig is already loaded it was picked up in persistance
+        // and we don't need to do any initialization
+        if (!state.gameConfigLoaded) {
+          state.gameConfig = await loadGameConfigAndStations(
+            new URL(configUrl)
+          );
+          store.commit(
+            Mutations.updateOpenStations,
+            state.gameConfig.openStationsAtStart
+          );
+          state.gameConfigLoaded = true;
+        }
 
-        state.user.openStations = state.gameConfig.openStationsAtStart;
-
-        state.gameConfigLoaded = true;
         log("store", "gameConfigLoaded");
       }
     },
@@ -196,6 +203,7 @@ export const store = createStore({
     wipeHistory(state: IState) {
       state.user = initialState.user;
       state.audio = initialState.audio;
+      state.gameConfigLoaded = false;
     },
 
     setCurrentStation(state: IState, stationId: StationID) {
@@ -203,7 +211,6 @@ export const store = createStore({
     },
 
     updateOpenStations(state: IState, stationIds: StationID[]) {
-      console.log("updateOpenStations: ", stationIds);
       state.user.openStations = stationIds;
     },
 
@@ -306,6 +313,3 @@ export enum Mutations {
   setLastStationVisitedId = "setLastStationVisitedId",
   pushTags = "pushTags",
 }
-
-// TODO remove
-// (window as any).store = store;
