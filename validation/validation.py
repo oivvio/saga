@@ -167,7 +167,7 @@ def deep_validation_of_station(station, station_ids, filename):
     station_filepath = station["filePath"]
 
     # Check for existance of help audio
-    if station["type"] == "story":
+    if station["type"] == "choice":
         for audiofile_base in station["helpAudioFilenames"]:
             audiofile_path = Path(filename).parent.joinpath(audiofile_base)
 

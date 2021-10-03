@@ -74,7 +74,7 @@
   "allOf": [
     {
       "if": {
-        "properties": { "type": { "const": "story" } },
+        "properties": { "type": { "const": "choice" } },
         "required": ["type"]
       },
       "then": {
