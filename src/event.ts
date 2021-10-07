@@ -5,7 +5,7 @@ import { StationID, runStationById } from "./station";
 
 export interface IEventPickRandomSample {
   action: "pickRandomSample";
-  population: [];
+  population: any[];
   key: string;
 }
 
@@ -16,8 +16,20 @@ export interface IEventPlayAudio {
   then?: IEvent;
 }
 
+export interface IEventStartTimer {
+  action: "startTimer";
+  name: string;
+  time: number;
+  then: IEvent;
+}
+
+export interface IEventCancelTimer {
+  action: "cancelTimer";
+  name: string;
+}
+
 export interface IEventPlayAudioBasedOnAdHocValue {
-  action: "playAudio";
+  action: "playAudioBasedOnAdHocValue";
   key: string;
   audioFilenameMap: Record<string, string>;
 }
@@ -30,7 +42,7 @@ export interface IEventChoiceBasedOnTags {
 }
 
 export interface IEventPlayBackgroundAudio {
-  action: "playAudio";
+  action: "playBackgroundAudio";
   audioFilename: string;
   wait: number;
   cancelOnLeave: boolean;
@@ -40,11 +52,6 @@ export interface IEventPlayBackgroundAudio {
 export interface IEventGoToStation {
   action: "goToStation";
   toStation: StationID;
-}
-
-export interface IEventCancelTimer {
-  action: "cancelTimer";
-  timerName: string;
 }
 
 export interface IEventCancelTimer {
@@ -101,6 +108,8 @@ export type IEvent =
   | IEventPushToAdHocArrayEvent
   | IEventChoiceBasedOnTags
   | IEventSetAdHocDataEvent
+  | IEventStartTimer
+  | IEventCancelTimer
   | IEventSwitchGotoStation;
 
 // Events
@@ -130,16 +139,6 @@ export const eventHandlers = {
     if (audioFilename) {
       audioEventHandler.playForegroundAudio(audioFilename, 0);
     }
-
-    // const audioPromise = audioEventHandler.handlePlayAudioEvent(playAudioEvent);
-
-    // eslint-disable-next-line
-    // audioPromise.then((_) => {
-    //   if (playAudioEvent.then !== undefined) {
-    //     const childEvent = playAudioEvent.then;
-    //     eventHandlers[childEvent.action](state, childEvent);
-    //   }
-    // });
   },
 
   playBackgroundAudio: function (_: IState, event: IEvent): void {
@@ -147,22 +146,6 @@ export const eventHandlers = {
     const audioEventHandler = AudioEngine.getInstance();
     audioEventHandler.handlePlayBackgroundAudioEvent(playBackgroundAudioEvent);
   },
-
-  // startTimeLimit: function (state: IState, event: IEvent) {
-  //   const startTimeLimitEvent = event as IEventStartTimeLimit;
-  //   const timer = window.setTimeout(function () {
-  //     if (startTimeLimitEvent.timerName) {
-  //       store.commit(Mutations.removeTimer, startTimeLimitEvent.timerName);
-  //     }
-
-  //     startTimeLimitEvent.onTimeLimitEnd &&
-  //       interpretSecondLevelEvent(state, startTimeLimitEvent.onTimeLimitEnd);
-  //   }, startTimeLimitEvent.timeLimit * 1000) as number;
-  //   if (timer) {
-  //     const timerName = startTimeLimitEvent.timerName;
-  //     store.commit(Mutations.addTimer, { timerName, timer });
-  //   }
-  // },
 
   goToStation: function (_: IState, event: IEvent): void {
     const goToStationEvent = event as IEventGoToStation;
@@ -195,17 +178,6 @@ export const eventHandlers = {
     eventHandlers[childEvent.action](state, childEvent);
   },
 
-  // cancelTimer: function (state: IState, event: IEvent) {
-  //   const cancelTimerEvent = event as IEventCancelTimer;
-  //   if (cancelTimerEvent.timerName) {
-  //     const timer = state.user.timers[cancelTimerEvent.timerName];
-  //     if (timer !== undefined) {
-  //       window.clearTimeout(timer);
-  //       store.commit(Mutations.removeTimer, cancelTimerEvent.timerName);
-  //     }
-  //   }
-  // },
-
   pickRandomSample: function (_: IState, event: IEvent): void {
     const pickRandomSampleEvent = event as IEventPickRandomSample;
     const value = sample(pickRandomSampleEvent.population);
@@ -228,11 +200,37 @@ export const eventHandlers = {
     store.commit(Mutations.setAdHocData, { key, value });
   },
 
+  startTimer: function (state: IState, event: IEvent): void {
+    const startTimerEvent = event as IEventStartTimer;
+
+    console.log("staring timer: ", startTimerEvent.name);
+
+    const timerId = setTimeout(() => {
+      console.log("staring  reached 0: ", startTimerEvent.name);
+      const childEvent = startTimerEvent.then;
+
+      eventHandlers[childEvent.action](state, childEvent);
+    }, startTimerEvent.time * 1000) as unknown as number;
+
+    state.user.timers[startTimerEvent.name] = timerId as number;
+  },
+
+  cancelTimer: function (state: IState, event: IEvent): void {
+    const cancelTimerEvent = event as IEventCancelTimer;
+
+    // pick out the timer to cancel
+    const timerId = state.user.timers[cancelTimerEvent.name];
+    if (timerId) {
+      // cancel it
+      clearTimeout(timerId);
+      delete state.user.timers[cancelTimerEvent.name];
+    }
+  },
+
   switchGotoStation: function (_: IState, event: IEvent): void {
     const switchGotoStationEvent = event as IEventSwitchGotoStation;
 
     // Find the first switch that evaluates to true
-
     const matches = switchGotoStationEvent.switch.filter((currentCase) => {
       // Used to check for one parameter in adHocData
 

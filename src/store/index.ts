@@ -11,13 +11,6 @@ import createPersistedState from "vuex-persistedstate";
 import { Store, createStore } from "vuex";
 import { IGameConfig, StationID, Station } from "../station";
 import { loadGameConfigAndStations } from "../station";
-import { log, unwrapProxy } from "../utils";
-
-// type stationVisitCount = {
-//   stationId: StationID;
-//   status: "open" | "closed";
-//   count: number;
-// };
 
 interface IUserState {
   QRScannerCanBeDisplayed: boolean;
@@ -26,6 +19,7 @@ interface IUserState {
   stationsVisited: StationID[];
   stationVisitCounts: Record<StationID, { open: number; closed: number }>;
   lastStationVisitedId?: StationID;
+  // timers: Record<string, number>;
   timers: Record<string, number>;
   helpAvailable: number;
   currentStation: StationID | undefined;

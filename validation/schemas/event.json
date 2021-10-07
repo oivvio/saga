@@ -1,186 +1,367 @@
 {
-  "type": "object",
-  "$defs": {
-    "event": {
-      "type": "object",
+  "$ref": "#/definitions/IEvent",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "IEvent": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IEventPlayAudio"
+        },
+        {
+          "$ref": "#/definitions/IEventPlayAudioBasedOnAdHocValue"
+        },
+        {
+          "$ref": "#/definitions/IEventPlayBackgroundAudio"
+        },
+        {
+          "$ref": "#/definitions/IEventPickRandomSample"
+        },
+        {
+          "$ref": "#/definitions/IEventGoToStation"
+        },
+        {
+          "$ref": "#/definitions/IEventPushToAdHocArrayEvent"
+        },
+        {
+          "$ref": "#/definitions/IEventChoiceBasedOnTags"
+        },
+        {
+          "$ref": "#/definitions/IEventSetAdHocDataEvent"
+        },
+        {
+          "$ref": "#/definitions/IEventStartTimer"
+        },
+        {
+          "$ref": "#/definitions/IEventCancelTimer"
+        },
+        {
+          "$ref": "#/definitions/IEventSwitchGotoStation"
+        }
+      ]
+    },
+    "IEventCancelTimer": {
+      "additionalProperties": false,
       "properties": {
         "action": {
-          "description": "Available event events",
-          "type": "string",
-          "enum": [
-            "playAudio",
-            "playAudioBasedOnAdHocValue",
-            "playBackgroundAudio",
-            "goToStation",
-            "pickRandomSample",
-            "pushToAdHocArray",
-            "switchGotoStation",
-            "choiceBasedOnTags",
-            "setAdHocData"
-          ]
-        },
-
-        "switch": {
-          "description": "Used with pickRandomSample & pushToAdHocArray",
-          "type": "array"
-        },
-
-        "key": {
-          "description": "Used with pickRandomSample & pushToAdHocArray & playAudioBaseOnAdHocValue",
+          "const": "cancelTimer",
           "type": "string"
         },
-
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "name"
+      ],
+      "type": "object"
+    },
+    "IEventChoiceBasedOnTags": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "choiceBasedOnTags",
+          "type": "string"
+        },
+        "eventIfNotPresent": {
+          "$ref": "#/definitions/IEvent"
+        },
+        "eventIfPresent": {
+          "$ref": "#/definitions/IEvent"
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "action",
+        "tags",
+        "eventIfPresent",
+        "eventIfNotPresent"
+      ],
+      "type": "object"
+    },
+    "IEventGoToStation": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "goToStation",
+          "type": "string"
+        },
+        "toStation": {
+          "$ref": "#/definitions/StationID"
+        }
+      },
+      "required": [
+        "action",
+        "toStation"
+      ],
+      "type": "object"
+    },
+    "IEventPickRandomSample": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "pickRandomSample",
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "population": {
+          "items": {
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "action",
+        "population",
+        "key"
+      ],
+      "type": "object"
+    },
+    "IEventPlayAudio": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "playAudio",
+          "type": "string"
+        },
+        "audioFilenames": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "then": {
+          "$ref": "#/definitions/IEvent"
+        },
+        "wait": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "action",
+        "wait",
+        "audioFilenames"
+      ],
+      "type": "object"
+    },
+    "IEventPlayAudioBasedOnAdHocValue": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "playAudioBasedOnAdHocValue",
+          "type": "string"
+        },
         "audioFilenameMap": {
-          "description": "Map from a value to a filname in playAudioBasedOnAdHocValue",
+          "additionalProperties": {
+            "type": "string"
+          },
           "type": "object"
         },
-
-        "population": {
-          "description": "Used with pickRandomSample",
-          "type": "array"
-        },
-
-        "value": {
-          "description": "Used with pushToAdHocArray"
-        },
-
-        "audioFilenames": {
-          "description": "Filename including file name extension. For main audio events. Order is important. The first is our A track, second C and so on.",
-          "type": "array",
-          "items": { "type": "string" },
-          "minItems": 1
-        },
-
-        "audioFilename": {
-          "description": "Filename including file name extension. For background audio events.",
+        "key": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "key",
+        "audioFilenameMap"
+      ],
+      "type": "object"
+    },
+    "IEventPlayBackgroundAudio": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "playBackgroundAudio",
           "type": "string"
         },
-
-        "tags": {
-          "description": "choiceBasedTags requires",
-          "type": "array",
-          "items": { "type": "string" },
-          "minItems": 1
+        "audioFilename": {
+          "type": "string"
         },
-
-        "eventIfPresent": {
-          "$ref": "file:./event.json#/$defs/event"
+        "cancelOnLeave": {
+          "type": "boolean"
         },
-
-        "eventIfNotPresent": {
-          "$ref": "file:./event.json#/$defs/event"
+        "loop": {
+          "type": "boolean"
         },
-
-        "timerName": { "type": "string" },
-        "cancelOnLeave": { "type": "boolean" },
-        "wait": { "type": "number" },
-        "loop": { "type": "boolean" },
-        "opens": { "type": "string" },
-        "timeLimit": { "type": "number" },
-        "then": {
-          "$ref": "file:./event.json#/$defs/event"
-        },
-
-        "goToStation": { "type": "string" },
-        "toStation": { "type": "string" },
-
-        "condition": {
-          "description": "Name of condition to check",
-          "type": "string",
-          "enum": ["hasTag"]
-        },
-        "conditionArgs": { "type": "string" }
-      },
-
-      "allOf": [
-        {
-          "if": {
-            "properties": { "action": { "const": "playAudio" } },
-            "required": ["action"]
-          },
-          "then": { "required": ["audioFilenames", "wait"] }
-        },
-
-        {
-          "if": {
-            "properties": { "action": { "const": "pickRandomSample" } },
-            "required": ["action"]
-          },
-          "then": { "required": ["population", "key"] }
-        },
-
-        {
-          "if": {
-            "properties": { "action": { "const": "pushToAdHocArray" } },
-            "required": ["action"]
-          },
-          "then": { "required": ["key", "value"] }
-        },
-
-        {
-          "if": {
-            "properties": { "action": { "const": "playBackgroundAudio" } },
-            "required": ["action"]
-          },
-          "then": {
-            "required": ["audioFilename", "loop", "cancelOnLeave", "wait"]
-          }
-        },
-
-        {
-          "if": {
-            "properties": { "action": { "const": "startTimeLimit" } },
-            "required": ["action"]
-          },
-          "then": {
-            "required": [
-              "timerName",
-              "cancelOnLeave",
-              "timeLimit",
-              "onTimeLimitEnd"
-            ]
-          }
-        },
-
-        {
-          "if": {
-            "properties": { "action": { "const": "goToStation" } },
-            "required": ["action"]
-          },
-          "then": {
-            "required": ["toStation"]
-          }
-        },
-
-        {
-          "if": {
-            "properties": { "action": { "const": "choiceBaseOnTags" } },
-            "required": ["action"]
-          },
-          "then": {
-            "required": ["tags", "eventIfPresent", "eventIfNotPresent"]
-          }
-        },
-
-        {
-          "if": {
-            "properties": { "action": { "const": "setAdHocData" } },
-            "required": ["action"]
-          },
-          "then": {
-            "required": ["key", "value"]
-          }
-        },
-
-        {
-          "if": {
-            "properties": { "condition": { "const": "hasTag" } },
-            "required": ["condition"]
-          },
-          "then": { "required": ["conditionArgs", "action"] }
+        "wait": {
+          "type": "number"
         }
+      },
+      "required": [
+        "action",
+        "audioFilename",
+        "wait",
+        "cancelOnLeave",
+        "loop"
       ],
-      "additionalProperties": false
+      "type": "object"
+    },
+    "IEventPushToAdHocArrayEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "pushToAdHocArray",
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "value": {
+        }
+      },
+      "required": [
+        "action",
+        "key",
+        "value"
+      ],
+      "type": "object"
+    },
+    "IEventSetAdHocDataEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "setAdHocData",
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "value": {
+        }
+      },
+      "required": [
+        "action",
+        "key",
+        "value"
+      ],
+      "type": "object"
+    },
+    "IEventStartTimer": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "startTimer",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "then": {
+          "$ref": "#/definitions/IEvent"
+        },
+        "time": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "action",
+        "name",
+        "time",
+        "then"
+      ],
+      "type": "object"
+    },
+    "IEventSwitchGotoStation": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "switchGotoStation",
+          "type": "string"
+        },
+        "switch": {
+          "items": {
+            "anyOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "condition": {
+                    "const": "adHocKeyEquals",
+                    "type": "string"
+                  },
+                  "parameters": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "toStation": {
+                        "$ref": "#/definitions/StationID"
+                      },
+                      "value": {
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "value",
+                      "toStation"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "condition",
+                  "parameters"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "condition": {
+                    "enum": [
+                      "adHocKeysAreEqual",
+                      "adHocKeysAreNotEqual"
+                    ],
+                    "type": "string"
+                  },
+                  "parameters": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "firstKey": {
+                        "type": "string"
+                      },
+                      "secondKey": {
+                        "type": "string"
+                      },
+                      "toStation": {
+                        "$ref": "#/definitions/StationID"
+                      }
+                    },
+                    "required": [
+                      "firstKey",
+                      "secondKey",
+                      "toStation"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "condition",
+                  "parameters"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "action",
+        "switch"
+      ],
+      "type": "object"
+    },
+    "StationID": {
+      "type": "string"
     }
   }
 }
