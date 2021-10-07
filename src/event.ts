@@ -5,6 +5,7 @@ import { StationID, runStationById } from "./station";
 
 export interface IEventPickRandomSample {
   action: "pickRandomSample";
+  // eslint-disable-next-line
   population: any[];
   key: string;
 }
@@ -210,7 +211,7 @@ export const eventHandlers = {
       const childEvent = startTimerEvent.then;
 
       eventHandlers[childEvent.action](state, childEvent);
-    }, startTimerEvent.time * 1000) as unknown as number;
+    }, startTimerEvent.time * 1000);
 
     state.user.timers[startTimerEvent.name] = timerId as number;
   },
@@ -222,6 +223,7 @@ export const eventHandlers = {
     const timerId = state.user.timers[cancelTimerEvent.name];
     if (timerId) {
       // cancel it
+      console.log("stopping timer: ", cancelTimerEvent.name);
       clearTimeout(timerId);
       delete state.user.timers[cancelTimerEvent.name];
     }

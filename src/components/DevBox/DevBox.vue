@@ -61,6 +61,11 @@
       </tr>
 
       <tr>
+        <td>timers:</td>
+        <td>{{ Object.keys(this.$store.state.user.timers) }}</td>
+      </tr>
+
+      <tr>
         <td>nStations:</td>
         <td>{{ nStations }}</td>
       </tr>

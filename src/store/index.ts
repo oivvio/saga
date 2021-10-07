@@ -246,29 +246,21 @@ export const store = createStore({
   },
   actions: {},
   modules: {},
-  // TODO Hide this in development
   plugins: [createPersistedState()],
 });
 
 // const storeClosure = store;
 // store.subscribe((mutation, state: IState) => {
 store.subscribe((_, state: IState) => {
-  const timersExists = Object.keys(state.user.timers).length !== 0;
-
   const audioIsPlaying = state.audio.foreground.isPlaying;
   const qrScannerVisible = state.user.QRScannerIsDisplayed;
   const openQrScannerButtonVisible = state.user.QRScannerCanBeDisplayed;
 
-  if (
-    !timersExists &&
-    !audioIsPlaying &&
-    !qrScannerVisible &&
-    !openQrScannerButtonVisible
-  ) {
+  if (!audioIsPlaying && !qrScannerVisible && !openQrScannerButtonVisible) {
     store.commit(Mutations.displayButtonToOpenQRScanner);
   }
 
-  if (timersExists || audioIsPlaying) {
+  if (audioIsPlaying) {
     // Hide qrScanner and button to open qrScanner
     if (state.user.QRScannerIsDisplayed) {
       store.commit(Mutations.hideQRScanner);

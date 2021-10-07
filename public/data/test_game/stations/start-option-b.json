@@ -12,6 +12,11 @@
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": ["./audio/start-option-b.mp3"]
+    },
+
+    {
+      "action": "cancelTimer",
+      "name": "startStationTimer"
     }
   ]
 }
