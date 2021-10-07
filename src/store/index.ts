@@ -11,13 +11,6 @@ import createPersistedState from "vuex-persistedstate";
 import { Store, createStore } from "vuex";
 import { IGameConfig, StationID, Station } from "../station";
 import { loadGameConfigAndStations } from "../station";
-import { log } from "../utils";
-
-// type stationVisitCount = {
-//   stationId: StationID;
-//   status: "open" | "closed";
-//   count: number;
-// };
 
 interface IUserState {
   QRScannerCanBeDisplayed: boolean;
@@ -26,6 +19,7 @@ interface IUserState {
   stationsVisited: StationID[];
   stationVisitCounts: Record<StationID, { open: number; closed: number }>;
   lastStationVisitedId?: StationID;
+  // timers: Record<string, number>;
   timers: Record<string, number>;
   helpAvailable: number;
   currentStation: StationID | undefined;
@@ -183,19 +177,25 @@ export const store = createStore({
       state.debugQuickAudio = urlParams.get("quickAudio") === "yes";
 
       if (configUrl) {
-        state.gameConfig = await loadGameConfigAndStations(new URL(configUrl));
-        // const loadedGameConfig = await loadGameConfigAndStations(new URL(configUrl));
-
-        state.user.openStations = state.gameConfig.openStationsAtStart;
-
-        state.gameConfigLoaded = true;
-        log("store", "gameConfigLoaded");
+        // If gameConfig is already loaded it was picked up in persistance
+        // and we don't need to do any initialization
+        if (!state.gameConfigLoaded) {
+          state.gameConfig = await loadGameConfigAndStations(
+            new URL(configUrl)
+          );
+          store.commit(
+            Mutations.updateOpenStations,
+            state.gameConfig.openStationsAtStart
+          );
+          state.gameConfigLoaded = true;
+        }
       }
     },
 
     wipeHistory(state: IState) {
       state.user = initialState.user;
       state.audio = initialState.audio;
+      state.gameConfigLoaded = false;
     },
 
     setCurrentStation(state: IState, stationId: StationID) {
@@ -235,32 +235,32 @@ export const store = createStore({
     setLastStationVisitedId(state: IState, stationId: StationID) {
       state.user.lastStationVisitedId = stationId;
     },
+
+    pushTags(state: IState, tags: string[]) {
+      tags.forEach((tag) => {
+        if (!state.user.tags.includes(tag)) {
+          state.user.tags.push(tag);
+        }
+      });
+    },
   },
   actions: {},
   modules: {},
-  // TODO Hide this in development
   plugins: [createPersistedState()],
 });
 
 // const storeClosure = store;
 // store.subscribe((mutation, state: IState) => {
 store.subscribe((_, state: IState) => {
-  const timersExists = Object.keys(state.user.timers).length !== 0;
-
   const audioIsPlaying = state.audio.foreground.isPlaying;
   const qrScannerVisible = state.user.QRScannerIsDisplayed;
   const openQrScannerButtonVisible = state.user.QRScannerCanBeDisplayed;
 
-  if (
-    !timersExists &&
-    !audioIsPlaying &&
-    !qrScannerVisible &&
-    !openQrScannerButtonVisible
-  ) {
+  if (!audioIsPlaying && !qrScannerVisible && !openQrScannerButtonVisible) {
     store.commit(Mutations.displayButtonToOpenQRScanner);
   }
 
-  if (timersExists || audioIsPlaying) {
+  if (audioIsPlaying) {
     // Hide qrScanner and button to open qrScanner
     if (state.user.QRScannerIsDisplayed) {
       store.commit(Mutations.hideQRScanner);
@@ -295,4 +295,5 @@ export enum Mutations {
   updateOpenStations = "updateOpenStations",
   wipeHistory = "wipeHistory",
   setLastStationVisitedId = "setLastStationVisitedId",
+  pushTags = "pushTags",
 }

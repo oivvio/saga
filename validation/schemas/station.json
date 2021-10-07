@@ -57,7 +57,7 @@
       "description": "Array containing events that executing a station will fire",
       "type": "array",
       "items": {
-        "$ref": "file:./schemas/event.json#/$defs/event"
+        "$ref": "file:./schemas/event.json#/definitions/IEvent"
       }
     },
 
@@ -74,7 +74,7 @@
   "allOf": [
     {
       "if": {
-        "properties": { "type": { "const": "story" } },
+        "properties": { "type": { "const": "choice" } },
         "required": ["type"]
       },
       "then": {

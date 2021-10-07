@@ -3,11 +3,21 @@
   "type": "choice",
   "description": "Chose the northern path.",
   "opens": ["northern-chamber"],
+  "helpAudioFilenames": [
+    "./audio/northern-chamber-help-1.mp3",
+    "./audio/northern-chamber-help-2.mp3"
+  ],
+
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": ["./audio/start-option-a.mp3"]
+    },
+
+    {
+      "action": "cancelTimer",
+      "name": "startStationTimer"
     }
   ]
 }

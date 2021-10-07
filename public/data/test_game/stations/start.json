@@ -58,6 +58,16 @@
         ["angry", "wind"]
       ],
       "key": "powerName"
+    },
+
+    {
+      "action": "startTimer",
+      "name": "startStationTimer",
+      "time": 20,
+      "then": {
+        "action": "goToStation",
+        "toStation": "you-loose"
+      }
     }
   ]
 }

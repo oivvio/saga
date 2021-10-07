@@ -1,11 +1,12 @@
-import { sample, every, includes } from "lodash";
+import { sample, every } from "lodash";
 import { AudioEngine } from "./audioEngine";
 import { store, IState, Mutations } from "./store";
 import { StationID, runStationById } from "./station";
 
 export interface IEventPickRandomSample {
   action: "pickRandomSample";
-  population: [];
+  // eslint-disable-next-line
+  population: any[];
   key: string;
 }
 
@@ -16,8 +17,20 @@ export interface IEventPlayAudio {
   then?: IEvent;
 }
 
+export interface IEventStartTimer {
+  action: "startTimer";
+  name: string;
+  time: number;
+  then: IEvent;
+}
+
+export interface IEventCancelTimer {
+  action: "cancelTimer";
+  name: string;
+}
+
 export interface IEventPlayAudioBasedOnAdHocValue {
-  action: "playAudio";
+  action: "playAudioBasedOnAdHocValue";
   key: string;
   audioFilenameMap: Record<string, string>;
 }
@@ -30,7 +43,7 @@ export interface IEventChoiceBasedOnTags {
 }
 
 export interface IEventPlayBackgroundAudio {
-  action: "playAudio";
+  action: "playBackgroundAudio";
   audioFilename: string;
   wait: number;
   cancelOnLeave: boolean;
@@ -47,13 +60,15 @@ export interface IEventCancelTimer {
   timerName: string;
 }
 
-export interface IEventCancelTimer {
-  action: "cancelTimer";
-  timerName: string;
-}
-
 export interface IEventPushToAdHocArrayEvent {
   action: "pushToAdHocArray";
+  key: string;
+  // eslint-disable-next-line
+  value: any;
+}
+
+export interface IEventSetAdHocDataEvent {
+  action: "setAdHocData";
   key: string;
   // eslint-disable-next-line
   value: any;
@@ -93,6 +108,9 @@ export type IEvent =
   | IEventGoToStation
   | IEventPushToAdHocArrayEvent
   | IEventChoiceBasedOnTags
+  | IEventSetAdHocDataEvent
+  | IEventStartTimer
+  | IEventCancelTimer
   | IEventSwitchGotoStation;
 
 // Events
@@ -117,24 +135,11 @@ export const eventHandlers = {
     const audioEventHandler = AudioEngine.getInstance();
 
     const secondLevelKey = state.user.adHocData[playAudioEvent.key];
-
-    console.log("SecondLevelKey: ", secondLevelKey);
-
     const audioFilename = playAudioEvent.audioFilenameMap[secondLevelKey];
-    console.log("audioFilename: ", audioFilename);
+
     if (audioFilename) {
       audioEventHandler.playForegroundAudio(audioFilename, 0);
     }
-
-    // const audioPromise = audioEventHandler.handlePlayAudioEvent(playAudioEvent);
-
-    // eslint-disable-next-line
-    // audioPromise.then((_) => {
-    //   if (playAudioEvent.then !== undefined) {
-    //     const childEvent = playAudioEvent.then;
-    //     eventHandlers[childEvent.action](state, childEvent);
-    //   }
-    // });
   },
 
   playBackgroundAudio: function (_: IState, event: IEvent): void {
@@ -143,24 +148,11 @@ export const eventHandlers = {
     audioEventHandler.handlePlayBackgroundAudioEvent(playBackgroundAudioEvent);
   },
 
-  // startTimeLimit: function (state: IState, event: IEvent) {
-  //   const startTimeLimitEvent = event as IEventStartTimeLimit;
-  //   const timer = window.setTimeout(function () {
-  //     if (startTimeLimitEvent.timerName) {
-  //       store.commit(Mutations.removeTimer, startTimeLimitEvent.timerName);
-  //     }
-
-  //     startTimeLimitEvent.onTimeLimitEnd &&
-  //       interpretSecondLevelEvent(state, startTimeLimitEvent.onTimeLimitEnd);
-  //   }, startTimeLimitEvent.timeLimit * 1000) as number;
-  //   if (timer) {
-  //     const timerName = startTimeLimitEvent.timerName;
-  //     store.commit(Mutations.addTimer, { timerName, timer });
-  //   }
-  // },
-
   goToStation: function (_: IState, event: IEvent): void {
     const goToStationEvent = event as IEventGoToStation;
+
+    store.commit(Mutations.updateOpenStations, [goToStationEvent.toStation]);
+
     runStationById(goToStationEvent.toStation);
   },
 
@@ -171,7 +163,7 @@ export const eventHandlers = {
 
     const userHasSeenAllRequiredTags = every(
       tagsUserIsRequiredToHaveSeen.map((tagToCheckFor) => {
-        includes(tagsUserHasSeen, tagToCheckFor);
+        return tagsUserHasSeen.includes(tagToCheckFor);
       })
     );
 
@@ -186,17 +178,6 @@ export const eventHandlers = {
     // Run the choice event
     eventHandlers[childEvent.action](state, childEvent);
   },
-
-  // cancelTimer: function (state: IState, event: IEvent) {
-  //   const cancelTimerEvent = event as IEventCancelTimer;
-  //   if (cancelTimerEvent.timerName) {
-  //     const timer = state.user.timers[cancelTimerEvent.timerName];
-  //     if (timer !== undefined) {
-  //       window.clearTimeout(timer);
-  //       store.commit(Mutations.removeTimer, cancelTimerEvent.timerName);
-  //     }
-  //   }
-  // },
 
   pickRandomSample: function (_: IState, event: IEvent): void {
     const pickRandomSampleEvent = event as IEventPickRandomSample;
@@ -213,11 +194,45 @@ export const eventHandlers = {
     store.commit(Mutations.pushToAdHocArray, { key, value });
   },
 
+  setAdHocData: function (_: IState, event: IEvent): void {
+    const setAdHocDataEvent = event as IEventSetAdHocDataEvent;
+    const key = setAdHocDataEvent.key;
+    const value = setAdHocDataEvent.value;
+    store.commit(Mutations.setAdHocData, { key, value });
+  },
+
+  startTimer: function (state: IState, event: IEvent): void {
+    const startTimerEvent = event as IEventStartTimer;
+
+    console.log("staring timer: ", startTimerEvent.name);
+
+    const timerId = setTimeout(() => {
+      console.log("staring  reached 0: ", startTimerEvent.name);
+      const childEvent = startTimerEvent.then;
+
+      eventHandlers[childEvent.action](state, childEvent);
+    }, startTimerEvent.time * 1000);
+
+    state.user.timers[startTimerEvent.name] = timerId as number;
+  },
+
+  cancelTimer: function (state: IState, event: IEvent): void {
+    const cancelTimerEvent = event as IEventCancelTimer;
+
+    // pick out the timer to cancel
+    const timerId = state.user.timers[cancelTimerEvent.name];
+    if (timerId) {
+      // cancel it
+      console.log("stopping timer: ", cancelTimerEvent.name);
+      clearTimeout(timerId);
+      delete state.user.timers[cancelTimerEvent.name];
+    }
+  },
+
   switchGotoStation: function (_: IState, event: IEvent): void {
     const switchGotoStationEvent = event as IEventSwitchGotoStation;
 
     // Find the first switch that evaluates to true
-
     const matches = switchGotoStationEvent.switch.filter((currentCase) => {
       // Used to check for one parameter in adHocData
 
@@ -282,4 +297,5 @@ export const eventHandlers = {
       runStationById(toStation);
     }
   },
+  // End of switchGotoStation
 };

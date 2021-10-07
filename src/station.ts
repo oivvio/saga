@@ -4,14 +4,7 @@ import { store, IState, Mutations } from "./store";
 import { getParentUrl, getChildUrl } from "./utils";
 
 import { last } from "lodash";
-import {
-  IEvent,
-  IEventPlayAudio,
-  // IEventPlayBackgroundAudio,
-  // IEventPickRandomSample,
-  // IEventGoToStation,
-  eventHandlers,
-} from "./event";
+import { IEvent, IEventPlayAudio, eventHandlers } from "./event";
 
 // Keep these types in sync with our json schema
 // We validate all our game definition json files so we can be fully confident that
@@ -27,6 +20,7 @@ export interface IStationID_ extends String {
 enum StationIDBrand {
   _ = "",
 }
+
 export type StationID = StationIDBrand & string;
 
 export interface IStation {
@@ -38,6 +32,25 @@ export interface IStation {
   events: IEvent[];
   helpAudioFilenames?: string[];
   startStationId?: StationID; // only on "help" stations
+}
+
+export interface IGameConfig {
+  name: string;
+  baseUrl: string;
+  stationPaths: string[];
+  stations: Record<StationID, Station>;
+  choiceInfix: string;
+  openStationsAtStart: StationID[];
+  audioFileUrlBase: string;
+  globalAudioFilenames: {
+    allHelpLeftAudioFilename: string;
+    twoHelpLeftAudioFilename: string;
+    oneHelpLeftAudioFilename: string;
+    noHelpLeftAudioFilename: string;
+    noHelpAtThisPointAudioFilename: string;
+    globalHelpAudioFilename: string;
+    storyFallbackAudioFilename: string;
+  };
 }
 
 export class Station implements IStation {
@@ -91,25 +104,6 @@ export class Station implements IStation {
   }
 }
 
-export interface IGameConfig {
-  name: string;
-  baseUrl: string;
-  stationPaths: string[];
-  stations: Record<StationID, Station>;
-  choiceInfix: string;
-  openStationsAtStart: StationID[];
-  audioFileUrlBase: string;
-  globalAudioFilenames: {
-    allHelpLeftAudioFilename: string;
-    twoHelpLeftAudioFilename: string;
-    oneHelpLeftAudioFilename: string;
-    noHelpLeftAudioFilename: string;
-    noHelpAtThisPointAudioFilename: string;
-    globalHelpAudioFilename: string;
-    storyFallbackAudioFilename: string;
-  };
-}
-
 // load a game configuration from a given URL,
 // mostly this will load a bunch of stations files
 export async function loadGameConfigAndStations(
@@ -154,7 +148,7 @@ function interpretEvent(state: IState, inEvent: IEvent) {
   eventHandlers[event.action](state, event);
 }
 
-// Used by interpretStation
+// Used by runStation
 // broken out for readability
 function handleHelpOpen(
   station: Station,
@@ -345,6 +339,11 @@ export function runStation(station: Station): void {
   store.commit(Mutations.pushStationIdToStationsVisited, station.id);
   const counts = store.state.user.stationVisitCounts[station.id];
 
+  // Add tags to users visited tags, regardless of what happens later
+  if (station.tags) {
+    store.commit(Mutations.pushTags, station.tags);
+  }
+
   if (stationIsOpen) {
     // We scanned an open station. Which means we "move" the user to a new station
     // If we are currently at a station we should stick that id in our "lastStationVisited"
@@ -364,36 +363,26 @@ export function runStation(station: Station): void {
 
       case "choice":
       case "story": {
-        // Pick up the station the user just left, if any.
-        // if (store.state.user.lastStationVisitedId !== undefined) {
-        //   const leavingStation =
-        //     store.state.gameConfig?.stations[
-        //       store.state.user.lastStationVisitedId
-        //     ];
-
-        //   if (leavingStation !== undefined) {
-        //     log(
-        //       "interpretStation",
-        //       `leavingStationId: ${store.state.user.lastStationVisitedId}`
-        //     );
-        //     // Handle events for the station the user just left
-        //     if (leavingStation !== undefined) {
-        //       leavingStation.events.forEach((event) => {
-        //         runEventOnLeave(store.state, event);
-        //       });
-        //     }
-        //   }
-        // }
-
         // Handle events for the users current station
         station.events.forEach((event) => {
           interpretEvent(store.state, event);
         });
 
         // Open next stations, close previous
-        if (station.opens !== undefined && store.state.gameConfig) {
+        // ... but we just ran this stations events, which might have transported
+        // the user to another station. If so we should not update open / closed
+        // stations based this station
+        // eslint-disable-next-line
+        const weAreStillAtThisStation =
+          station.id === store.state.user.currentStation;
+        if (
+          weAreStillAtThisStation &&
+          station.opens !== undefined &&
+          store.state.gameConfig
+        ) {
           store.commit(Mutations.updateOpenStations, station.opens);
         }
+
         break;
       }
 

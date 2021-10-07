@@ -22,6 +22,12 @@
         <td>stationsVisited:</td>
         <td>{{ this.$store.state.user.stationsVisited }}</td>
       </tr>
+
+      <tr>
+        <td>tags seen:</td>
+        <td>{{ this.$store.state.user.tags }}</td>
+      </tr>
+
       <tr>
         <td>audioStoryIsPlaying:</td>
         <td>{{ this.$store.state.audio.foreground.isPlaying }}</td>
@@ -52,6 +58,11 @@
       <tr>
         <td>adHocData:</td>
         <td>{{ this.$store.state.user.adHocData }}</td>
+      </tr>
+
+      <tr>
+        <td>timers:</td>
+        <td>{{ Object.keys(this.$store.state.user.timers) }}</td>
       </tr>
 
       <tr>
