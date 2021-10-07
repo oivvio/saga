@@ -7,7 +7,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/start-val-rund.mp3"]
+      "audioFilenames": ["./level-0-start/start-val-rund.mp3"]
     }
   ]
 }

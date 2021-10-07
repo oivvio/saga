@@ -5,8 +5,8 @@
   "opens": ["choice-circle-gravkapellet", "choice-square-barngravarna"],
 
   "helpAudioFilenames": [
-    "./audio/start-help-1.mp3",
-    "./audio/start-help-2.mp3"
+    "./level-0-start/start-help-1.mp3",
+    "./level-0-start/start-help-2.mp3"
   ],
 
   "events": [
@@ -18,20 +18,20 @@
         "action": "playAudioBasedOnAdHocValue",
         "key": "powerName",
         "audioFilenameMap": {
-          "sad,sun": "./audio/your-name-is-sad-sun.mp3",
-          "sad,wind": "./audio/your-name-is-sad-wind.mp3",
-          "happy,moon": "./audio/your-name-is-happy-moon.mp3",
-          "happy,sun": "./audio/your-name-is-happy-sun.mp3",
-          "happy,wind": "./audio/your-name-is-happy-wind.mp3",
-          "angry,moon": "./audio/your-name-is-angry-moon.mp3",
-          "angry,sun": "./audio/your-name-is-angry-sun.mp3",
-          "angry,wind": "./audio/your-name-is-angry-wind.mp3"
+          "sad,sun": "./level-0-start/your-name-is-sad-sun.mp3",
+          "sad,wind": "./level-0-start/your-name-is-sad-wind.mp3",
+          "happy,moon": "./level-0-start/your-name-is-happy-moon.mp3",
+          "happy,sun": "./level-0-start/your-name-is-happy-sun.mp3",
+          "happy,wind": "./level-0-start/your-name-is-happy-wind.mp3",
+          "angry,moon": "./level-0-start/your-name-is-angry-moon.mp3",
+          "angry,sun": "./level-0-start/your-name-is-angry-sun.mp3",
+          "angry,wind": "./level-0-start/your-name-is-angry-wind.mp3"
         }
       }
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./audio/startBackground.mp3",
+      "audioFilename": "./level-0-start/startBackground.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
@@ -39,7 +39,7 @@
 
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./audio/startBackground2.mp3",
+      "audioFilename": "./level-0-start/startBackground2.mp3",
       "loop": true,
       "cancelOnLeave": false,
       "wait": 3
