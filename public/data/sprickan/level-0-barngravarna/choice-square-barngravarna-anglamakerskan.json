@@ -1,0 +1,13 @@
+{
+  "id": "choice-circle-barngravarna-mammon",
+  "type": "choice",
+  "description": "Chose the path to mammon.",
+  "opens": ["checkin-mammon"],
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-0-start/start-val-rund.mp3"]
+    }
+  ]
+}
