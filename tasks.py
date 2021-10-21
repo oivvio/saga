@@ -1,5 +1,6 @@
 import os
 import sys
+import shutil
 
 from json import load
 from json import dumps
@@ -10,6 +11,7 @@ from invoke import task
 from jsonschema import Draft7Validator, RefResolver
 import qrcode
 from PIL import ImageDraw
+from pathlib import Path
 
 from validation.validation import validate_gameconfig_helper
 from validation.validation import validate_station_file
@@ -132,6 +134,7 @@ def deploy_to_s3(ctx):
 @task
 def generate_qr_codes(ctx, filename):
     """ Generate qr codes for the game defined in the supplied game config. Outputs to /tmp """
+    preflight_checklist()
     game_data = load_complete_game(filename)
     choice_infix = game_data["choiceInfix"]
 
@@ -154,7 +157,33 @@ def generate_qr_codes(ctx, filename):
         print(filename)
         qr_img.save(filename)
 
-    # print(dumps(game_data, indent=2))
+
+@task
+def generate_html_files(ctx, filename):
+    """ Generate index.html files for the game defined in the supplied game config. Outputs to /tmp """
+    preflight_checklist()
+
+    # We pick up index.html from the same folder where filename is located
+    html_template = Path(filename).parent / "index.html"
+
+    game_data = load_complete_game(filename)
+    choice_infix = game_data["choiceInfix"]
+
+    station_ids = [s for s in game_data["stations"].keys() if choice_infix not in s]
+
+    # Add global choice stations
+    for choice in game_data["choiceNames"]:
+        station_ids.append(f"{choice_infix}{choice}")
+
+    for station_id in station_ids:
+        output_dir = Path("public") / station_id
+        if not output_dir.exists():
+            output_dir.mkdir(parents=True)
+
+        output_file = output_dir / "index.html"
+        print(output_file)
+
+        shutil.copy(html_template, output_file)
 
 
 @task

@@ -6,13 +6,20 @@ div.SagaQrReader {
     background-color: pink;
 
     video#qrvideo {
-      overflow: hidden;
-      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
 
-      z-index: 1;
+      // overflow: hidden;
+      // position: absolute;
+      // top: 0;
+      // left: 0;
+      // width: 100%;
+
+      // z-index: 1;
     }
 
     canvas#qrcanvas {

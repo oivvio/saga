@@ -3,7 +3,7 @@ import { defineComponent } from "vue";
 // rxjs docs says that this is the way but it does not work.
 // So we pinned rxjs to an older version (6.6.7) to get it to work
 import { Subject } from "rxjs";
-import { distinctUntilKeyChanged, filter } from "rxjs/operators";
+import { distinctUntilKeyChanged, filter, tap } from "rxjs/operators";
 
 import QrScanner from "qr-scanner";
 
@@ -23,7 +23,7 @@ interface IScanRegion {
 
 interface IDecodeSubjectValue {
   codeContent: string;
-  canvas: HTMLCanvasElement;
+  // canvas: HTMLCanvasElement;
 }
 // Bundling as a blob with webpack didn't work so we get the worker code separately
 QrScanner.WORKER_PATH = "js/vendor/qr-scanner-worker.min.js";
@@ -37,13 +37,9 @@ const Component = defineComponent({
       loading: true,
       result: "",
       error: "",
-      //onDecodeSubject: new Subject<[string, HTMLCanvasElement]>(),
       onDecodeSubject: new Subject<IDecodeSubjectValue>(),
     };
   },
-
-  // Is this required even if empty?
-  // setup(props) {  },
 
   // Most setup happens here where we have access to this
   mounted() {
@@ -52,19 +48,44 @@ const Component = defineComponent({
 
     // Setup the scanner
 
+    // console.log("videoElement.getClientRects: ", videoElement.getClientRects());
+    // console.log(
+    //   "videoElement.getBoundingClientRect: ",
+    //   videoElement.getBoundingClientRect()
+    // );
+    // console.log(videoElement.videoWidth, videoElement.videoHeight);
+
+    /**
+     * This will set the scan region to the entire video area
+     * @param videoElem
+     */
+    const getScanregion = function (videoElem: HTMLVideoElement) {
+      const result = {
+        x: 0,
+        y: 0,
+        width: videoElem.videoWidth,
+        height: videoElem.videoHeight,
+        downScaledWidth: videoElem.videoWidth / 2,
+        downScaledHeight: videoElem.videoHeight / 2,
+      };
+
+      console.log(result);
+      return result;
+    };
+
     let qrScanner: QrScanner | null = new QrScanner(
       videoElement,
+
       (codeContent) => {
-        const canvas = <HTMLCanvasElement>document.getElementById("qrcanvas");
+        // const canvas = <HTMLCanvasElement>document.getElementById("qrcanvas");
 
-        if (canvas) {
-          this.onDecodeSubject.next({ codeContent, canvas });
-        }
-      }
-
-      // (error) => {
-      //   const canvas = document.getElementById("qrcanvas");
-      // }
+        // if (canvas) {
+        // this.onDecodeSubject.next({ codeContent, canvas });
+        // }
+        this.onDecodeSubject.next({ codeContent });
+      },
+      undefined,
+      getScanregion
     );
 
     // Start the scanner
@@ -73,24 +94,36 @@ const Component = defineComponent({
     // Wait for the scanner to get ready
     // events canplay, playing and canplaythrough works in firefox desktop
     // on google chrome durationchange and loadedmetadata
+    //
+
+    // videoElement.addEventListener("loadeddata", () => {
+    //   console.log(
+    //     "video loadeddata fired: ",
+    //     videoElement.videoWidth,
+    //     videoElement.videoHeight
+    //   );
+    // });
+
     videoElement.addEventListener("canplay", () => {
       this.loading = false;
-      const videoNominalWidth = videoElement.videoWidth;
-      const actualWidth = videoElement.offsetWidth;
-      const scalingFactor = actualWidth / videoNominalWidth;
+
+      console.log("video canplay fired");
+      // const videoNominalWidth = videoElement.videoWidth;
+      // const actualWidth = videoElement.offsetWidth;
+      // const scalingFactor = actualWidth / videoNominalWidth;
 
       // eslint-disable-next-line
-      const scanRegion = (qrScanner as any)._scanRegion as IScanRegion;
+      // const scanRegion = (qrScanner as any)._scanRegion as IScanRegion;
 
       // position the scanRegion marker
-      const canvas = document.getElementById("qrcanvas");
-      if (canvas) {
-        canvas.style.left = `${scanRegion.x * scalingFactor}px`;
-        canvas.style.top = `${scanRegion.y * scalingFactor}px`;
-        canvas.style.width = `${scanRegion.width * scalingFactor}px`;
-        canvas.style.height = `${scanRegion.height * scalingFactor}px`;
-        canvas.style.display = "block";
-      }
+      // const canvas = document.getElementById("qrcanvas");
+      // if (canvas) {
+      //   canvas.style.left = `${scanRegion.x * scalingFactor}px`;
+      //   canvas.style.top = `${scanRegion.y * scalingFactor}px`;
+      //   canvas.style.width = `${scanRegion.width * scalingFactor}px`;
+      //   canvas.style.height = `${scanRegion.height * scalingFactor}px`;
+      //   canvas.style.display = "block";
+      // }
     });
 
     // capture these methods so we can use them in the rx pipeline
@@ -99,9 +132,17 @@ const Component = defineComponent({
 
     // Setup our RxJS listener
     this.onDecodeSubject
+
       // only process when the code changes
       .pipe(distinctUntilKeyChanged("codeContent"))
 
+      .pipe(
+        tap((value: IDecodeSubjectValue) => {
+          console.log("codeContent: ", value.codeContent);
+        })
+      )
+
+      //
       // filter out codes that are not valid
       .pipe(filter((value) => qrCodeIsValid(value.codeContent)))
 
