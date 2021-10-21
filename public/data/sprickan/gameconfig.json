@@ -7,7 +7,7 @@
     "tracingOrigins": ["localhost", "example.com"]
   },
   "stationPaths": [
-    "./level-0-restart/level-0-restart.json",
+    "./level-0-restart/checkin-restart.json",
 
     "./level-0-start/checkin-start.json",
     "./level-0-start/choice-square-barngravarna.json",
