@@ -1,18 +1,15 @@
 {
   "id": "checkin-mammon",
   "type": "story",
-  "description": "another dark chamber",
+  "description": "You have reached Mammon",
   "opens": ["qr-assemble-mammon"],
-  "helpAudioFilenames": [
-    "./audio/southern-chamber-help-1.mp3",
-    "./audio/southern-chamber-help-2.mp3"
-  ],
+  
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/southern-chamber.mp3"]
+      "audioFilenames": ["./level-1-mammon/checkin-mammon.mp3"]
     },
     {
       "action": "playBackgroundAudio",

@@ -1,0 +1,13 @@
+{
+  "id": "choice-circle-gravkapellet",
+  "type": "choice",
+  "description": "Chose the path to gravkapellet.",
+  "opens": ["checkin-gravkapellet"],
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-0-start/start-val-fyrkant.mp3"]
+    }
+  ]
+}
