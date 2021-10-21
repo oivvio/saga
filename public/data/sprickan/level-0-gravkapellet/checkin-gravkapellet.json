@@ -3,20 +3,17 @@
   "type": "story",
   "description": "You are at gravkapellet",
   "opens": ["choice-square-gravkapellet-anglamakerskan", "choice-circle-gravkapellet-mammon"],
-  "helpAudioFilenames": [
-    "./level-0-start/southern-chamber-help-1.mp3",
-    "./level-0-start/southern-chamber-help-2.mp3"
-  ],
+  
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-start/southern-chamber.mp3"]
+      "audioFilenames": ["./level-0-gravkapellet/checkin-gravkapellet.mp3"]
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-0-start/southern-chamber-background.mp3",
+      "audioFilename": "./level-0-gravkapellet/southern-chamber-background.mp3",
       "loop": true,
       "cancelOnLeave": false,
       "wait": 0

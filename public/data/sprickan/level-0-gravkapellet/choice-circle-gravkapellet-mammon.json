@@ -3,11 +3,15 @@
   "type": "choice",
   "description": "Chose the path to anglamakerskan",
   "opens": ["checkin-mammon"],
+  "helpAudioFilenames": [
+    "./audio/southern-chamber-help-1.mp3",
+    "./audio/southern-chamber-help-2.mp3"
+  ],
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-start/start-val-fyrkant.mp3"]
+      "audioFilenames": ["./level-0-gravkapellet/choice-circle-gravkapellet-mammon.mp3"]
     }
   ]
 }

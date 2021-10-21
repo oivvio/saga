@@ -1,5 +1,5 @@
 {
-  "id": "choice-fyrkant-barngravarna-anglamakerskan",
+  "id": "choice-circle-barngravarna-anglamakerskan",
   "type": "choice",
   "description": "Chose the path to anglamakerskan.",
   "opens": ["checkin-anglamakerskan"],
@@ -7,7 +7,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-start/start-val-fyrkant.mp3"]
+      "audioFilenames": ["./level-0-start/choice-circle-barngravarna-anglamakerskan.mp3"]
     }
   ]
 }

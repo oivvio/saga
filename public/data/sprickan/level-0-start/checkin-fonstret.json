@@ -1,33 +1,17 @@
 {
-  "id": "fonstret",
+  "id": "checkin-fonstret",
   "type": "story",
-  "description": "play audio. starts a level timer that wont end until leaving level 1.",
-  "opens": ["choice-circle-gravkapellet", "choice-square-barngravarna"],
+  "description": "Du har scannat fönstrets kod.",
+  "opens": ["checkin-fraga"],
 
-  "helpAudioFilenames": [
-    "./level-0-start/start-help-1.mp3",
-    "./level-0-start/start-help-2.mp3"
-  ],
+
 
   "events": [
     {
       "action": "playAudio",
-      "audioFilenames": ["./level-0-start/start.mp3", "./level-0-start/start-b.mp3"],
-      "wait": 0,
-      "then": {
-        "action": "playAudioBasedOnAdHocValue",
-        "key": "powerName",
-        "audioFilenameMap": {
-          "sad,sun": "./level-0-start/your-name-is-sad-sun.mp3",
-          "sad,wind": "./level-0-start/your-name-is-sad-wind.mp3",
-          "happy,moon": "./level-0-start/your-name-is-happy-moon.mp3",
-          "happy,sun": "./level-0-start/your-name-is-happy-sun.mp3",
-          "happy,wind": "./level-0-start/your-name-is-happy-wind.mp3",
-          "angry,moon": "./level-0-start/your-name-is-angry-moon.mp3",
-          "angry,sun": "./level-0-start/your-name-is-angry-sun.mp3",
-          "angry,wind": "./level-0-start/your-name-is-angry-wind.mp3"
-        }
-      }
+      "audioFilenames": ["./level-0-start/checkin-fonstret.mp3"],
+      "wait": 0
+      
     },
     {
       "action": "playBackgroundAudio",
@@ -43,21 +27,8 @@
       "loop": true,
       "cancelOnLeave": false,
       "wait": 3
-    },
-
-    {
-      "action": "pickRandomSample",
-      "population": [
-        ["sad", "sun"],
-        ["sad", "wind"],
-        ["happy", "moon"],
-        ["happy", "sun"],
-        ["happy", "wind"],
-        ["angry", "moon"],
-        ["angry", "sun"],
-        ["angry", "wind"]
-      ],
-      "key": "powerName"
     }
+
+    
   ]
 }

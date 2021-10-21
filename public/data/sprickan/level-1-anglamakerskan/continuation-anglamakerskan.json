@@ -7,7 +7,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/start-val-fyrkant.mp3"]
+      "audioFilenames": ["./level-1-anglamakerskan/continuation-anglamakerskan.mp3"]
     }
   ]
 }

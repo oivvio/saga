@@ -7,7 +7,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-start/choice-circle-gravkapellet.mp3"]
+      "audioFilenames": ["./level-0-start/start-val-fyrkant.mp3"]
     }
   ],
   "helpAudioFilenames": [
