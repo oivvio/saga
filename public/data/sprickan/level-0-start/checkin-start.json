@@ -1,33 +1,17 @@
 {
   "id": "checkin-start",
   "type": "story",
-  "description": "play audio. starts a level timer that wont end until leaving level 1.",
+  "description": "Sprickans start sätter igång",
   "opens": ["checkin-fonstret"],
 
-  "helpAudioFilenames": [
-    "./level-0-start/start-help-1.mp3",
-    "./level-0-start/start-help-2.mp3"
-  ],
+  
 
   "events": [
+    
     {
       "action": "playAudio",
-      "audioFilenames": ["./level-0-start/checkin-start", "./level-0-start/checkin-start-b.mp3"],
       "wait": 0,
-      "then": {
-        "action": "playAudioBasedOnAdHocValue",
-        "key": "powerName",
-        "audioFilenameMap": {
-          "sad,sun": "./level-0-start/your-name-is-sad-sun.mp3",
-          "sad,wind": "./level-0-start/your-name-is-sad-wind.mp3",
-          "happy,moon": "./level-0-start/your-name-is-happy-moon.mp3",
-          "happy,sun": "./level-0-start/your-name-is-happy-sun.mp3",
-          "happy,wind": "./level-0-start/your-name-is-happy-wind.mp3",
-          "angry,moon": "./level-0-start/your-name-is-angry-moon.mp3",
-          "angry,sun": "./level-0-start/your-name-is-angry-sun.mp3",
-          "angry,wind": "./level-0-start/your-name-is-angry-wind.mp3"
-        }
-      }
+      "audioFilenames": ["./level-0-start/checkin-start.mp3"]
     },
     {
       "action": "playBackgroundAudio",
@@ -48,14 +32,31 @@
     {
       "action": "pickRandomSample",
       "population": [
-        ["sad", "sun"],
-        ["sad", "wind"],
-        ["happy", "moon"],
-        ["happy", "sun"],
-        ["happy", "wind"],
-        ["angry", "moon"],
-        ["angry", "sun"],
-        ["angry", "wind"]
+        ["gladje", "sol"],
+        ["gladje", "vind"],
+        ["gladje", "sno"],
+        ["gladje", "mane"],
+        ["gladje", "regn"],
+        ["sorg", "sol"],
+        ["sorg", "vind"],
+        ["sorg", "sno"],
+        ["sorg", "regn"],
+        ["lycka", "sol"],
+        ["lycka", "vind"],
+        ["lycka", "sno"],
+        ["lycka", "mane"],
+        ["lycka", "regn"],
+        ["ilska", "sol"],
+        ["ilska", "vind"],
+        ["ilska", "sno"],
+        ["ilska", "mane"],
+        ["ilska", "regn"],
+        ["vild", "sol"],
+        ["vild", "vind"],
+        ["vild", "sno"],
+        ["vild", "mane"],
+        ["vild", "regn"]
+
       ],
       "key": "powerName"
     }

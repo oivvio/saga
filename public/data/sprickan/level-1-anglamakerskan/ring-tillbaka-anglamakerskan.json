@@ -7,7 +7,30 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/start-val-fyrkant.mp3"]
-    }
-  ]
-}
+      "audioFilenames": ["./level-1-anglamakerskan/ring-tillbaka-anglamakerskan.mp3"]
+    
+      ,"then": {
+        "action": "playAudioBasedOnAdHocValue",
+        "key": "powerName",
+        "audioFilenameMap": {
+          "gladje": "./level-1-anglamakerskan/essence-gladje.mp3",
+          "ilska": "./level-1-anglamakerskan/essence-ilska.mp3",
+          "lycka": "./level-1-anglamakerskan/essence-lycka.mp3",
+          "sorg": "./level-1-anglamakerskan/essence-sorg.mp3",
+          "vild": "./level-1-anglamakerskan/essence-vild.mp3",
+          
+          
+          "then": {
+            "action": "playAudio",
+            "wait": 0,
+            "audioFilenames": ["./level-1-anglamakerskan/continuation-anglamakerskan.mp3"]
+          }
+      
+        }
+  
+        }
+      }
+    
+
+
+
