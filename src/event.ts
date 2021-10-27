@@ -51,6 +51,15 @@ export interface IEventPlayBackgroundAudio {
   loop: boolean;
 }
 
+export interface IEventPowerNameChoice {
+  action: "powerNameChoice";
+  part: number;
+  onSuccessOpen: StationID[];
+  onFirstFailurePlay: string;
+  onSecondFailureGoTo: StationID;
+  value: string;
+}
+
 export interface IEventGoToStation {
   action: "goToStation";
   toStation: StationID;
@@ -112,6 +121,7 @@ export type IEvent =
   | IEventSetAdHocDataEvent
   | IEventStartTimer
   | IEventCancelTimer
+  | IEventPowerNameChoice
   | IEventSwitchGotoStation;
 
 // Events
@@ -240,12 +250,26 @@ export const eventHandlers = {
     }
   },
 
+  powerNameChoice: function (state: IState, event: IEvent): void {
+    // This eventhandler handles the very game specific choice of "powerNames" in the game "Sprickan"
+    let tries = state.user.adHocData["attemptsAtPickingTheRightPowerName"] || 0;
+
+    if (tries === 0) {
+      // This is our first try
+      // If we got it right continue to success station
+    } else {
+      // This is not our first try
+    }
+
+    // if state.user.adHocData
+  },
+
   switchGotoStation: function (_: IState, event: IEvent): void {
     const switchGotoStationEvent = event as IEventSwitchGotoStation;
 
     // Find the first switch that evaluates to true
     const matches = switchGotoStationEvent.switch.filter((currentCase) => {
-      // Used to check for one parameter in adHocData
+      // Used to check for one parameter in adHocDat
 
       // Get string representation of proxy so we can do proper comparisons
       //
