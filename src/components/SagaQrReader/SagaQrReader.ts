@@ -137,18 +137,25 @@ const Component = defineComponent({
         stationId = getLastUrlSegment(new URL(codeContent)) as StationID;
 
         // Figure out if this represent a choice station
+
+        // Pick up choiceInfix from gameConfig
         const choiceInfix = this.$store.state.gameConfig?.choiceInfix;
-        if (choiceInfix && stationId.indexOf(choiceInfix) !== -1) {
+
+        const stationIdContainsChoiceInfix =
+          choiceInfix && stationId.indexOf(choiceInfix) !== -1;
+
+        if (stationIdContainsChoiceInfix) {
           const lastStationVisitedId =
             this.$store.state.user.lastStationVisitedId;
 
+          // Pick out the choice part (e.g. "yes" or "no", "square" or "circle"
           const choice = stationId
-            .split(choiceInfix)
+            .split(choiceInfix as string)
             .filter((val) => val !== "")[0];
 
-          stationId = (lastStationVisitedId +
-            choiceInfix +
-            choice) as StationID;
+          //Finally put together the complete stationId
+          stationId = ((((lastStationVisitedId as string) +
+            choiceInfix) as string) + choice) as StationID;
         }
       }
       return stationId;
