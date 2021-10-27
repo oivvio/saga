@@ -63,7 +63,7 @@
     {
       "action": "startTimer",
       "name": "startStationTimer",
-      "time": 20,
+      "time": 60,
       "then": {
         "action": "goToStation",
         "toStation": "you-loose"
