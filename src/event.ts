@@ -33,6 +33,7 @@ export interface IEventPlayAudioBasedOnAdHocValue {
   action: "playAudioBasedOnAdHocValue";
   key: string;
   audioFilenameMap: Record<string, string>;
+  then?: IEvent;
 }
 
 export interface IEventChoiceBasedOnTags {
@@ -138,7 +139,17 @@ export const eventHandlers = {
     const audioFilename = playAudioEvent.audioFilenameMap[secondLevelKey];
 
     if (audioFilename) {
-      audioEventHandler.playForegroundAudio(audioFilename, 0);
+      const audioPromise = audioEventHandler.playForegroundAudio(
+        audioFilename,
+        0
+      );
+
+      audioPromise.then(() => {
+        if (playAudioEvent.then !== undefined) {
+          const childEvent = playAudioEvent.then;
+          eventHandlers[childEvent.action](state, childEvent);
+        }
+      });
     }
   },
 

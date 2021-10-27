@@ -50,10 +50,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "action",
-        "name"
-      ],
+      "required": ["action", "name"],
       "type": "object"
     },
     "IEventChoiceBasedOnTags": {
@@ -76,12 +73,7 @@
           "type": "array"
         }
       },
-      "required": [
-        "action",
-        "tags",
-        "eventIfPresent",
-        "eventIfNotPresent"
-      ],
+      "required": ["action", "tags", "eventIfPresent", "eventIfNotPresent"],
       "type": "object"
     },
     "IEventGoToStation": {
@@ -95,10 +87,7 @@
           "$ref": "#/definitions/StationID"
         }
       },
-      "required": [
-        "action",
-        "toStation"
-      ],
+      "required": ["action", "toStation"],
       "type": "object"
     },
     "IEventPickRandomSample": {
@@ -112,16 +101,11 @@
           "type": "string"
         },
         "population": {
-          "items": {
-          },
+          "items": {},
           "type": "array"
         }
       },
-      "required": [
-        "action",
-        "population",
-        "key"
-      ],
+      "required": ["action", "population", "key"],
       "type": "object"
     },
     "IEventPlayAudio": {
@@ -144,11 +128,7 @@
           "type": "number"
         }
       },
-      "required": [
-        "action",
-        "wait",
-        "audioFilenames"
-      ],
+      "required": ["action", "wait", "audioFilenames"],
       "type": "object"
     },
     "IEventPlayAudioBasedOnAdHocValue": {
@@ -164,15 +144,15 @@
           },
           "type": "object"
         },
+        "then": {
+          "$ref": "#/definitions/IEvent"
+        },
+
         "key": {
           "type": "string"
         }
       },
-      "required": [
-        "action",
-        "key",
-        "audioFilenameMap"
-      ],
+      "required": ["action", "key", "audioFilenameMap"],
       "type": "object"
     },
     "IEventPlayBackgroundAudio": {
@@ -195,13 +175,7 @@
           "type": "number"
         }
       },
-      "required": [
-        "action",
-        "audioFilename",
-        "wait",
-        "cancelOnLeave",
-        "loop"
-      ],
+      "required": ["action", "audioFilename", "wait", "cancelOnLeave", "loop"],
       "type": "object"
     },
     "IEventPushToAdHocArrayEvent": {
@@ -214,14 +188,9 @@
         "key": {
           "type": "string"
         },
-        "value": {
-        }
+        "value": {}
       },
-      "required": [
-        "action",
-        "key",
-        "value"
-      ],
+      "required": ["action", "key", "value"],
       "type": "object"
     },
     "IEventSetAdHocDataEvent": {
@@ -234,14 +203,9 @@
         "key": {
           "type": "string"
         },
-        "value": {
-        }
+        "value": {}
       },
-      "required": [
-        "action",
-        "key",
-        "value"
-      ],
+      "required": ["action", "key", "value"],
       "type": "object"
     },
     "IEventStartTimer": {
@@ -261,12 +225,7 @@
           "type": "number"
         }
       },
-      "required": [
-        "action",
-        "name",
-        "time",
-        "then"
-      ],
+      "required": ["action", "name", "time", "then"],
       "type": "object"
     },
     "IEventSwitchGotoStation": {
@@ -295,31 +254,20 @@
                       "toStation": {
                         "$ref": "#/definitions/StationID"
                       },
-                      "value": {
-                      }
+                      "value": {}
                     },
-                    "required": [
-                      "key",
-                      "value",
-                      "toStation"
-                    ],
+                    "required": ["key", "value", "toStation"],
                     "type": "object"
                   }
                 },
-                "required": [
-                  "condition",
-                  "parameters"
-                ],
+                "required": ["condition", "parameters"],
                 "type": "object"
               },
               {
                 "additionalProperties": false,
                 "properties": {
                   "condition": {
-                    "enum": [
-                      "adHocKeysAreEqual",
-                      "adHocKeysAreNotEqual"
-                    ],
+                    "enum": ["adHocKeysAreEqual", "adHocKeysAreNotEqual"],
                     "type": "string"
                   },
                   "parameters": {
@@ -335,18 +283,11 @@
                         "$ref": "#/definitions/StationID"
                       }
                     },
-                    "required": [
-                      "firstKey",
-                      "secondKey",
-                      "toStation"
-                    ],
+                    "required": ["firstKey", "secondKey", "toStation"],
                     "type": "object"
                   }
                 },
-                "required": [
-                  "condition",
-                  "parameters"
-                ],
+                "required": ["condition", "parameters"],
                 "type": "object"
               }
             ]
@@ -354,10 +295,7 @@
           "type": "array"
         }
       },
-      "required": [
-        "action",
-        "switch"
-      ],
+      "required": ["action", "switch"],
       "type": "object"
     },
     "StationID": {

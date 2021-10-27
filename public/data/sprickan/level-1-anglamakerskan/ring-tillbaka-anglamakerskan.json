@@ -2,13 +2,18 @@
   "id": "ring-tillbaka-anglamakerskan",
   "type": "story",
   "description": "Chose the path to the south.",
-  "opens": ["choice-circle-anglamakerskan-stadsungarna", "choice-square-anglamakerskan-lilith"],
+  "opens": [
+    "choice-circle-anglamakerskan-stadsungarna",
+    "choice-square-anglamakerskan-lilith"
+  ],
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-1-anglamakerskan/ring-tillbaka-anglamakerskan.mp3"],
-    
+      "audioFilenames": [
+        "./level-1-anglamakerskan/ring-tillbaka-anglamakerskan.mp3"
+      ],
+
       "then": {
         "action": "playAudioBasedOnAdHocValue",
         "key": "powerName",
@@ -29,22 +34,16 @@
 
           "sorg,sol": "./level-1-anglamakerskan/essence-sorg.mp3",
           "vild,sol": "./level-1-anglamakerskan/essence-vild.mp3"
-          
-          },
+        },
 
-          "then": {
-            "action": "playAudio",
-            "wait": 0,
-            "audioFilenames": ["./level-1-anglamakerskan/continuation-anglamakerskan.mp3"]
-          }
-      
-  
+        "then": {
+          "action": "playAudio",
+          "wait": 0,
+          "audioFilenames": [
+            "./level-1-anglamakerskan/continuation-anglamakerskan.mp3"
+          ]
         }
       }
-    ]
+    }
+  ]
 }
-
-    
-
-
-
