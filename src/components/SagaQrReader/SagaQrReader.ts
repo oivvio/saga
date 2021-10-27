@@ -59,16 +59,32 @@ const Component = defineComponent({
      * This will set the scan region to the entire video area
      * @param videoElem
      */
-    const getScanregion = function (videoElem: HTMLVideoElement) {
+    const HIDEgetScanregion = function (videoElem: HTMLVideoElement) {
       const result = {
         x: 0,
         y: 0,
         width: videoElem.videoWidth,
         height: videoElem.videoHeight,
-        downScaledWidth: videoElem.videoWidth / 2,
-        downScaledHeight: videoElem.videoHeight / 2,
+        downScaledWidth: videoElem.videoWidth / 4,
+        downScaledHeight: videoElem.videoHeight / 4,
       };
 
+      console.log("The scan region:");
+      console.log(result);
+      return result;
+    };
+
+    const getScanregion = function (videoElem: HTMLVideoElement) {
+      const result = {
+        x: 0,
+        y: 0,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        downScaledWidth: window.innerWidth / 2,
+        downScaledHeight: window.innerHeight / 2,
+      };
+
+      console.log("The scan region:");
       console.log(result);
       return result;
     };
@@ -89,6 +105,7 @@ const Component = defineComponent({
     );
 
     // Start the scanner
+    console.log("Start the scanner");
     qrScanner.start();
 
     // Wait for the scanner to get ready
@@ -132,6 +149,12 @@ const Component = defineComponent({
 
     // Setup our RxJS listener
     this.onDecodeSubject
+
+      .pipe(
+        tap((value: IDecodeSubjectValue) => {
+          console.log("codeContent1: ", value.codeContent);
+        })
+      )
 
       // only process when the code changes
       .pipe(distinctUntilKeyChanged("codeContent"))

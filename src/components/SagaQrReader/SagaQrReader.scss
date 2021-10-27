@@ -1,17 +1,16 @@
 div.SagaQrReader {
   #qrvideowrapper {
-    position: relative;
-    width: 80vw;
-    height: 80vw;
-    background-color: pink;
+    // position: relative;
+    // width: 80vw;
+    // height: 80vw;
 
     video#qrvideo {
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      position: fixed;
-      top: 0;
-      left: 0;
+      // width: 100vw;
+      // height: 100vh;
+      // object-fit: cover;
+      // position: fixed;
+      // top: 0;
+      // left: 0;
 
       // overflow: hidden;
       // position: absolute;
@@ -22,15 +21,15 @@ div.SagaQrReader {
       // z-index: 1;
     }
 
-    canvas#qrcanvas {
-      position: absolute;
-      display: none;
-      top: 0;
-      left: 0;
-      z-index: 10;
-      // background-color: rgba(255, 0, 0, 0.5);
-      background-color: red;
-      opacity: 0.5;
-    }
+    // canvas#qrcanvas {
+    //   position: absolute;
+    //   display: none;
+    //   top: 0;
+    //   left: 0;
+    //   z-index: 10;
+    //   // background-color: rgba(255, 0, 0, 0.5);
+    //   background-color: red;
+    //   opacity: 0.5;
+    // }
   }
 }

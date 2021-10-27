@@ -23,6 +23,7 @@ export default defineComponent({
 
 <style lang="scss">
 div.App {
-  background-color: pink;
+  width: 100vw;
+  height: 50vh;
 }
 </style>
