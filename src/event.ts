@@ -252,7 +252,8 @@ export const eventHandlers = {
 
   powerNameChoice: function (state: IState, event: IEvent): void {
     // This eventhandler handles the very game specific choice of "powerNames" in the game "Sprickan"
-    let tries = state.user.adHocData["attemptsAtPickingTheRightPowerName"] || 0;
+    const tries =
+      state.user.adHocData["attemptsAtPickingTheRightPowerName"] || 0;
 
     if (tries === 0) {
       // This is our first try
