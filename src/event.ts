@@ -209,6 +209,7 @@ const _powerNameChoicePickUsersPowername = function (
 export const eventHandlers = {
   noop: function (state: IState, event: IEvent): void {
     // this is the no op event
+    console.log(state, event);
   },
 
   playAudio: function (state: IState, event: IEvent): void {
