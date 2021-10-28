@@ -1,5 +1,5 @@
 {
-  "id": "chekin-gravkapellet-choice-square",
+  "id": "checkin-gravkapellet-choice-square",
   "type": "choice",
   "description": "Chose the path to anglamakerskan.",
   "opens": ["checkin-anglamakerskan"],

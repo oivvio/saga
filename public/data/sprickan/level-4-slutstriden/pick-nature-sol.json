@@ -13,8 +13,8 @@
 
     {
       "action": "powerNameChoice",
-    "part": 0,
-    "onSuccessOpen": [],
+    "part": 1,
+    "onSuccessOpen": ["pick-emotion-gladje", "pick-emotion-ilska", "pick-emotion-lycka", "pick-emotion-sorg", "pick-emotion-vild"],
     "onSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
     "onFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3", 
     "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3", 
