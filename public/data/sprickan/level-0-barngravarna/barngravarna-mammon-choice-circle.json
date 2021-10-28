@@ -1,7 +1,7 @@
 {
-  "id": "barngravarna-mammon-choice-circle",
+  "id": "checkin-barngravarna-choice-circle",
   "type": "choice",
-  "description": "Chose the path to anglamakerskan.",
+  "description": "Chose the path to mammon.",
   "opens": ["checkin-anglamakerskan"],
   "helpAudioFilenames": [
     "./level-1-mammon/help-mammon-1.mp3",

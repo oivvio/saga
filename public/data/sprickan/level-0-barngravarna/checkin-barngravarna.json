@@ -2,11 +2,8 @@
   "id": "checkin-barngravarna",
   "type": "story",
   "description": "You are at barngravarna",
-  "opens": ["choice-circle-barngravarna-mammon", "choice-fyrkant-barngravarna-anglamakerskan"],
-  "helpAudioFilenames": [
-    "./level-0-barngravarna/southern-chamber-help-1.mp3",
-    "./level-0-barngravarna/southern-chamber-help-2.mp3"
-  ],
+  "opens": ["checkin-barngravarna-choice-circle", "checkin-barngravarna-choice-square"],
+ 
 
   "events": [
     {

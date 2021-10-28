@@ -1,25 +1,24 @@
 {
-  "id": "checkin-tennstopet",
-  "type": "story",
-  "description": "another dark chamber",
-  "opens": ["choice-circle-tennstopet-bannvin", "choice-square-tennstopet-appeldricka"],
-  "helpAudioFilenames": [
-    "./audio/southern-chamber-help-1.mp3",
-    "./audio/southern-chamber-help-2.mp3"
-  ],
-
-  "events": [
-    {
-      "action": "playAudio",
-      "wait": 0,
-      "audioFilenames": ["./audio/southern-chamber.mp3"]
-    },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./audio/southern-chamber-background.mp3",
-      "loop": true,
-      "cancelOnLeave": false,
-      "wait": 0
-    }
-  ]
-}
+  
+    "id": "checkin-tennstopet",
+    "type": "story",
+    "description": "You are at tennstopet",
+    "opens": ["tennstopet-bannvin-choice-circle", "tennstopet-appeldricka-choice-square"],
+  
+  
+    "events": [
+      {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./level-3-tennstopet/checkin-tennstopet.mp3"]
+      },
+      {
+        "action": "playBackgroundAudio",
+        "audioFilename": "./audio/southern-chamber-background.mp3",
+        "loop": true,
+        "cancelOnLeave": false,
+        "wait": 0
+      }
+    ]
+  }
+  

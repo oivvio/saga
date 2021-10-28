@@ -1,19 +1,32 @@
 {
-  "id": "checkin-ordmagikern-brannvin",
+  "id": "checkin-ordmagikern-bannvin",
   "type": "story",
-  "description": "You are with ordmagikern with brannvin",
+  "description": "You are with ordmagikern",
   "opens": ["choice-circle-ordmagikern-damonhunden", "choice-square-ordmagikern-slutstriden"],
-  "helpAudioFilenames": [
-    "./audio/southern-chamber-help-1.mp3",
-    "./audio/southern-chamber-help-2.mp3"
-  ],
+
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/southern-chamber.mp3"]
+      "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3"],
+     
+      "then": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./level-3-ordmagikern/continuation-brannvin.mp3"],
+
+        "then": {
+          "action": "playAudio",
+          "wait": 0,
+          "audioFilenames": ["./level-3-ordmagikern/continuation-ordmagikern.mp3"]
+  
+  }
+
+}
     },
+    
+    
     {
       "action": "playBackgroundAudio",
       "audioFilename": "./audio/southern-chamber-background.mp3",

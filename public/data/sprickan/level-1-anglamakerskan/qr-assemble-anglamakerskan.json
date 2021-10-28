@@ -1,5 +1,5 @@
 {
-  "id": "qr-assemble-anglamakerskan",
+  "id": "checkin-ringen",
   "type": "choice",
   "description": "You assembled the ring",
   "opens": ["ring-tillbaka-anglamakerskan"],

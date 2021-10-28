@@ -1,0 +1,19 @@
+{
+  "id": "choice-circle-gravkapellet",
+  "type": "choice",
+  "description": "Chose the path to gravkapellet.",
+  "opens": ["checkin-gravkapellet"],
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-0-start/choice-circle-gravkapellet.mp3"]
+    }
+  ],
+  "helpAudioFilenames": [
+    "./level-0-gravkapellet/help-gravkapellet-1.mp3",
+    "./level-0-gravkapellet/help-gravkapellet-2.mp3"
+
+  ]
+  
+}

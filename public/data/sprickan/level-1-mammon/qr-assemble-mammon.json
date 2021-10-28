@@ -1,13 +1,13 @@
 {
   "id": "qr-assemble-mammon",
-  "type": "choice",
+  "type": "story",
   "description": "You assembled the ring",
   "opens": ["ring-tillbaka-mammon"],
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/start-val-fyrkant.mp3"]
+      "audioFilenames": ["./level-1-mammon/qr-assemble-mammon.mp3"]
     }
   ]
 }

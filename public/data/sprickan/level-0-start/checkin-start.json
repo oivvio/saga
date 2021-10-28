@@ -4,14 +4,13 @@
   "description": "Sprickans start sätter igång",
   "opens": ["checkin-fonstret"],
 
-  
-
   "events": [
+    
     
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-start/checkin-start.mp3"]
+      "audioFilenames": ["./level-0-start/checkin-start.mp3", "./level-0-start/checkin-fonstret-b-1.mp3", "./level-0-start/checkin-fonstret-b-2.mp3"]
     },
     {
       "action": "playBackgroundAudio",
