@@ -1,5 +1,8 @@
 div.RootComponent {
-  background-color: lightblue;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
   h3 {
     margin: 40px 0 0;
   }
@@ -11,7 +14,22 @@ div.RootComponent {
     display: inline-block;
     margin: 0 10px;
   }
-  a {
-    color: #42b983;
+
+  div.ButtonContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    button {
+      width: 50vw;
+
+      height: 4rem;
+      border: none;
+      border-radius: 1rem;
+      font-size: 1.5rem;
+      background-color: white;
+      color: black;
+    }
   }
 }

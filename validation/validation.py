@@ -167,10 +167,9 @@ def deep_validation_of_station(station, station_ids, filename):
     station_filepath = station["filePath"]
 
     # Check for existance of help audio
-    if station["type"] == "choice":
+    if "helpAudioFilenames" in station:
         for audiofile_base in station["helpAudioFilenames"]:
             audiofile_path = Path(filename).parent.joinpath(audiofile_base)
-
             if not audiofile_path.exists():
                 print(
                     f"The help audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
@@ -245,7 +244,16 @@ def validate_game_helper(filename):
         choice = station_id.split("-")[-1]
 
         invalid_choice_name = choice not in data["choiceNames"]
-        if choice_infix not in station_id or invalid_choice_name:
+
+        last_part_should_be = choice_infix + choice
+
+        last_part_is_not_correct = not station_id.endswith(last_part_should_be)
+
+        if (
+            choice_infix not in station_id
+            or invalid_choice_name
+            or last_part_is_not_correct
+        ):
             print(
                 f"The station id '{station_id}' defined in {station_filepath}, is not valid for a choice station."
             )

@@ -132,6 +132,27 @@ def deploy_to_s3(ctx):
 
 
 @task
+def deploy_to_khst(ctx, username, password):
+    """ Build and deploy to khst via sftp """
+
+    preflight_checklist()
+
+    # Build
+    vue_build(ctx)
+
+    lftpcmd = f"open -u {username},{password} sftp://sprickan.kulturhusetstadsteatern.se:22;mirror --verbose --parallel=10 -R dist/ /;exit"
+    cmd = f"lftp -e '{lftpcmd}'"
+    print(cmd)
+    ctx.run(cmd, pty=True)
+
+    # Output instructions
+    # full_url = "https://libtechplayground.s3.eu-north-1.amazonaws.com/sprickan/index.html?configUrl=https://libtechplayground.s3.eu-north-1.amazonaws.com/sprickan/data/gameconfig.json&displayDevBox=yes"
+    # print()
+    # print("Deployed to S3. Try it out at the following URL: ")
+    # print(full_url)
+
+
+@task
 def generate_qr_codes(ctx, filename):
     """ Generate qr codes for the game defined in the supplied game config. Outputs to /tmp """
     preflight_checklist()
