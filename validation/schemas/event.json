@@ -7,6 +7,11 @@
         {
           "$ref": "#/definitions/IEventPlayAudio"
         },
+
+        {
+          "$ref": "#/definitions/IEventNoop"
+        },
+
         {
           "$ref": "#/definitions/IEventPlayAudioBasedOnAdHocValue"
         },
@@ -158,6 +163,7 @@
       "required": ["action", "population", "key"],
       "type": "object"
     },
+
     "IEventPlayAudio": {
       "additionalProperties": false,
       "properties": {
@@ -181,6 +187,19 @@
       "required": ["action", "wait", "audioFilenames"],
       "type": "object"
     },
+
+    "IEventNoop": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "noop",
+          "type": "string"
+        }
+      },
+      "required": ["action"],
+      "type": "object"
+    },
+
     "IEventPlayAudioBasedOnAdHocValue": {
       "additionalProperties": false,
       "properties": {

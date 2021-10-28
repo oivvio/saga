@@ -29,6 +29,10 @@ export interface IEventCancelTimer {
   name: string;
 }
 
+export interface IEventNoop {
+  action: "noop";
+}
+
 export interface IEventPlayAudioBasedOnAdHocValue {
   action: "playAudioBasedOnAdHocValue";
   key: string;
@@ -53,13 +57,19 @@ export interface IEventPlayBackgroundAudio {
 
 export interface IEventPowerNameChoice {
   action: "powerNameChoice";
-  part: number;
+  part: number; // 0 or 1
   onSuccessOpen: StationID[];
   onSucessPlay: string;
   onFirstFailurePlay: string;
   onSecondFailurePlay: string;
   onSecondFailureGoTo: StationID;
   value: string;
+
+  girlOnSuccessOpen: StationID[];
+  girlOnSucessPlay: string;
+  girlOnFirstFailurePlay: string;
+  girlOnSecondFailurePlay: string;
+  girlOnSecondFailureGoTo: StationID;
 }
 
 export interface IEventGoToStation {
@@ -124,11 +134,16 @@ export type IEvent =
   | IEventStartTimer
   | IEventCancelTimer
   | IEventPowerNameChoice
+  | IEventNoop
   | IEventSwitchGotoStation;
 
 // Events
 
 export const eventHandlers = {
+  noop: function (_: IState, _: IEvent): void {
+    // this is the no op event
+  },
+
   playAudio: function (state: IState, event: IEvent): void {
     const playAudioEvent = event as IEventPlayAudio;
     const audioEventHandler = AudioEngine.getInstance();
@@ -253,6 +268,9 @@ export const eventHandlers = {
   },
 
   powerNameChoice: function (state: IState, event: IEvent): void {
+    // TODO: Check for precence of #tag that indicates if user has already
+    // picked their own powerName. Based on this pick power name for user or pick powername for girl.
+
     // This eventhandler handles the very game specific choice of "powerNames" in the game "Sprickan"
     const powerNameChoiceEvent = event as IEventPowerNameChoice;
     const tries =
