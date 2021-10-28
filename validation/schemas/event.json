@@ -36,6 +36,10 @@
         },
         {
           "$ref": "#/definitions/IEventSwitchGotoStation"
+        },
+
+        {
+          "$ref": "#/definitions/IEventPowerNameChoice"
         }
       ]
     },
@@ -76,6 +80,52 @@
       "required": ["action", "tags", "eventIfPresent", "eventIfNotPresent"],
       "type": "object"
     },
+
+    "IEventPowerNameChoice": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "powerNameChoice",
+          "type": "string"
+        },
+        "onFirstFailurePlay": {
+          "type": "string"
+        },
+        "onSecondFailureGoTo": {
+          "$ref": "#/definitions/StationID"
+        },
+        "onSecondFailurePlay": {
+          "type": "string"
+        },
+        "onSuccessOpen": {
+          "items": {
+            "$ref": "#/definitions/StationID"
+          },
+          "type": "array"
+        },
+        "onSucessPlay": {
+          "type": "string"
+        },
+        "part": {
+          "type": "number"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "part",
+        "onSuccessOpen",
+        "onSucessPlay",
+        "onFirstFailurePlay",
+        "onSecondFailurePlay",
+        "onSecondFailureGoTo",
+        "value"
+      ],
+      "type": "object"
+    },
+
     "IEventGoToStation": {
       "additionalProperties": false,
       "properties": {
