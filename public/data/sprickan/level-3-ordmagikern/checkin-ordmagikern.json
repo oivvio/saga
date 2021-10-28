@@ -9,15 +9,11 @@
   "events": [
     {
       "action": "choiceBasedOnTags",
-      "tags": [
-        "appledricka"
-      ],
+      "tags": ["appledricka"],
       "eventIfPresent": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": [
-          "./level-3-ordmagikern/checkin-ordmagikern.mp3"
-        ],
+        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3"],
         "then": {
           "action": "playAudio",
           "wait": 0,
@@ -33,66 +29,63 @@
           }
         }
       },
-      "eventIfNotPresent": {}
+      "eventIfNotPresent": {
+        "action": "noop"
+      }
     },
     {
       "action": "choiceBasedOnTags",
-      "tags": [
-        "brannvin"
-      ],
+      "tags": ["brannvin"],
       "eventIfPresent": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": [
-          "./level-3-ordmagikern/checkin-ordmagikern.mp3"
-        ],
+        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3"],
+        "then": {
+          "action": "playAudio",
+          "wait": 0,
+          "audioFilenames": ["./level-3-ordmagikern/continuation-brannvin.mp3"],
+          "then": {
+            "action": "playAudio",
+            "wait": 0,
+            "audioFilenames": [
+              "./level-3-ordmagikern/continuation-ordmagikern.mp3"
+            ]
+          }
+        }
+      },
+
+      "eventIfNotPresent": {
+        "action": "noop"
+      }
+    },
+    {
+      "action": "choiceBasedOnTags",
+      "tags": ["no-gift"],
+      "eventIfPresent": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3"],
+
         "then": {
           "action": "playAudio",
           "wait": 0,
           "audioFilenames": [
-            "./level-3-ordmagikern/continuation-brannvin.mp3"
-          ],
-          "then": {
-            "action": "playAudio",
-            "wait": 0,
-            "audioFilenames": [
-              "./level-3-ordmagikern/continuation-ordmagikern.mp3"
-            ]
-          }
+            "./level-3-ordmagikern/continuation-ordmagikern.mp3"
+          ]
         }
       },
-      "eventIfNotPresent": {}
+
+      "eventIfNotPresent": {
+        "action": "noop"
+      }
     },
+
     {
-      "action": "choiceBasedOnTags",
-      "tags": [
-        "no-gift"
-      ],
-      "eventIfPresent": {
-        "action": "playAudio",
-        "wait": 0,
-        "audioFilenames": [
-          "./level-3-ordmagikern/checkin-ordmagikern.mp3"
-        ],
-        
-          "then": {
-            "action": "playAudio",
-            "wait": 0,
-            "audioFilenames": [
-              "./level-3-ordmagikern/continuation-ordmagikern.mp3"
-            ]
-          }
-        
-      },
-      "eventIfNotPresent": {}
-    },
-  
-        {
-          "action": "playBackgroundAudio",
-          "audioFilename": "./audio/southern-chamber-background.mp3",
-          "loop": true,
-          "cancelOnLeave": false,
-          "wait": 0
-        }
-      ]
+      "action": "playBackgroundAudio",
+      "audioFilename": "./audio/southern-chamber-background.mp3",
+      "loop": true,
+      "cancelOnLeave": false,
+      "wait": 0
     }
+  ]
+}
