@@ -185,11 +185,12 @@ def deep_validation_of_station(station, station_ids, filename):
 
         # check that all references stations exist
 
-        for station_open_id in station["opens"]:
-            if station_open_id not in station_ids:
-                print(
-                    f"The station  '{station_open_id}' referenced from station '{station_id}' defined in {station['filePath']}, does not exist."
-                )
+        if "opens" in station:
+            for station_open_id in station["opens"]:
+                if station_open_id not in station_ids:
+                    print(
+                        f"The station  '{station_open_id}' referenced from station '{station_id}' defined in {station['filePath']}, does not exist."
+                    )
 
 
 def validate_gameconfig_helper(filename):
