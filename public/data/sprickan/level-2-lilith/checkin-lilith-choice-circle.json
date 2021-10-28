@@ -1,0 +1,16 @@
+{
+  "id": "checkin-lilith-choice-circle",
+  "type": "choice",
+  "description": "Chose to follow lilith",
+
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-2-lilith/follow-lillith-choice-circle.mp3"]
+      
+    },
+    {"action": "goToStation",
+    "toStation": "continuation-lilith"}
+  ]
+}

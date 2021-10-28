@@ -5,44 +5,23 @@
   "opens": [],
 
   "helpAudioFilenames": [
-    "./audio/unreachable-help1.mp3",
-    "./audio/unreachable-help2.mp3"
+    "./audio/pick-first-part-of-girl-name-help1.mp3",
+    "./audio/pick-first-part-of-girl-name-help2.mp3"
   ],
 
   "events": [
-    {
-      "action": "pushToAdHocArray",
-      "key": "pickedPowerName",
-      "value": "regn"
-    },
 
     {
-      "action": "playAudio",
-      "wait": 0,
-      "audioFilenames": ["./audio/you-picked-moon.mp3"],
-
-      "then": {
-        "action": "switchGotoStation",
-        "switch": [
-          {
-            "condition": "adHocKeysAreEqual",
-            "parameters": {
-              "firstKey": "powerName",
-              "secondKey": "pickedPowerName",
-              "toStation": "checkin-sprickan-stangs"
-            }
-          },
-
-          {
-            "condition": "adHocKeysAreNotEqual",
-            "parameters": {
-              "firstKey": "powerName",
-              "secondKey": "pickedPowerName",
-              "toStation": "checkin-sprickan-oppnas"
-            }
-          }
-        ]
-      }
+      "action": "powerNameChoice",
+    "part": 0,
+    "onSuccessOpen": [],
+    "onSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
+    "onFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3", 
+    "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3", 
+    "onSecondFailureGoTo": "checkin-sprickan-oppnas",
+    "value": "regn"
     }
+
+
   ]
 }

@@ -1,0 +1,14 @@
+{
+  "id": "tennstopet-appeldricka-choice-square",
+  "type": "choice",
+  "description": "Chose to bring appledricka to ordmagikern",
+  "opens": ["checkin-ordmagikern-appledricka"],
+  "tags": ["appledricka"],
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-3-tennstopet/tennstopet-appeldricka-choice-square.mp3"]
+    }
+  ]
+}

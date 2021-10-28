@@ -1,0 +1,17 @@
+{
+  "id": "continuation-lilith-choice-square",
+  "type": "choice",
+  "description": "Chose the path to ordmagikern",
+  "opens": ["checkin-ordmagikern"],
+  "helpAudioFilenames": [
+    "./level-3-ordmagikern/help-ordmagikern-1.mp3",
+    "./level-3-ordmagikern/help-ordmagikern-1.mp3"
+  ],
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-2-lilith/lilith-ordmagikern-choice-square.mp3"]
+    }
+  ]
+}

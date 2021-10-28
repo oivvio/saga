@@ -1,6 +1,6 @@
 {
   "id": "checkin-ringen",
-  "type": "choice",
+  "type": "story",
   "description": "You assembled the ring",
   "opens": ["ring-tillbaka-anglamakerskan"],
   "events": [

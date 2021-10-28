@@ -2,7 +2,7 @@
   "id": "checkin-gravkapellet",
   "type": "story",
   "description": "You are at gravkapellet",
-  "opens": ["gravkapellet-anglamakerskan-choice-square", "gravkapellet-mammon-choice-circle"],
+  "opens": ["checkin-gravkapellet-choice-square", "checkin-gravkapellet-choice-circle"],
   
 
   "events": [

@@ -2,8 +2,37 @@
   "id": "checkin-ordmagikern",
   "type": "story",
   "description": "You are with ordmagikern",
-  "opens": ["choice-circle-ordmagikern-damonhunden", "choice-square-ordmagikern-slutstriden"],
+  "opens": ["checkin-ordmagikern-choice-circle", "checkin-ordmagikern-choice-square"],
 
+  "events": [
+    {
+      "action": "choiceBasedOnTags",
+      "tags": ["appledricka", "brannvin"],
+
+      "eventIfNotPresent": {
+        "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3"],
+     
+      "then": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./level-3-ordmagikern/continuation-ordmagikern.mp3"],
+      },
+
+      "eventIfPresent": {
+        "action": "choiceBasedOnTags",
+      "tags": ["appledricka"],
+      }
+    },
+
+    {
+      "action": "playBackgroundAudio",
+      "audioFilename": "./audio/startBackground.mp3",
+      "loop": true,
+      "cancelOnLeave": false,
+      "wait": 0
+    },
 
   "events": [
     {

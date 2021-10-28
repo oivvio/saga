@@ -1,0 +1,15 @@
+{
+  "id": "checkin-lilith-choice-square",
+  "type": "choice",
+  "description": "Chose to not follow lilith",
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-2-lilith/lilith-not-follow-choice-square.mp3"]
+
+    },
+    {"action": "goToStation",
+      "toStation": "continuation-lilith"}
+  ]
+}

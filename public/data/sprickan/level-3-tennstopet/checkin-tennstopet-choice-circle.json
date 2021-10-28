@@ -1,0 +1,15 @@
+{
+  "id": "checkin-tennstopet-choice-circle",
+  "type": "choice",
+  "description": "Chose the to bring brannvin to ordmagikern",
+  "opens": ["checkin-ordmagikern-brannvin"],
+  "tags": ["brannvin"],
+  "events": [
+    
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-3-tennstopet/tennstopet-brannvin-choice-square.mp3"]
+    }
+  ]
+}

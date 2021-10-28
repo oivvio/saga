@@ -2,7 +2,7 @@
   "id": "pick-emotion-ilska",
   "type": "story",
   "description": "picking first part of power name",
-  "opens": ["pick-nature-mane", "pick-nature-regn", "pick-nature-sno", "pick-nature-sol", "pick-nature-vind"],
+  "opens": [],
 
   "helpAudioFilenames": [
     "./audio/pick-second-part-of-powername-help1.mp3",
@@ -10,16 +10,18 @@
   ],
 
   "events": [
-    {
-      "action": "playAudio",
-      "wait": 0,
-      "audioFilenames": ["./audio/pick-second-part-of-powername.mp3"]
-    },
 
     {
-      "action": "pushToAdHocArray",
-      "key": "pickedPowerName",
-      "value": "ilska"
+      "action": "powerNameChoice",
+    "part": 0,
+    "onSuccessOpen": ["pick-nature-mane", "pick-nature-regn", "pick-nature-sno", "pick-nature-sol", "pick-nature-vind"],
+    "onSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
+    "onFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3", 
+    "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3", 
+    "onSecondFailureGoTo": "checkin-sprickan-oppnas",
+    "value": "ilska"
     }
+
+
   ]
 }

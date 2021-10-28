@@ -1,0 +1,17 @@
+{
+  "id": "checkin-gravkapellet-choice-circle",
+  "type": "choice",
+  "description": "Chose the path to mammon",
+  "opens": ["checkin-mammon"],
+  "helpAudioFilenames": [
+    "./level-1-mammon/help-mammon-1.mp3",
+    "./level-1-mammon/help-mammon-2.mp3"
+  ],
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-0-gravkapellet/gravkapellet-mammon-choice-circle.mp3"]
+    }
+  ]
+}

@@ -2,7 +2,7 @@
   "id": "checkin-lilith",
   "type": "story",
   "description": "You are with lilith",
-  "opens": ["choice-square-lilith-not-follow", "choice-circle-lilith-follow"],
+  "opens": ["checkin-lilith-choice-square", "checkin-lilith-choice-circle"],
   
 
   "events": [

@@ -1,0 +1,30 @@
+{
+  "id": "checkin-ticking-clock-1",
+  "type": "story",
+  "description": "Chose the path to slutstriden",
+  "opens": ["checkin-slutstriden"],
+  
+  "events": [{"action": "startTimer",
+              "name": "ticking-clock-1",
+              "time": 300,
+              "then": {
+                "action": "goToStation",
+                "toStation": "checkin-sprickan-oppnas"
+              }
+             },
+              
+              {"action": "playBackgroundAudio",
+              "audioFilename": "./level-4-ticking-clock/ticking-clock-5min.mp3",
+              "loop": true,
+              "cancelOnLeave": false,
+              "wait": 0}
+            
+
+    
+    
+        
+    
+
+  ]
+  }
+

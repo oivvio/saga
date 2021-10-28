@@ -1,15 +1,15 @@
 {
-  "id": "checkin-stadsungarna",
+  "id": "continuation-lilith",
   "type": "story",
-  "description": "You are with stadsungarna",
-  "opens": ["checkin-stadsungarna-choice-circle", "checkin-stadsungarna-choice-square"],
-
+  "description": "You are with lilith",
+  "opens": ["continuation-lilith-choice-square", "continuation-lilith-choice-circle"],
+  
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-2-stadsungarna/checkin-stadsungarna.mp3"]
+      "audioFilenames":  ["./level-2-lilith/continuation-lilith.mp3"]
     },
     {
       "action": "playBackgroundAudio",

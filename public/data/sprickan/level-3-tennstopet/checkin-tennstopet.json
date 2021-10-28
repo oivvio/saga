@@ -3,7 +3,7 @@
     "id": "checkin-tennstopet",
     "type": "story",
     "description": "You are at tennstopet",
-    "opens": ["tennstopet-bannvin-choice-circle", "tennstopet-appeldricka-choice-square"],
+    "opens": ["checkin-tennstopet-choice-circle", "checkin-tennstopet-choice-square"],
   
   
     "events": [

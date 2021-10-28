@@ -4,7 +4,6 @@
   "description": "Checking in at anglamakerskan",
   "opens": ["qr-assemble-anglamakerskan"],
  
-
   "events": [
     {
       "action": "playAudio",

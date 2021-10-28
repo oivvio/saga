@@ -2,7 +2,7 @@
   "id": "ring-tillbaka-mammon",
   "type": "story",
   "description": "You are back with mammon",
-  "opens": ["choice-circle-ring-behalla-sjalv", "choice-square-ring-ge-till-mammon"],
+  "opens": ["ring-tillbaka-mammon-choice-circle", "ring-tillbaka-mammon-choice-square"],
   "events": [
     {
       "action": "playAudio",

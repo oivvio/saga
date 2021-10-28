@@ -12,7 +12,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/southern-chamber.mp3"]
+      "audioFilenames": ["./level-4-damonhunden/checkin-damonhunden.mp3"]
     },
     {
       "action": "playBackgroundAudio",

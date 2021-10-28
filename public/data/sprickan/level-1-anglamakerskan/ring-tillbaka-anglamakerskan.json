@@ -1,10 +1,10 @@
 {
   "id": "ring-tillbaka-anglamakerskan",
   "type": "story",
-  "description": "Chose the path to the south.",
+  "description": "Du är tillbaka hos änglamakerskan",
   "opens": [
-    "choice-circle-anglamakerskan-stadsungarna",
-    "choice-square-anglamakerskan-lilith"
+    "ring-tillbaka-anglamakerskan-choice-circle",
+    "ring-tillbaka-anglamakerskan-choice-square"
   ],
   "events": [
     {
