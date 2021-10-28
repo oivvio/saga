@@ -1,5 +1,5 @@
 {
-  "id": "tennstopet-appeldricka-choice-square",
+  "id": "checkin-tennstopet-choice-square",
   "type": "choice",
   "description": "Chose to bring appledricka to ordmagikern",
   "opens": ["checkin-ordmagikern"],

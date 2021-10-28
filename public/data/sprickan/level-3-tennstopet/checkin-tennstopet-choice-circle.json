@@ -2,7 +2,7 @@
   "id": "checkin-tennstopet-choice-circle",
   "type": "choice",
   "description": "Chose the to bring brannvin to ordmagikern",
-  "opens": ["checkin-ordmagikern-brannvin"],
+  "opens": ["checkin-ordmagikern"],
   "tags": ["brannvin"],
   "events": [
     

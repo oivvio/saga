@@ -2,6 +2,7 @@
   "id": "checkin-stadsungarna-choice-square",
   "type": "choice",
   "description": "Chose the path to ordmagikern",
+  "tags": ["no-gift"],
   "opens": ["checkin-ordmagikern"],
   "helpAudioFilenames": [
     "./level-3-ordmagikern/help-ordmagikern-1.mp3",
