@@ -28,15 +28,19 @@ def load_complete_game(filename):
     for station_path in data["stationPaths"]:
         path = Path(filename).parent.joinpath(station_path)
 
-        with open(path) as handle:
-            try:
-                station_data = load(handle)
-            # except JSONDecodeError as err:
-            except JSONDecodeError:
-                print(
-                    f"Station file at path {path} is not valid JSON. Terminating validation."
-                )
-                exit()
+        try:
+            with open(path) as handle:
+                try:
+                    station_data = load(handle)
+                # except JSONDecodeError as err:
+                except JSONDecodeError:
+                    print(
+                        f"Station file at path '{path}' is not valid JSON. Terminating validation."
+                    )
+                    exit()
+        except FileNotFoundError:
+            print(f"Station file at path '{path}' does not exists.")
+
         station_id = station_data["id"]
         data["stations"][station_id] = station_data
         data["stations"][station_id]["filePath"] = path.as_posix()
@@ -74,7 +78,7 @@ def validate_schema_helper(filename):
 
 
 def output_validation_errors(errors, filename):
-    """ Output validation errors and filename for human consumption """
+    """Output validation errors and filename for human consumption"""
     if errors:
         print("=" * 100)
         print(f"{filename} has {len(errors)} errors.")
@@ -162,7 +166,7 @@ def deep_validation_of_event(station, event, filename):
 
 
 def deep_validation_of_station(station, station_ids, filename):
-    """ Validate stuff about a station that json schema can not give us """
+    """Validate stuff about a station that json schema can not give us"""
     station_id = station["id"]
     station_filepath = station["filePath"]
 

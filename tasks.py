@@ -27,7 +27,7 @@ TYPESCRIPT_FILES_FINDER = f"find .|grep '\.ts$'|grep -v '#'"
 
 
 def preflight_checklist():
-    """ Stuff we want to check before running our tasks """
+    """Stuff we want to check before running our tasks"""
 
     # Check that we are in the right folder
     if not os.path.exists("tasks.py"):
@@ -37,14 +37,14 @@ def preflight_checklist():
 
 @task
 def validate_game(ctx, filename):
-    """Validate a complete game consisting of a gameconfig, multiple station files and multiple audio files """
+    """Validate a complete game consisting of a gameconfig, multiple station files and multiple audio files"""
     preflight_checklist()
     validate_game_helper(filename)
 
 
 @task
 def validate_station(ctx, filename):
-    """Validate a single station file """
+    """Validate a single station file"""
     preflight_checklist()
     validate_station_file_and_output_errors(filename)
 
@@ -66,7 +66,7 @@ def validate_schema(ctx, filename):
 
 @task
 def validate_test_file(ctx):
-    """ Test the schema validation against a test file"""
+    """Test the schema validation against a test file"""
     preflight_checklist()
     jsonfile = "./src/data/stations/schema-test.json"
 
@@ -87,7 +87,7 @@ def validate_stations_in_folder(ctx, folder, exit_on_errors=False):
 
 @task
 def typescript_lint(ctx, watch=True):
-    """ Check that our TypeScript is OK """
+    """Check that our TypeScript is OK"""
     preflight_checklist()
 
     if watch:
@@ -101,7 +101,7 @@ def typescript_lint(ctx, watch=True):
 
 @task
 def typescript_typecheck(ctx, watch=True):
-    """ Check that our TypeScript compiles """
+    """Check that our TypeScript compiles"""
     preflight_checklist()
 
     watch = " --watch " if watch else ""
@@ -112,7 +112,7 @@ def typescript_typecheck(ctx, watch=True):
 
 @task
 def deploy_to_s3(ctx):
-    """ Build and deploy to an s3 bucket - requires aws secrects to be configured. """
+    """Build and deploy to an s3 bucket - requires aws secrects to be configured."""
 
     preflight_checklist()
 
@@ -133,7 +133,7 @@ def deploy_to_s3(ctx):
 
 @task
 def deploy_to_khst(ctx, username, password):
-    """ Build and deploy to khst via sftp """
+    """Build and deploy to khst via sftp"""
 
     preflight_checklist()
 
@@ -154,7 +154,7 @@ def deploy_to_khst(ctx, username, password):
 
 @task
 def generate_qr_codes(ctx, filename):
-    """ Generate qr codes for the game defined in the supplied game config. Outputs to /tmp """
+    """Generate qr codes for the game defined in the supplied game config. Outputs to /tmp"""
     preflight_checklist()
     game_data = load_complete_game(filename)
     choice_infix = game_data["choiceInfix"]
@@ -181,7 +181,7 @@ def generate_qr_codes(ctx, filename):
 
 @task
 def generate_html_files(ctx, filename):
-    """ Generate index.html files for the game defined in the supplied game config. Outputs to /tmp """
+    """Generate index.html files for the game defined in the supplied game config. Outputs to /tmp"""
     preflight_checklist()
 
     # We pick up index.html from the same folder where filename is located
@@ -209,7 +209,7 @@ def generate_html_files(ctx, filename):
 
 @task
 def vue_build(ctx):
-    """ Build the project for deployment """
+    """Build the project for deployment"""
     preflight_checklist()
 
     cmd = f"./node_modules/.bin/vue-cli-service build"
@@ -219,7 +219,7 @@ def vue_build(ctx):
 
 @task
 def vue_devserver(ctx, port=8080, host="0.0.0.0"):
-    """ Run the Vue dev server """
+    """Run the Vue dev server"""
     preflight_checklist()
 
     cmd = (
@@ -231,7 +231,7 @@ def vue_devserver(ctx, port=8080, host="0.0.0.0"):
 
 @task
 def cartesian_product(ctx, lst1, lst2):
-    """ Provide commaseparated list of strings """
+    """Provide commaseparated list of strings"""
 
     lst1 = [t.strip() for t in lst1.split(",")]
     lst2 = [t.strip() for t in lst2.split(",")]
@@ -246,7 +246,7 @@ def cartesian_product(ctx, lst1, lst2):
 
 @task
 def graph(ctx, filename, output="/tmp/gamegraph.gv"):
-    """ Create a graphviz png graph from a gameconfig  """
+    """Create a graphviz png graph from a gameconfig"""
     preflight_checklist()
     game_data = load_complete_game(filename)
 
