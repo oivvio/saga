@@ -344,6 +344,7 @@ export const eventHandlers = {
     if (userNotHasPickedTheirOwnPowerName) {
       _powerNameChoicePickUsersPowername(state, event);
     } else {
+      console.log("TODO REMOVE");
     }
   },
 

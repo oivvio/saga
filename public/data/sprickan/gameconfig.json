@@ -11,7 +11,6 @@
     "./level-0-restart/checkin-restart-choice-circle.json",
     "./level-0-restart/checkin-restart-choice-square.json",
 
-
     "./level-0-start/help.json",
     "./level-0-start/checkin-start.json",
     "./level-0-start/checkin-fonstret.json",
@@ -77,15 +76,12 @@
 
     "./level-5-slutet/checkin-sprickan-oppnas.json",
     "./level-5-slutet/checkin-sprickan-stangs.json"
-    
-
-
   ],
   "choiceInfix": "-choice-",
 
   "choiceNames": ["circle", "square"],
   "stations": {},
-  "openStationsAtStart": ["help"],
+  "openStationsAtStart": ["start"],
   "globalAudioFilenames": {
     "allHelpLeftAudioFilename": "./audio/allHelpLeft.mp3",
     "twoHelpLeftAudioFilename": "./audio/twoHelpLeft.mp3",
