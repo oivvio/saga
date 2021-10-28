@@ -137,10 +137,77 @@ export type IEvent =
   | IEventNoop
   | IEventSwitchGotoStation;
 
+const _powerNameChoicePickUsersPowername = function (
+  state: IState,
+  event: IEvent
+): void {
+  // TODO: Check for precence of #tag that indicates if user has already
+  // picked their own powerName. Based on this pick power name for user or pick powername for girl.
+
+  // This eventhandler handles the very game specific choice of "powerNames" in the game "Sprickan"
+  const powerNameChoiceEvent = event as IEventPowerNameChoice;
+  const tries = state.user.adHocData["attemptsAtPickingTheRightPowerName"] || 0;
+
+  const partOfPowerNamePickBySystem: string =
+    state.user.adHocData["powerName"][powerNameChoiceEvent.part];
+
+  const partOfPowerNamePickedByUser = powerNameChoiceEvent.value;
+
+  const userPickedCorrectName =
+    partOfPowerNamePickBySystem == partOfPowerNamePickedByUser;
+
+  const audioEventHandler = AudioEngine.getInstance();
+  if (userPickedCorrectName) {
+    // play success sound
+    audioEventHandler
+      .playForegroundAudio(powerNameChoiceEvent.onSucessPlay, 0)
+      .then(() => {
+        // reset try count
+        state.user.adHocData["attemptsAtPickingTheRightPowerName"] = 0;
+        // open the next stations.
+        store.commit(
+          Mutations.updateOpenStations,
+          powerNameChoiceEvent.onSuccessOpen
+        );
+        // No more action needed. New stations are open.
+      });
+  } else {
+    // user picked the wrong name
+
+    if (tries === 0) {
+      // this is our first go around so we get another shot
+      state.user.adHocData["attemptsAtPickingTheRightPowerName"] = 1;
+
+      // Tell user they get another shot
+      audioEventHandler.playForegroundAudio(
+        powerNameChoiceEvent.onFirstFailurePlay,
+        0
+      );
+
+      // Do nothing more. Same stations are still open and available for scanning.
+    } else {
+      // We go to "you-loose"
+      audioEventHandler
+        .playForegroundAudio(powerNameChoiceEvent.onSecondFailurePlay, 0)
+        .then(() => {
+          // reset try count
+          state.user.adHocData["attemptsAtPickingTheRightPowerName"] = 0;
+
+          // Open the failure station
+          store.commit(Mutations.updateOpenStations, [
+            powerNameChoiceEvent.onSecondFailureGoTo,
+          ]);
+          // Go to the failure station
+          runStationById(powerNameChoiceEvent.onSecondFailureGoTo);
+        });
+    }
+  }
+};
+
 // Events
 
 export const eventHandlers = {
-  noop: function (_: IState, _: IEvent): void {
+  noop: function (state: IState, event: IEvent): void {
     // this is the no op event
   },
 
@@ -268,67 +335,14 @@ export const eventHandlers = {
   },
 
   powerNameChoice: function (state: IState, event: IEvent): void {
-    // TODO: Check for precence of #tag that indicates if user has already
-    // picked their own powerName. Based on this pick power name for user or pick powername for girl.
+    // Figure out if we are picking the users powerName or the powerName of the girl
+    // that is helping the player.
 
-    // This eventhandler handles the very game specific choice of "powerNames" in the game "Sprickan"
-    const powerNameChoiceEvent = event as IEventPowerNameChoice;
-    const tries =
-      state.user.adHocData["attemptsAtPickingTheRightPowerName"] || 0;
+    const userNotHasPickedTheirOwnPowerName = true;
 
-    const partOfPowerNamePickBySystem: string =
-      state.user.adHocData["powerName"][powerNameChoiceEvent.part];
-
-    const partOfPowerNamePickedByUser = powerNameChoiceEvent.value;
-
-    const userPickedCorrectName =
-      partOfPowerNamePickBySystem == partOfPowerNamePickedByUser;
-
-    const audioEventHandler = AudioEngine.getInstance();
-    if (userPickedCorrectName) {
-      // play success sound
-      audioEventHandler
-        .playForegroundAudio(powerNameChoiceEvent.onSucessPlay, 0)
-        .then(() => {
-          // reset try count
-          state.user.adHocData["attemptsAtPickingTheRightPowerName"] = 0;
-          // open the next stations.
-          store.commit(
-            Mutations.updateOpenStations,
-            powerNameChoiceEvent.onSuccessOpen
-          );
-          // No more action needed. New stations are open.
-        });
+    if (userNotHasPickedTheirOwnPowerName) {
+      _powerNameChoicePickUsersPowername(state, event);
     } else {
-      // user picked the wrong name
-
-      if (tries === 0) {
-        // this is our first go around so we get another shot
-        state.user.adHocData["attemptsAtPickingTheRightPowerName"] = 1;
-
-        // Tell user they get another shot
-        audioEventHandler.playForegroundAudio(
-          powerNameChoiceEvent.onFirstFailurePlay,
-          0
-        );
-
-        // Do nothing more. Same stations are still open and available for scanning.
-      } else {
-        // We go to "you-loose"
-        audioEventHandler
-          .playForegroundAudio(powerNameChoiceEvent.onSecondFailurePlay, 0)
-          .then(() => {
-            // reset try count
-            state.user.adHocData["attemptsAtPickingTheRightPowerName"] = 0;
-
-            // Open the failure station
-            store.commit(Mutations.updateOpenStations, [
-              powerNameChoiceEvent.onSecondFailureGoTo,
-            ]);
-            // Go to the failure station
-            runStationById(powerNameChoiceEvent.onSecondFailureGoTo);
-          });
-      }
     }
   },
 
