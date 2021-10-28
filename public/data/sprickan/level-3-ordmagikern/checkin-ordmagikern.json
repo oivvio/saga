@@ -2,59 +2,97 @@
   "id": "checkin-ordmagikern",
   "type": "story",
   "description": "You are with ordmagikern",
-  "opens": ["checkin-ordmagikern-choice-circle", "checkin-ordmagikern-choice-square"],
-
+  "opens": [
+    "checkin-ordmagikern-choice-circle",
+    "checkin-ordmagikern-choice-square"
+  ],
   "events": [
     {
       "action": "choiceBasedOnTags",
-      "tags": ["appledricka", "brannvin"],
-
-      "eventIfNotPresent": {
-        "action": "playAudio",
-      "wait": 0,
-      "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3"],
-     
-      "then": {
-        "action": "playAudio",
-        "wait": 0,
-        "audioFilenames": ["./level-3-ordmagikern/continuation-ordmagikern.mp3"],
-      },
-
+      "tags": [
+        "appledricka"
+      ],
       "eventIfPresent": {
-        "action": "choiceBasedOnTags",
-      "tags": ["appledricka"],
-      }
-    },
-
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./audio/startBackground.mp3",
-      "loop": true,
-      "cancelOnLeave": false,
-      "wait": 0
-    },
-
-  "events": [
-    {
-      "action": "playAudio",
-      "wait": 0,
-      "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3"],
-     
-      "then": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-3-ordmagikern/continuation-ordmagikern.mp3"]
-
-}
+        "audioFilenames": [
+          "./level-3-ordmagikern/checkin-ordmagikern.mp3"
+        ],
+        "then": {
+          "action": "playAudio",
+          "wait": 0,
+          "audioFilenames": [
+            "./level-3-ordmagikern/continuation-appledricka.mp3"
+          ],
+          "then": {
+            "action": "playAudio",
+            "wait": 0,
+            "audioFilenames": [
+              "./level-3-ordmagikern/continuation-ordmagikern.mp3"
+            ]
+          }
+        }
+      },
+      "eventIfNotPresent": {}
     },
-    
-    
     {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./audio/southern-chamber-background.mp3",
-      "loop": true,
-      "cancelOnLeave": false,
-      "wait": 0
+      "action": "choiceBasedOnTags",
+      "tags": [
+        "brannvin"
+      ],
+      "eventIfPresent": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": [
+          "./level-3-ordmagikern/checkin-ordmagikern.mp3"
+        ],
+        "then": {
+          "action": "playAudio",
+          "wait": 0,
+          "audioFilenames": [
+            "./level-3-ordmagikern/continuation-brannvin.mp3"
+          ],
+          "then": {
+            "action": "playAudio",
+            "wait": 0,
+            "audioFilenames": [
+              "./level-3-ordmagikern/continuation-ordmagikern.mp3"
+            ]
+          }
+        }
+      },
+      "eventIfNotPresent": {}
+    },
+    {
+      "action": "choiceBasedOnTags",
+      "tags": [
+        "no-gift"
+      ],
+      "eventIfPresent": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": [
+          "./level-3-ordmagikern/checkin-ordmagikern.mp3"
+        ],
+        
+          "then": {
+            "action": "playAudio",
+            "wait": 0,
+            "audioFilenames": [
+              "./level-3-ordmagikern/continuation-ordmagikern.mp3"
+            ]
+          }
+        
+      },
+      "eventIfNotPresent": {}
+    },
+  
+        {
+          "action": "playBackgroundAudio",
+          "audioFilename": "./audio/southern-chamber-background.mp3",
+          "loop": true,
+          "cancelOnLeave": false,
+          "wait": 0
+        }
+      ]
     }
-  ]
-}
