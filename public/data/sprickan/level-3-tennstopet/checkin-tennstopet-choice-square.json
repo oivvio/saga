@@ -2,7 +2,7 @@
   "id": "tennstopet-appeldricka-choice-square",
   "type": "choice",
   "description": "Chose to bring appledricka to ordmagikern",
-  "opens": ["checkin-ordmagikern-appledricka"],
+  "opens": ["checkin-ordmagikern"],
   "tags": ["appledricka"],
   "events": [
     {

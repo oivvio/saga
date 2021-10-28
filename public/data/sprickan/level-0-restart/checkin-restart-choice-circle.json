@@ -1,8 +1,8 @@
 {
-  "id": "behalla-ringen-mammon-2-choice-circle",
+  "id": "checkin-restart-choice-circle",
   "type": "choice",
   "description": "Chose the path to mammon.",
-  "opens": ["checkin-anglamakerskan"],
+  "opens": ["checkin-stadsungarna"],
   
   "events": [
     {

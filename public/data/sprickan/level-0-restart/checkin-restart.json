@@ -1,18 +1,14 @@
 {
   "id": "checkin-restart",
   "type": "story",
-  "description": "another dark chamber",
-  "opens": ["checkin-mammon-restart"],
-  "helpAudioFilenames": [
-    "./level-0-start/southern-chamber-help-1.mp3",
-    "./level-0-start/southern-chamber-help-2.mp3"
-  ],
+  "description": "Omstart av felet",
+  "opens": ["checkin-restart-choice-square", "checkin-restart-choice-circle"],
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-start/southern-chamber.mp3"]
+      "audioFilenames": ["./level-0-start/checkin-restart.mp3"]
     },
     {
       "action": "playBackgroundAudio",

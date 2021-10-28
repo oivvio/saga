@@ -8,6 +8,9 @@
   },
   "stationPaths": [
     "./level-0-restart/checkin-restart.json",
+    "./level-0-restart/checkin-restart-choice-circle.json",
+    "./level-0-restart/checkin-restart-choice-square.json",
+
 
     "./level-0-start/help.json",
     "./level-0-start/checkin-start.json",

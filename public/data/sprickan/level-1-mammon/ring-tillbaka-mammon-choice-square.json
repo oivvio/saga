@@ -1,6 +1,6 @@
 
 {
-  "id": "ring-ge-till-mammon-choice-square",
+  "id": "ring-tillbaka-mammon-choice-square",
   "type": "choice",
   "description": "You gave mammon the ring.",
   "opens": ["checkin-stadsungarna"],
