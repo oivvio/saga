@@ -1,53 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
   <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge" />
-	<title>Default</title>
-	<style>
-		html {
-			height:100%;
-		}
-		body {
-			margin:0;
-			height:100%;
-		}
-	</style>
-	<!-- copy these lines to your document head: -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-	<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, width=320" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
 
-	<!-- end copy -->
+    <style type="text/css" media="screen">
+
+     body {
+         background-color: black;
+         font-size: 16px;
+     }
+    </style>
+
   </head>
   <body>
-	<!-- copy these lines to your document: -->
-
-	<div id="default_hype_container" class="HYPE_document" style="margin:auto;position:relative;width:768px;height:1024px;overflow:hidden;">
-	</div>
-
-	<!-- end copy -->
-	<script type="text/javascript" charset="utf-8">
-		//	HYPE.documents["Default"]
-
-(function(){(function m(){function k(a,b,c,d){var e=!1;null==window[a]&&(null==window[b]?(window[b]=[],window[b].push(m),a=document.getElementsByTagName("head")[0],b=document.createElement("script"),e=l,false==!0&&(e=""),b.type="text/javascript",""!=d&&(b.integrity=d,b.setAttribute("crossorigin","anonymous")),b.src=e+"/"+c,a.appendChild(b)):window[b].push(m),e=!0);return e}var l="Default.hyperesources",f="Default",g="default_hype_container";if(false==
-!1)try{for(var c=document.getElementsByTagName("script"),a=0;a<c.length;a++){var d=c[a].src,b=null!=d?d.indexOf("/default_hype_generated_script.js"):-1;if(-1!=b){l=d.substr(0,b);break}}}catch(p){}c=navigator.userAgent.match(/MSIE (\d+\.\d+)/);c=parseFloat(c&&c[1])||null;d=!0==(null!=window.HYPE_736F||null!=window.HYPE_dtl_736F)||true==!0||null!=c&&10>c;a=!0==d?"HYPE-736.full.min.js":"HYPE-736.thin.min.js";c=!0==d?"F":"T";d=d?"":
-"";if(false==!1&&(a=k("HYPE_736"+c,"HYPE_dtl_736"+c,a,d),false==!0&&(a=a||k("HYPE_w_736","HYPE_wdtl_736","HYPE-736.waypoints.min.js","")),false==!0&&(a=a||k("Matter","HYPE_pdtl_736","HYPE-736.physics.min.js","")),a))return;d=window.HYPE.documents;if(null!=d[f]){b=1;a=f;do f=""+a+"-"+b++;while(null!=d[f]);for(var e=document.getElementsByTagName("div"),
-b=!1,a=0;a<e.length;a++)if(e[a].id==g&&null==e[a].getAttribute("HYP_dn")){var b=1,h=g;do g=""+h+"-"+b++;while(null!=document.getElementById(g));e[a].id=g;b=!0;break}if(!1==b)return}b=[];b=[];e={};h={};for(a=0;a<b.length;a++)try{h[b[a].identifier]=b[a].name,e[b[a].name]=eval("(function(){return "+b[a].source+"})();")}catch(n){window.console&&window.console.log(n),e[b[a].name]=function(){}}c=new window["HYPE_736"+c](f,g,{"1":{p:1,n:"Sprickan.jpg",g:"79",o:true,t:"@1x"},"-2":{n:"blank.gif"},"-1":{n:"PIE.htc"},"2":{p:1,n:"Sprickan_2x.jpg",g:"79",o:true,t:"@2x"},"0":{p:1,n:"Pasted.png",g:"25",t:"@1x"}},l,[],e,[{n:"Untitled Scene",o:"1",X:[0]}],
-[{o:"11",p:"600px",cA:false,Y:768,Z:1024,L:[],c:"#FFF",bY:1,d:768,U:{},T:{kTimelineDefaultIdentifier:{q:false,z:8,i:"kTimelineDefaultIdentifier",n:"Main Timeline",a:[{f:"c",y:0,z:2,i:"dN",e:1,s:0,o:"143"},{y:0,i:"e",s:1,z:0,o:"144",f:"c"},{f:"c",y:0,z:2,i:"cY",e:"0",s:"1",o:"144"},{f:"c",y:0,z:2,i:"cY",e:"0",s:"1",o:"145"},{f:"c",y:0,z:2,i:"cY",e:"1",s:"0",o:"143"},{f:"c",y:0,z:2,i:"b",e:-56.92720956,s:-57,o:"145"},{f:"c",y:0,z:2,i:"a",e:-99.34056449,s:-101,o:"145"},{f:"c",y:0,z:2,i:"cY",e:"1",s:"0",o:"146"},{f:"c",y:0,z:5,i:"e",e:1,s:1,o:"149"},{f:"c",y:2,z:3,i:"b",e:-18,s:-17,o:"144"},{f:"c",y:2,z:3,i:"a",e:651,s:280,o:"144"},{y:2,i:"dN",s:1,z:0,o:"143",f:"c"},{y:2,i:"cY",s:"0",z:0,o:"144",f:"c"},{y:2,i:"cY",s:"0",z:0,o:"145",f:"c"},{y:2,i:"cY",s:"1",z:0,o:"143",f:"c"},{f:"c",y:2,z:3,i:"a",e:-367,s:-99.34056449,o:"145"},{f:"c",y:2,z:3,i:"b",e:-53,s:-56.92720956,o:"145"},{y:2,i:"cY",s:"1",z:0,o:"146",f:"c"},{f:"c",y:2.2,z:3.1,i:"dN",e:1,s:1,o:"144"},{y:5,i:"b",s:-18,z:0,o:"144",f:"c"},{y:5,i:"a",s:651,z:0,o:"144",f:"c"},{f:"f",y:5,z:3,i:"e",e:0,s:1,o:"149"},{y:5,i:"a",s:-367,z:0,o:"145",f:"c"},{y:5,i:"b",s:-53,z:0,o:"145",f:"c"},{y:6,i:"dN",s:1,z:0,o:"144",f:"c"},{y:8,i:"e",s:0,z:0,o:"149",f:"f"}],f:30,b:[]}},bZ:180,O:["146","145","149","148","143","144","142","147"],n:"iPad Portrait","_":0,v:{"148":{x:"visible",a:184,b:0,j:"absolute",bF:"149",z:1,dC:{path:[[124,234,124,234,98,182,98,182],[98,182,98,182,98,143,98,143],[98,143,98,143,74,139,74,139],[74,139,74,139,98,83,98,83],[98,83,98,83,4,4,4,4],[4,4,4,4,228,4,228,4],[228,4,228,4,220,54,220,54],[220,54,220,54,172,130,172,130],[172,130,172,130,172,162,172,162],[172,162,172,162,146,190,146,190],[146,190,146,190,167,234,167,234],[167,234,167,234,124,234,124,234]],closed:true},k:"div",d:238,c:232,dD:4,dE:"#000",g:"#000"},"144":{x:"visible",a:280,b:-17,j:"absolute",r:"inline",cY:"1",dC:{path:[[75,4,75,4,104,55,104,55],[104,55,104,55,55,115,55,115],[55,115,55,115,75,147,75,147],[75,147,75,147,31,207,31,207],[31,207,31,207,25,283,25,283],[25,283,25,283,4,307,4,307],[4,307,4,307,25,335,25,335],[25,335,25,335,4,347,4,347],[4,347,4,347,55,389,55,389],[55,389,55,389,47,405,47,405],[47,405,47,405,89,421,89,421],[89,421,89,421,61,429,61,429],[61,429,61,429,89,515,89,515],[89,515,89,515,47,529,47,529],[47,529,47,529,47,593,47,593],[47,593,47,593,75,611,75,611],[75,611,75,611,47,650,47,650],[47,650,47,650,47,663,47,663],[47,663,47,663,39,679,39,679],[39,679,39,679,75,792,75,792],[75,792,75,792,55,859,55,859],[55,859,55,859,14,884,14,884],[14,884,14,884,31,916,31,916],[31,916,31,916,25,943,25,943],[25,943,25,943,116,1066,116,1066],[116,1066,116,1066,561,1066,561,1066],[561,1066,561,1066,524,4,524,4],[524,4,524,4,75,4,75,4]],closed:true},z:9,d:1070,k:"div",c:565,e:1,dD:4,f:0,dN:1,dE:"#000",g:"#C8C8C8"},"147":{h:"79",p:"no-repeat",x:"visible",a:0,dB:"img",q:"100% 100%",j:"absolute",r:"inline",z:2,bF:"149",b:235,d:636,k:"div",c:636},"143":{x:"visible",a:280,b:-17,j:"absolute",r:"inline",z:7,dC:{path:[[75,4,75,4,104,55,104,55],[104,55,104,55,55,115,55,115],[55,115,55,115,75,147,75,147],[75,147,75,147,31,207,31,207],[31,207,31,207,25,283,25,283],[25,283,25,283,4,307,4,307],[4,307,4,307,25,335,25,335],[25,335,25,335,4,347,4,347],[4,347,4,347,55,389,55,389],[55,389,55,389,47,405,47,405],[47,405,47,405,89,421,89,421],[89,421,89,421,61,429,61,429],[61,429,61,429,89,515,89,515],[89,515,89,515,47,529,47,529],[47,529,47,529,47,593,47,593],[47,593,47,593,75,611,75,611],[75,611,75,611,47,650,47,650],[47,650,47,650,47,663,47,663],[47,663,47,663,39,679,39,679],[39,679,39,679,75,792,75,792],[75,792,75,792,55,859,55,859],[55,859,55,859,14,884,14,884],[14,884,14,884,31,916,31,916],[31,916,31,916,25,943,25,943],[25,943,25,943,116,1066,116,1066]],closed:false},cY:"0",d:1070,k:"div",c:120,dD:4,dN:0,dE:"#000"},"146":{c:1414,d:1342,I:"Solid",cY:"0",J:"Solid",K:"Solid",g:"#C8C8C8",L:"Solid",M:4,w:"",N:4,A:"#000",x:"visible",j:"absolute",B:"#000",P:4,O:4,C:"#000",z:6,k:"div",D:"#000",a:-240,b:-118},"149":{x:"visible",k:"div",c:636,d:871,z:3,e:1,a:70,j:"absolute",b:-42},"142":{w:"",h:"25",p:"no-repeat",x:"visible",a:284,q:"100% 100%",dO:0,j:"absolute",r:"none",dP:0,b:1,z:2,d:1053,dB:"img",k:"div",e:1,dD:0,c:169,dN:1},"145":{x:"visible",a:-101,b:-57,j:"absolute",r:"inline",z:8,dC:{path:[[458,43,458,43,487,94,487,94],[487,94,487,94,438,154,438,154],[438,154,438,154,458,186,458,186],[458,186,458,186,414,246,414,246],[414,246,414,246,408,322,408,322],[408,322,408,322,387,346,387,346],[387,346,387,346,408,374,408,374],[408,374,408,374,387,386,387,386],[387,386,387,386,438,428,438,428],[438,428,438,428,430,444,430,444],[430,444,430,444,472,460,472,460],[472,460,472,460,444,468,444,468],[444,468,444,468,472,554,472,554],[472,554,472,554,430,568,430,568],[430,568,430,568,430,632,430,632],[430,632,430,632,458,650,458,650],[458,650,458,650,430,689,430,689],[430,689,430,689,430,702,430,702],[430,702,430,702,422,718,422,718],[422,718,422,718,458,831,458,831],[458,831,458,831,438,898,438,898],[438,898,438,898,397,923,397,923],[397,923,397,923,414,955,414,955],[414,955,414,955,408,982,408,982],[408,982,408,982,499,1105,499,1105],[499,1105,499,1105,4,1105,4,1105],[4,1105,4,1105,34,4,34,4],[34,4,34,4,438,4,438,4],[438,4,438,4,458,43,458,43]],closed:true},cY:"1",d:1109,k:"div",c:503,dD:4,dN:1,dE:"#000",g:"#C8C8C8"}}}],{},h,{f:{p:0,q:[[0,0,0.1971,0,0.3391,0.8944,0.3636,1],[0.3636,1,0.3636,1,0.4425,0.75,0.5455,0.75],[0.5455,0.75,0.6519,0.75,0.7273,1,0.7273,1],[0.7273,1,0.7273,1,0.7718,0.9375,0.8182,0.9375],[0.8182,0.9375,0.8646,0.9375,0.9091,1,0.9091,1],[0.9091,1,0.9091,1,0.9294,0.9844,0.9546,0.9844],[0.9546,0.9844,0.9798,0.9844,1,1,1,1]]}},null,false,false,-1,true,true,false,true,true);d[f]=c.API;document.getElementById(g).setAttribute("HYP_dn",f);c.z_o(this.body)})();})();
-
-	</script>
-	
-
-
-	<!-- text content for search engines: -->
-
-	<div style="display:none" aria-hidden=true>
-
-		<div></div>
-
-	</div>
-
-	<!-- end text content: -->
-
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
   </body>
 </html>
