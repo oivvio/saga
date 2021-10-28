@@ -1,0 +1,19 @@
+{
+  "id": "ring-behalla-sjalv-choice-circle",
+  "type": "choice",
+  "description": "You keep the ring",
+  "opens": ["checkin-restart"],
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-1-mammon/ring-behalla-sjalv-choice-circle.mp3"],
+
+      "then": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./level-o-restart/continuation-mammon-behalla-ringen.mp3"]
+      }
+    }
+  ]
+}

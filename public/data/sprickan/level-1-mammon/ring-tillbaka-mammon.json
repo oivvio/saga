@@ -1,13 +1,20 @@
 {
   "id": "ring-tillbaka-mammon",
-  "type": "choice",
+  "type": "story",
   "description": "You are back with mammon",
   "opens": ["choice-circle-ring-behalla-sjalv", "choice-square-ring-ge-till-mammon"],
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/start-val-fyrkant.mp3"]
-    }
+      "audioFilenames": ["./level-1-mammon/ring-tillbaka-till-mammon.mp3"]
+
+      
+          }
+        
+
+      
+    
+    
   ]
 }

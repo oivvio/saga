@@ -1,0 +1,17 @@
+{
+  "id": "barngravarna-choice-square",
+  "type": "choice",
+  "description": "Chose the path to barngravarna.",
+  "opens": ["checkin-barngravarna"],
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-0-barngravarna/barngravarna-choice-square.mp3"]
+    }
+  ],
+  "helpAudioFilenames": [
+    "./level-0-barngravarna/help-barngravarna-1.mp3",
+    "./level-0-barngravarna/help-barngravarna-2.mp3"
+  ]
+}

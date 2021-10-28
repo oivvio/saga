@@ -4,8 +4,8 @@
   "description": "Chose the path to lilith.",
   "opens": ["checkin-lilith"],
   "helpAudioFilenames": [
-    "./audio/southern-chamber-help-1.mp3",
-    "./audio/southern-chamber-help-2.mp3"
+    "./level-2-lilith/help-lilith-1.mp3",
+    "./level-2-lilith/help-lilith-2.mp3"
   ],
   "events": [
     {

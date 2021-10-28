@@ -1,0 +1,13 @@
+{
+  "id": "lilith-not-follow-choice-square",
+  "type": "choice",
+  "description": "Chose the path to the south.",
+  "opens": ["choice-circle-lilith-tennstopet", "choice-square-lilith-ordmagikern"],
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": [".level-2-lilith//lilith-not-follow-choice-square.mp3"]
+    }
+  ]
+}

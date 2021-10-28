@@ -1,0 +1,18 @@
+{
+  "id": "lilith-tennstopet-choice-circle",
+  "type": "choice",
+  "description": "Chose the path to tennstopet.",
+  "opens": ["checkin-tennstopet"],
+
+  "helpAudioFilenames": [
+    "./level-3-tennstopet/help-tennstopet-1.mp3",
+    "./level-3-tennstopet/help-tennstopet-1.mp3"
+  ],
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": [".level-2-lilith/lilith-tennstopet-choice-circle.mp3"]
+    }
+  ]
+}

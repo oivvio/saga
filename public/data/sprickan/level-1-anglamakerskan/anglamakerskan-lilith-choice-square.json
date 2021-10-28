@@ -1,0 +1,17 @@
+{
+  "id": "anglamakerskan-lilith-choice-square",
+  "type": "choice",
+  "description": "Chose the path to lilith.",
+  "opens": ["checkin-lilith"],
+  "helpAudioFilenames": [
+    "./level-2-lilith/help-lilith-1.mp3",
+    "./level-2-lilith/help-lilith-2.mp3"
+  ],
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-1-anglamakerskan/anglamakerskan-lilith-choice-square.mp3"]
+    }
+  ]
+}

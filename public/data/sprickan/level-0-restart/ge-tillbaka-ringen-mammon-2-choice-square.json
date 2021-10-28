@@ -1,0 +1,14 @@
+{
+  "id": "ge-tillbaka-ringen-mammon-2-choice-square",
+  "type": "choice",
+  "description": "Chose the path to mammon.",
+  "opens": ["checkin-anglamakerskan"],
+  
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-0-restart/ge-tillbaka-ringen-mammon-2-choice-square.mp3"]
+    }
+  ]
+}

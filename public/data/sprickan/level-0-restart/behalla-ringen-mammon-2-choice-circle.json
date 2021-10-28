@@ -1,0 +1,14 @@
+{
+  "id": "behalla-ringen-mammon-2-choice-circle",
+  "type": "choice",
+  "description": "Chose the path to mammon.",
+  "opens": ["checkin-anglamakerskan"],
+  
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-0-restart/behalla-ringen-mammon-2-choice-circle.mp3"]
+    }
+  ]
+}
