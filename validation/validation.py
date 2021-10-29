@@ -21,7 +21,7 @@ def load_complete_game(filename):
             # except JSONDecodeError as err:
         except JSONDecodeError:
             print(
-                f"Game config file at path {filename} is not valid JSON. Terminating validation."
+                f"[007] Game config file at path {filename} is not valid JSON. Terminating validation."
             )
             exit()
 
@@ -35,7 +35,7 @@ def load_complete_game(filename):
                 # except JSONDecodeError as err:
                 except JSONDecodeError:
                     print(
-                        f"Station file at path '{path}' is not valid JSON. Terminating validation."
+                        f"[006] Station file at path '{path}' is not valid JSON. Terminating validation."
                     )
                     exit()
         except FileNotFoundError:
@@ -77,7 +77,7 @@ def validate_schema_helper(filename):
     output_validation_errors(errors, filename)
 
 
-def output_validation_errors(errors, filename):
+def _output_validation_errors(errors, filename):
     """Output validation errors and filename for human consumption"""
     if errors:
         print("=" * 100)
@@ -88,6 +88,15 @@ def output_validation_errors(errors, filename):
             print(f"{error.path=}")
             print(f"{error.message=}")
         print()
+
+
+def output_validation_errors(errors, filename):
+    """Output validation errors and filename for human consumption"""
+    if errors:
+        for error in errors:
+            print(
+                f"[008] {filename} has {len(errors)} errors.|{error.validator}|{error.path}|{error.message}"
+            )
 
 
 def validate_station_file(filename):
@@ -135,7 +144,7 @@ def deep_validation_of_event(station, event, filename):
 
             if not audiofile_path.exists():
                 print(
-                    f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                    f"[005] The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
                 )
     # Check for existance of background audio
     if event["action"] == "playBackgroundAudio":
@@ -147,7 +156,7 @@ def deep_validation_of_event(station, event, filename):
             # station_id = station["id"]
             # station_filepath = station["filePath"]
             print(
-                f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                f"[004] The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
             )
 
     # Check that this files exist
@@ -156,7 +165,7 @@ def deep_validation_of_event(station, event, filename):
             audiofile_path = Path(filename).parent.joinpath(audiofile_base)
             if not audiofile_path.exists():
                 print(
-                    f"The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                    f"[003] The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
                 )
 
     # Check the next level events
@@ -165,8 +174,10 @@ def deep_validation_of_event(station, event, filename):
         deep_validation_of_event(station, next_level_event, filename)
 
 
-def deep_validation_of_station(station, station_ids, filename):
+def deep_validation_of_station(gameconfig, station, station_ids, filename):
     """Validate stuff about a station that json schema can not give us"""
+
+    choice_infix = gameconfig["choiceInfix"]
     station_id = station["id"]
     station_filepath = station["filePath"]
 
@@ -176,7 +187,20 @@ def deep_validation_of_station(station, station_ids, filename):
             audiofile_path = Path(filename).parent.joinpath(audiofile_base)
             if not audiofile_path.exists():
                 print(
-                    f"The help audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                    f"[002] The help audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                )
+
+    # If a stations opens choice files make sure they have valid names.
+    if "opens" in station:
+        choice_names = gameconfig["choiceNames"]
+        valid_choice_station_names = [
+            f"{station_id}{choice_infix}{choice_name}" for choice_name in choice_names
+        ]
+        for choice_station in [s for s in station["opens"] if choice_infix in s]:
+            if choice_station not in valid_choice_station_names:
+
+                print(
+                    f"[001] '{choice_station}' referenced from {station_id} is not a valid choice station name"
                 )
 
     if station["type"] in ["story", "choice"]:
@@ -217,6 +241,7 @@ def validate_game_helper(filename):
 
     # load all game data
     data = load_complete_game(filename)
+    gameconfig = data
 
     # validate game config
     errors = validate_gameconfig_helper(filename)
@@ -264,4 +289,4 @@ def validate_game_helper(filename):
             )
 
     for station in stations.values():
-        deep_validation_of_station(station, station_ids, filename)
+        deep_validation_of_station(gameconfig, station, station_ids, filename)

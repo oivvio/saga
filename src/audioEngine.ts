@@ -82,7 +82,7 @@ export class AudioEngine {
       }
 
       if (store.state.debugQuickAudio) {
-        console.log("PLAYING DEBUG AUDIO");
+        console.log(`PLAYING DEBUG AUDIO in lieu of ${audioFilename}`);
         audioFilename = "./audio/quick-audio.mp3";
       }
 

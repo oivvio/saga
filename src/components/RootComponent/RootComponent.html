@@ -1,7 +1,10 @@
 <div class="RootComponent">
-    <div class="ButtonContainer" v-if="QRScannerCanBeDisplayed && !QRScannerIsDisplayed">
-        <button  v-on:click="displayQRScanner">ÖPPNA SCANNER</button>
-    </div>
-    <saga-qr-reader v-if="QRScannerIsDisplayed"></saga-qr-reader>
+    <!--
+         <div class="ButtonContainer" v-if="QRScannerCanBeDisplayed && !QRScannerIsDisplayed">
+         <button  v-on:click="displayQRScanner">ÖPPNA SCANNER</button>
+         </div>
+         <saga-qr-reader v-if="QRScannerIsDisplayed"></saga-qr-reader>
+    -->
+    <saga-qr-reader v-if="QRScannerCanBeDisplayed"></saga-qr-reader>
     <dev-box v-if="displayDevBox"></dev-box>
 </div>

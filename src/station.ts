@@ -154,9 +154,7 @@ function handleHelpOpen(
   station: Station,
   visitCounts: { open: number; closed: number }
 ): void {
-  console.log("RADAC");
   if (visitCounts.open === 1 && station.startStationId && store) {
-    console.log("RADAC 1");
     // If this is the first scan it opens the game.
     // This is a special case. It doesn't provide help. It opens the game
 

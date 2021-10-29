@@ -17,7 +17,7 @@ export default defineComponent({
 
 <template>
   <div id="content" class="App">
-    <RootComponent msg="Hello hello!" />
+    <RootComponent />
   </div>
 </template>
 
