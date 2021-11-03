@@ -13,11 +13,12 @@
               }
              },
               
-              {"action": "playBackgroundAudio",
-              "audioFilename": "./level-4-ticking-clock/ticking-clock-5min.mp3",
-              "loop": true,
-              "cancelOnLeave": false,
-              "wait": 0}
+
+              {
+                "action": "playAudio",
+                "wait": 0,
+                "audioFilenames": ["./level-4-ticking-clock/ticking-clock-5min.mp3"]
+              }
             
 
     

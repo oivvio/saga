@@ -45,12 +45,20 @@
           "then": {
             "action": "playAudio",
             "wait": 0,
-            "audioFilenames": ["./level-3-ordmagikern/continuation-ordmagikern.mp3"],
+            "audioFilenames": ["./level-3-ordmagikern/continuation-essence-ordmagikern-namn.mp3"],
+
+            "then": {
+              "action": "playAudio",
+              "wait": 0,
+              "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern-lillebror-b.mp3"],
+
+
             "then": {"action": "goToStation",
               "toStation": "checkin-ticking-clock-1"}
 
-    }
-  }
+            }
+          }
+        }
 
     }
   ]

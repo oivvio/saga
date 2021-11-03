@@ -14,12 +14,13 @@
         "action": "playAudio",
         "wait": 0,
         "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3"],
+
         "then": {
           "action": "playAudio",
           "wait": 0,
           "audioFilenames": [
-            "./level-3-ordmagikern/continuation-appledricka.mp3"
-          ],
+            "./level-3-ordmagikern/continuation-appledricka.mp3"],
+
           "then": {
             "action": "playAudio",
             "wait": 0,
@@ -40,10 +41,12 @@
         "action": "playAudio",
         "wait": 0,
         "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3"],
+
         "then": {
           "action": "playAudio",
           "wait": 0,
           "audioFilenames": ["./level-3-ordmagikern/continuation-brannvin.mp3"],
+          
           "then": {
             "action": "playAudio",
             "wait": 0,

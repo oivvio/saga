@@ -14,7 +14,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-3-tennstopet/tennstopet-brannvin-choice-circle.mp3"]
+      "audioFilenames": ["./level-3-tennstopet/choice-tennstopet.mp3"]
     }
   ]
 }

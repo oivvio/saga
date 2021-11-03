@@ -11,6 +11,7 @@
       "wait": 0,
       "audioFilenames": ["./level-1-mammon/checkin-mammon.mp3"]
     },
+    
     {
       "action": "playBackgroundAudio",
       "audioFilename": "./audio/southern-chamber-background.mp3",
