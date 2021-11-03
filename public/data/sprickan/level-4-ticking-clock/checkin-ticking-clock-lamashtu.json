@@ -1,0 +1,54 @@
+{
+  "id": "checkin-ticking-clock-lamashtu",
+  "type": "story",
+  "description": "Chose the path to slutstriden",
+  "opens": ["checkin-slutstriden"],
+  
+  "events": [{"action": "startTimer",
+              "name": "ticking-clock-2",
+              "time": 180,
+              "then": {
+                "action": "goToStation",
+                "toStation": "checkin-sprickan-oppnas"
+              }
+             },
+              
+            
+
+          {
+            "action": "playAudio",
+            "wait": 0,
+            "audioFilenames": ["./level-3-ordmagikern/klocka.mp3"],
+          
+
+          "then": {
+            "action": "playAudio",
+            "wait": 0,
+            "audioFilenames": [
+              "./level-4-ticking-clock/5min.mp3"],
+
+              "then": {
+                "action": "playAudio",
+                "wait": 0,
+                "audioFilenames": [
+                  "./level-4-damonhunden/continuation-save-lillebror.mp3"],
+
+                  "then": {
+                    "action": "playAudio",
+                    "wait": 0,
+                    "audioFilenames": [
+                      "./level-4-ticking-clock/continuation-5min.mp3"]
+        
+            
+
+    
+                    }
+                  }
+                }
+              }
+        
+    
+
+  ]
+  }
+

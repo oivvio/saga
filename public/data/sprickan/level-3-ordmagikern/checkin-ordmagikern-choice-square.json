@@ -48,17 +48,13 @@
             "wait": 0,
             "audioFilenames": ["./level-3-ordmagikern/continuation-essence-ordmagikern-namn.mp3"],
 
-            "then": {
-              "action": "playAudio",
-              "wait": 0,
-              "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern-lamarstu-b.mp3"],
-            
+
             "then": {"action": "goToStation",
               "toStation": "checkin-ticking-clock-1"}
               }
             }
           }
-        }
+        
 
 ]
   }
