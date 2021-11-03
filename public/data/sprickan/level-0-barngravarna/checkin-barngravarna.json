@@ -13,7 +13,7 @@
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-0-barngravarna/southern-chamber-background.mp3",
+      "audioFilename": "./audio/southern-chamber-background.mp3",
       "loop": true,
       "cancelOnLeave": false,
       "wait": 0

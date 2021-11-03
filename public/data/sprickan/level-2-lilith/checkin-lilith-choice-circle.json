@@ -3,11 +3,19 @@
   "type": "choice",
   "description": "Chose to follow lilith",
 
+  "helpAudioFilenames": [
+    "./level-global/No-Help.mp3",
+    "./level-global/No-Help.mp3"
+
+  ],
+  
+  
+
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-2-lilith/follow-lillith-choice-circle.mp3"]
+      "audioFilenames": ["./level-2-lilith/choice-circle-follow-lillith.mp3"]
       
     },
     {"action": "goToStation",

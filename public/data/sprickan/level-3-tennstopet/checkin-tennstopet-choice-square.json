@@ -4,6 +4,11 @@
   "description": "Chose to bring appledricka to ordmagikern",
   "opens": ["checkin-ordmagikern"],
   "tags": ["appledricka"],
+  "helpAudioFilenames": [
+    "./level-global/No-Help.mp3",
+    "./level-global/No-Help.mp3"
+
+  ],
   "events": [
     {
       "action": "playAudio",

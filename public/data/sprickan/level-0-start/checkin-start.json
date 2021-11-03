@@ -14,7 +14,7 @@
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-0-start/startBackground.mp3",
+      "audioFilename": "./audio/startBackground.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
@@ -22,7 +22,7 @@
 
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-0-start/startBackground2.mp3",
+      "audioFilename": "./audio/startBackground2.mp3",
       "loop": true,
       "cancelOnLeave": false,
       "wait": 3

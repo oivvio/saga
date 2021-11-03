@@ -11,7 +11,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-1-anglamakerskan/choice-square-anglamakerskan-lilith.mp3"]
+      "audioFilenames": ["./level-1-anglamakerskan/anglamakerskan-lillith-choice-square.mp3"]
     }
   ]
 }

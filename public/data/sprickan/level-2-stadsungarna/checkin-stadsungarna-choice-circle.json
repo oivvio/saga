@@ -11,7 +11,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-2-stadsungarna/stadsungarna-tennstopet-choice-circle..mp3"]
+      "audioFilenames": ["./level-2-stadsungarna/stadsungarna-tennstopet-choice-circle.mp3"]
     }
   ]
 }

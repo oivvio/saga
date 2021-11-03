@@ -14,8 +14,8 @@
     "./level-0-start/help.json",
     "./level-0-start/checkin-start.json",
     "./level-0-start/checkin-fonstret.json",
-    "./level-0-start/gravkapellet-choice-circle.json",
-    "./level-0-start/barngravarna-choice-square.json",
+    "./level-0-start/checkin-fonstret-choice-circle.json",
+    "./level-0-start/checkin-fonstret-choice-square.json",
 
     "./level-0-gravkapellet/checkin-gravkapellet.json",
     "./level-0-gravkapellet/checkin-gravkapellet-choice-square.json",

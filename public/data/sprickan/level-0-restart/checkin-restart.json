@@ -8,11 +8,11 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-start/checkin-restart.mp3"]
+      "audioFilenames": ["./level-0-restart/checkin-restart.mp3"]
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-0-start/southern-chamber-background.mp3",
+      "audioFilename": "./audio/southern-chamber-background.mp3",
       "loop": true,
       "cancelOnLeave": false,
       "wait": 0

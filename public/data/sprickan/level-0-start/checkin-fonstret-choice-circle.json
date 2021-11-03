@@ -1,5 +1,5 @@
 {
-  "id": "gravkapellet-choice-circle",
+  "id": "checkin-fonstret-choice-circle",
   "type": "choice",
   "description": "Chose the path to gravkapellet.",
   "opens": ["checkin-gravkapellet"],

@@ -4,12 +4,17 @@
   "description": "Chose the to bring brannvin to ordmagikern",
   "opens": ["checkin-ordmagikern"],
   "tags": ["brannvin"],
+  "helpAudioFilenames": [
+    "./level-global/No-Help.mp3",
+    "./level-global/No-Help.mp3"
+
+  ],
   "events": [
     
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-3-tennstopet/tennstopet-brannvin-choice-square.mp3"]
+      "audioFilenames": ["./level-3-tennstopet/tennstopet-brannvin-choice-circle.mp3"]
     }
   ]
 }

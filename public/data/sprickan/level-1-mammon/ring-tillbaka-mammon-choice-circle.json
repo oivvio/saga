@@ -3,6 +3,10 @@
   "type": "choice",
   "description": "You keep the ring",
   "opens": ["checkin-restart"],
+  "helpAudioFilenames": [
+    "./level-0-restart/continuation-mammon-behalla-ringen.mp3",
+    "./level-0-restart/continuation-mammon-behalla-ringen.mp3"  
+  ],
   "events": [
     {
       "action": "playAudio",
@@ -12,8 +16,9 @@
       "then": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-o-restart/continuation-mammon-behalla-ringen.mp3"]
+        "audioFilenames": ["./level-0-restart/continuation-mammon-behalla-ringen.mp3"]
       }
     }
   ]
 }
+  

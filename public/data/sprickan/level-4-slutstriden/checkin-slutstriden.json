@@ -12,7 +12,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level4-slutstriden/checkin-slutstriden.mp3"
+      "audioFilenames": ["./level-4-slutstriden/checkin-slutstriden.mp3"
       ]
     },
     {

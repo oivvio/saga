@@ -2,7 +2,7 @@
   "id": "checkin-fonstret",
   "type": "story",
   "description": "Du har scannat fönstrets kod.",
-  "opens": ["gravkapellet-choice-circle", "barngravarna-choice-square"],
+  "opens": ["checkin-fonstret-choice-circle", "checkin-fonstret-choice-square"],
 
   "helpAudioFilenames": [
     "./level-0-start/checkin-fraga.mp3",

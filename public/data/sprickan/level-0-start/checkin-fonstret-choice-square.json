@@ -1,5 +1,5 @@
 {
-  "id": "barngravarna-choice-square",
+  "id": "checkin-fonstret-choice-square",
   "type": "choice",
   "description": "Chose the path to barngravarna.",
   "opens": ["checkin-barngravarna"],
@@ -7,7 +7,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-barngravarna/barngravarna-choice-square.mp3"]
+      "audioFilenames": ["./level-0-start/barngravarna-choice-square.mp3"]
     }
   ],
   "helpAudioFilenames": [

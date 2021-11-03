@@ -3,12 +3,20 @@
   "type": "choice",
   "description": "Chose the path to mammon.",
   "opens": ["checkin-stadsungarna"],
+  "helpAudioFilenames": [
+    "./level-global/No-Help.mp3",
+    "./level-global/No-Help.mp3"
+
+  ],
   
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-restart/behalla-ringen-mammon-2-choice-circle.mp3"]
+      "audioFilenames": ["./level-0-restart/behalla-ringen-mammon-2-choice-circle.mp3"],
+      
+      "then": {"action": "goToStation",
+        "toStation": "checkin-sprickan-oppnas"}
     }
   ]
 }
