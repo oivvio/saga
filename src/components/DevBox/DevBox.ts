@@ -49,5 +49,15 @@ export default defineComponent({
       }
       return "-";
     },
+
+    quickAudio: {
+      get: function () {
+        return this.$store.state.debugQuickAudio;
+      },
+
+      set: function (value: boolean) {
+        this.$store.state.debugQuickAudio = value;
+      },
+    },
   },
 });

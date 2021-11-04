@@ -69,6 +69,14 @@
         <td>nStations:</td>
         <td>{{ nStations }}</td>
       </tr>
+
+      <tr>
+        <td>quickAudio:</td>
+
+        <td>
+          <input type="checkbox" id="checkbox" v-model="quickAudio" />
+        </td>
+      </tr>
     </table>
 
     <div id="example-1" v-if="gameConfigLoaded">
