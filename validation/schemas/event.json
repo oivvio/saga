@@ -87,12 +87,13 @@
     },
 
     "IEventPowerNameChoice": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "action": {
           "const": "powerNameChoice",
           "type": "string"
         },
+
         "onFirstFailurePlay": {
           "type": "string"
         },
@@ -108,9 +109,29 @@
           },
           "type": "array"
         },
-        "onSucessPlay": {
+        "onSuccessPlay": {
           "type": "string"
         },
+
+        "ghostOnFirstFailurePlay": {
+          "type": "string"
+        },
+        "ghostOnSecondFailureGoTo": {
+          "$ref": "#/definitions/StationID"
+        },
+        "ghostOnSecondFailurePlay": {
+          "type": "string"
+        },
+        "ghostOnSuccessOpen": {
+          "items": {
+            "$ref": "#/definitions/StationID"
+          },
+          "type": "array"
+        },
+        "ghostOnSuccessPlay": {
+          "type": "string"
+        },
+
         "part": {
           "type": "number"
         },
@@ -122,12 +143,18 @@
         "action",
         "part",
         "onSuccessOpen",
-        "onSucessPlay",
+        "onSuccessPlay",
         "onFirstFailurePlay",
         "onSecondFailurePlay",
         "onSecondFailureGoTo",
+        "ghostOnSuccessOpen",
+        "ghostOnSuccessPlay",
+        "ghostOnFirstFailurePlay",
+        "ghostOnSecondFailurePlay",
+        "ghostOnSecondFailureGoTo",
         "value"
       ],
+
       "type": "object"
     },
 

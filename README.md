@@ -54,3 +54,19 @@ $ workon [VENV_NAME]
 ```bash
 $ invoke validate-game -f ./path/to/your/gameconfig.json
 ```
+
+# Notes for version 2
+
+Rewrite with these things in mind:
+
+1. Separate qr-code from stationId. The same qr-code will do different things
+   depending on the users current state. So for each qr-code we should be able to
+   define a number of conditions that can lead to a number of different "stations".
+   These conditions should work kinda like pattern matching in F#, ie they should be expressive.
+2. We need a plugin system. Every game will need some logic that is specific to
+   that game and we should be able to handle that in a controlled fashion rather
+   than doing ugly game specific hacks in the main game engine.
+
+3. The game config should be authored with something like
+   https://github.com/jagenjo/litegraph.js And it should not be possible to
+   construct an unvalid game.
