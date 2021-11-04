@@ -112,12 +112,18 @@ export async function loadGameConfigAndStations(
   async function loadStationFromPath(
     baseUrl: URL,
     path: string
-  ): Promise<Station> {
+  ): Promise<Station | undefined> {
     const fullUrl = getChildUrl(baseUrl, path);
-    return fetch(fullUrl.toString()).then(async (response) => {
-      const obj = await response.json();
-      return Station.initiateFromDTF(obj);
-    });
+    return fetch(fullUrl.toString())
+      .then(async (response) => {
+        const obj = await response.json();
+        return Station.initiateFromDTF(obj);
+      })
+      .catch((error) => {
+        // TODO: Post to sentry
+        console.log("loadError", fullUrl.toString(), error);
+        return undefined;
+      });
   }
 
   return fetch(configUrl.toString())
@@ -135,7 +141,9 @@ export async function loadGameConfigAndStations(
 
       // Put them into the data structure
       stations.forEach((station) => {
-        gameConfig.stations[station.id] = station;
+        if (station) {
+          gameConfig.stations[station.id] = station;
+        }
       });
 
       return gameConfig;

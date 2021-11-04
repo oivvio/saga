@@ -51,9 +51,6 @@ const Component = defineComponent({
         downScaledWidth: window.innerWidth / 2,
         downScaledHeight: window.innerHeight / 2,
       };
-
-      console.log("The scan region:");
-      console.log(result);
       return result;
     };
 
@@ -68,7 +65,6 @@ const Component = defineComponent({
     );
 
     // Start the scanner
-    console.log("Start the scanner");
     qrScanner.start();
 
     // capture these methods so we can use them in the rx pipeline

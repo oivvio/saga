@@ -136,6 +136,12 @@ def deep_validation_of_event(station, event, filename):
     station_id = station["id"]
     station_filepath = station["filePath"]
 
+    # Check that station_id is same as in file name
+    if station_id not in station_filepath:
+        print(
+            f"[009] Station id '{station_id}' of station defined in '{station_filepath}' does not match file name.  "
+        )
+
     # Check for existance of main audio
     if event["action"] == "playAudio":
         for audiofile_base in event["audioFilenames"]:
