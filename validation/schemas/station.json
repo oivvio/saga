@@ -74,15 +74,6 @@
   "allOf": [
     {
       "if": {
-        "properties": { "type": { "const": "choice" } },
-        "required": ["type"]
-      },
-      "then": {
-        "required": ["helpAudioFilenames"]
-      }
-    },
-    {
-      "if": {
         "properties": { "type": { "const": "story" } },
         "required": ["type"]
       },

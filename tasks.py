@@ -276,6 +276,13 @@ def graph(ctx, filename, output="/tmp/gamegraph.gv"):
             handle_event(station, event["eventIfPresent"])
             handle_event(station, event["eventIfNotPresent"])
 
+        if event["action"] == "powerNameChoice":
+            print("POWER NAME CHOICE")
+            for to_station in event["onSuccessOpen"]:
+                add_edge(station_id, to_station)
+            for to_station in event["ghostOnSuccessOpen"]:
+                add_edge(station_id, to_station)
+
         if "condition" in event and event["condition"] in [
             "adHocKeysAreEqual",
             "adHocKeysAreNotEqual",

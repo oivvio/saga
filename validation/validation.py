@@ -266,7 +266,7 @@ def validate_game_helper(filename):
         audiofile_path = Path(filename).parent.joinpath(audiofile_base)
         if not audiofile_path.exists():
             print(
-                f"The audiofile '{audiofile_base}' referenced from 'globalHelpAudio.{key}' in {filename}  does not exist. "
+                f"[009] The audiofile '{audiofile_base}' referenced from 'globalHelpAudio.{key}' in {filename}  does not exist. "
             )
 
     # validate all individual stations against the station schema
@@ -275,6 +275,16 @@ def validate_game_helper(filename):
         errors = validate_station(station)
         station_filename = station["filePath"]
         output_validation_errors(errors, station_filename)
+
+        # Validate that any station that has helpAudioFilenames also have helpCost and vice versa.
+        # I could not figure out how to do this in JSON schema. But it should be possible.
+        has_help_cost = "helpCost" in station
+        has_help_audio_files = "helpAudioFilenames" in station
+
+        if has_help_cost != has_help_audio_files:
+            print(
+                f"[010] The station in '{station_filename}'  has inconsistent help options. If helpAudioFilenames is defined helpCost must be defined too."
+            )
 
     # check that any choice stations have valid ids
     for station in [s for s in stations.values() if s["type"] == "choice"]:

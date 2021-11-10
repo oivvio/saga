@@ -30,6 +30,7 @@ export interface IStation {
   opens: StationID[];
   tags: string[];
   events: IEvent[];
+  helpCost: number;
   helpAudioFilenames?: string[];
   startStationId?: StationID; // only on "help" stations
 }
@@ -60,6 +61,7 @@ export class Station implements IStation {
   opens: StationID[];
   events: IEvent[];
   tags: string[];
+  helpCost: number;
   helpAudioFilenames?: string[];
   startStationId?: StationID; // only on "help" stations
   //
@@ -70,7 +72,9 @@ export class Station implements IStation {
     opens: StationID[],
     events: IEvent[],
     tags: string[],
+    helpCost: number,
     helpAudioFilenames?: string[],
+
     startStationId?: StationID
   ) {
     this.id = id;
@@ -79,6 +83,7 @@ export class Station implements IStation {
     this.opens = opens;
     this.events = events;
     this.tags = tags;
+    this.helpCost = helpCost;
     this.helpAudioFilenames = helpAudioFilenames;
     this.startStationId = startStationId;
   }
@@ -91,6 +96,7 @@ export class Station implements IStation {
       obj.opens,
       obj.events,
       obj.tags,
+      obj.helpCost,
       obj.helpAudioFilenames,
       obj.startStationId
     );
@@ -181,12 +187,12 @@ function handleHelpOpen(
 /** Figure out which help track to play, and if users available help should be decrease or not */
 function pickHelpTrack(currentStation: Station): {
   audioFilename: string;
-  decreaseHelpAvailable: boolean;
+  decreaseHelpAvailable: number;
   playHelp: boolean;
 } {
   const result = {
     audioFilename: "",
-    decreaseHelpAvailable: false,
+    decreaseHelpAvailable: 0,
     playHelp: false,
   };
 
@@ -209,7 +215,7 @@ function pickHelpTrack(currentStation: Station): {
         if (firstUnheardHelpTrack) {
           // There is one or more unheard helptracks
           result.audioFilename = firstUnheardHelpTrack;
-          result.decreaseHelpAvailable = true;
+          result.decreaseHelpAvailable = currentStation.helpCost;
           result.playHelp = true;
         } else {
           // There no  unheard help tracks for this station left
@@ -220,7 +226,7 @@ function pickHelpTrack(currentStation: Station): {
 
             if (audioFilename) {
               result.audioFilename = audioFilename;
-              result.decreaseHelpAvailable = false;
+              result.decreaseHelpAvailable = currentStation.helpCost;
               result.playHelp = true;
             }
           }
@@ -233,7 +239,7 @@ function pickHelpTrack(currentStation: Station): {
           if (firstUnheardHelpTrack) {
             // There is one ore more unheard helptracks
             result.audioFilename = firstUnheardHelpTrack;
-            result.decreaseHelpAvailable = true;
+            result.decreaseHelpAvailable = currentStation.helpCost;
             result.playHelp = true;
           }
         }
@@ -244,7 +250,7 @@ function pickHelpTrack(currentStation: Station): {
         store.state.gameConfig?.globalAudioFilenames.noHelpLeftAudioFilename;
       if (audioFilename) {
         result.audioFilename = audioFilename;
-        result.decreaseHelpAvailable = false;
+        result.decreaseHelpAvailable = 0;
         result.playHelp = true;
       }
     }
@@ -255,7 +261,7 @@ function pickHelpTrack(currentStation: Station): {
         .noHelpAtThisPointAudioFilename;
     if (audioFilename) {
       result.audioFilename = audioFilename;
-      result.decreaseHelpAvailable = false;
+      result.decreaseHelpAvailable = 0;
       result.playHelp = true;
     }
   }
@@ -276,8 +282,11 @@ function handleHelpClosed(currentStation: Station) {
   if (playInstructions.playHelp) {
     const audioEngine = AudioEngine.getInstance();
 
-    if (playInstructions.decreaseHelpAvailable) {
-      store.commit(Mutations.decreaseHelpAvailable);
+    if (playInstructions.decreaseHelpAvailable !== 0) {
+      store.commit(
+        Mutations.decreaseHelpAvailable,
+        playInstructions.decreaseHelpAvailable
+      );
     }
     // Figure out how much help is left
     let helpLeftAudioFile =
