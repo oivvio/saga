@@ -83,7 +83,7 @@ export class AudioEngine {
       let audioFilenameToActuallyPlay = audioFilename;
       if (store.state.debugQuickAudio) {
         console.log(`PLAYING DEBUG AUDIO in lieu of ${audioFilename}`);
-        audioFilenameToActuallyPlay = "./audio/quick-audio.mp3";
+        audioFilenameToActuallyPlay = "./audio/beep.mp3";
       }
 
       // setup the sound
