@@ -42,8 +42,7 @@
           "vild,regn": "./level-3-ordmagikern/essence-ordmagikern-regn.mp3"
           
           },
-          "then": {
-            "action": "playAudio",
+          "then": {"action": "playAudio",
             "wait": 0,
             "audioFilenames": ["./level-3-ordmagikern/continuation-essence-ordmagikern-namn.mp3"],
 

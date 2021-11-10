@@ -12,10 +12,19 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-2-lilith/not-follow-lillith-choice-square.mp3"]
-
-    },
-    {"action": "goToStation",
+      "audioFilenames": ["./level-2-lilith/not-follow-lillith-choice-square.mp3"],
+    
+    "then": {"action": "goToStation",
       "toStation": "continuation-lilith"}
+    
+    
+  }
   ]
-}
+  }
+
+
+
+
+
+
+

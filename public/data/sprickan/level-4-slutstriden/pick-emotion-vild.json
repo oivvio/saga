@@ -10,18 +10,35 @@
   ],
 
   "events": [
-
     {
       "action": "powerNameChoice",
-    "part": 0,
-    "onSuccessOpen": ["pick-nature-mane", "pick-nature-regn", "pick-nature-sno", "pick-nature-sol", "pick-nature-vind"],
-    "onSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
-    "onFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3", 
-    "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3", 
-    "onSecondFailureGoTo": "checkin-sprickan-oppnas",
-    "value": "vild"
+      "part": 0,
+      "onSuccessOpen": [
+        "pick-nature-mane",
+        "pick-nature-regn",
+        "pick-nature-sno",
+        "pick-nature-sol",
+        "pick-nature-vind"
+      ],
+
+      "onSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
+      "onFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "onSecondFailureGoTo": "checkin-sprickan-oppnas",
+      "ghostOnSuccessOpen": [
+        "pick-nature-mane",
+        "pick-nature-regn",
+        "pick-nature-sno",
+        "pick-nature-sol",
+        "pick-nature-vind"
+      ],
+
+      "ghostOnSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
+      "ghostOnFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "ghostOnSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "ghostOnSecondFailureGoTo": "checkin-sprickan-oppnas",
+
+      "value": "vild"
     }
-
-
   ]
 }

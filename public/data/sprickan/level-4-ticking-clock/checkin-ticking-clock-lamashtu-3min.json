@@ -1,5 +1,5 @@
 {
-  "id": "checkin-ticking-clock-lamashtu",
+  "id": "checkin-ticking-clock-lamashtu-3min",
   "type": "story",
   "description": "Chose the path to slutstriden",
   "opens": ["checkin-slutstriden"],
@@ -13,7 +13,6 @@
               }
              },
               
-            
 
           {
             "action": "playAudio",

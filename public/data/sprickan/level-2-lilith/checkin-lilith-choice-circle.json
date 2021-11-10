@@ -15,10 +15,13 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-2-lilith/choice-circle-follow-lillith.mp3"]
+      "audioFilenames": ["./level-2-lilith/choice-circle-follow-lillith.mp3"],
       
-    },
-    {"action": "goToStation",
-    "toStation": "continuation-lilith"}
+    
+    "then": {"action": "goToStation",
+      "toStation": "continuation-lilith"}
+    
+    
+  }
   ]
-}
+  }

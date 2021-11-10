@@ -1,27 +1,44 @@
 {
   "id": "pick-nature-vind",
   "type": "story",
-  "description": "picking second part of power name",
+  "description": "picking first part of power name",
   "opens": [],
 
   "helpAudioFilenames": [
-    "./audio/pick-first-part-of-girl-name-help1.mp3",
-    "./audio/pick-first-part-of-girl-name-help2.mp3"
+    "./audio/pick-second-part-of-powername-help1.mp3",
+    "./audio/pick-second-part-of-powername-help2.mp3"
   ],
 
   "events": [
-
     {
       "action": "powerNameChoice",
-    "part": 1,
-    "onSuccessOpen": ["pick-emotion-gladje", "pick-emotion-ilska", "pick-emotion-lycka", "pick-emotion-sorg", "pick-emotion-vild"],
-    "onSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
-    "onFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3", 
-    "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3", 
-    "onSecondFailureGoTo": "checkin-sprickan-oppnas",
-    "value": "vind"
+      "part": 0,
+      "onSuccessOpen": [
+        "pick-emotion-ilska",
+        "pick-emotion-glädje",
+        "pick-emotion-lycka",
+        "pick-emotion-sorg",
+        "pick-emotion-vild"
+      ],
+
+      "onSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
+      "onFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "onSecondFailureGoTo": "checkin-sprickan-oppnas",
+      "ghostOnSuccessOpen": [
+        "pick-emotion-ilska",
+        "pick-emotion-glädje",
+        "pick-emotion-lycka",
+        "pick-emotion-sorg",
+        "pick-emotion-vild"
+      ],
+
+      "ghostOnSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
+      "ghostOnFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "ghostOnSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "ghostOnSecondFailureGoTo": "checkin-sprickan-oppnas",
+
+      "value": "vind"
     }
-
-
   ]
 }

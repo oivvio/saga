@@ -31,13 +31,13 @@
                 "action": "playAudio",
                 "wait": 0,
                 "audioFilenames": [
-                  "./level-4-damonhunden/continuation-save-lillebror.mp3"],
+                  "./level-3-ordmagikern/continuation-slutstriden.mp3"],
 
                   "then": {
                     "action": "playAudio",
                     "wait": 0,
                     "audioFilenames": [
-                      "./level-4-ticking-clock/continuation-5min.mp3"]
+                      "./level-4-ticking-clock/5min-2.mp3"]
         
             
 
