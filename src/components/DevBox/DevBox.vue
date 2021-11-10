@@ -119,10 +119,19 @@
         >
           <td>
             <button
-              v-on:click="runStationOnButtonPress(station.id)"
+              v-on:click="runStationOnButtonPress(station.id, false)"
               :disabled="!this.$store.state.user.QRScannerCanBeDisplayed"
             >
               {{ station.id }}
+            </button>
+          </td>
+
+          <td>
+            <button
+              v-on:click="runStationOnButtonPress(station.id, true)"
+              :disabled="!this.$store.state.user.QRScannerCanBeDisplayed"
+            >
+              Force run
             </button>
           </td>
 

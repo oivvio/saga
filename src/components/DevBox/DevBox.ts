@@ -10,8 +10,20 @@ export default defineComponent({
     wipeHistory() {
       this.$store.commit(Mutations.wipeHistory);
     },
-    runStationOnButtonPress(stationId: StationID) {
-      runStationById(stationId);
+    runStationOnButtonPress(stationId: StationID, forceRun: boolean) {
+      // If forceRun==true, open stationId and close all others before running.
+
+      if (forceRun) {
+        this.$store.commit(Mutations.updateOpenStations, [stationId]);
+
+        // Wait for the commit to propagate before going forward.
+        // A bit of a hack but admissable in the debug panel.
+        setTimeout(function () {
+          runStationById(stationId);
+        }, 500);
+      } else {
+        runStationById(stationId);
+      }
     },
 
     visitCount(stationId: StationID) {

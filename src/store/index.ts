@@ -171,7 +171,7 @@ export const store = createStore({
       state.audio.background.isPlaying = value;
     },
 
-    setCurrentlyPlayingForegroundAudio(state: IState, audioFilename: string) {
+    setCurrentAudioFilename(state: IState, audioFilename: string) {
       state.audio.foreground.audioFilename = audioFilename;
     },
 
