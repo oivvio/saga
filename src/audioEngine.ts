@@ -80,26 +80,29 @@ export class AudioEngine {
         console.log("sorry");
         reject(false);
       }
-
+      let audioFilenameToActuallyPlay = audioFilename;
       if (store.state.debugQuickAudio) {
         console.log(`PLAYING DEBUG AUDIO in lieu of ${audioFilename}`);
-        audioFilename = "./audio/quick-audio.mp3";
+        audioFilenameToActuallyPlay = "./audio/quick-audio.mp3";
       }
 
       // setup the sound
       this.foregroundSound = new Howl({
-        src: [this.getAudioPath(audioFilename)],
+        src: [this.getAudioPath(audioFilenameToActuallyPlay)],
       });
 
       // setup callback for start of audio
       this.foregroundSound.once("play", () => {
         this.duckBackgroundAudio();
         store.commit(Mutations.setForegroundAudioIsPlaying, true);
+        store.commit(Mutations.setCurrentAudioFilename, audioFilename);
       });
 
       // setup callback for end of audio
       this.foregroundSound.once("end", () => {
         store.commit(Mutations.setForegroundAudioIsPlaying, false);
+        store.commit(Mutations.setCurrentAudioFilename, null);
+        store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
         this.unduckBackgroundAudio();
         this.foregroundSound?.unload();
         resolve(true);
@@ -140,11 +143,15 @@ export class AudioEngine {
       this.foregroundSound.once("play", () => {
         this.duckBackgroundAudio();
         store.commit(Mutations.setForegroundAudioIsPlaying, true);
+        store.commit(Mutations.setCurrentAudioFilename, audioFilename);
       });
 
       // setup callback for end of audio
       this.foregroundSound.once("end", () => {
         store.commit(Mutations.setForegroundAudioIsPlaying, false);
+        store.commit(Mutations.setCurrentAudioFilename, null);
+        store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
+
         this.unduckBackgroundAudio();
         this.foregroundSound?.unload();
 

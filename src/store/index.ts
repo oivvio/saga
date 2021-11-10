@@ -43,12 +43,14 @@ export interface IState {
     volume: number;
     foreground: {
       isPlaying: boolean;
-      data: string | null;
+      audioFilename: string | null;
     };
     background: {
       isPlaying: boolean;
       data: string | null;
     };
+
+    playedForegroundAudio: string[];
   };
 }
 
@@ -92,14 +94,14 @@ const initialState: IState = {
     volume: 0,
     foreground: {
       isPlaying: false,
-      // data: {},
-      data: null,
+      audioFilename: null,
     },
     background: {
       isPlaying: false,
-      // data: {},
       data: null,
     },
+
+    playedForegroundAudio: [],
   },
 };
 
@@ -167,6 +169,14 @@ export const store = createStore({
 
     setAudioBackgroundIsPlaying(state: IState, value: boolean) {
       state.audio.background.isPlaying = value;
+    },
+
+    setCurrentlyPlayingForegroundAudio(state: IState, audioFilename: string) {
+      state.audio.foreground.audioFilename = audioFilename;
+    },
+
+    pushToPlayedForegroundAudio(state: IState, audioFilename: string) {
+      state.audio.playedForegroundAudio.push(audioFilename);
     },
 
     async loadGameConfig(state: IState) {
@@ -290,8 +300,10 @@ export enum Mutations {
   removeTimer = "removeTimer",
   setAdHocData = "setAdHocData",
   setAudioBackgroundIsPlaying = "setAudioBackgroundIsPlaying",
+  pushToPlayedForegroundAudio = "pushToPlayedForegroundAudio",
   setCurrentStation = "setCurrentStation",
   setForegroundAudioIsPlaying = "setForegroundAudioIsPlaying",
+  setCurrentAudioFilename = "setCurrentAudioFilename",
   updateOpenStations = "updateOpenStations",
   wipeHistory = "wipeHistory",
   setLastStationVisitedId = "setLastStationVisitedId",

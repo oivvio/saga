@@ -32,14 +32,45 @@
         <td>audioStoryIsPlaying:</td>
         <td>{{ this.$store.state.audio.foreground.isPlaying }}</td>
       </tr>
+
       <tr>
         <td>audioBackgroundIsPlaying:</td>
         <td>{{ this.$store.state.audio.background.isPlaying }}</td>
       </tr>
 
       <tr>
+        <td>currentlyPlayingForegroundAudio:</td>
+        <td>{{ this.$store.state.audio.foreground.audioFilename }}</td>
+      </tr>
+
+      <tr>
         <td>openStations:</td>
-        <td>{{ this.$store.state.user.openStations }}</td>
+
+        <td>
+          <ul>
+            <li
+              v-for="station in this.$store.state.user.openStations"
+              :key="station"
+            >
+              {{ station }}
+            </li>
+          </ul>
+        </td>
+      </tr>
+
+      <tr>
+        <td>played audiofiles</td>
+
+        <td>
+          <ul>
+            <li
+              v-for="audioFile in this.$store.state.audio.playedForegroundAudio"
+              :key="audioFile"
+            >
+              {{ audioFile }}
+            </li>
+          </ul>
+        </td>
       </tr>
 
       <tr>
