@@ -53,6 +53,11 @@
       }
     },
 
+    "helpCost": {
+      "description": "How expensive is it to ask for help at this station ",
+      "type": "number"
+    },
+
     "events": {
       "description": "Array containing events that executing a station will fire",
       "type": "array",
