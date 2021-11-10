@@ -2,10 +2,10 @@
   "id": "checkin-ticking-clock-damonhund",
   "type": "story",
   "description": "Chose the path to slutstriden",
-  "opens": ["checkin-slutstriden"],
+  "opens": ["checkin-damonhunden"],
   
   "events": [{"action": "startTimer",
-              "name": "ticking-clock-1",
+              "name": "ticking-clock-damonhund",
               "time": 300,
               "then": {
                 "action": "goToStation",

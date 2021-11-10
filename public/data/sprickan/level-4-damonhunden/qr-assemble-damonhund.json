@@ -12,7 +12,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-4-damonhunden/checkin-damonhunden.mp3"]
+      "audioFilenames": ["./level-4-damonhunden/checkin-lillebror-raddad.mp3"]
     },
     {
       "action": "playBackgroundAudio",
@@ -20,6 +20,14 @@
       "loop": true,
       "cancelOnLeave": false,
       "wait": 0
+
+      ,"then": {"action": "goToStation",
+        "toStation": "checkin-ticking-clock-lamashtu-3min"}
     }
+
+
+
+            
+
   ]
 }

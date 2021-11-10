@@ -12,7 +12,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-4-damonhunden/checkin-damonhunden.mp3"]
+      "audioFilenames": ["./level-4-damonhunden/checkin-lillebror.mp3"]
     },
     {
       "action": "playBackgroundAudio",
@@ -20,6 +20,10 @@
       "loop": true,
       "cancelOnLeave": false,
       "wait": 0
+    },
+    {
+      "action": "cancelTimer",
+      "name": "ticking-clock-damonhund"
     }
   ]
 }

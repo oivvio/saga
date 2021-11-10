@@ -5,8 +5,8 @@
   "opens": ["checkin-slutstriden"],
   
   "events": [{"action": "startTimer",
-              "name": "ticking-clock-2",
-              "time": 180,
+              "name": "checkin-ticking-clock-lamashtu",
+              "time": 300,
               "then": {
                 "action": "goToStation",
                 "toStation": "checkin-sprickan-oppnas"

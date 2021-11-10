@@ -71,8 +71,9 @@
     "./level-4-slutstriden/pick-nature-sol.json",
     "./level-4-slutstriden/pick-nature-vind.json",
 
-    "./level-4-ticking-clock/checkin-ticking-clock-1.json",
-    "./level-4-ticking-clock/checkin-ticking-clock-2.json",
+    "./level-4-ticking-clock/checkin-ticking-clock-damonhund.json",
+    "./level-4-ticking-clock/checkin-ticking-clock-lamashtu.json",
+    "./level-4-ticking-clock/checkin-ticking-clock-lamashtu-3min.json",
 
     "./level-5-slutet/checkin-sprickan-oppnas.json",
     "./level-5-slutet/checkin-sprickan-stangs.json"

@@ -50,7 +50,7 @@
 
 
             "then": {"action": "goToStation",
-              "toStation": "checkin-ticking-clock-1"}
+              "toStation": "checkin-ticking-clock-lamashtu"}
               }
             }
           }
