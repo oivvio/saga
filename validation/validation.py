@@ -174,6 +174,11 @@ def deep_validation_of_event(station, event, filename):
                     f"[003] The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
                 )
 
+    # Recurse into choiceBasedOnTags
+    if event["action"] == "choiceBasedOnTags":
+        deep_validation_of_event(station, event["eventIfPresent"], filename)
+        deep_validation_of_event(station, event["eventIfNotPresent"], filename)
+
     # Check the next level events
     if "then" in event:
         next_level_event = event["then"]
