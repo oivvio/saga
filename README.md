@@ -70,3 +70,13 @@ Rewrite with these things in mind:
 3. The game config should be authored with something like
    https://github.com/jagenjo/litegraph.js And it should not be possible to
    construct an unvalid game.
+
+4. Event logic and validation of events and how events are edited needs to go together.
+
+5. Game might get authored as independent files (or not since we're hoping for a
+   graphical editor) but they all be rendered out to one big json file.
+
+6. How do we hook in high level testing without resorting to selenium. We want
+   to be able to "dry run" the game without actually playing it in the browser
+   to see that the if we make a certain set of choices we end up in a certain
+   state.
