@@ -265,7 +265,6 @@ store.subscribe((_, state: IState) => {
   const audioIsPlaying = state.audio.foreground.isPlaying;
   const qrScannerVisible = state.user.QRScannerIsDisplayed;
   const openQrScannerButtonVisible = state.user.QRScannerCanBeDisplayed;
-
   if (!audioIsPlaying && !qrScannerVisible && !openQrScannerButtonVisible) {
     store.commit(Mutations.displayButtonToOpenQRScanner);
   }

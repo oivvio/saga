@@ -157,7 +157,6 @@ export async function loadGameConfigAndStations(
 }
 
 function interpretEvent(state: IState, inEvent: IEvent) {
-  //const event = inEvent as IEventAction;
   const event = inEvent as IEvent;
   eventHandlers[event.action](state, event);
 }

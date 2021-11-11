@@ -1,9 +1,10 @@
 import { defineComponent } from "vue";
-import SagaQrReader from "../SagaQrReader/SagaQrReader.vue";
 
 import { Mutations } from "../../store";
 
+import SagaQrReader from "../SagaQrReader/SagaQrReader.vue";
 import DevBox from "../DevBox/DevBox.vue";
+import ShowPowerName from "../ShowPowerName/ShowPowerName.vue";
 
 export default defineComponent({
   name: "RootComponent",
@@ -33,7 +34,11 @@ export default defineComponent({
     displayDevBox() {
       return this.$store.state.debugDisplayDevBox;
     },
+
+    playerWon(): boolean {
+      return this.$store.state.user.adHocData["playerWon"];
+    },
   },
 
-  components: { SagaQrReader, DevBox },
+  components: { SagaQrReader, DevBox, ShowPowerName },
 });

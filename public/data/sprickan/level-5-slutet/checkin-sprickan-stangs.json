@@ -10,6 +10,12 @@
 
   "events": [
     {
+      "action": "setAdHocData",
+      "key": "playerWon",
+      "value": true
+    },
+
+    {
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": ["./audio/you-win.mp3"]
