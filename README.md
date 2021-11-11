@@ -39,11 +39,16 @@ Navigate to `http://localhost:8080`
 
 # Run JSON schema to validate the json documents
 
-A game built with Saga consists of two parts: the game engine and the game definition files and audio files. The game engine is provided and it's up to you to write the game definition files and provide the audio files for your game.
+A game built with Saga consists of two parts: the game engine and the game
+definition files and audio files. The game engine is provided and it's up to you
+to write the game definition files and provide the audio files for your game.
 
 We include test game in `public/data/test_game` to get you started.
 
-The game definition files are written in `json` and we provide a set of json schema files that you should use to validate your game definition files. We provide a set of `invoke` tasks that make it easy to validate your game definition files.
+The game definition files are written in `json` and we provide a set of json
+schema files that you should use to validate your game definition files. We
+provide a set of `invoke` tasks that make it easy to validate your game
+definition files.
 
 Make sure your virtualenv is active.
 
@@ -80,3 +85,5 @@ Rewrite with these things in mind:
    to be able to "dry run" the game without actually playing it in the browser
    to see that the if we make a certain set of choices we end up in a certain
    state.
+
+7. More powerful validation. jsonschema is weak.
