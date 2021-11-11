@@ -20,6 +20,13 @@ const natureSlugToName: { [key: string]: string } = {
 
 export default defineComponent({
   name: "ShowPowerName",
+
+  data: function () {
+    return {
+      playerName: "",
+      playerNameSet: false,
+    };
+  },
   computed: {
     powerName(): string {
       const emotionPart =

@@ -1,8 +1,17 @@
 <div class="ShowPowerName" >
-
     <img v-bind:src="powerNameImage"/>
     <div class="textContainer">
-        <h1>Genom kraften av {{ powerName }} stängdes sprickan!</h1>
+
+        <div v-if="!playerNameSet" class="nameInput">
+            <h1>{{powerName}} Du har stängt sprickan. Vad kallar dina vänner dig?</h1>
+            <input v-model="playerName" placeholder="Ditt namn">
+            <button v-on:click="playerNameSet=true" >KLAR</button>
+        </div>
+
+        <div v-else>
+            <h1>Genom kraften av {{ powerName }} AKA {{playerName}} stängdes sprickan!</h1>
+        </div>
+
     </div>
 
 </div>
