@@ -13,5 +13,6 @@
   "helpAudioFilenames": [
     "./level-0-barngravarna/help-barngravarna-1.mp3",
     "./level-0-barngravarna/help-barngravarna-2.mp3"
-  ]
+  ],
+  "helpCost":1 
 }

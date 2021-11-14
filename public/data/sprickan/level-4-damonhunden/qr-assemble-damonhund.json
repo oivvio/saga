@@ -7,12 +7,16 @@
     "./audio/southern-chamber-help-1.mp3",
     "./audio/southern-chamber-help-2.mp3"
   ],
+  "helpCost":1 ,
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-4-damonhunden/checkin-lillebror-raddad.mp3"]
+      "audioFilenames": ["./level-4-damonhunden/checkin-lillebror-raddad.mp3"],
+
+      "then": {"action": "goToStation",
+        "toStation": "checkin-ticking-clock-lamashtu-3min"}
     },
     {
       "action": "playBackgroundAudio",
@@ -21,8 +25,6 @@
       "cancelOnLeave": false,
       "wait": 0
 
-      ,"then": {"action": "goToStation",
-        "toStation": "checkin-ticking-clock-lamashtu-3min"}
     }
 
 

@@ -8,6 +8,7 @@
     "./level-2-stadsungarna/help-stadsungarna-1.mp3",
     "./level-2-stadsungarna/help-stadsungarna-2.mp3"
   ],
+  "helpCost":1 ,
   "events": [
     {
       "action": "playAudio",

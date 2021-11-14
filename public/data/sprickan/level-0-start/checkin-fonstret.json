@@ -8,6 +8,7 @@
     "./level-0-start/checkin-fraga.mp3",
     "./level-0-start/checkin-fraga.mp3"
   ],
+  "helpCost":1 ,
 
   "events": [
     {

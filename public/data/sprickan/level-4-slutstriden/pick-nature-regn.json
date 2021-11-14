@@ -8,6 +8,7 @@
     "./audio/pick-second-part-of-powername-help1.mp3",
     "./audio/pick-second-part-of-powername-help2.mp3"
   ],
+  "helpCost":1 ,
 
   "events": [
     {

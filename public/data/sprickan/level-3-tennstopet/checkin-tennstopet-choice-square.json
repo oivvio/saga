@@ -9,6 +9,7 @@
     "./level-global/No-Help.mp3"
 
   ],
+  "helpCost":1 ,
   "events": [
     {
       "action": "playAudio",

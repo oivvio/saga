@@ -8,6 +8,7 @@
     "./level-3-ordmagikern/help-ordmagikern-1.mp3",
     "./level-3-ordmagikern/help-ordmagikern-1.mp3"
   ],
+  "helpCost":1 ,
   "events": [
     {
       "action": "playAudio",
