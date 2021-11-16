@@ -12,7 +12,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-3-ordmagikern/ordmagikern-slutstriden-choice-square.mp3"],
+      "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern-choice-square.mp3"],
       
       "then": {
         "action": "playAudioBasedOnAdHocValue",

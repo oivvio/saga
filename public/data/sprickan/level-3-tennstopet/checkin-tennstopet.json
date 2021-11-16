@@ -10,7 +10,7 @@
       {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-3-tennstopet/checkin-tennstopet.mp3"]
+        "audioFilenames": ["./level-3-tennstopet/checkin-tennstopet.mp3","./level-3-tennstopet/checkin-tennstopet-b.mp3"]
       },
       {
         "action": "playBackgroundAudio",

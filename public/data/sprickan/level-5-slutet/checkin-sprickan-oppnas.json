@@ -9,11 +9,35 @@
   ],
   "helpCost":0 ,
 
+
+
   "events": [
+    {
+      "action": "setAdHocData",
+      "key": "playerWon",
+      "value": false
+    },
+
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/you-loose.mp3"]
+      "audioFilenames": ["./level-5-slutet/continuation-sprickan-oppnas.mp3"],
+      "then": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": [
+          "./level-5-slutet/contiuation-sprickan-oppnas-trost.mp3"],
+    
+      "action": "playBackgroundAudio",
+      "audioFilename": "./audio/southern-chamber-background.mp3",
+      "loop": true,
+      "cancelOnLeave": false,
+      "wait": 0
     }
-  ]
+    
+
 }
+]
+}
+
+  

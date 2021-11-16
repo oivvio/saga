@@ -13,7 +13,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-4-damonhunden/checkin-lillebror.mp3"]
+      "audioFilenames": ["./level-4-damonhunden/checkin-lillebror.mp3","./level-4-damonhunden/checkin-damonhunden-b.mp3"]
     },
     {
       "action": "playBackgroundAudio",

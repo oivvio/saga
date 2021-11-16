@@ -8,7 +8,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-1-anglamakerskan/checkin-anglamakerskan.mp3"]
+      "audioFilenames": ["./level-1-anglamakerskan/checkin-anglamakerskan.mp3", "./level-1-anglamakerskan/checkin-anglamakerskan-b.mp3"]
     },
     {
       "action": "playBackgroundAudio",

@@ -9,7 +9,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames":  ["./level-2-lilith/checkin-lilith.mp3"]
+      "audioFilenames":  ["./level-2-lilith/checkin-lilith.mp3", "./level-2-lilith/checkin-lilith-b.mp3"]
     },
     {
       "action": "playBackgroundAudio",

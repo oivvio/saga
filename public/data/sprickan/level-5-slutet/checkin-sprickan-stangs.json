@@ -19,7 +19,29 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/you-win.mp3"]
+      "audioFilenames": ["./level-5-slutet/continuation-sprickan-stangs-grattis.mp3"],
+      
+      "then": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": [
+          "./level-5-slutet/continuation-sprickan-stangs-spelet-slut.mp3"],
+    
+      "action": "playBackgroundAudio",
+      "audioFilename": "./audio/southern-chamber-background.mp3",
+      "loop": true,
+      "cancelOnLeave": false,
+      "wait": 0
     }
-  ]
+    
+
 }
+]
+}
+
+  
+
+  
+  
+
+    

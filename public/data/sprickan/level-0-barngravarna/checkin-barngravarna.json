@@ -9,7 +9,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-barngravarna/checkin-barngravarna.mp3"]
+      "audioFilenames": ["./level-0-barngravarna/checkin-barngravarna.mp3","./level-0-barngravarna/checkin-barngravarna-b.mp3","./level-0-barngravarna/checkin-barngravarna-b2.mp3"]
     },
     {
       "action": "playBackgroundAudio",

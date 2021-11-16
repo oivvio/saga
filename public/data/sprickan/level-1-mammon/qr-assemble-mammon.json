@@ -3,6 +3,8 @@
   "type": "story",
   "description": "You assembled the ring",
   "opens": ["ring-tillbaka-mammon"],
+  "tags": ["ringen"],
+
   "events": [
     {
       "action": "playAudio",

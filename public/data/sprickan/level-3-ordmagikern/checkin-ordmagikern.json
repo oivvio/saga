@@ -13,7 +13,7 @@
       "eventIfPresent": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3"],
+        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3", "./level-3-ordmagikern/checkin-ordmagikern-b-spar.mp3"],
 
         "then": {
           "action": "playAudio",
@@ -40,7 +40,7 @@
       "eventIfPresent": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3"],
+        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3", "./level-3-ordmagikern/checkin-ordmagikern-b-spar.mp3"],
 
         "then": {
           "action": "playAudio",
@@ -67,7 +67,7 @@
       "eventIfPresent": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3"],
+        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3", "./level-3-ordmagikern/checkin-ordmagikern-b-spar.mp3"],
 
         "then": {
           "action": "playAudio",
