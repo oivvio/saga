@@ -263,7 +263,7 @@ def graph(ctx, filename, output="/tmp/gamegraph.gv"):
 
         station_id = station["id"]
 
-        if event["action"] == "goToStation":
+        if event["action"] in ["goToStation", "openStation"]:
             to_station = event["toStation"]
             add_edge(station_id, to_station)
 
@@ -280,6 +280,11 @@ def graph(ctx, filename, output="/tmp/gamegraph.gv"):
             print("POWER NAME CHOICE")
             for to_station in event["onSuccessOpen"]:
                 add_edge(station_id, to_station)
+            for to_station in event["ghostOnSuccessOpen"]:
+                add_edge(station_id, to_station)
+
+            add_edge(station_id, event["onSecondFailureGoTo"])
+            add_edge(station_id, event["ghostOnSecondFailureGoTo"])
             for to_station in event["ghostOnSuccessOpen"]:
                 add_edge(station_id, to_station)
 
