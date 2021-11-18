@@ -2,14 +2,65 @@
   "id": "checkin-mammon",
   "type": "story",
   "description": "You have reached Mammon",
-  "opens": ["qr-assemble-mammon"],
+  "opens": [],
   
 
   "events": [
     {
-      "action": "playAudio",
-      "wait": 0,
-      "audioFilenames": ["./level-1-mammon/checkin-mammon.mp3", "./level-1-mammon/checkin-mammon-b.mp3"]
+      "action": "choiceBasedOnTags",
+      "tags": ["ringen"],
+      "eventIfPresent": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3", "./level-3-ordmagikern/checkin-ordmagikern-b-spar.mp3"],
+
+        "then": {
+          "action": "playAudio",
+          "wait": 0,
+          "audioFilenames": [
+            "./level-3-ordmagikern/continuation-appledricka.mp3"],
+
+          "then": {
+            "action": "playAudio",
+            "wait": 0,
+            "audioFilenames": [
+              "./level-3-ordmagikern/continuation-ordmagikern.mp3"
+            ]
+          }
+        }
+      },
+      "eventIfNotPresent": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./level-1-mammon/checkin-mammon.mp3"]
+      }
+    },
+    {
+      "action": "choiceBasedOnTags",
+      "tags": ["appledricka"],
+      "eventIfPresent": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3", "./level-3-ordmagikern/checkin-ordmagikern-b-spar.mp3"],
+
+        "then": {
+          "action": "playAudio",
+          "wait": 0,
+          "audioFilenames": [
+            "./level-3-ordmagikern/continuation-appledricka.mp3"],
+
+          "then": {
+            "action": "playAudio",
+            "wait": 0,
+            "audioFilenames": [
+              "./level-3-ordmagikern/continuation-ordmagikern.mp3"
+            ]
+          }
+        }
+      },
+      "eventIfNotPresent": {
+        "action": "noop"
+      }
     }
   ]
 }
