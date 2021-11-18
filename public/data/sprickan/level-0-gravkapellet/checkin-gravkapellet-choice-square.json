@@ -13,6 +13,20 @@
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": ["./level-0-gravkapellet/gravkapellet-anglamakerskan-choice-square.mp3"]
+    },
+    {
+      "action": "playBackgroundAudio",
+      "audioFilename": "./level-global/Stems-1/fx.mp3",
+      "loop": true,
+      "cancelOnLeave": true,
+      "wait": 0
+    },
+    {
+      "action": "playBackgroundAudio",
+      "audioFilename": "./level-global/Stems-1/string.mp3",
+      "loop": true,
+      "cancelOnLeave": true,
+      "wait": 0
     }
   ]
 }
