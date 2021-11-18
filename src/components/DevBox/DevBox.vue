@@ -136,6 +136,25 @@
           </td>
 
           <td>
+            <button v-on:click="showQrCode(station.id)">QR</button>
+          </td>
+          <td
+            style="
+               {
+                width: 100px;
+                display: block;
+              }
+            "
+          >
+            <qrcode-vue
+              :value="this.getFullUrl(station.id)"
+              :size="100"
+              level="H"
+              v-if="this.stationIdsToDisplayQRcodeFor.includes(station.id)"
+            />
+          </td>
+
+          <td>
             <span> {{ openOrClosed(station.id) }}</span>
           </td>
 
@@ -153,6 +172,7 @@
 <style scoped lang="scss">
 div.DevBox {
   background-color: lightgreen;
+  padding-bottom: 10rem;
 }
 
 td {

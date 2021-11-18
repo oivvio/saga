@@ -2,9 +2,14 @@ import { defineComponent } from "vue";
 
 import { Mutations } from "../../store";
 import { StationID, runStationById } from "../../station";
+import QrcodeVue from "qrcode.vue";
 
 export default defineComponent({
   name: "DevBox",
+
+  data: function (): { stationIdsToDisplayQRcodeFor: StationID[] } {
+    return { stationIdsToDisplayQRcodeFor: [] };
+  },
 
   methods: {
     wipeHistory() {
@@ -23,6 +28,31 @@ export default defineComponent({
         }, 500);
       } else {
         runStationById(stationId);
+      }
+    },
+
+    getFullUrl(stationId: StationID): string {
+      const baseUrl = this.$store.state.gameConfig?.baseUrl;
+      const choiceInfix = this.$store.state.gameConfig?.choiceInfix || "";
+
+      const url = `${baseUrl}/${stationId}`;
+
+      let result = url;
+
+      if (stationId.indexOf(choiceInfix) !== -1) {
+        const base = choiceInfix + stationId.split(choiceInfix)[1];
+        result = `${baseUrl}/${base}`;
+      }
+      console.log(result);
+      return result;
+    },
+
+    showQrCode(stationId: StationID) {
+      if (this.stationIdsToDisplayQRcodeFor.includes(stationId)) {
+        this.stationIdsToDisplayQRcodeFor = [];
+      } else {
+        this.stationIdsToDisplayQRcodeFor = [];
+        this.stationIdsToDisplayQRcodeFor.push(stationId);
       }
     },
 
@@ -71,5 +101,9 @@ export default defineComponent({
         this.$store.state.debugQuickAudio = value;
       },
     },
+  },
+
+  components: {
+    QrcodeVue,
   },
 });

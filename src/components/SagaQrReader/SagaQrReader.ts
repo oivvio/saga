@@ -141,8 +141,7 @@ const Component = defineComponent({
           choiceInfix && stationId.indexOf(choiceInfix) !== -1;
 
         if (stationIdContainsChoiceInfix) {
-          const lastStationVisitedId =
-            this.$store.state.user.lastStationVisitedId;
+          const currentStationId = this.$store.state.user.currentStation;
 
           // Pick out the choice part (e.g. "yes" or "no", "square" or "circle"
           const choice = stationId
@@ -150,7 +149,7 @@ const Component = defineComponent({
             .filter((val) => val !== "")[0];
 
           //Finally put together the complete stationId
-          stationId = ((((lastStationVisitedId as string) +
+          stationId = ((((currentStationId as string) +
             choiceInfix) as string) + choice) as StationID;
         }
       }
