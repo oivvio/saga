@@ -47,6 +47,13 @@ export interface IEventChoiceBasedOnTags {
   eventIfNotPresent: IEvent;
 }
 
+export interface IEventChoiceBasedOnAbsenceOfTags {
+  action: "choiceBasedOnAbsenceOfTags";
+  tags: string[];
+  eventIfPresent: IEvent;
+  eventIfNotPresent: IEvent;
+}
+
 export interface IEventPlayBackgroundAudio {
   action: "playBackgroundAudio";
   audioFilename: string;
@@ -130,6 +137,7 @@ export type IEvent =
   | IEventGoToStation
   | IEventPushToAdHocArrayEvent
   | IEventChoiceBasedOnTags
+  | IEventChoiceBasedOnAbsenceOfTags
   | IEventSetAdHocDataEvent
   | IEventStartTimer
   | IEventCancelTimer
@@ -354,6 +362,31 @@ export const eventHandlers = {
     // And are suprised if the user has
     if (userHasSeenAllRequiredTags) {
       childEvent = choiceBasedOnTagsEvent.eventIfPresent;
+    }
+
+    // Run the choice event
+    eventHandlers[childEvent.action](state, childEvent);
+  },
+
+  choiceBasedOnAbsenceOfTags: function (state: IState, event: IEvent): void {
+    const choiceBasedOnAbsenceOfTagsEvent =
+      event as IEventChoiceBasedOnAbsenceOfTags;
+    const tagsUserHasSeen = store.state.user.tags;
+    const tagsUserIsRequiredToNotHaveSeen =
+      choiceBasedOnAbsenceOfTagsEvent.tags;
+
+    const userHasSeenNoneOfTheTags = every(
+      tagsUserIsRequiredToNotHaveSeen.map((tagToCheckFor) => {
+        return !tagsUserHasSeen.includes(tagToCheckFor);
+      })
+    );
+
+    // We default to the user have seen at least one of the offending tags
+    let childEvent = choiceBasedOnAbsenceOfTagsEvent.eventIfPresent;
+
+    // And are suprised if the user has
+    if (userHasSeenNoneOfTheTags) {
+      childEvent = choiceBasedOnAbsenceOfTagsEvent.eventIfNotPresent;
     }
 
     // Run the choice event
