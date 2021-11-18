@@ -10,14 +10,6 @@
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": ["./level-1-mammon/checkin-mammon.mp3", "./level-1-mammon/checkin-mammon-b.mp3"]
-    },
-    
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./audio/southern-chamber-background.mp3",
-      "loop": true,
-      "cancelOnLeave": false,
-      "wait": 0
     }
   ]
 }

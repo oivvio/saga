@@ -14,19 +14,13 @@
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./audio/startBackground.mp3",
+      "audioFilename": "./level-global/Stems-1/fx.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     },
 
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./audio/startBackground2.mp3",
-      "loop": true,
-      "cancelOnLeave": false,
-      "wait": 3
-    },
+
 
     {
       "action": "pickRandomSample",

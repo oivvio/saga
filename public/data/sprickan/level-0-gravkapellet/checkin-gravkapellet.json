@@ -10,13 +10,6 @@
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": ["./level-0-gravkapellet/checkin-gravkapellet.mp3"]
-    },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./audio/southern-chamber-background.mp3",
-      "loop": true,
-      "cancelOnLeave": false,
-      "wait": 0
     }
   ]
 }
