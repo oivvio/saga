@@ -56,21 +56,8 @@
               "loop": true,
               "cancelOnLeave": true,
               "wait": 0
-            },
-            {
-              "action": "playBackgroundAudio",
-              "audioFilename": "./level-global/Stems-1/bass.mp3",
-              "loop": true,
-              "cancelOnLeave": true,
-              "wait": 0
-            },
-            {
-              "action": "playBackgroundAudio",
-              "audioFilename": "./level-global/Stems-1/string.mp3",
-              "loop": true,
-              "cancelOnLeave": true,
-              "wait": 0
             }
+            
               
     }
     

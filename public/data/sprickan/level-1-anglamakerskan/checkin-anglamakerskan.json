@@ -2,6 +2,8 @@
   "id": "checkin-anglamakerskan",
   "type": "story",
   "description": "Checking in at anglamakerskan",
+  "tags": ["anglamakerskan"],
+
   "opens": [],
  
   "events": [
