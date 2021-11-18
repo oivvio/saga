@@ -1,0 +1,48 @@
+{
+  "id": "qr-assemble",
+  "type": "story",
+  "description": "You assembled the ring",
+  "opens": [],
+  "tags": ["ringen"],
+
+  
+    "events": [
+      {
+        "action": "choiceBasedOnTags",
+        "tags": ["mammon"],
+        "eventIfPresent": {
+          "action": "playAudio",
+          "wait": 0,
+          "audioFilenames": ["./level-1-mammon/qr-assemble-mammon.mp3"],
+  
+          "then": {
+            "action": "openStation",
+            "toStation": "checkin-mammon"
+          
+          }
+        },
+        "eventIfNotPresent": {
+          "action": "noop"
+        }
+      },
+      {
+        "action": "choiceBasedOnTags",
+        "tags": ["anglamakerskan"],
+        "eventIfPresent": {
+          "action": "playAudio",
+          "wait": 0,
+          "audioFilenames": ["./level-1-anglamakerskan/qr-assemble-anglamakerskan.mp3"],
+  
+          "then": {
+            "action": "openStation",
+            "toStation": "checkin-anglamakerskan"
+          
+          }
+        },
+        "eventIfNotPresent": {
+          "action": "noop"
+        }
+      }
+  
+  ]
+}
