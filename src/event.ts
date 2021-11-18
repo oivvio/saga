@@ -66,14 +66,14 @@ export interface IEventPowerNameChoice {
   action: "powerNameChoice";
   part: number; // 0 or 1
   onSuccessOpen: StationID[];
-  onSucessPlay: string;
+  onSuccessPlay: string;
   onFirstFailurePlay: string;
   onSecondFailurePlay: string;
   onSecondFailureGoTo: StationID;
   value: string;
 
   ghostOnSuccessOpen: StationID[];
-  ghostOnSucessPlay: string;
+  ghostOnSuccessPlay: string;
   ghostOnFirstFailurePlay: string;
   ghostOnSecondFailurePlay: string;
   ghostOnSecondFailureGoTo: StationID;
@@ -164,11 +164,16 @@ const _powerNameChoicePickUsersPowername = function (
   const userPickedCorrectName =
     partOfPowerNamePickBySystem == partOfPowerNamePickedByUser;
 
+  console.log("partOfPowerNamePickedBySystem: ", partOfPowerNamePickBySystem);
+  console.log("partOfPowerNamePickedByUser: ", partOfPowerNamePickedByUser);
+  console.log("userPickedCorrectName: ", userPickedCorrectName);
+
+  console.log("onSuccessPlay: ", powerNameChoiceEvent.onSuccessPlay);
   const audioEventHandler = AudioEngine.getInstance();
   if (userPickedCorrectName) {
     // play success sound
     audioEventHandler
-      .playForegroundAudio(powerNameChoiceEvent.onSucessPlay, 0)
+      .playForegroundAudio(powerNameChoiceEvent.onSuccessPlay, 0)
       .then(() => {
         // reset try count
         state.user.adHocData["attemptsAtPickingTheRightPowerName"] = 0;
@@ -243,7 +248,7 @@ const _powerNameChoicePickGhostsPowername = function (
   if (userPickedCorrectName) {
     // play success sound
     audioEventHandler
-      .playForegroundAudio(powerNameChoiceEvent.onSucessPlay, 0)
+      .playForegroundAudio(powerNameChoiceEvent.onSuccessPlay, 0)
       .then(() => {
         // reset try count
         state.user.adHocData[adHocKey] = 0;
@@ -448,14 +453,20 @@ export const eventHandlers = {
     // that is helping the player.
 
     // TODO: Unclean!
-    const userNotHasPickedTheirOwnPowerName =
-      store.state.user.adHocData["userHasSetPowerName"] == true;
 
-    if (userNotHasPickedTheirOwnPowerName) {
+    const userHasNotPickedTheirOwnPowerName =
+      store.state.user.adHocData["userHasSetPowerName"] !== true;
+
+    console.log(
+      "userHasNotPickedTheirOwnPowerName: ",
+      userHasNotPickedTheirOwnPowerName
+    );
+    if (userHasNotPickedTheirOwnPowerName) {
+      console.log("pickUsersPowerName");
       _powerNameChoicePickUsersPowername(state, event);
     } else {
+      console.log("pickGhostsPowerName");
       _powerNameChoicePickGhostsPowername(state, event);
-      console.log("TODO REMOVE");
     }
   },
 

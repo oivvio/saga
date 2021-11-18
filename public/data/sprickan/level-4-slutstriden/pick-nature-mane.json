@@ -5,15 +5,15 @@
   "opens": [],
 
   "helpAudioFilenames": [
-    "./level-4-slutstriden/help-sanna-vasen-flickan.mp3",     "./level-4-slutstriden/help-sanna-vasen-flickan.mp3"
-
+    "./level-4-slutstriden/help-sanna-vasen-flickan.mp3",
+    "./level-4-slutstriden/help-sanna-vasen-flickan.mp3"
   ],
-  "helpCost":1 ,
+  "helpCost": 1,
 
   "events": [
     {
       "action": "powerNameChoice",
-      "part": 0,
+      "part": 1,
       "onSuccessOpen": [
         "pick-emotion-ilska",
         "pick-emotion-glädje",
