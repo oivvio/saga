@@ -27,11 +27,7 @@
       "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
       "onSecondFailureGoTo": "checkin-sprickan-oppnas",
       "ghostOnSuccessOpen": [
-        "pick-emotion-ilska",
-        "pick-emotion-glädje",
-        "pick-emotion-lycka",
-        "pick-emotion-sorg",
-        "pick-emotion-vild"
+        "checkin-sprickan-stangs"
       ],
 
       "ghostOnSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",

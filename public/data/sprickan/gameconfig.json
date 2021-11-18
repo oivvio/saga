@@ -84,12 +84,12 @@
   "stations": {},
   "openStationsAtStart": ["start"],
   "globalAudioFilenames": {
-    "allHelpLeftAudioFilename": "./audio/allHelpLeft.mp3",
-    "twoHelpLeftAudioFilename": "./audio/twoHelpLeft.mp3",
-    "oneHelpLeftAudioFilename": "./audio/oneHelpLeft.mp3",
-    "noHelpLeftAudioFilename": "./audio/noHelpLeft.mp3",
-    "noHelpAtThisPointAudioFilename": "./audio/noHelpAtThisPoint.mp3",
-    "storyFallbackAudioFilename": "./audio/storyFallbackAudioFilename.mp3"
+    "allHelpLeftAudioFilename": "./level-global/No-Help.mp3",
+    "twoHelpLeftAudioFilename": "./level-global/help-global-avslut-1.mp3",
+    "oneHelpLeftAudioFilename": "./level-global/help-global-avslut-2.mp3",
+    "noHelpLeftAudioFilename": "./level-global/help-global-avslut-3.mp3",
+    "noHelpAtThisPointAudioFilename": "./level-global/auto-continuation-global.mp3",
+    "storyFallbackAudioFilename": "./level-global/global-checkin-b.mp3"
   },
 
   "audioFileUrlBase": "data/sprickan/"
