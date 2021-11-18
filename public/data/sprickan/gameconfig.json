@@ -1,6 +1,6 @@
 {
   "name": "sprickan",
-  "baseUrl": "https://kulturhusetstadsteatern.se/sprickan",
+  "baseUrl": "https://sprickan.kulturhusetstadsteatern.se",
 
   "sentryOptions": {
     "dns": "FIXME",
