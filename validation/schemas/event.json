@@ -31,6 +31,10 @@
           "$ref": "#/definitions/IEventChoiceBasedOnTags"
         },
         {
+          "$ref": "#/definitions/IEventChoiceBasedOnAbsenceOfTags"
+        },
+
+        {
           "$ref": "#/definitions/IEventSetAdHocDataEvent"
         },
         {
@@ -62,11 +66,36 @@
       "required": ["action", "name"],
       "type": "object"
     },
+
     "IEventChoiceBasedOnTags": {
       "additionalProperties": false,
       "properties": {
         "action": {
           "const": "choiceBasedOnTags",
+          "type": "string"
+        },
+        "eventIfNotPresent": {
+          "$ref": "#/definitions/IEvent"
+        },
+        "eventIfPresent": {
+          "$ref": "#/definitions/IEvent"
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": ["action", "tags", "eventIfPresent", "eventIfNotPresent"],
+      "type": "object"
+    },
+
+    "IEventChoiceBasedOnAbsenceOfTags": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "choiceBasedOnAbsenceOfTags",
           "type": "string"
         },
         "eventIfNotPresent": {
