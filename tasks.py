@@ -245,18 +245,17 @@ def cartesian_product(ctx, lst1, lst2):
 
 
 @task
-def graph(ctx, filename, output="/tmp/gamegraph.gv"):
+def graph(ctx, filename, output="Desktop/gamegraph.gv", format="png"):
     """Create a graphviz png graph from a gameconfig"""
     preflight_checklist()
     game_data = load_complete_game(filename)
 
-    dot = graphviz.Digraph(comment=game_data["name"], format="png")
+    dot = graphviz.Digraph(comment=game_data["name"], format=format)
 
     stations = game_data["stations"]
+
     # add a node for each station
-    #
     def add_edge(src_station, dst_station):
-        # print(f"{src_station} -> {dst_station}")
         dot.edge(src_station, dst_station)
 
     def handle_event(station, event):
@@ -277,7 +276,6 @@ def graph(ctx, filename, output="/tmp/gamegraph.gv"):
             handle_event(station, event["eventIfNotPresent"])
 
         if event["action"] == "powerNameChoice":
-            print("POWER NAME CHOICE")
             for to_station in event["onSuccessOpen"]:
                 add_edge(station_id, to_station)
             for to_station in event["ghostOnSuccessOpen"]:
@@ -323,10 +321,8 @@ def graph(ctx, filename, output="/tmp/gamegraph.gv"):
         dot.node(station["id"], station["id"])
 
     for station_id, station in game_data["stations"].items():
-        # print("=" * 100)
-        # print(station_id)
         handle_station(station)
 
-    # print(dot.source)
-    # exit()
+    output = Path(Path.home(), output)
+    print(f"Your graph file is at {output}.{format}")
     dot.render(output)
