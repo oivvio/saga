@@ -25,6 +25,10 @@
           "$ref": "#/definitions/IEventGoToStation"
         },
         {
+          "$ref": "#/definitions/IEventOpenStation"
+        },
+
+        {
           "$ref": "#/definitions/IEventPushToAdHocArrayEvent"
         },
         {
@@ -201,6 +205,25 @@
       "required": ["action", "toStation"],
       "type": "object"
     },
+
+    "IEventOpenStation": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "openStation",
+          "type": "string"
+        },
+        "toStation": {
+          "$ref": "#/definitions/StationID"
+        },
+        "then": {
+          "$ref": "#/definitions/IEvent"
+        }
+      },
+      "required": ["action", "toStation"],
+      "type": "object"
+    },
+
     "IEventPickRandomSample": {
       "additionalProperties": false,
       "properties": {

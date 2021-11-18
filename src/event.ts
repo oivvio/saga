@@ -60,6 +60,7 @@ export interface IEventPlayBackgroundAudio {
   wait: number;
   cancelOnLeave: boolean;
   loop: boolean;
+  then?: IEvent;
 }
 
 export interface IEventPowerNameChoice {
@@ -81,6 +82,11 @@ export interface IEventPowerNameChoice {
 
 export interface IEventGoToStation {
   action: "goToStation";
+  toStation: StationID;
+}
+
+export interface IEventOpenStation {
+  action: "openStation";
   toStation: StationID;
 }
 
@@ -135,6 +141,7 @@ export type IEvent =
   | IEventPlayBackgroundAudio
   | IEventPickRandomSample
   | IEventGoToStation
+  | IEventOpenStation
   | IEventPushToAdHocArrayEvent
   | IEventChoiceBasedOnTags
   | IEventChoiceBasedOnAbsenceOfTags
@@ -164,11 +171,6 @@ const _powerNameChoicePickUsersPowername = function (
   const userPickedCorrectName =
     partOfPowerNamePickBySystem == partOfPowerNamePickedByUser;
 
-  console.log("partOfPowerNamePickedBySystem: ", partOfPowerNamePickBySystem);
-  console.log("partOfPowerNamePickedByUser: ", partOfPowerNamePickedByUser);
-  console.log("userPickedCorrectName: ", userPickedCorrectName);
-
-  console.log("onSuccessPlay: ", powerNameChoiceEvent.onSuccessPlay);
   const audioEventHandler = AudioEngine.getInstance();
   if (userPickedCorrectName) {
     // play success sound
@@ -336,10 +338,15 @@ export const eventHandlers = {
     }
   },
 
-  playBackgroundAudio: function (_: IState, event: IEvent): void {
+  playBackgroundAudio: function (state: IState, event: IEvent): void {
     const playBackgroundAudioEvent = event as IEventPlayBackgroundAudio;
     const audioEventHandler = AudioEngine.getInstance();
     audioEventHandler.handlePlayBackgroundAudioEvent(playBackgroundAudioEvent);
+
+    if (playBackgroundAudioEvent.then !== undefined) {
+      const childEvent = playBackgroundAudioEvent.then;
+      eventHandlers[childEvent.action](state, childEvent);
+    }
   },
 
   goToStation: function (_: IState, event: IEvent): void {
@@ -348,6 +355,12 @@ export const eventHandlers = {
     store.commit(Mutations.updateOpenStations, [goToStationEvent.toStation]);
 
     runStationById(goToStationEvent.toStation);
+  },
+
+  openStation: function (_: IState, event: IEvent): void {
+    const openStationEvent = event as IEventOpenStation;
+
+    store.commit(Mutations.updateOpenStations, [openStationEvent.toStation]);
   },
 
   choiceBasedOnTags: function (state: IState, event: IEvent): void {
