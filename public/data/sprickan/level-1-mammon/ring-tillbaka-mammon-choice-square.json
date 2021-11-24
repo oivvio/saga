@@ -49,9 +49,18 @@
           "then": {
             "action": "playAudio",
             "wait": 0,
-            "audioFilenames": ["./level-1-mammon/continuation-mammon.mp3"]
-
+            "audioFilenames": ["./level-1-mammon/continuation-mammon.mp3"],
+            "then": {  
+              "action": "playBackgroundAudio",
+              "audioFilename": "./level-global/Stems-1/fx.mp3",
+              "loop": true,
+              "cancelOnLeave": true,
+              "wait": 0
+            }
+            
+              
     }
+    
   }
 }
   ]
