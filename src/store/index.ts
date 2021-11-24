@@ -183,6 +183,12 @@ export const store = createStore({
       const urlParams = new URLSearchParams(window.location.search);
       const configUrl = urlParams.get("configUrl");
 
+      const resetGame = urlParams.get("reset") === "yes";
+      if (resetGame) {
+        console.log("RESETTING ALL GAME DATA");
+        store.commit(Mutations.wipeHistory);
+      }
+
       state.debugDisplayDevBox = urlParams.get("displayDevBox") === "yes";
       state.debugQuickAudio = urlParams.get("quickAudio") === "yes";
 
