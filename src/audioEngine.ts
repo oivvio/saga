@@ -74,6 +74,7 @@ export class AudioEngine {
     //1. Check that no other main audio is playing
     //
 
+    console.log(`enter playForegroundAudio: ${audioFilename}`);
     const promise = new Promise<boolean>((resolve, reject) => {
       if (store.state.audio.foreground.isPlaying) {
         // TODO log error
@@ -87,6 +88,7 @@ export class AudioEngine {
       }
 
       // setup the sound
+      //
       this.foregroundSound = new Howl({
         src: [this.getAudioPath(audioFilenameToActuallyPlay)],
       });
@@ -104,7 +106,7 @@ export class AudioEngine {
         store.commit(Mutations.setCurrentAudioFilename, null);
         store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
         this.unduckBackgroundAudio();
-        this.foregroundSound?.unload();
+        // this.foregroundSound?.unload();
         resolve(true);
       });
 
@@ -153,7 +155,7 @@ export class AudioEngine {
         store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
 
         this.unduckBackgroundAudio();
-        this.foregroundSound?.unload();
+        // this.foregroundSound?.unload();
 
         // Remove the first element an run again.
         audioFilenames.shift();
@@ -186,7 +188,7 @@ export class AudioEngine {
     // Kill them
     bgSoundsToCancel.forEach((bgSound) => {
       bgSound.sound.stop();
-      bgSound.sound.unload();
+      // bgSound.sound.unload();
     });
 
     // And update our list of current background sounds
@@ -212,7 +214,7 @@ export class AudioEngine {
     // If this is not a looping sound unload it when it ends.
     if (!event.loop) {
       backgroundSound.once("end", () => {
-        backgroundSound.unload();
+        // backgroundSound.unload();
 
         // And remove it from our list of backgroundSounds
         this.backgroundSounds = this.backgroundSounds.filter(

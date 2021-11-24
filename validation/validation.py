@@ -145,7 +145,6 @@ def deep_validation_of_event(station, event, filename):
     # Check for existance of main audio
     if event["action"] == "playAudio":
         for audiofile_base in event["audioFilenames"]:
-
             audiofile_path = Path(filename).parent.joinpath(audiofile_base)
 
             if not audiofile_path.exists():
@@ -159,11 +158,25 @@ def deep_validation_of_event(station, event, filename):
         audiofile_path = Path(filename).parent.joinpath(audiofile_base)
 
         if not audiofile_path.exists():
-            # station_id = station["id"]
-            # station_filepath = station["filePath"]
             print(
                 f"[004] The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
             )
+
+    # Check for existance of audioFiles specific to powerNameChoice
+    if event["action"] == "powerNameChoice":
+        for audiofile_base in [
+            event["onSuccessPlay"],
+            event["onFirstFailurePlay"],
+            event["onSecondFailurePlay"],
+            event["ghostOnSuccessPlay"],
+            event["ghostOnFirstFailurePlay"],
+            event["ghostOnSecondFailurePlay"],
+        ]:
+            audiofile_path = Path(filename).parent.joinpath(audiofile_base)
+            if not audiofile_path.exists():
+                print(
+                    f"[011] The audiofile '{audiofile_base}' referenced from station '{station_id}' defined in {station_filepath}, does not exist."
+                )
 
     # Check that this files exist
     if event["action"] == "playAudioBasedOnAdHocValue":

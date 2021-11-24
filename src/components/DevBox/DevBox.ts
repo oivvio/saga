@@ -14,6 +14,10 @@ export default defineComponent({
   methods: {
     wipeHistory() {
       this.$store.commit(Mutations.wipeHistory);
+      // Reload the page after a short wait.
+      setTimeout(() => {
+        location.reload();
+      }, 200);
     },
     runStationOnButtonPress(stationId: StationID, forceRun: boolean) {
       // If forceRun==true, open stationId and close all others before running.

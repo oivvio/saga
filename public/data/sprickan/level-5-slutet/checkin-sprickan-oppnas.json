@@ -7,9 +7,7 @@
     "./audio/unreachable-help1.mp3",
     "./audio/unreachable-help2.mp3"
   ],
-  "helpCost":0 ,
-
-
+  "helpCost": 0,
 
   "events": [
     {
@@ -22,22 +20,14 @@
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": ["./level-5-slutet/continuation-sprickan-oppnas.mp3"],
+
       "then": {
         "action": "playAudio",
         "wait": 0,
         "audioFilenames": [
-          "./level-5-slutet/contiuation-sprickan-oppnas-trost.mp3"],
-    
-      "action": "playBackgroundAudio",
-      "audioFilename": "./audio/southern-chamber-background.mp3",
-      "loop": true,
-      "cancelOnLeave": false,
-      "wait": 0
+          "./level-5-slutet/contiuation-sprickan-oppnas-trost.mp3"
+        ]
+      }
     }
-    
-
+  ]
 }
-]
-}
-
-  

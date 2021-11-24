@@ -141,14 +141,14 @@
           <td
             style="
                {
-                width: 100px;
+                width: 200px;
                 display: block;
               }
             "
           >
             <qrcode-vue
               :value="this.getFullUrl(station.id)"
-              :size="100"
+              :size="400"
               level="H"
               v-if="this.stationIdsToDisplayQRcodeFor.includes(station.id)"
             />
@@ -177,5 +177,10 @@ div.DevBox {
 
 td {
   border: 1px solid black;
+
+  canvas {
+    width: 200px !important;
+    height: 200px !important;
+  }
 }
 </style>

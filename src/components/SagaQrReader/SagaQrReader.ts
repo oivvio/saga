@@ -42,14 +42,16 @@ const Component = defineComponent({
     // This will set the scan region to the entire screen.
     // This actually works better than trying to get the actual size
     // of the video element.
+
     const getScanregion = function () {
+      const scaleFactor = 4;
       const result = {
         x: 0,
         y: 0,
         width: window.innerWidth,
         height: window.innerHeight,
-        downScaledWidth: window.innerWidth / 2,
-        downScaledHeight: window.innerHeight / 2,
+        downScaledWidth: window.innerWidth / scaleFactor,
+        downScaledHeight: window.innerHeight / scaleFactor,
       };
       return result;
     };
@@ -66,6 +68,17 @@ const Component = defineComponent({
 
     // Start the scanner
     qrScanner.start();
+
+    // const qrstart = function (qrs: QrScanner) {
+    //   qrs.start();
+    // };
+
+    // const qrstop = function (qrs: QrScanner) {
+    //   qrs.stop();
+    //   setTimeout(qrstart.bind(null, qrs), 10000);
+    // };
+
+    // setTimeout(qrstop.bind(null, qrScanner), 10000);
 
     // capture these methods so we can use them in the rx pipeline
     const qrCodeIsValid = this.qrCodeIsValid;
