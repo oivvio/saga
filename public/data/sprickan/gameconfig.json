@@ -26,13 +26,11 @@
     "./level-0-barngravarna/checkin-barngravarna-choice-circle.json",
 
     "./level-1-anglamakerskan/checkin-anglamakerskan.json",
-    "./level-1-anglamakerskan/ring-tillbaka-anglamakerskan.json",
     "./level-1-anglamakerskan/ring-tillbaka-anglamakerskan-choice-circle.json",
     "./level-1-anglamakerskan/ring-tillbaka-anglamakerskan-choice-square.json",
 
     "./level-1-mammon/checkin-mammon.json",
     "./level-1-mammon/qr-assemble.json",
-    "./level-1-mammon/ring-tillbaka-mammon.json",
     "./level-1-mammon/ring-tillbaka-mammon-choice-circle.json",
     "./level-1-mammon/ring-tillbaka-mammon-choice-square.json",
 

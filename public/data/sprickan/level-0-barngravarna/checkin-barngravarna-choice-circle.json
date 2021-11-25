@@ -23,7 +23,7 @@
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/string.mp3",
+      "audioFilename": "./level-global/Stems-1/strings.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0

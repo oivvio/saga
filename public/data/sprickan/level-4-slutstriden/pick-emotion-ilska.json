@@ -22,7 +22,7 @@
       ],
 
       "onSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
-      "onFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "onFirstFailurePlay": "./level-4-slutstriden/checkin-fel-vasen.mp3",
       "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
       "onSecondFailureGoTo": "checkin-sprickan-oppnas",
       "ghostOnSuccessOpen": [
