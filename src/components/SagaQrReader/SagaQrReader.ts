@@ -5,8 +5,7 @@ import { defineComponent } from "vue";
 import { Subject } from "rxjs";
 import { distinctUntilKeyChanged, filter, tap } from "rxjs/operators";
 
-import QrScanner from "qr-scanner";
-
+import { Html5QrcodeSupportedFormats, Html5Qrcode } from "html5-qrcode";
 import { store, Mutations } from "../../store";
 import { getLastUrlSegment } from "../../utils";
 
@@ -16,10 +15,6 @@ interface IDecodeSubjectValue {
   codeContent: string;
 }
 
-// Bundling as a blob with webpack didn't work so we get the worker code separately
-QrScanner.WORKER_PATH = "js/vendor/qr-scanner-worker.min.js";
-
-// export default defineComponent({
 const Component = defineComponent({
   name: "SagaQrReader",
 
@@ -34,51 +29,36 @@ const Component = defineComponent({
 
   // Most setup happens here where we have access to this
   mounted() {
-    // Get the video element
-    const videoElement = <HTMLVideoElement>document.getElementById("qrvideo");
+    // function onScanFailure(error: string) {
+    //   console.warn(`Code scan error = ${error}`);
+    // }
 
-    // Setup the scanner
+    const html5QrCode = new Html5Qrcode("reader", {
+      formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+      verbose: false,
+    });
 
-    // This will set the scan region to the entire screen.
-    // This actually works better than trying to get the actual size
-    // of the video element.
-
-    const getScanregion = function () {
-      const scaleFactor = 4;
-      const result = {
-        x: 0,
-        y: 0,
-        width: window.innerWidth,
-        height: window.innerHeight,
-        downScaledWidth: window.innerWidth / scaleFactor,
-        downScaledHeight: window.innerHeight / scaleFactor,
-      };
-      return result;
+    const qrCodeSuccessCallback = (decodedText: string) => {
+      const codeContent = decodedText;
+      this.onDecodeSubject.next({ codeContent });
     };
 
-    let qrScanner: QrScanner | null = new QrScanner(
-      videoElement,
+    const qrCodeErrorCallback = () => {
+      //  Do nothing on qrErrors
+    };
 
-      (codeContent) => {
-        this.onDecodeSubject.next({ codeContent });
-      },
-      undefined,
-      getScanregion
+    const qrConfig = {
+      fps: 10,
+      qrbox: { width: 250, height: 250 },
+      disableFlip: true,
+    };
+
+    html5QrCode.start(
+      { facingMode: "environment" },
+      qrConfig,
+      qrCodeSuccessCallback,
+      qrCodeErrorCallback
     );
-
-    // Start the scanner
-    qrScanner.start();
-
-    // const qrstart = function (qrs: QrScanner) {
-    //   qrs.start();
-    // };
-
-    // const qrstop = function (qrs: QrScanner) {
-    //   qrs.stop();
-    //   setTimeout(qrstart.bind(null, qrs), 10000);
-    // };
-
-    // setTimeout(qrstop.bind(null, qrScanner), 10000);
 
     // capture these methods so we can use them in the rx pipeline
     const qrCodeIsValid = this.qrCodeIsValid;
@@ -108,9 +88,6 @@ const Component = defineComponent({
       // process what is left
       .subscribe({
         next: (value: IDecodeSubjectValue) => {
-          // make the scanRegion marker green
-          // value.canvas.style.backgroundColor = "green";
-
           // Hide the QR reader
           store.commit(Mutations.hideQRScanner);
 
@@ -122,11 +99,6 @@ const Component = defineComponent({
 
           // feed the stationId to our engine
           if (stationId) {
-            // remove the video/qrScanner
-            if (qrScanner !== null) {
-              qrScanner.destroy();
-              qrScanner = null;
-            }
             runStationById(stationId);
           }
         },
@@ -170,7 +142,7 @@ const Component = defineComponent({
     },
 
     // Pass content of scanned qrcode.
-    // Returns true if qrcode expresss valid stationId in current game
+    // Returns true if qrcode expresss lid stationId in current game
     qrCodeIsValid(codeContent: string): boolean {
       // Basic assumption is that qr code is not valid
       let result = false;
