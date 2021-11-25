@@ -12,6 +12,7 @@
 
   "events": [
     {
+      
       "action": "powerNameChoice",
       "part": 0,
       "onSuccessOpen": [
@@ -21,7 +22,9 @@
         "pick-nature-sol",
         "pick-nature-vind"
       ],
-
+      "action": "choiceBasedOnTags",
+      "tags": [],
+      "eventIfPresent": {
       "onSuccessPlay": "./level-4-slutstriden/andra-del-inre-vasen.mp3",
       "onFirstFailurePlay": "./level-4-slutstriden/fel-forsta-del-inre-vasen.mp3",
       "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
@@ -33,6 +36,10 @@
         "pick-nature-sol",
         "pick-nature-vind"
       ],
+      
+      "action": "choiceBasedOnTags",
+      "tags": ["sanna-vasen"],
+      "eventIfPresent": {
 
       "ghostOnSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
       "ghostOnFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",

@@ -21,15 +21,19 @@
         "pick-emotion-sorg",
         "pick-emotion-vild"
       ],
-
-      "onSuccessPlay": "./level-4-slutstriden/checkin-sanna-vasen.mp3",
+      "action": "choiceBasedOnTags",
+      "tags": [],
+      "eventIfPresent": {
+      "onSuccessGoTo": "checkin-sanna-vasen",
       "onFirstFailurePlay": "./level-4-slutstriden/checkin-fel-vasen.mp3",
       "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
       "onSecondFailureGoTo": "checkin-sprickan-oppnas",
       "ghostOnSuccessOpen": [
         "checkin-sprickan-stangs"
       ],
-
+      "action": "choiceBasedOnTags",
+      "tags": ["sanna-vasen"],
+      "eventIfPresent": {
       "ghostOnSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
       "ghostOnFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
       "ghostOnSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
