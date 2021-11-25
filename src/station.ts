@@ -51,6 +51,7 @@ export interface IGameConfig {
     noHelpAtThisPointAudioFilename: string;
     globalHelpAudioFilename: string;
     storyFallbackAudioFilename: string;
+    helpPreroll: string;
   };
 }
 
@@ -315,10 +316,19 @@ function handleHelpClosed(currentStation: Station) {
 
     if (helpLeftAudioFile) {
       if (playInstructions.audioFilename !== helpLeftAudioFile) {
-        audioEngine.playMultipleForegroundAudio([
-          playInstructions.audioFilename,
-          helpLeftAudioFile,
-        ]);
+        const audioFiles = [playInstructions.audioFilename, helpLeftAudioFile];
+
+        // If this is not a free play we need to tell the player by prepending a global preroll
+        if (playInstructions.decreaseHelpAvailable !== 0) {
+          audioFiles.unshift(
+            store.state.gameConfig?.globalAudioFilenames.helpPreroll as string
+          );
+        }
+
+        // playInstructions.audioFilename,
+        // helpLeftAudioFile,
+
+        audioEngine.playMultipleForegroundAudio(audioFiles);
       } else {
         // There's an edge case where playInstructions.audioFilename === helpAudioFile
         // this makes sure we catch that and don't play the same file twice back to back.

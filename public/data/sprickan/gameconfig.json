@@ -86,7 +86,8 @@
     "oneHelpLeftAudioFilename": "./level-global/help-global-avslut-2.mp3",
     "noHelpLeftAudioFilename": "./level-global/help-global-avslut-3.mp3",
     "noHelpAtThisPointAudioFilename": "./level-global/auto-continuation-global.mp3",
-    "storyFallbackAudioFilename": "./level-global/global-checkin-b.mp3"
+    "storyFallbackAudioFilename": "./level-global/global-checkin-b.mp3",
+    "helpPreroll": "./level-global/help-preroll.mp3"
   },
 
   "audioFileUrlBase": "data/sprickan/"

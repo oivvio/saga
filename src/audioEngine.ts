@@ -4,13 +4,16 @@ import { IEventPlayAudio, IEventPlayBackgroundAudio } from "./event";
 import { Mutations, store } from "./store";
 import { joinPaths } from "./utils";
 
+// declare function unmute(): void;
+// import { unmute } from "./vendor/unmute";
+
 // Howler.autoUnlock = true;
 
 // https://refactoring.guru/design-patterns/singleton/typescript/example
 export class AudioEngine {
   private static instance: AudioEngine;
-  private static bgDuckedVolume = 0.003; // TODO set to 0.3
-  private static bgFullVolume = 0.003; // TODO set to 1
+  private static bgDuckedVolume = 0.3; // TODO set to 0.3
+  private static bgFullVolume = 1; // TODO set to 1
   private static bgFadeInDuration = 2000;
   private static bgFadeOutDuration = 2000;
   private foregroundSound: Howl | undefined;
@@ -58,6 +61,14 @@ export class AudioEngine {
   // always return the same instance
   public static getInstance(): AudioEngine {
     if (!AudioEngine.instance) {
+      // Enables web audio in iOS when mute switch is on.
+      // unmute();
+      //const context: AudioContext = new (window.AudioContext ||
+      //  (window as any).webkitAudioContext)();
+
+      // debugger;
+      // unmute(context);
+
       AudioEngine.instance = new AudioEngine();
     }
     return AudioEngine.instance;

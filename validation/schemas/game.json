@@ -64,7 +64,8 @@
         "oneHelpLeftAudioFilename": { "type": "string" },
         "noHelpLeftAudioFilename": { "type": "string" },
         "noHelpAtThisPointAudioFilename": { "type": "string" },
-        "storyFallbackAudioFilename": { "type": "string" }
+        "storyFallbackAudioFilename": { "type": "string" },
+        "helpPreroll": { "type": "string" }
       },
 
       "required": [
