@@ -79,7 +79,7 @@
   "choiceInfix": "-choice-",
   "choiceNames": ["circle", "square"],
   "stations": {},
-  "openStationsAtStart": ["start"],
+  "openStationsAtStart": ["help"],
   "globalAudioFilenames": {
     "allHelpLeftAudioFilename": "./level-global/No-Help.mp3",
     "twoHelpLeftAudioFilename": "./level-global/help-global-avslut-1.mp3",
