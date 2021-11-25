@@ -14,21 +14,12 @@
     {
       "action": "powerNameChoice",
       "part": 1,
-      "onSuccessOpen": [
-        "pick-emotion-ilska",
-        "pick-emotion-gladje",
-        "pick-emotion-lycka",
-        "pick-emotion-sorg",
-        "pick-emotion-vild"
-      ],
-
+      "onSuccessOpen": ["checkin-sanna-vasen"],
       "onSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
       "onFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
       "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
       "onSecondFailureGoTo": "checkin-sprickan-oppnas",
-      "ghostOnSuccessOpen": [
-        "checkin-sprickan-stangs"
-      ],
+      "ghostOnSuccessOpen": ["checkin-sprickan-stangs"],
 
       "ghostOnSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
       "ghostOnFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",

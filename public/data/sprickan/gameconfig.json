@@ -57,6 +57,7 @@
     "./level-4-damonhunden/qr-assemble-damonhund.json",
 
     "./level-4-slutstriden/checkin-slutstriden.json",
+    "./level-4-slutstriden/checkin-sanna-vasen.json",
     "./level-4-slutstriden/pick-emotion-gladje.json",
     "./level-4-slutstriden/pick-emotion-ilska.json",
     "./level-4-slutstriden/pick-emotion-lycka.json",
@@ -76,7 +77,6 @@
     "./level-5-slutet/checkin-sprickan-stangs.json"
   ],
   "choiceInfix": "-choice-",
-
   "choiceNames": ["circle", "square"],
   "stations": {},
   "openStationsAtStart": ["start"],

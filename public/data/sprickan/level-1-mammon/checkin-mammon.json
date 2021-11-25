@@ -10,21 +10,16 @@
       "action": "choiceBasedOnTags",
       "tags": ["ringen"],
       "eventIfPresent": {
-        
-          "action": "playAudio",
-          "wait": 0,
-          "audioFilenames": ["./level-1-mammon/ring-tillbaka-till-mammon.mp3"],
-    
-      
-    
-          
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./level-1-mammon/ring-tillbaka-till-mammon.mp3"],
 
-            "then": {
-              "action": "openStation",
-              "toStation": ["ring-tillbaka-mammon-choice-circle, ring-tillbaka-mammon-choice-square"]
-            }
-          
-        
+        "then": {
+          "action": "openStations",
+          "toStations": [
+            "ring-tillbaka-mammon-choice-circle, ring-tillbaka-mammon-choice-square"
+          ]
+        }
       },
       "eventIfNotPresent": {
         "action": "playAudio",

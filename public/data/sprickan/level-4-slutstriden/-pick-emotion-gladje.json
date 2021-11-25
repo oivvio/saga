@@ -41,12 +41,12 @@
       "tags": ["sanna-vasen"],
       "eventIfPresent": {
 
-      "ghostOnSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
+      "ghostOnSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername-slask.mp3",
       "ghostOnFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
       "ghostOnSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
       "ghostOnSecondFailureGoTo": "checkin-sprickan-oppnas",
 
       "value": "gladje"
-    }
+      }
   ]
 }

@@ -10,8 +10,6 @@
     "pick-emotion-vild"
   ],
 
-  "tags": ["sanna-vasen"],
-
   "events": [
     {
       "action": "playAudioBasedOnAdHocValue",
@@ -42,7 +40,6 @@
         "vild,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-vildmane.mp3",
         "vild,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-vildregn.mp3"
       },
-
       "then": {
         "action": "playAudio",
         "wait": 0,

@@ -93,6 +93,10 @@ export interface IEventOpenStation {
   toStation: StationID;
 }
 
+export interface IEventOpenStations {
+  action: "openStations";
+  toStations: StationID[];
+}
 export interface IEventCancelTimer {
   action: "cancelTimer";
   timerName: string;
@@ -145,6 +149,7 @@ export type IEvent =
   | IEventPickRandomSample
   | IEventGoToStation
   | IEventOpenStation
+  | IEventOpenStations
   | IEventPushToAdHocArrayEvent
   | IEventChoiceBasedOnTags
   | IEventChoiceBasedOnAbsenceOfTags
@@ -222,6 +227,12 @@ export const eventHandlers = {
     const openStationEvent = event as IEventOpenStation;
 
     store.commit(Mutations.updateOpenStations, [openStationEvent.toStation]);
+  },
+
+  openStations: function (_: IState, event: IEvent): void {
+    const openStationsEvent = event as IEventOpenStations;
+
+    store.commit(Mutations.updateOpenStations, openStationsEvent.toStations);
   },
 
   choiceBasedOnTags: function (state: IState, event: IEvent): void {

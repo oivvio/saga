@@ -40,6 +40,10 @@ export const _powerNameChoicePickUsersPowername = function (
         if (powerNameChoiceEvent.part == 1) {
           // TODO: Unclean!
           state.user.adHocData["userHasSetPowerName"] = true;
+
+          // And push the user to checkin-sanna-vasen
+          //           powerNameChoiceEvent.onSuccessOpen[0]
+          runStationById(powerNameChoiceEvent.onSuccessOpen[0]);
         }
         // No more action needed. New stations are open.
       });

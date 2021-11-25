@@ -266,6 +266,10 @@ def graph(ctx, filename, output="Desktop/gamegraph.gv", format="png"):
             to_station = event["toStation"]
             add_edge(station_id, to_station)
 
+        if event["action"] == "openStations":
+            for to_station in event["toStations"]:
+                add_edge(station_id, to_station)
+
         if event["action"] == "switchGotoStation":
             for switch in event["switch"]:
                 to_station = switch["parameters"]["toStation"]

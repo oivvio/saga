@@ -27,6 +27,9 @@
         {
           "$ref": "#/definitions/IEventOpenStation"
         },
+        {
+          "$ref": "#/definitions/IEventOpenStations"
+        },
 
         {
           "$ref": "#/definitions/IEventPushToAdHocArrayEvent"
@@ -221,6 +224,24 @@
         }
       },
       "required": ["action", "toStation"],
+      "type": "object"
+    },
+
+    "IEventOpenStations": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "openStations",
+          "type": "string"
+        },
+        "toStations": {
+          "items": {
+            "$ref": "#/definitions/StationID"
+          },
+          "type": "array"
+        }
+      },
+      "required": ["action", "toStations"],
       "type": "object"
     },
 

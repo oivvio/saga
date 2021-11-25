@@ -14,6 +14,8 @@
     {
       "action": "powerNameChoice",
       "part": 1,
+      "onSuccessOpen": ["checkin-sanna-vasen"],
+
       "onSuccessOpen": [
         "pick-emotion-ilska",
         "pick-emotion-gladje",
@@ -26,9 +28,7 @@
       "onFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
       "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
       "onSecondFailureGoTo": "checkin-sprickan-oppnas",
-      "ghostOnSuccessOpen": [
-        "checkin-sprickan-stangs"
-      ],
+      "ghostOnSuccessOpen": ["checkin-sprickan-stangs"],
 
       "ghostOnSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
       "ghostOnFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
