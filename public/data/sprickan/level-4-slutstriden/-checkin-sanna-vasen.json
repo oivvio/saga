@@ -1,0 +1,57 @@
+{
+  "id": "checkin-sanna-vasen",
+  "type": "story",
+  "description": "Du kan ditt sanna vasen",
+  "opens": ["pick-emotion-gladje", "pick-emotion-ilska","pick-emotion-lycka","pick-emotion-sorg","pick-emotion-vild"],
+
+  "tags": ["sanna-vasen"],
+ 
+  "events": [
+    {
+      
+        "action": "playAudioBasedOnAdHocValue",
+        "key": "powerName",
+        "audioFilenameMap": {
+          "gladje,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-gladjesol.mp3",
+          "gladje,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-gladjevind.mp3",
+          "gladje,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-gladjesno.mp3",
+          "gladje,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-gladjemane.mp3",
+          "gladje,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-gladjeregn.mp3",
+          "ilska,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-ilskensol.mp3",
+          "ilska,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-ilskenvind.mp3",
+          "ilska,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-ilskensno.mp3",
+          "ilska,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-ilskenmane.mp3",
+          "ilska,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-ilskenregn.mp3",
+          "lycka,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-lyckosol.mp3",
+          "lycka,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-lyckovind.mp3",
+          "lycka,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-lyckosno.mp3",
+          "lycka,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-lyckomane.mp3",
+          "lycka,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-lyckoregn.mp3",
+          "sorg,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-sorgesol.mp3",
+          "sorg,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-sorgevind.mp3",
+          "sorg,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-sorgesno.mp3",
+          "sorg,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-sorgeregn.mp3",
+          "vild,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-vildsol.mp3",
+          "vild,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-vildvind.mp3",
+          "vild,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-vildsno.mp3",
+          "vild,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-vildmane.mp3",
+          "vild,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-vildregn.mp3"
+          
+          },
+    
+              "then": {
+                "action": "playAudio",
+                "wait": 0,
+                "audioFilenames": [
+                  "./level-4-slutstriden/continuation-sanna-vasen-namn-vildregn.mp3"]
+
+               
+            }
+          }
+        
+      
+     
+    
+    
+  ]
+}

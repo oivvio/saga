@@ -1,0 +1,45 @@
+{
+  "id": "pick-nature-mane",
+  "type": "story",
+  "description": "picking first part of power name",
+  "opens": [],
+
+  "helpAudioFilenames": [
+    "./level-4-slutstriden/help-sanna-vasen-flickan.mp3",
+    "./level-4-slutstriden/help-sanna-vasen-flickan.mp3"
+  ],
+  "helpCost": 1,
+
+  "events": [
+    {
+      "action": "powerNameChoice",
+      "part": 1,
+      "onSuccessOpen": [
+        "pick-emotion-ilska",
+        "pick-emotion-gladje",
+        "pick-emotion-lycka",
+        "pick-emotion-sorg",
+        "pick-emotion-vild"
+      ],
+      "action": "choiceBasedOnTags",
+      "tags": [],
+      "eventIfPresent": {
+      "onSuccessGoTo": "checkin-sanna-vasen",
+      "onFirstFailurePlay": "./level-4-slutstriden/checkin-fel-vasen.mp3",
+      "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "onSecondFailureGoTo": "checkin-sprickan-oppnas",
+      "ghostOnSuccessOpen": [
+        "checkin-sprickan-stangs"
+      ],
+      "action": "choiceBasedOnTags",
+      "tags": ["sanna-vasen"],
+      "eventIfPresent": {
+      "ghostOnSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
+      "ghostOnFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "ghostOnSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "ghostOnSecondFailureGoTo": "checkin-sprickan-oppnas",
+
+      "value": "mane"
+    }
+  ]
+}
