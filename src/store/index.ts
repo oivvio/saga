@@ -105,6 +105,22 @@ const initialState: IState = {
   },
 };
 
+function urlRemoveReset(url: Location) {
+  const search = url.search
+    .split("&")
+    .map((part) => {
+      if (part.charAt(0) === "?") {
+        return part.substring(1);
+      } else {
+        return part;
+      }
+    })
+    .filter((part) => part !== "reset=yes")
+    .join("&");
+
+  return new URL(url.origin + url.pathname + "?" + search);
+}
+
 export const store = createStore({
   state: initialState,
   mutations: {
@@ -185,8 +201,9 @@ export const store = createStore({
 
       const resetGame = urlParams.get("reset") === "yes";
       if (resetGame) {
-        console.log("RESETTING ALL GAME DATA");
         store.commit(Mutations.wipeHistory);
+        const redirectUrl = urlRemoveReset(window.location);
+        window.location.replace(redirectUrl.toString());
       }
 
       state.debugDisplayDevBox = urlParams.get("displayDevBox") === "yes";
