@@ -22,8 +22,8 @@
         "pick-nature-vind"
       ],
 
-      "onSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
-      "onFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "onSuccessPlay": "./level-4-slutstriden/andra-del-inre-vasen.mp3",
+      "onFirstFailurePlay": "./level-4-slutstriden/fel-forsta-del-inre-vasen.mp3",
       "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
       "onSecondFailureGoTo": "checkin-sprickan-oppnas",
       "ghostOnSuccessOpen": [
