@@ -184,7 +184,7 @@ def generate_html_files(ctx, filename):
     """Generate index.html files for the game defined in the supplied game config. Outputs to /tmp"""
     preflight_checklist()
 
-    # We pick up index.html from the same folder where filename is located
+    # We pick up index.html from the same folder where filename of gameconfig is located
     html_template = Path(filename).parent / "index.html"
 
     game_data = load_complete_game(filename)
@@ -197,7 +197,8 @@ def generate_html_files(ctx, filename):
         station_ids.append(f"{choice_infix}{choice}")
 
     for station_id in station_ids:
-        output_dir = Path("public") / station_id
+        print("STATION: ", station_id)
+        output_dir = Path("dist") / station_id
         if not output_dir.exists():
             output_dir.mkdir(parents=True)
 
@@ -226,6 +227,17 @@ def vue_devserver(ctx, port=8080, host="0.0.0.0"):
         f"./node_modules/.bin/vue-cli-service serve --https --port {port} --host {host}"
     )
     print(cmd)
+    ctx.run(cmd, pty=True)
+
+
+@task
+def serve_distdir(ctx, port=8081, host="0.0.0.0"):
+    """Serve what is currently in the dist dir """
+
+    # Does not support https so this can't be used for
+    # playing the game
+
+    cmd = f"cd dist; ../node_modules/.bin/serve -p {port}"
     ctx.run(cmd, pty=True)
 
 

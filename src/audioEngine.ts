@@ -12,7 +12,7 @@ import { joinPaths } from "./utils";
 // https://refactoring.guru/design-patterns/singleton/typescript/example
 export class AudioEngine {
   private static instance: AudioEngine;
-  private static bgDuckedVolume = 0.3; // TODO set to 0.3
+  private static bgDuckedVolume = 0.2; // TODO set to 0.3
   private static bgFullVolume = 1; // TODO set to 1
   private static bgFadeInDuration = 2000;
   private static bgFadeOutDuration = 2000;
