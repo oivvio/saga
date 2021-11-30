@@ -13,9 +13,8 @@
 
     "./level-0-start/help.json",
     "./level-0-start/checkin-start.json",
-    "./level-0-start/checkin-fonstret.json",
-    "./level-0-start/checkin-fonstret-choice-circle.json",
-    "./level-0-start/checkin-fonstret-choice-square.json",
+    "./level-0-start/checkin-start-choice-circle.json",
+    "./level-0-start/checkin-start-choice-square.json",
 
     "./level-0-gravkapellet/checkin-gravkapellet.json",
     "./level-0-gravkapellet/checkin-gravkapellet-choice-square.json",
@@ -74,6 +73,7 @@
     "./level-4-ticking-clock/checkin-ticking-clock-lamashtu-3min.json",
 
     "./level-5-slutet/checkin-sprickan-oppnas.json",
+    "./level-5-slutet/checkin-lamashtu-flyr.json",
     "./level-5-slutet/checkin-sprickan-stangs.json"
   ],
   "choiceInfix": "-choice-",

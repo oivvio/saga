@@ -1,0 +1,35 @@
+{
+  "id": "checkin-lamashtu-flyr",
+  "type": "story",
+  "description": "lamashtu flyr men sprickan ar oppen",
+  "opens": [],
+  "helpAudioFilenames": [
+    "./audio/unreachable-help1.mp3",
+    "./audio/unreachable-help2.mp3"
+  ],
+  "helpCost": 0,
+
+  "events": [
+    {
+      "action": "setAdHocData",
+      "key": "playerWon",
+      "value": true
+    },
+
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": [
+        "./level-5-slutet/continuation-sprickan-stangs-grattis.mp3"
+      ],
+
+      "then": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": [
+          "./level-5-slutet/continuation-sprickan-stangs-spelet-slut.mp3"
+        ]
+      }
+    }
+  ]
+}
