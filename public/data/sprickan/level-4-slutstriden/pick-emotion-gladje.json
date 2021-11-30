@@ -22,9 +22,9 @@
         "pick-nature-vind"
       ],
 
-      "onSuccessPlay": "./level-4-slutstriden/andra-del-inre-vasen.mp3",
-      "onFirstFailurePlay": "./level-4-slutstriden/fel-forsta-del-inre-vasen.mp3",
-      "onSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "onSuccessPlay": "./level-4-slutstriden/andra-ordet-sanna-vasen.mp3",
+      "onFirstFailurePlay": "./level-4-slutstriden/minns-inte-sanna-vasen.mp3",
+      "onSecondFailurePlay": "./level-5-global/tystnad.mp3",
       "onSecondFailureGoTo": "checkin-sprickan-oppnas",
       "ghostOnSuccessOpen": [
         "pick-nature-mane",
@@ -34,9 +34,9 @@
         "pick-nature-vind"
       ],
 
-      "ghostOnSuccessPlay": "./level-4-slutstriden/pick-second-part-of-powername.mp3",
-      "ghostOnFirstFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
-      "ghostOnSecondFailurePlay": "./level-4-slutstriden/continuation-fel-vasen-fel.mp3",
+      "ghostOnSuccessPlay": "./level-4-slutstriden/flickans-sanna-vasen-tva.mp3",
+      "ghostOnFirstFailurePlay": "./level-4-slutstriden/minns-inte-flickans-sanna-vasen.mp3",
+      "onSecondFailurePlay": "./level-5-global/tystnad.mp3",
       "ghostOnSecondFailureGoTo": "checkin-sprickan-oppnas",
 
       "value": "gladje"

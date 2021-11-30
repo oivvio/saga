@@ -11,7 +11,12 @@
   ],
 
   "events": [
-    {
+     {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-4-slutstriden/checkin-sanna-vasen.mp3"],
+
+      "then": {
       "action": "playAudioBasedOnAdHocValue",
       "key": "powerName",
       "audioFilenameMap": {
@@ -44,9 +49,10 @@
         "action": "playAudio",
         "wait": 0,
         "audioFilenames": [
-          "./level-4-slutstriden/continuation-sanna-vasen-namn-vildregn.mp3"
+          "./level-4-slutstriden/checkin-sanna-vasen-tva.mp3"
         ]
       }
     }
+  }
   ]
 }
