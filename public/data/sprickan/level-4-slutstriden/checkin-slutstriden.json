@@ -17,8 +17,16 @@
       ]
     },
     {
+      "action": "cancelTimer",
+      "name": "ticking-clock-lamashtu"
+    },
+    {
+      "action": "cancelTimer",
+      "name": "ticking-clock-lamashtu-3min"
+    },
+    {
       "action": "playBackgroundAudio",
-      "audioFilename": "./audio/southern-chamber-background.mp3",
+      "audioFilename": "./level-global/tystnad.mp3",
       "loop": true,
       "cancelOnLeave": false,
       "wait": 0
