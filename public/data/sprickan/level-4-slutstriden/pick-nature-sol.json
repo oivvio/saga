@@ -16,15 +16,15 @@
       "part": 1,
       "onSuccessOpen": ["checkin-sanna-vasen"],
 
-      "onSuccessPlay": "./level-5-global/tystnad.mp3",
+      "onSuccessPlay": "./level-global/tystnad.mp3",
       "onFirstFailurePlay": "./level-4-slutstriden/minns-inte-sanna-vasen-tva.mp3",
-      "onSecondFailurePlay":  "./level-5-global/tystnad.mp3",
+      "onSecondFailurePlay":  "./level-global/tystnad.mp3",
       "onSecondFailureGoTo": "checkin-sprickan-oppnas",
       "ghostOnSuccessOpen": ["checkin-sprickan-stangs"],
 
       "ghostOnSuccessPlay": "./level-4-slutstriden/flickans-sanna-vasen-tva.mp3",
       "ghostOnFirstFailurePlay": "./level-4-slutstriden/minns-inte-sanna-vasen-tva.mp3",
-      "ghostOnSecondFailurePlay": "./level-5-global/tystnad.mp3",
+      "ghostOnSecondFailurePlay": "./level-global/tystnad.mp3",
       "ghostOnSecondFailureGoTo": "checkin-lamashtu-flyr",
 
       "value": "sol"
