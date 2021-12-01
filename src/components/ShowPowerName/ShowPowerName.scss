@@ -1,13 +1,76 @@
+$cornerMargin: 1rem;
+
 div.ShowPowerName {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: pink;
 
-  img {
+  img.mainBackground {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  div.powerNameImage {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    img {
+      align-self: center;
+
+      width: 80vw;
+      height: 1.5 * 80vw;
+    }
+  }
+
+  img.upperRight,
+  img.lowerRight,
+  img.lowerLeft,
+  img.upperLeft {
+    width: 3rem;
+    height: 3rem;
+    position: absolute;
+  }
+
+  img.upperRight {
+    top: $cornerMargin;
+    right: $cornerMargin;
+  }
+
+  img.lowerRight {
+    bottom: $cornerMargin;
+    right: $cornerMargin;
+  }
+
+  img.upperLeft {
+    top: $cornerMargin;
+    left: $cornerMargin;
+  }
+
+  img.lowerLeft {
+    bottom: $cornerMargin;
+    left: $cornerMargin;
+  }
+
+  div.input {
+    display: flex;
+    flex-direction: column;
+
+    input {
+      width: 50vw;
+      align-self: center;
+    }
+    button {
+      display: inline;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      align-self: center;
+    }
   }
 
   div.textContainer {
@@ -26,6 +89,7 @@ div.ShowPowerName {
       font-weight: bold;
       text-align: center;
       font-size: 50px;
+      color: black;
     }
   }
 }

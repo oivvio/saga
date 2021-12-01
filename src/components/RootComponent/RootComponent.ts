@@ -16,9 +16,6 @@ export default defineComponent({
       count: 1,
     };
   },
-  mounted() {
-    console.log(" STILL VERY EARLY IN THE GAME");
-  },
 
   methods: {
     displayQRScanner() {
