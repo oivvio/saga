@@ -29,7 +29,6 @@ const Component = defineComponent({
 
   // Most setup happens here where we have access to this
   mounted() {
-    throw Error("radac SagaQrReader mounted");
     // function onScanFailure(error: string) {
     //   console.warn(`Code scan error = ${error}`);
     // }
