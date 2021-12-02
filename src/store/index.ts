@@ -29,6 +29,7 @@ interface IUserState {
   // eslint-disable-next-line
   adHocData: Record<string, any>;
   tags: string[];
+  hasPlayedTutorial: boolean;
 }
 
 export interface IState {
@@ -89,6 +90,7 @@ const initialState: IState = {
     // eslint-disable-next-line
     adHocData: {} as Record<string, any>,
     tags: [],
+    hasPlayedTutorial: false,
   },
   audio: {
     volume: 0,
@@ -269,6 +271,10 @@ export const store = createStore({
       state.user.lastStationVisitedId = stationId;
     },
 
+    completeTutorial(state: IState) {
+      state.user.hasPlayedTutorial = true;
+    },
+
     pushTags(state: IState, tags: string[]) {
       tags.forEach((tag) => {
         if (!state.user.tags.includes(tag)) {
@@ -330,4 +336,5 @@ export enum Mutations {
   wipeHistory = "wipeHistory",
   setLastStationVisitedId = "setLastStationVisitedId",
   pushTags = "pushTags",
+  completeTutorial = "completeTutorial",
 }
