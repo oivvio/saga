@@ -1,5 +1,5 @@
 {
-  "id": "ring-tillbaka-mammon-choice-circle",
+  "id": "checkin-mammon-choice-circle",
   "type": "choice",
   "description": "You keep the ring",
   "opens": ["checkin-restart"],
