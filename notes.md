@@ -1,5 +1,16 @@
 # TODO
 
+# 2021-12-01
+
+scene ="Untitled Scene"
+
+hypeDocument = HYPE.documents["Sprickan Start"]
+
+d = hypeDocument
+
+d.startTimelineNamed("Main Timeline", d.kDirectionForward)
+d.startTimelineNamed("Main Timeline", d.kDirectionReverse)
+
 # 2021-11-24
 
 ## Instascan 

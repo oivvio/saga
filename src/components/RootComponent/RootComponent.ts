@@ -3,6 +3,7 @@ import { defineComponent } from "vue";
 import { Mutations } from "../../store";
 
 import SagaQrReader from "../SagaQrReader/SagaQrReader.vue";
+import Animation from "../Animation/Animation.vue";
 import DevBox from "../DevBox/DevBox.vue";
 import ShowPowerName from "../ShowPowerName/ShowPowerName.vue";
 
@@ -41,5 +42,5 @@ export default defineComponent({
     },
   },
 
-  components: { SagaQrReader, DevBox, ShowPowerName },
+  components: { SagaQrReader, DevBox, ShowPowerName, Animation },
 });
