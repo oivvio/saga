@@ -8,18 +8,14 @@
     "./level-0-restart/start-Restart.mp3"  
   ],
   "helpCost":0 ,
-  "events": [
-    {
-      "action": "playAudio",
-      "wait": 0,
-      "audioFilenames": ["./level-1-mammon/ring-behalla-sjalv-choice-circle.mp3"],
 
-      "then": {
-        "action": "playAudio",
-        "wait": 0,
-        "audioFilenames": ["./level-0-restart/continuation-mammon-behalla-ringen.mp3"]
-      }
-    }
+
+  
+  "events": [
+   {"action": "goToStation",
+        "toStation": "checkin-restart"}
+      
+    
   ]
 }
   

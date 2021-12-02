@@ -1,21 +1,24 @@
 {
   "id": "checkin-restart",
   "type": "story",
-  "description": "Omstart av felet",
+  "description": "Omstart av spelet",
   "opens": ["checkin-restart-choice-square", "checkin-restart-choice-circle"],
+  "helpAudioFilenames": [
+    "./level-0-restart/start-Restart.mp3",
+    "./level-0-restart/start-Restart.mp3"  
+  ],
+  "helpCost":0 ,
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-restart/checkin-restart.mp3"]
-    },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/tystnad.mp3",
-      "loop": true,
-      "cancelOnLeave": false,
-      "wait": 0
-    }
+      "audioFilenames": ["./level-1-mammon/ring-behalla-sjalv-choice-circle.mp3"],
+
+      "then": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./level-0-restart/checkin-mammon-end.mp3"]
+      }}
   ]
 }

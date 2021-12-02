@@ -2,7 +2,7 @@
   "id": "checkin-restart-choice-circle",
   "type": "choice",
   "description": "Chose the path to mammon.",
-  "opens": ["checkin-stadsungarna"],
+  "opens": [],
   "helpAudioFilenames": [
     "./level-global/No-Help.mp3",
     "./level-global/No-Help.mp3"
@@ -15,9 +15,11 @@
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": ["./level-0-restart/behalla-ringen-mammon-2-choice-circle.mp3"],
-      
-      "then": {"action": "goToStation",
-        "toStation": "checkin-sprickan-oppnas"}
-    }
+
+      "then": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./level-0-restart/spelet-ar-slut.mp3"]
+    }}
   ]
 }
