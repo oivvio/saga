@@ -46,6 +46,7 @@ export default defineComponent({
 <style scoped lang="scss">
 $duration: 0.3s;
 div.Animation {
+
   z-index: 10;
   position: fixed;
   top: 0;
