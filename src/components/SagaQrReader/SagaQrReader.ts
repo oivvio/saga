@@ -49,7 +49,7 @@ const Component = defineComponent({
 
     const qrConfig = {
       fps: 10,
-      qrbox: { width: 250, height: 250 },
+      qrbox: { width: 200, height: 200 },
       disableFlip: true,
     };
 

@@ -1,6 +1,4 @@
 div.RootComponent {
-  display: flex;
-  flex-direction: column;
   width: 100%;
 
   h3 {
@@ -13,23 +11,5 @@ div.RootComponent {
   li {
     display: inline-block;
     margin: 0 10px;
-  }
-
-  div.ButtonContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 50vh;
-    button {
-      width: 50vw;
-
-      height: 4rem;
-      border: none;
-      border-radius: 1rem;
-      font-size: 1.5rem;
-      background-color: white;
-      color: black;
-    }
   }
 }
