@@ -6,6 +6,7 @@ import SagaQrReader from "../SagaQrReader/SagaQrReader.vue";
 import Animation from "../Animation/Animation.vue";
 import DevBox from "../DevBox/DevBox.vue";
 import ShowPowerName from "../ShowPowerName/ShowPowerName.vue";
+import Tutorial from "../Tutorial/Tutorial.vue";
 
 export default defineComponent({
   name: "RootComponent",
@@ -40,7 +41,11 @@ export default defineComponent({
     playerWon(): boolean {
       return this.$store.state.user.adHocData["playerWon"];
     },
+
+    hasPlayedTutorial(): boolean {
+      return this.$store.state.user.hasPlayedTutorial;
+    },
   },
 
-  components: { SagaQrReader, DevBox, ShowPowerName, Animation },
+  components: { SagaQrReader, DevBox, ShowPowerName, Animation, Tutorial },
 });
