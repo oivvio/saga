@@ -17,7 +17,7 @@
         "then": {
           "action": "openStations",
           "toStations": [
-            "ring-tillbaka-mammon-choice-circle, ring-tillbaka-mammon-choice-square"
+            "checkin-mammon-choice-circle, checkin-mammon-choice-square"
           ]
         }
       },
