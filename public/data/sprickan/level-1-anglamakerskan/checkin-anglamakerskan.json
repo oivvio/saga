@@ -57,8 +57,8 @@
             "then": {
               "action": "openStations",
               "toStations": [
-                "ring-tillbaka-anglamakerskan-choice-circle",
-                "ring-tillbaka-anglamakerskan-choice-square"
+                "checkin-anglamakerskan-choice-circle",
+                "checkin-anglamakerskan-choice-square"
               ]
             }
           }
