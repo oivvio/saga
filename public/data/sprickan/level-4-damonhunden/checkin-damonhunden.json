@@ -2,7 +2,7 @@
   "id": "checkin-damonhunden",
   "type": "story",
   "description": "You are at damonhunden",
-  "opens": ["qr-assemble-damonhund"],
+  "opens": ["key"],
   "helpAudioFilenames": [
     "./level-4-damonhunden/help-damonhunden-1.mp3",
     "./level-4-damonhunden/help-damonhunden-2.mp3"
@@ -22,6 +22,7 @@
       "cancelOnLeave": false,
       "wait": 0
     },
+    
     {
       "action": "cancelTimer",
       "name": "ticking-clock-damonhund"
