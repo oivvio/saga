@@ -31,7 +31,7 @@
       "action": "playBackgroundAudio",
       "audioFilename": "./level-0-start/startBackground2.mp3",
       "loop": true,
-      "cancelOnLeave": false,
+      "cancelOnLeave": true,
       "wait": 3
     }
 

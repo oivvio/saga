@@ -15,7 +15,7 @@
       "action": "playBackgroundAudio",
       "audioFilename": "./level-global/tystnad.mp3",
       "loop": true,
-      "cancelOnLeave": false,
+      "cancelOnLeave": true,
       "wait": 0
     }
   ]
