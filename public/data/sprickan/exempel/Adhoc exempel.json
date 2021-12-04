@@ -41,7 +41,7 @@
       "action": "playBackgroundAudio",
       "audioFilename": "./audio/startBackground2.mp3",
       "loop": true,
-      "cancelOnLeave": false,
+      "cancelOnLeave": true,
       "wait": 3
     },
 
