@@ -16,9 +16,8 @@
 
         "then": {
           "action": "openStations",
-          "toStations": [
-            "checkin-mammon-choice-circle, checkin-mammon-choice-square"
-          ]
+          "toStations": 
+          ["checkin-mammon-choice-circle, checkin-mammon-choice-square"]
         }
       },
       "eventIfNotPresent": {
