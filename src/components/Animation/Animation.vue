@@ -3,7 +3,6 @@
     <div
       id="paneA"
       class="pane"
-      @click.stop="open"
       :class="{ moveLeft: isOpen, moveBack: !isOpen }"
     >
       <img src="img/biljett_left.jpg" alt="" />
@@ -12,7 +11,6 @@
     <div
       id="paneB"
       class="pane"
-      @click.stop="open"
       :class="{ moveRight: isOpen, moveBack: !isOpen }"
     >
       <img src="img/biljett_right.jpg" alt="" />
@@ -26,18 +24,12 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "Animation",
   data() {
-    return { isOpen: true };
+    return {};
   },
 
-  methods: {
-    open() {
-      this.isOpen = true;
-      console.log("open");
-    },
-
-    close() {
-      this.isOpen = false;
-      console.log("close");
+  computed: {
+    isOpen() {
+      return this.$store.state.user.QRScannerCanBeDisplayed;
     },
   },
 });
@@ -46,20 +38,20 @@ export default defineComponent({
 <style scoped lang="scss">
 $duration: 0.3s;
 div.Animation {
-
   z-index: 10;
   position: fixed;
-  top: 0;
+  top: -10vh;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 110vh;
 
   .pane {
     position: absolute;
     width: 50vw;
-    height: 100vh;
+    height: 110vh;
     top: 0;
     img {
+      object-fit: cover;
       width: 100%;
       height: 100%;
     }
@@ -68,12 +60,16 @@ div.Animation {
 
   #paneA {
     left: 0vw;
-    background-color: pink;
+    img {
+      object-position: right top;
+    }
   }
 
   #paneB {
     right: 0vw;
-    background-color: lightblue;
+    img {
+      object-position: left top;
+    }
   }
 
   .moveLeft {

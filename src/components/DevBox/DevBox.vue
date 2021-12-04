@@ -173,6 +173,9 @@
 div.DevBox {
   background-color: lightgreen;
   padding-bottom: 10rem;
+  margin-top: 100vh;
+  position: relative;
+  z-index: 10;
 }
 
 td {
