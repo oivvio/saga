@@ -1,6 +1,12 @@
 <template>
   <div class="Tutorial">
-    <video controls autoplay v-on:ended="onEnded">
+    <video
+      controls
+      autoplay
+      playsinline
+      webkit-playsinline
+      v-on:ended="onEnded"
+    >
       <source
         src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         type="video/mp4"
