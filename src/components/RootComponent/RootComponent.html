@@ -1,14 +1,8 @@
 <div class="RootComponent">
-    <!--
-         <div class="ButtonContainer" v-if="QRScannerCanBeDisplayed && !QRScannerIsDisplayed">
-         <button  v-on:click="displayQRScanner">ÖPPNA SCANNER</button>
-         </div>
-         <saga-qr-reader v-if="QRScannerIsDisplayed"></saga-qr-reader>
-    -->
 
     <tutorial v-if="!hasPlayedTutorial"></tutorial>
     <div v-else>
-    <animation v-if="!displayDevBox"></animation>
+    <animation></animation>
     <show-power-name v-if="playerWon"></show-power-name>
     <saga-qr-reader v-if="QRScannerCanBeDisplayed && !playerWon"></saga-qr-reader>
     <dev-box v-if="displayDevBox"></dev-box>
