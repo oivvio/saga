@@ -29,12 +29,12 @@
   "stations": {},
   "openStationsAtStart": ["help"],
   "globalAudioFilenames": {
-    "allHelpLeftAudioFilename": "./audio/allHelpLeft.mp3",
-    "twoHelpLeftAudioFilename": "./audio/twoHelpLeft.mp3",
-    "oneHelpLeftAudioFilename": "./audio/oneHelpLeft.mp3",
-    "noHelpLeftAudioFilename": "./audio/noHelpLeft.mp3",
-    "noHelpAtThisPointAudioFilename": "./audio/noHelpAtThisPoint.mp3",
-    "storyFallbackAudioFilename": "./audio/storyFallbackAudioFilename.mp3"
+    "allHelpLeftAudioFilename": "./audio/allHelpLeft_converted.WebM",
+    "twoHelpLeftAudioFilename": "./audio/twoHelpLeft_converted.WebM",
+    "oneHelpLeftAudioFilename": "./audio/oneHelpLeft_converted.WebM",
+    "noHelpLeftAudioFilename": "./audio/noHelpLeft_converted.WebM",
+    "noHelpAtThisPointAudioFilename": "./audio/noHelpAtThisPoint_converted.WebM",
+    "storyFallbackAudioFilename": "./audio/storyFallbackAudioFilename_converted.WebM"
   },
 
   "audioFileUrlBase": "data/test_game/"

@@ -4,8 +4,8 @@
   "description": "Chose to follow lilith",
 
   "helpAudioFilenames": [
-    "./level-global/No-Help.mp3",
-    "./level-global/No-Help.mp3"
+    "./level-global/No-Help_converted.WebM",
+    "./level-global/No-Help_converted.WebM"
 
   ],
   "helpCost":0 ,
@@ -16,7 +16,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-2-lilith/choice-circle-follow-lillith.mp3"],
+      "audioFilenames": ["./level-2-lilith/choice-circle-follow-lillith_converted.WebM"],
       
     
     "then": {"action": "goToStation",

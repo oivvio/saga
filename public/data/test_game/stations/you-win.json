@@ -4,15 +4,15 @@
   "description": "the player won",
   "opens": [],
   "helpAudioFilenames": [
-    "./audio/unreachable-help1.mp3",
-    "./audio/unreachable-help2.mp3"
+    "./audio/unreachable-help1_converted.WebM",
+    "./audio/unreachable-help2_converted.WebM"
   ],
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/you-win.mp3"]
+      "audioFilenames": ["./audio/you-win_converted.WebM"]
     }
   ]
 }
