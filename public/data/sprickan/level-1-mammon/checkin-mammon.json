@@ -12,12 +12,16 @@
       "eventIfPresent": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-1-mammon/ring-tillbaka-till-mammon_converted.WebM"],
+        "audioFilenames": [
+          "./level-1-mammon/ring-tillbaka-till-mammon_converted.WebM"
+        ],
 
         "then": {
           "action": "openStations",
-          "toStations": 
-          ["checkin-mammon-choice-circle, checkin-mammon-choice-square"]
+          "toStations": [
+            "checkin-mammon-choice-circle",
+            "checkin-mammon-choice-square"
+          ]
         }
       },
       "eventIfNotPresent": {
