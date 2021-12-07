@@ -1,6 +1,6 @@
 <template>
   <div class="Tutorial">
-    <video
+    <video id="videoTutorial"
       controls
       autoplay
       playsinline
@@ -12,8 +12,7 @@
         type="video/mp4"
       />
     </video>
-
-    <button @click="completeTutorial">Öppna scannern</button>
+    <button @click="completeTutorial" v-if="displayButton">Öppna scannern</button>
   </div>
 </template>
 
@@ -25,17 +24,26 @@ import { Mutations, store } from "../../store";
 export default defineComponent({
   name: "Tutorial",
   data() {
-    return {};
+      return {
+          displayButton: false,
+      };
   },
 
-  mounted() {
-    console.log("hallå");
+    mounted() {
+        const video: HTMLVideoElement|null = document.getElementById("videoTutorial") as HTMLVideoElement;
+        if(video !== null) {
+            console.log("Try to start video");
+            video.play();
+        }
+
+        console.log("hallå");
   },
 
   methods: {
     onEnded(event: Event) {
       // For now do nothing so that we can tie
       // store.commit(Mutations.completeTutorial);
+      this.displayButton = true;
     },
 
     completeTutorial() {
