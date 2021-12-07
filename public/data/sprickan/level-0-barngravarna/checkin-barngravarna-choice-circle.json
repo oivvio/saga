@@ -4,26 +4,26 @@
   "description": "Chose the path to mammon.",
   "opens": ["checkin-mammon"],
   "helpAudioFilenames": [
-    "./level-1-mammon/help-mammon-1.mp3",
-    "./level-1-mammon/help-mammon-2.mp3"
+    "./level-1-mammon/help-mammon-1_converted.WebM",
+    "./level-1-mammon/help-mammon-2_converted.WebM"
   ],
   "helpCost":1 ,
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-barngravarna/barngravarna-mammon-choice-circle.mp3"]
+      "audioFilenames": ["./level-0-barngravarna/barngravarna-mammon-choice-circle_converted.WebM"]
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/fx.mp3",
+      "audioFilename": "./level-global/Stems-1/fx_converted.WebM",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/strings.mp3",
+      "audioFilename": "./level-global/Stems-1/strings_converted.WebM",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0

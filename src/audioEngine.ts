@@ -95,7 +95,7 @@ export class AudioEngine {
       let audioFilenameToActuallyPlay = audioFilename;
       if (store.state.debugQuickAudio) {
         console.log(`PLAYING DEBUG AUDIO in lieu of ${audioFilename}`);
-        audioFilenameToActuallyPlay = "./audio/beep.mp3";
+        audioFilenameToActuallyPlay = "./audio/beep_converted.WebM";
       }
 
       // setup the sound

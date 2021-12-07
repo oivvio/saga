@@ -4,8 +4,8 @@
   "description": "Sprickans start sätter igång",
   "opens": ["checkin-start-choice-circle", "checkin-start-choice-square"],
   "helpAudioFilenames": [
-    "./level-0-start/checkin-fraga.mp3",
-    "./level-0-start/checkin-fraga.mp3"
+    "./level-0-start/checkin-fraga_converted.WebM",
+    "./level-0-start/checkin-fraga_converted.WebM"
   ],
   "helpCost":0 ,
 
@@ -15,11 +15,11 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-start/checkin-start.mp3", "./level-0-start/checkin-fonstret-b-1.mp3", "./level-0-start/checkin-fonstret-b-1.mp3"]
+      "audioFilenames": ["./level-0-start/checkin-start_converted.WebM", "./level-0-start/checkin-fonstret-b-1_converted.WebM", "./level-0-start/checkin-fonstret-b-1_converted.WebM"]
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/strings.mp3",
+      "audioFilename": "./level-global/Stems-1/strings_converted.WebM",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0

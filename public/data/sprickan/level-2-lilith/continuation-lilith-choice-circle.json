@@ -5,40 +5,40 @@
   "opens": ["checkin-tennstopet"],
 
   "helpAudioFilenames": [
-    "./level-3-tennstopet/help-tennstopet-1.mp3",
-    "./level-3-tennstopet/help-tennstopet-1.mp3"
+    "./level-3-tennstopet/help-tennstopet-1_converted.WebM",
+    "./level-3-tennstopet/help-tennstopet-1_converted.WebM"
   ],
   "helpCost":1 ,
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-2-lilith/lilith-tennstopet-choice-circle.mp3"]
+      "audioFilenames": ["./level-2-lilith/lilith-tennstopet-choice-circle_converted.WebM"]
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/fx.mp3",
+      "audioFilename": "./level-global/Stems-1/fx_converted.WebM",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/bass.mp3",
+      "audioFilename": "./level-global/Stems-1/bass_converted.WebM",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/strings.mp3",
+      "audioFilename": "./level-global/Stems-1/strings_converted.WebM",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/stringslead.mp3",
+      "audioFilename": "./level-global/Stems-1/stringslead_converted.WebM",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0

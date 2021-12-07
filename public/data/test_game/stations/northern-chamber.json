@@ -12,7 +12,7 @@
       "eventIfNotPresent": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./audio/northern-chamber.mp3"]
+        "audioFilenames": ["./audio/northern-chamber_converted.WebM"]
       },
 
       "eventIfPresent": {
@@ -23,7 +23,7 @@
 
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./audio/startBackground.mp3",
+      "audioFilename": "./audio/startBackground_converted.WebM",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0

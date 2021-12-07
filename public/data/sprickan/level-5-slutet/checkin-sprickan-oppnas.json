@@ -4,8 +4,8 @@
   "description": "the player lost the game",
   "opens": [],
   "helpAudioFilenames": [
-    "./audio/unreachable-help1.mp3",
-    "./audio/unreachable-help2.mp3"
+    "./audio/unreachable-help1_converted.WebM",
+    "./audio/unreachable-help2_converted.WebM"
   ],
   "helpCost": 0,
 
@@ -19,13 +19,13 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-5-slutet/continuation-sprickan-oppnas.mp3"],
+      "audioFilenames": ["./level-5-slutet/continuation-sprickan-oppnas_converted.WebM"],
 
       "then": {
         "action": "playAudio",
         "wait": 0,
         "audioFilenames": [
-          "./level-5-slutet/contiuation-sprickan-oppnas-trost.mp3"
+          "./level-5-slutet/contiuation-sprickan-oppnas-trost_converted.WebM"
         ]
       }
     }

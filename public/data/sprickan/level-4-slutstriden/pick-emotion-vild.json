@@ -5,7 +5,7 @@
   "opens": [],
 
   "helpAudioFilenames": [
-    "./level-4-slutstriden/help-sanna-vasen-1.mp3",     "./level-4-slutstriden/help-sanna-vasen-1.mp3"
+    "./level-4-slutstriden/help-sanna-vasen-1_converted.WebM",     "./level-4-slutstriden/help-sanna-vasen-1_converted.WebM"
   ],
   "helpCost":1 ,
 
@@ -21,9 +21,9 @@
         "pick-nature-vind"
       ],
 
-      "onSuccessPlay": "./level-4-slutstriden/andra-ordet-sanna-vasen.mp3",
-      "onFirstFailurePlay": "./level-4-slutstriden/minns-inte-sanna-vasen.mp3",
-      "onSecondFailurePlay": "./level-global/tystnad.mp3",
+      "onSuccessPlay": "./level-4-slutstriden/andra-ordet-sanna-vasen_converted.WebM",
+      "onFirstFailurePlay": "./level-4-slutstriden/minns-inte-sanna-vasen_converted.WebM",
+      "onSecondFailurePlay": "./level-global/tystnad_converted.WebM",
       "onSecondFailureGoTo": "checkin-sprickan-oppnas",
       "ghostOnSuccessOpen": [
         "pick-nature-mane",
@@ -33,9 +33,9 @@
         "pick-nature-vind"
       ],
 
-      "ghostOnSuccessPlay": "./level-4-slutstriden/flickans-sanna-vasen-tva.mp3",
-      "ghostOnFirstFailurePlay": "./level-4-slutstriden/minns-inte-flickans-sanna-vasen.mp3",
-      "ghostOnSecondFailurePlay": "./level-global/tystnad.mp3",
+      "ghostOnSuccessPlay": "./level-4-slutstriden/flickans-sanna-vasen-tva_converted.WebM",
+      "ghostOnFirstFailurePlay": "./level-4-slutstriden/minns-inte-flickans-sanna-vasen_converted.WebM",
+      "ghostOnSecondFailurePlay": "./level-global/tystnad_converted.WebM",
       "ghostOnSecondFailureGoTo": "checkin-sprickan-oppnas",
 
       "value": "vild"
