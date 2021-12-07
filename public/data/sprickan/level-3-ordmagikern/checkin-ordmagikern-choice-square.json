@@ -4,50 +4,50 @@
   "description": "Chose the path to slutstriden",
   "opens": ["checkin-slutstriden"],
   "helpAudioFilenames": [
-    "./level-4-slutstriden/help-slutstriden-1.mp3",
-    "./level-4-slutstriden/help-slutstriden-2.mp3"
+    "./level-4-slutstriden/help-slutstriden-1_converted.WebM",
+    "./level-4-slutstriden/help-slutstriden-2_converted.WebM"
   ],
   "helpCost":1 ,
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern-choice-square.mp3"],
+      "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern-choice-square_converted.WebM"],
       
       "then": {
         "action": "playAudioBasedOnAdHocValue",
         "key": "powerName",
         "audioFilenameMap": {
-          "gladje,sol": "./level-3-ordmagikern/essence-ordmagikern-sol.mp3",
-          "gladje,vind": "./level-3-ordmagikern/essence-ordmagikern-vind.mp3",
-          "gladje,sno": "./level-3-ordmagikern/essence-ordmagikern-sno.mp3",
-          "gladje,mane": "./level-3-ordmagikern/essence-ordmagikern-mane.mp3",
-          "gladje,regn": "./level-3-ordmagikern/essence-ordmagikern-regn.mp3",
-          "ilska,sol": "./level-3-ordmagikern/essence-ordmagikern-sol.mp3",
-          "ilska,vind": "./level-3-ordmagikern/essence-ordmagikern-vind.mp3",
-          "ilska,sno": "./level-3-ordmagikern/essence-ordmagikern-sno.mp3",
-          "ilska,mane": "./level-3-ordmagikern/essence-ordmagikern-mane.mp3",
-          "ilska,regn": "./level-3-ordmagikern/essence-ordmagikern-regn.mp3",
-          "lycka,sol": "./level-3-ordmagikern/essence-ordmagikern-sol.mp3",
-          "lycka,vind": "./level-3-ordmagikern/essence-ordmagikern-vind.mp3",
-          "lycka,sno": "./level-3-ordmagikern/essence-ordmagikern-sno.mp3",
-          "lycka,mane": "./level-3-ordmagikern/essence-ordmagikern-mane.mp3",
-          "lycka,regn": "./level-3-ordmagikern/essence-ordmagikern-regn.mp3",
-          "sorg,sol": "./level-3-ordmagikern/essence-ordmagikern-sol.mp3",
-          "sorg,vind": "./level-3-ordmagikern/essence-ordmagikern-vind.mp3",
-          "sorg,sno": "./level-3-ordmagikern/essence-ordmagikern-sno.mp3",
-          "sorg,regn": "./level-3-ordmagikern/essence-ordmagikern-regn.mp3",
-          "vild,sol": "./level-3-ordmagikern/essence-ordmagikern-sol.mp3",
-          "vild,vind": "./level-3-ordmagikern/essence-ordmagikern-vind.mp3",
-          "vild,sno": "./level-3-ordmagikern/essence-ordmagikern-sno.mp3",
-          "vild,mane": "./level-3-ordmagikern/essence-ordmagikern-mane.mp3",
-          "vild,regn": "./level-3-ordmagikern/essence-ordmagikern-regn.mp3"
+          "gladje,sol": "./level-3-ordmagikern/essence-ordmagikern-sol_converted.WebM",
+          "gladje,vind": "./level-3-ordmagikern/essence-ordmagikern-vind_converted.WebM",
+          "gladje,sno": "./level-3-ordmagikern/essence-ordmagikern-sno_converted.WebM",
+          "gladje,mane": "./level-3-ordmagikern/essence-ordmagikern-mane_converted.WebM",
+          "gladje,regn": "./level-3-ordmagikern/essence-ordmagikern-regn_converted.WebM",
+          "ilska,sol": "./level-3-ordmagikern/essence-ordmagikern-sol_converted.WebM",
+          "ilska,vind": "./level-3-ordmagikern/essence-ordmagikern-vind_converted.WebM",
+          "ilska,sno": "./level-3-ordmagikern/essence-ordmagikern-sno_converted.WebM",
+          "ilska,mane": "./level-3-ordmagikern/essence-ordmagikern-mane_converted.WebM",
+          "ilska,regn": "./level-3-ordmagikern/essence-ordmagikern-regn_converted.WebM",
+          "lycka,sol": "./level-3-ordmagikern/essence-ordmagikern-sol_converted.WebM",
+          "lycka,vind": "./level-3-ordmagikern/essence-ordmagikern-vind_converted.WebM",
+          "lycka,sno": "./level-3-ordmagikern/essence-ordmagikern-sno_converted.WebM",
+          "lycka,mane": "./level-3-ordmagikern/essence-ordmagikern-mane_converted.WebM",
+          "lycka,regn": "./level-3-ordmagikern/essence-ordmagikern-regn_converted.WebM",
+          "sorg,sol": "./level-3-ordmagikern/essence-ordmagikern-sol_converted.WebM",
+          "sorg,vind": "./level-3-ordmagikern/essence-ordmagikern-vind_converted.WebM",
+          "sorg,sno": "./level-3-ordmagikern/essence-ordmagikern-sno_converted.WebM",
+          "sorg,regn": "./level-3-ordmagikern/essence-ordmagikern-regn_converted.WebM",
+          "vild,sol": "./level-3-ordmagikern/essence-ordmagikern-sol_converted.WebM",
+          "vild,vind": "./level-3-ordmagikern/essence-ordmagikern-vind_converted.WebM",
+          "vild,sno": "./level-3-ordmagikern/essence-ordmagikern-sno_converted.WebM",
+          "vild,mane": "./level-3-ordmagikern/essence-ordmagikern-mane_converted.WebM",
+          "vild,regn": "./level-3-ordmagikern/essence-ordmagikern-regn_converted.WebM"
           
           },
           "then": {
             "action": "playAudio",
             "wait": 0,
-            "audioFilenames": ["./level-3-ordmagikern/continuation-essence-ordmagikern-namn.mp3"],
+            "audioFilenames": ["./level-3-ordmagikern/continuation-essence-ordmagikern-namn_converted.WebM"],
 
 
             "then": {"action": "goToStation",

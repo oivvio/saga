@@ -26,7 +26,7 @@ If user scan a already visited station a help-file will be played.
       "station_id": "1",
       "action": "playAudio",
       "audioType": "story",
-      "audioFilename": "audio-test-1.mp3"
+      "audioFilename": "audio-test-1_converted.WebM"
     }
   ]
 }
@@ -44,7 +44,7 @@ If user scan a already visited station a help-file will be played.
       "station_id": "1",
       "action": "playAudio",
       "audioType": "story",
-      "audioFilename": "saga-1.mp3"
+      "audioFilename": "saga-1_converted.WebM"
     },
     {
       "action": "startTimeLimit",
@@ -54,7 +54,7 @@ If user scan a already visited station a help-file will be played.
       "timeLimitEnd": {
         "action": "playAudio",
         "audioType": "timerhelp",
-        "audioFilename": "timerhelp-test-1.mp3"
+        "audioFilename": "timerhelp-test-1_converted.WebM"
       }
     },
     {
@@ -90,7 +90,7 @@ Note if timer is not off it can go off later in the game. Make sure to handle yo
       "station_id": "1",
       "action": "playAudio",
       "audioType": "story",
-      "audioFilename": "audio-test-1.mp3"
+      "audioFilename": "audio-test-1_converted.WebM"
     },
     {
       "action": "startTimeLimit",
@@ -130,7 +130,7 @@ Will start two timers `timer-level-1`and `timer-story-1-2`. The first will throw
       "conditionArgs": "play-timer-1",
       "action": "playAudio",
       "audioType": "story",
-      "audioFilename": "end-2.mp3"
+      "audioFilename": "end-2_converted.WebM"
     },
     {
       "action": "cancelTimer",

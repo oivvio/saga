@@ -7,7 +7,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-1-mammon/ring-tillbaka-till-mammon.mp3"]
+      "audioFilenames": ["./level-1-mammon/ring-tillbaka-till-mammon_converted.WebM"]
 
       
           }

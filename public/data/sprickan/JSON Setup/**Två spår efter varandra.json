@@ -9,11 +9,11 @@
   "events": [
     {
       "action": "playAudio",
-      "audioFilenames": ["./level-0-start/start.mp3", "./level-0-start/start-b.mp3"],
+      "audioFilenames": ["./level-0-start/start_converted.WebM", "./level-0-start/start-b_converted.WebM"],
       "wait": 0,
       "then": {
         "action": "playAudio",
-        "audioFilenames": ["./level-0-start/start-continuation.mp3", "./level-0-start/start-b.mp3"],
+        "audioFilenames": ["./level-0-start/start-continuation_converted.WebM", "./level-0-start/start-b_converted.WebM"],
         "wait": 0
 
         
@@ -21,7 +21,7 @@
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-0-start/startBackground.mp3",
+      "audioFilename": "./level-0-start/startBackground_converted.WebM",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
@@ -29,7 +29,7 @@
 
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-0-start/startBackground2.mp3",
+      "audioFilename": "./level-0-start/startBackground2_converted.WebM",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 3

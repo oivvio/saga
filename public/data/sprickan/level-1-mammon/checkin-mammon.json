@@ -12,7 +12,7 @@
       "eventIfPresent": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-1-mammon/ring-tillbaka-till-mammon.mp3"],
+        "audioFilenames": ["./level-1-mammon/ring-tillbaka-till-mammon_converted.WebM"],
 
         "then": {
           "action": "openStations",
@@ -23,7 +23,7 @@
       "eventIfNotPresent": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-1-mammon/checkin-mammon.mp3"],
+        "audioFilenames": ["./level-1-mammon/checkin-mammon_converted.WebM"],
 
         "then": {
           "action": "openStation",
