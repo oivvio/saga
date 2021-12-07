@@ -4,15 +4,15 @@
   "description": "picking first part of power name",
   "opens": ["pick-sun", "pick-wind", "pick-moon"],
   "helpAudioFilenames": [
-    "./audio/pick-second-part-of-powername-help1.mp3",
-    "./audio/pick-second-part-of-powername-help2.mp3"
+    "./audio/pick-second-part-of-powername-help1_converted.WebM",
+    "./audio/pick-second-part-of-powername-help2_converted.WebM"
   ],
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/pick-second-part-of-powername.mp3"]
+      "audioFilenames": ["./audio/pick-second-part-of-powername_converted.WebM"]
     },
 
     {

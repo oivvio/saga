@@ -4,8 +4,8 @@
   "description": "Chose the path to mammon.",
   "opens": [],
   "helpAudioFilenames": [
-    "./level-global/No-Help.mp3",
-    "./level-global/No-Help.mp3"
+    "./level-global/No-Help_converted.WebM",
+    "./level-global/No-Help_converted.WebM"
 
   ],
   "helpCost":0 ,
@@ -14,12 +14,12 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-restart/behalla-ringen-mammon-2-choice-circle.mp3"],
+      "audioFilenames": ["./level-0-restart/behalla-ringen-mammon-2-choice-circle_converted.WebM"],
 
       "then": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-0-restart/spelet-ar-slut.mp3"]
+        "audioFilenames": ["./level-0-restart/spelet-ar-slut_converted.WebM"]
     }}
   ]
 }

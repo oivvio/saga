@@ -13,19 +13,19 @@
       "eventIfPresent": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3", "./level-3-ordmagikern/checkin-ordmagikern-b-spar.mp3"],
+        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern_converted.WebM", "./level-3-ordmagikern/checkin-ordmagikern-b-spar_converted.WebM"],
 
         "then": {
           "action": "playAudio",
           "wait": 0,
           "audioFilenames": [
-            "./level-3-ordmagikern/continuation-appledricka.mp3"],
+            "./level-3-ordmagikern/continuation-appledricka_converted.WebM"],
 
           "then": {
             "action": "playAudio",
             "wait": 0,
             "audioFilenames": [
-              "./level-3-ordmagikern/continuation-ordmagikern.mp3"
+              "./level-3-ordmagikern/continuation-ordmagikern_converted.WebM"
             ]
           }
         }
@@ -40,18 +40,18 @@
       "eventIfPresent": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3", "./level-3-ordmagikern/checkin-ordmagikern-b-spar.mp3"],
+        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern_converted.WebM", "./level-3-ordmagikern/checkin-ordmagikern-b-spar_converted.WebM"],
 
         "then": {
           "action": "playAudio",
           "wait": 0,
-          "audioFilenames": ["./level-3-ordmagikern/continuation-brannvin.mp3"],
+          "audioFilenames": ["./level-3-ordmagikern/continuation-brannvin_converted.WebM"],
           
           "then": {
             "action": "playAudio",
             "wait": 0,
             "audioFilenames": [
-              "./level-3-ordmagikern/continuation-ordmagikern.mp3"
+              "./level-3-ordmagikern/continuation-ordmagikern_converted.WebM"
             ]
           }
         }
@@ -67,13 +67,13 @@
       "eventIfPresent": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern.mp3", "./level-3-ordmagikern/checkin-ordmagikern-b-spar.mp3"],
+        "audioFilenames": ["./level-3-ordmagikern/checkin-ordmagikern_converted.WebM", "./level-3-ordmagikern/checkin-ordmagikern-b-spar_converted.WebM"],
 
         "then": {
           "action": "playAudio",
           "wait": 0,
           "audioFilenames": [
-            "./level-3-ordmagikern/continuation-ordmagikern.mp3"
+            "./level-3-ordmagikern/continuation-ordmagikern_converted.WebM"
           ]
         }
       },
@@ -85,7 +85,7 @@
 
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/tystnad.mp3",
+      "audioFilename": "./level-global/tystnad_converted.WebM",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0

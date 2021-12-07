@@ -4,8 +4,8 @@
   "description": "another dark chamber",
   "opens": ["pick-emotion-gladje", "pick-emotion-ilska","pick-emotion-lycka","pick-emotion-sorg","pick-emotion-vild"],
   "helpAudioFilenames": [
-    "./level-4-slutstriden/help-sanna-vasen-1.mp3",
-    "./level-4-slutstriden/help-sanna-vasen-1.mp3"
+    "./level-4-slutstriden/help-sanna-vasen-1_converted.WebM",
+    "./level-4-slutstriden/help-sanna-vasen-1_converted.WebM"
   ],
   "helpCost":1 ,
 
@@ -13,7 +13,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-4-slutstriden/checkin-slutstriden.mp3"
+      "audioFilenames": ["./level-4-slutstriden/checkin-slutstriden_converted.WebM"
       ]
     },
     {
@@ -26,7 +26,7 @@
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/tystnad.mp3",
+      "audioFilename": "./level-global/tystnad_converted.WebM",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
