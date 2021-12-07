@@ -12,7 +12,7 @@ import { joinPaths } from "./utils";
 // https://refactoring.guru/design-patterns/singleton/typescript/example
 export class AudioEngine {
   private static instance: AudioEngine;
-  private static bgDuckedVolume = 0.2; // TODO set to 0.3
+  private static bgDuckedVolume = 0.075; // TODO set to 0.3
   private static bgFullVolume = 1; // TODO set to 1
   private static bgFadeInDuration = 2000;
   private static bgFadeOutDuration = 2000;
@@ -102,6 +102,7 @@ export class AudioEngine {
       //
       this.foregroundSound = new Howl({
         src: [this.getAudioPath(audioFilenameToActuallyPlay)],
+        // preload: true,        html5: true,
       });
 
       // setup callback for start of audio
@@ -148,8 +149,10 @@ export class AudioEngine {
     if (audioFilenames.length > 0) {
       const audioFilename = audioFilenames[0];
       // setup the sound
+      console.log("setup Howl for: ", audioFilename);
       this.foregroundSound = new Howl({
         src: [this.getAudioPath(audioFilename)],
+        // preload: true,        html5: true,
       });
 
       // setup callback for start of audio
@@ -208,9 +211,11 @@ export class AudioEngine {
     );
 
     // Setup the current background sound
+    console.log("setup Howl for: ", event.audioFilename);
     const backgroundSound = new Howl({
       src: [this.getAudioPath(event.audioFilename)],
       loop: event.loop,
+      // preload: true,      html5: true,
     });
 
     // Add this backgroundSound to our list of backgroundSounds

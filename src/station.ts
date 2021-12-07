@@ -398,13 +398,18 @@ export function runStation(station: Station): void {
         // ... but we just ran this stations events, which might have transported
         // the user to another station. If so we should not update open / closed
         // stations based this station
+
+        // HACK But we can't run this in "slutstriden"
+
         // eslint-disable-next-line
         const weAreStillAtThisStation =
           station.id === store.state.user.currentStation;
+        const weAreNotInSlutstriden = !station.id.startsWith("pick-");
         if (
           weAreStillAtThisStation &&
           station.opens !== undefined &&
-          store.state.gameConfig
+          store.state.gameConfig &&
+          weAreNotInSlutstriden
         ) {
           store.commit(Mutations.updateOpenStations, station.opens);
         }
