@@ -103,7 +103,7 @@ export class AudioEngine {
       this.foregroundSound = new Howl({
         src: [this.getAudioPath(audioFilenameToActuallyPlay)],
         format: ["mp3"],
-        // preload: true,        html5: true,
+        html5: true,
       });
 
       // setup callback for start of audio
@@ -154,7 +154,7 @@ export class AudioEngine {
       this.foregroundSound = new Howl({
         src: [this.getAudioPath(audioFilename)],
         format: ["mp3"],
-        // preload: true,        html5: true,
+        html5: true,
       });
 
       // setup callback for start of audio
@@ -171,8 +171,8 @@ export class AudioEngine {
         store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
 
         this.unduckBackgroundAudio();
-        // this.foregroundSound?.unload();
-
+        console.log("foregroundSound to unload: ", this.foregroundSound);
+        this.foregroundSound?.unload();
         // Remove the first element an run again.
         audioFilenames.shift();
         if (audioFilenames.length > 0) {
