@@ -18,17 +18,10 @@
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/fx.mp3",
+      "audioFilename": "./level-global/Drone/drone-2.mp3",
       "loop": true,
-      "cancelOnLeave": true,
-      "wait": 0
-    },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/strings.mp3",
-      "loop": true,
-      "cancelOnLeave": true,
-      "wait": 0
+      "cancelOnLeave": false,
+      "wait": 120
     }
   ]
 }
