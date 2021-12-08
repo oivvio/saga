@@ -15,20 +15,6 @@
       "audioFilenames": [
         "./level-0-barngravarna/barngravarna-mammon-choice-circle.mp3"
       ]
-    },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/fx.mp3",
-      "loop": true,
-      "cancelOnLeave": true,
-      "wait": 0
-    },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/strings.mp3",
-      "loop": true,
-      "cancelOnLeave": true,
-      "wait": 0
     }
   ]
 }
