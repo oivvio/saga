@@ -34,16 +34,6 @@ export default defineComponent({
       };
   },
 
-    mounted() {
-        const video: HTMLVideoElement|null = document.getElementById("videoTutorial") as HTMLVideoElement;
-        if(video !== null) {
-            console.log("Try to start video");
-            video.play();
-        }
-
-        console.log("hallå");
-  },
-
   methods: {
     onEnded(event: Event) {
       // For now do nothing so that we can tie
