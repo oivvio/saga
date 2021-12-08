@@ -23,22 +23,15 @@ import { defineComponent } from "vue";
 import { Mutations, store } from "../../store";
 
 import { AudioEngine } from "../../audioEngine";
+
+import * as Sentry from "@sentry/browser";
+
 export default defineComponent({
   name: "Tutorial",
   data() {
       return {
           displayButton: false,
       };
-  },
-
-    mounted() {
-        const video: HTMLVideoElement|null = document.getElementById("videoTutorial") as HTMLVideoElement;
-        if(video !== null) {
-            console.log("Try to start video");
-            video.play();
-        }
-
-        console.log("hallå");
   },
 
   methods: {
@@ -50,8 +43,18 @@ export default defineComponent({
     },
 
     completeTutorial() {
-      const noSleep = new (window as any).NoSleep();
-      noSleep.enable();
+
+      // Don't dim the screen. Ever.
+      try {
+        // This should be loaded from index.html script tag
+        const noSleep = new (window as any).NoSleep();
+        noSleep.enable();
+
+      } catch (error) {
+        console.log(error);
+        Sentry.captureMessage("Unable to enter noSleep");
+      }
+
       store.commit(Mutations.completeTutorial);
 
       // Remove the video element, since it's will sometimes continue playing on the "next" screen if we don't
@@ -64,6 +67,16 @@ export default defineComponent({
       const audioEngine = AudioEngine.getInstance();
       const audioFile = "./audio/silence.mp3";
       audioEngine.playForegroundAudio(audioFile, 0);
+
+      // request fullscreen. Will not work in iOS
+      try {
+        document.documentElement.requestFullscreen();
+      } catch (error) {
+        console.log("This browser does not support fullscreen.");
+
+      }
+
+
     },
   },
 });
