@@ -4,28 +4,19 @@
   "description": "Chose to not follow lilith",
 
   "helpAudioFilenames": [
-    "./level-global/No-Help_converted.WebM",
-    "./level-global/No-Help_converted.WebM"
-
+    "./level-global/No-Help.mp3",
+    "./level-global/No-Help.mp3"
   ],
-  "helpCost":0 ,
+  "helpCost": 0,
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-2-lilith/not-follow-lillith-choice-square_converted.WebM"],
-    
-    "then": {"action": "goToStation",
-      "toStation": "continuation-lilith"}
-    
-    
-  }
+      "audioFilenames": [
+        "./level-2-lilith/not-follow-lillith-choice-square.mp3"
+      ],
+
+      "then": { "action": "goToStation", "toStation": "continuation-lilith" }
+    }
   ]
-  }
-
-
-
-
-
-
-
+}

@@ -4,18 +4,10 @@
   "description": "You keep the ring",
   "opens": ["checkin-restart"],
   "helpAudioFilenames": [
-    "./level-0-restart/start-Restart_converted.WebM",
-    "./level-0-restart/start-Restart_converted.WebM"  
+    "./level-0-restart/start-Restart.mp3",
+    "./level-0-restart/start-Restart.mp3"
   ],
-  "helpCost":0 ,
+  "helpCost": 0,
 
-
-  
-  "events": [
-   {"action": "goToStation",
-        "toStation": "checkin-restart"}
-      
-    
-  ]
+  "events": [{ "action": "goToStation", "toStation": "checkin-restart" }]
 }
-  

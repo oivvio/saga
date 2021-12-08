@@ -2,14 +2,16 @@
   "id": "checkin-gravkapellet",
   "type": "story",
   "description": "You are at gravkapellet",
-  "opens": ["checkin-gravkapellet-choice-square", "checkin-gravkapellet-choice-circle"],
-  
+  "opens": [
+    "checkin-gravkapellet-choice-square",
+    "checkin-gravkapellet-choice-circle"
+  ],
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-gravkapellet/checkin-gravkapellet_converted.WebM"]
+      "audioFilenames": ["./level-0-gravkapellet/checkin-gravkapellet.mp3"]
     }
   ]
 }

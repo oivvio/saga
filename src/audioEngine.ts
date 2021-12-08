@@ -95,13 +95,14 @@ export class AudioEngine {
       let audioFilenameToActuallyPlay = audioFilename;
       if (store.state.debugQuickAudio) {
         console.log(`PLAYING DEBUG AUDIO in lieu of ${audioFilename}`);
-        audioFilenameToActuallyPlay = "./audio/beep_converted.WebM";
+        audioFilenameToActuallyPlay = "./audio/beep.mp3";
       }
 
       // setup the sound
       //
       this.foregroundSound = new Howl({
         src: [this.getAudioPath(audioFilenameToActuallyPlay)],
+        format: ["mp3"],
         // preload: true,        html5: true,
       });
 
@@ -152,6 +153,7 @@ export class AudioEngine {
       console.log("setup Howl for: ", audioFilename);
       this.foregroundSound = new Howl({
         src: [this.getAudioPath(audioFilename)],
+        format: ["mp3"],
         // preload: true,        html5: true,
       });
 
@@ -212,8 +214,10 @@ export class AudioEngine {
 
     // Setup the current background sound
     console.log("setup Howl for: ", event.audioFilename);
+
     const backgroundSound = new Howl({
       src: [this.getAudioPath(event.audioFilename)],
+      format: ["mp3"],
       loop: event.loop,
       // preload: true,      html5: true,
     });

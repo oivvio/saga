@@ -2,18 +2,20 @@
   "id": "continuation-lilith",
   "type": "story",
   "description": "You are with lilith",
-  "opens": ["continuation-lilith-choice-square", "continuation-lilith-choice-circle"],
-  
+  "opens": [
+    "continuation-lilith-choice-square",
+    "continuation-lilith-choice-circle"
+  ],
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames":  ["./level-2-lilith/continuation-lilith_converted.WebM"]
+      "audioFilenames": ["./level-2-lilith/continuation-lilith.mp3"]
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/tystnad_converted.WebM",
+      "audioFilename": "./level-global/tystnad.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0

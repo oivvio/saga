@@ -2,14 +2,20 @@
   "id": "checkin-barngravarna",
   "type": "story",
   "description": "You are at barngravarna",
-  "opens": ["checkin-barngravarna-choice-circle", "checkin-barngravarna-choice-square"],
- 
+  "opens": [
+    "checkin-barngravarna-choice-circle",
+    "checkin-barngravarna-choice-square"
+  ],
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-barngravarna/checkin-barngravarna_converted.WebM","./level-0-barngravarna/checkin-barngravarna-b_converted.WebM","./level-0-barngravarna/checkin-barngravarna-b2_converted.WebM"]
+      "audioFilenames": [
+        "./level-0-barngravarna/checkin-barngravarna.mp3",
+        "./level-0-barngravarna/checkin-barngravarna-b.mp3",
+        "./level-0-barngravarna/checkin-barngravarna-b2.mp3"
+      ]
     }
   ]
 }

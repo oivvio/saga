@@ -4,21 +4,24 @@
   "description": "Omstart av spelet",
   "opens": ["checkin-restart-choice-square", "checkin-restart-choice-circle"],
   "helpAudioFilenames": [
-    "./level-0-restart/checkin-mammon-reset_converted.WebM",
-    "./level-0-restart/checkin-mammon-reset_converted.WebM"  
+    "./level-0-restart/checkin-mammon-reset.mp3",
+    "./level-0-restart/checkin-mammon-reset.mp3"
   ],
-  "helpCost":0 ,
+  "helpCost": 0,
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-1-mammon/ring-behalla-sjalv-choice-circle_converted.WebM"],
+      "audioFilenames": [
+        "./level-1-mammon/ring-behalla-sjalv-choice-circle.mp3"
+      ],
 
       "then": {
         "action": "playAudio",
         "wait": 0,
-        "audioFilenames": ["./level-0-restart/checkin-mammon-end_converted.WebM"]
-      }}
+        "audioFilenames": ["./level-0-restart/checkin-mammon-end.mp3"]
+      }
+    }
   ]
 }

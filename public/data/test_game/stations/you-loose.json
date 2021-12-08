@@ -6,15 +6,15 @@
   "opens": ["northern-chamber"],
   "tags": ["lost"],
   "helpAudioFilenames": [
-    "./audio/unreachable-help1_converted.WebM",
-    "./audio/unreachable-help2_converted.WebM"
+    "./audio/unreachable-help1.mp3",
+    "./audio/unreachable-help2.mp3"
   ],
 
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/you-loose_converted.WebM"]
+      "audioFilenames": ["./audio/you-loose.mp3"]
     }
   ]
 }

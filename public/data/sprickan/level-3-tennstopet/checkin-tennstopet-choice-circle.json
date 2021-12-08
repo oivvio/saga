@@ -5,49 +5,47 @@
   "opens": ["checkin-ordmagikern"],
   "tags": ["brannvin"],
   "helpAudioFilenames": [
-    "./level-global/No-Help_converted.WebM",
-    "./level-global/No-Help_converted.WebM"
-
+    "./level-global/No-Help.mp3",
+    "./level-global/No-Help.mp3"
   ],
-  "helpCost":1 ,
+  "helpCost": 1,
   "events": [
-    
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-3-tennstopet/choice-tennstopet_converted.WebM"]
+      "audioFilenames": ["./level-3-tennstopet/choice-tennstopet.mp3"]
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/fx_converted.WebM",
+      "audioFilename": "./level-global/Stems-1/fx.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/bass_converted.WebM",
+      "audioFilename": "./level-global/Stems-1/bass.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/strings_converted.WebM",
+      "audioFilename": "./level-global/Stems-1/strings.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/stringslead_converted.WebM",
+      "audioFilename": "./level-global/Stems-1/stringslead.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/synth_converted.WebM",
+      "audioFilename": "./level-global/Stems-1/synth.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
