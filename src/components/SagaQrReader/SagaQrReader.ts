@@ -67,12 +67,6 @@ const Component = defineComponent({
     // Setup our RxJS listener
     this.onDecodeSubject
 
-      .pipe(
-        tap((value: IDecodeSubjectValue) => {
-          console.log("codeContent1: ", value.codeContent);
-        })
-      )
-
       // only process when the code changes
       .pipe(distinctUntilKeyChanged("codeContent"))
 

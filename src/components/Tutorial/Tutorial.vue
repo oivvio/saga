@@ -21,6 +21,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { Mutations, store } from "../../store";
+
+import { AudioEngine } from "../../audioEngine";
 export default defineComponent({
   name: "Tutorial",
   data() {
@@ -43,13 +45,25 @@ export default defineComponent({
     onEnded(event: Event) {
       // For now do nothing so that we can tie
       // store.commit(Mutations.completeTutorial);
-      this.displayButton = true;
+        this.displayButton = true;
+
     },
 
     completeTutorial() {
       const noSleep = new (window as any).NoSleep();
       noSleep.enable();
       store.commit(Mutations.completeTutorial);
+
+      // Remove the video element, since it's will sometimes continue playing on the "next" screen if we don't
+        const video: HTMLVideoElement|null = document.getElementById("videoTutorial") as HTMLVideoElement;
+        if(video !== null) {
+            video.remove();
+        }
+
+      // Play a little audio since our audio engine sometimes has problems playing the first file.
+      const audioEngine = AudioEngine.getInstance();
+      const audioFile = "./audio/beep.mp3";
+      audioEngine.playForegroundAudio(audioFile, 0);
     },
   },
 });
