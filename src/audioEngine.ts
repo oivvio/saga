@@ -16,7 +16,8 @@ export class AudioEngine {
   private static bgFullVolume = 1; // TODO set to 1
   private static bgFadeInDuration = 2000;
   private static bgFadeOutDuration = 2000;
-  private foregroundSound: Howl | undefined;
+  //private foregroundSound: Howl | undefined;
+  private foregroundSound: HTMLAudioElement = new Audio();
 
   private backgroundSounds: {
     stationId: StationID;
@@ -94,6 +95,14 @@ export class AudioEngine {
     this.playForegroundAudio(audioFilename, 0);
   }
 
+  public playSilinceToAppeaseiOS() {
+    // iOS Safari you little shirbird. This is for you.
+
+    this.foregroundSound.autoplay = true;
+    this.foregroundSound.src =
+      "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+    this.foregroundSound.play();
+  }
   public playForegroundAudio(
     audioFilename: string,
     wait: number
@@ -103,6 +112,7 @@ export class AudioEngine {
 
     console.log(`enter playForegroundAudio: ${audioFilename}`);
     store.commit(Mutations.setStationIsExecuting, true);
+
     const promise = new Promise<boolean>((resolve, reject) => {
       if (store.state.audio.foreground.isPlaying) {
         // TODO log error
@@ -117,36 +127,64 @@ export class AudioEngine {
 
       // setup the sound
       //
-      this.foregroundSound = new Howl({
-        src: [this.getAudioPath(audioFilenameToActuallyPlay)],
-        format: ["mp3"],
-        html5: true,
-      });
+      // this.foregroundSound = new Howl({
+      //   src: [this.getAudioPath(audioFilenameToActuallyPlay)],
+      //   format: ["mp3"],
+      //   html5: true,
+      // });
 
-      // setup callback for start of audio
-      this.foregroundSound.once("play", () => {
-        this.duckBackgroundAudio();
-        store.commit(Mutations.setForegroundAudioIsPlaying, true);
-        store.commit(Mutations.setCurrentAudioFilename, audioFilename);
-      });
+      const fullAudioPath = this.getAudioPath(audioFilenameToActuallyPlay);
 
-      // setup callback for end of audio
-      this.foregroundSound.once("end", () => {
-        store.commit(Mutations.setForegroundAudioIsPlaying, false);
-        store.commit(Mutations.setCurrentAudioFilename, null);
-        store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
-        this.unduckBackgroundAudio();
-        // this.foregroundSound?.unload();
+      console.log("audioFilenameToActuallyPlay: ", audioFilenameToActuallyPlay);
+      console.log("fullAudioPath : ", fullAudioPath);
+      console.log("Setup audio element for: ", fullAudioPath);
+      console.log("RADAC");
 
-        this.unsetStationIsExecutingWithDelay(5000);
-        resolve(true);
-      });
+      this.foregroundSound.autoplay = true; // For iOS
+      this.foregroundSound.src = fullAudioPath;
 
-      // Press play, with a delay of wait
-      const foregroundSoundClosure = this.foregroundSound;
-      setTimeout(() => {
-        foregroundSoundClosure.play();
-      }, wait * 1000);
+      const foregroundSound = this.foregroundSound;
+
+      // debugger;
+      //   src: [this.getAudioPath(audioFilenameToActuallyPlay)],
+      //   format: ["mp3"],
+      //   html5: true,
+      // });
+      console.log(
+        "Setup event listeners for: ",
+        fullAudioPath,
+        foregroundSound,
+        typeof foregroundSound
+      );
+      if (foregroundSound) {
+        console.log("AT LEAST I GET HERE");
+        foregroundSound.autoplay = true; // for iOS
+        // setup callback for start of audio
+        foregroundSound.oncanplay = () => {
+          console.log("foregroundSound.once.play");
+
+          setTimeout(() => {
+            console.log("The timeout has passed!");
+            this.duckBackgroundAudio();
+            foregroundSound.play();
+            store.commit(Mutations.setForegroundAudioIsPlaying, true);
+            store.commit(Mutations.setCurrentAudioFilename, audioFilename);
+          }, wait * 1000);
+        };
+
+        // setup callback for end of audio
+        foregroundSound.onended = () => {
+          console.log("foregroundSound.once.end");
+          store.commit(Mutations.setForegroundAudioIsPlaying, false);
+          store.commit(Mutations.setCurrentAudioFilename, null);
+          store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
+          this.unduckBackgroundAudio();
+          // this.foregroundSound?.unload();
+
+          this.unsetStationIsExecutingWithDelay(5000);
+          resolve(true);
+        };
+      }
     });
 
     return promise;
@@ -172,40 +210,55 @@ export class AudioEngine {
       const audioFilename = audioFilenames[0];
       // setup the sound
       console.log("setup Howl for: ", audioFilename);
-      this.foregroundSound = new Howl({
-        src: [this.getAudioPath(audioFilename)],
-        format: ["mp3"],
-        html5: true,
-      });
 
-      // setup callback for start of audio
-      this.foregroundSound.once("play", () => {
-        this.duckBackgroundAudio();
-        store.commit(Mutations.setForegroundAudioIsPlaying, true);
-        store.commit(Mutations.setCurrentAudioFilename, audioFilename);
-      });
+      // this.foregroundSound = new Howl({
+      //   src: [this.getAudioPath(audioFilename)],
+      //   format: ["mp3"],
+      //   html5: true,
+      // });
 
-      // setup callback for end of audio
-      this.foregroundSound.once("end", () => {
-        store.commit(Mutations.setForegroundAudioIsPlaying, false);
-        store.commit(Mutations.setCurrentAudioFilename, null);
-        store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
+      // set up a new HTML5 Audio element
+      // const foregroundSound = new Audio(this.getAudioPath(audioFilename));
+      // this.foregroundSound = foregroundSound;
 
-        this.unduckBackgroundAudio();
-        console.log("foregroundSound to unload: ", this.foregroundSound);
-        this.foregroundSound?.unload();
-        // Remove the first element an run again.
-        audioFilenames.shift();
-        if (audioFilenames.length > 0) {
-          this.playMultipleForegroundAudio(audioFilenames);
-        } else {
-          // We are at the end
-          this.unsetStationIsExecutingWithDelay(5000);
-        }
-      });
+      this.foregroundSound.src = this.getAudioPath(audioFilename);
+      this.foregroundSound.autoplay = true;
 
-      // Press play
-      this.foregroundSound.play();
+      const foregroundSound = this.foregroundSound;
+
+      if (foregroundSound) {
+        // Listen for the 'canplay' event
+        foregroundSound.oncanplay = () => {
+          this.duckBackgroundAudio();
+          foregroundSound.play();
+          store.commit(Mutations.setForegroundAudioIsPlaying, true);
+          store.commit(Mutations.setCurrentAudioFilename, audioFilename);
+        };
+
+        // Listen for the 'ended' event
+        foregroundSound.onended = () => {
+          store.commit(Mutations.setForegroundAudioIsPlaying, false);
+          store.commit(Mutations.setCurrentAudioFilename, null);
+          store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
+
+          this.unduckBackgroundAudio();
+          // console.log("foregroundSound to unload: ", this.foregroundSound);
+          // this.foregroundSound?.unload();
+          // Remove the first element an run again.
+          audioFilenames.shift();
+          if (audioFilenames.length > 0) {
+            this.playMultipleForegroundAudio(audioFilenames);
+          } else {
+            // We are at the end
+            this.unsetStationIsExecutingWithDelay(5000);
+          }
+        };
+
+        // // Press play
+        // if (this.foregroundSound) {
+        //   this.foregroundSound.play();
+        // }
+      }
     }
   }
 
