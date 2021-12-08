@@ -9,7 +9,9 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-1-anglamakerskan/qr-assemble-anglamakerskan_converted.WebM"]
+      "audioFilenames": [
+        "./level-1-anglamakerskan/qr-assemble-anglamakerskan.mp3"
+      ]
     }
   ]
 }

@@ -3,33 +3,22 @@
   "type": "story",
   "description": "Chose the path to slutstriden",
   "opens": ["checkin-slutstriden"],
-  
-  "events": [{"action": "startTimer",
-              "name": "checkin-ticking-clock-lamashtu-3min",
-              "time": 180,
-              "then": {
-                "action": "goToStation",
-                "toStation": "checkin-sprickan-oppnas"
-              }
-             },
-              
 
-          {
-            "action": "playAudio",
-            "wait": 0,
-            "audioFilenames": ["./level-4-ticking-clock/continuation-3min_converted.WebM"]
-          
-        
-            
+  "events": [
+    {
+      "action": "startTimer",
+      "name": "checkin-ticking-clock-lamashtu-3min",
+      "time": 180,
+      "then": {
+        "action": "goToStation",
+        "toStation": "checkin-sprickan-oppnas"
+      }
+    },
 
-    
-                    }
-                  
-                
-              
-        
-    
-
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-4-ticking-clock/continuation-3min.mp3"]
+    }
   ]
-  }
-
+}

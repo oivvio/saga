@@ -3,52 +3,42 @@
   "type": "story",
   "description": "Chose the path to slutstriden",
   "opens": ["checkin-slutstriden"],
-  
-  "events": [{"action": "startTimer",
-              "name": "checkin-ticking-clock-lamashtu",
-              "time": 300,
-              "then": {
-                "action": "goToStation",
-                "toStation": "checkin-sprickan-oppnas"
-              }
-             },
-              
-            
 
-          {
-            "action": "playAudio",
-            "wait": 0,
-            "audioFilenames": ["./level-3-ordmagikern/klocka_converted.WebM"],
-          
+  "events": [
+    {
+      "action": "startTimer",
+      "name": "checkin-ticking-clock-lamashtu",
+      "time": 300,
+      "then": {
+        "action": "goToStation",
+        "toStation": "checkin-sprickan-oppnas"
+      }
+    },
+
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": ["./level-3-ordmagikern/klocka.mp3"],
+
+      "then": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./level-4-ticking-clock/5min.mp3"],
+
+        "then": {
+          "action": "playAudio",
+          "wait": 0,
+          "audioFilenames": [
+            "./level-3-ordmagikern/continuation-slutstriden.mp3"
+          ],
 
           "then": {
             "action": "playAudio",
             "wait": 0,
-            "audioFilenames": [
-              "./level-4-ticking-clock/5min_converted.WebM"],
-
-              "then": {
-                "action": "playAudio",
-                "wait": 0,
-                "audioFilenames": [
-                  "./level-3-ordmagikern/continuation-slutstriden_converted.WebM"],
-
-                  "then": {
-                    "action": "playAudio",
-                    "wait": 0,
-                    "audioFilenames": [
-                      "./level-4-ticking-clock/5min-2_converted.WebM"]
-        
-            
-
-    
-                    }
-                  }
-                }
-              }
-        
-    
-
+            "audioFilenames": ["./level-4-ticking-clock/5min-2.mp3"]
+          }
+        }
+      }
+    }
   ]
-  }
-
+}

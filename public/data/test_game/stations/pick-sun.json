@@ -5,8 +5,8 @@
   "opens": [],
 
   "helpAudioFilenames": [
-    "./audio/unreachable-help1_converted.WebM",
-    "./audio/unreachable-help2_converted.WebM"
+    "./audio/unreachable-help1.mp3",
+    "./audio/unreachable-help2.mp3"
   ],
 
   "events": [
@@ -19,7 +19,7 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./audio/you-picked-sun_converted.WebM"],
+      "audioFilenames": ["./audio/you-picked-sun.mp3"],
 
       "then": {
         "action": "switchGotoStation",

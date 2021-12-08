@@ -4,33 +4,35 @@
   "description": "Chose the path to lilith.",
   "opens": ["checkin-lilith"],
   "helpAudioFilenames": [
-    "./level-2-lilith/help-lilith-1_converted.WebM",
-    "./level-2-lilith/help-lilith-2_converted.WebM"
+    "./level-2-lilith/help-lilith-1.mp3",
+    "./level-2-lilith/help-lilith-2.mp3"
   ],
-  "helpCost":1 ,
+  "helpCost": 1,
   "events": [
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-1-anglamakerskan/anglamakerskan-lillith-choice-square_converted.WebM"]
+      "audioFilenames": [
+        "./level-1-anglamakerskan/anglamakerskan-lillith-choice-square.mp3"
+      ]
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/fx_converted.WebM",
+      "audioFilename": "./level-global/Stems-1/fx.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/bass_converted.WebM",
+      "audioFilename": "./level-global/Stems-1/bass.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/strings_converted.WebM",
+      "audioFilename": "./level-global/Stems-1/strings.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0

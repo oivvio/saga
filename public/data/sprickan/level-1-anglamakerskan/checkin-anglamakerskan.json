@@ -14,44 +14,44 @@
         "action": "playAudio",
         "wait": 0,
         "audioFilenames": [
-          "./level-1-anglamakerskan/ring-tillbaka-anglamakerskan_converted.WebM"
+          "./level-1-anglamakerskan/ring-tillbaka-anglamakerskan.mp3"
         ],
 
         "then": {
           "action": "playAudioBasedOnAdHocValue",
           "key": "powerName",
           "audioFilenameMap": {
-            "gladje,sol": "./level-1-anglamakerskan/essence-anglamakerskan-gladje_converted.WebM",
-            "gladje,vind": "./level-1-anglamakerskan/essence-anglamakerskan-gladje_converted.WebM",
-            "gladje,sno": "./level-1-anglamakerskan/essence-anglamakerskan-gladje_converted.WebM",
-            "gladje,mane": "./level-1-anglamakerskan/essence-anglamakerskan-gladje_converted.WebM",
-            "gladje,regn": "./level-1-anglamakerskan/essence-anglamakerskan-gladje_converted.WebM",
-            "ilska,sol": "./level-1-anglamakerskan/essence-anglamakerskan-ilska_converted.WebM",
-            "ilska,vind": "./level-1-anglamakerskan/essence-anglamakerskan-ilska_converted.WebM",
-            "ilska,sno": "./level-1-anglamakerskan/essence-anglamakerskan-ilska_converted.WebM",
-            "ilska,mane": "./level-1-anglamakerskan/essence-anglamakerskan-ilska_converted.WebM",
-            "ilska,regn": "./level-1-anglamakerskan/essence-anglamakerskan-ilska_converted.WebM",
-            "lycka,sol": "./level-1-anglamakerskan/essence-anglamakerskan-lycka_converted.WebM",
-            "lycka,vind": "./level-1-anglamakerskan/essence-anglamakerskan-lycka_converted.WebM",
-            "lycka,sno": "./level-1-anglamakerskan/essence-anglamakerskan-lycka_converted.WebM",
-            "lycka,mane": "./level-1-anglamakerskan/essence-anglamakerskan-lycka_converted.WebM",
-            "lycka,regn": "./level-1-anglamakerskan/essence-anglamakerskan-lycka_converted.WebM",
-            "sorg,sol": "./level-1-anglamakerskan/essence-anglamakerskan-sorg_converted.WebM",
-            "sorg,vind": "./level-1-anglamakerskan/essence-anglamakerskan-sorg_converted.WebM",
-            "sorg,sno": "./level-1-anglamakerskan/essence-anglamakerskan-sorg_converted.WebM",
-            "sorg,regn": "./level-1-anglamakerskan/essence-anglamakerskan-sorg_converted.WebM",
-            "vild,sol": "./level-1-anglamakerskan/essence-anglamakerskan-vild_converted.WebM",
-            "vild,vind": "./level-1-anglamakerskan/essence-anglamakerskan-vild_converted.WebM",
-            "vild,sno": "./level-1-anglamakerskan/essence-anglamakerskan-vild_converted.WebM",
-            "vild,mane": "./level-1-anglamakerskan/essence-anglamakerskan-vild_converted.WebM",
-            "vild,regn": "./level-1-anglamakerskan/essence-anglamakerskan-vild_converted.WebM"
+            "gladje,sol": "./level-1-anglamakerskan/essence-anglamakerskan-gladje.mp3",
+            "gladje,vind": "./level-1-anglamakerskan/essence-anglamakerskan-gladje.mp3",
+            "gladje,sno": "./level-1-anglamakerskan/essence-anglamakerskan-gladje.mp3",
+            "gladje,mane": "./level-1-anglamakerskan/essence-anglamakerskan-gladje.mp3",
+            "gladje,regn": "./level-1-anglamakerskan/essence-anglamakerskan-gladje.mp3",
+            "ilska,sol": "./level-1-anglamakerskan/essence-anglamakerskan-ilska.mp3",
+            "ilska,vind": "./level-1-anglamakerskan/essence-anglamakerskan-ilska.mp3",
+            "ilska,sno": "./level-1-anglamakerskan/essence-anglamakerskan-ilska.mp3",
+            "ilska,mane": "./level-1-anglamakerskan/essence-anglamakerskan-ilska.mp3",
+            "ilska,regn": "./level-1-anglamakerskan/essence-anglamakerskan-ilska.mp3",
+            "lycka,sol": "./level-1-anglamakerskan/essence-anglamakerskan-lycka.mp3",
+            "lycka,vind": "./level-1-anglamakerskan/essence-anglamakerskan-lycka.mp3",
+            "lycka,sno": "./level-1-anglamakerskan/essence-anglamakerskan-lycka.mp3",
+            "lycka,mane": "./level-1-anglamakerskan/essence-anglamakerskan-lycka.mp3",
+            "lycka,regn": "./level-1-anglamakerskan/essence-anglamakerskan-lycka.mp3",
+            "sorg,sol": "./level-1-anglamakerskan/essence-anglamakerskan-sorg.mp3",
+            "sorg,vind": "./level-1-anglamakerskan/essence-anglamakerskan-sorg.mp3",
+            "sorg,sno": "./level-1-anglamakerskan/essence-anglamakerskan-sorg.mp3",
+            "sorg,regn": "./level-1-anglamakerskan/essence-anglamakerskan-sorg.mp3",
+            "vild,sol": "./level-1-anglamakerskan/essence-anglamakerskan-vild.mp3",
+            "vild,vind": "./level-1-anglamakerskan/essence-anglamakerskan-vild.mp3",
+            "vild,sno": "./level-1-anglamakerskan/essence-anglamakerskan-vild.mp3",
+            "vild,mane": "./level-1-anglamakerskan/essence-anglamakerskan-vild.mp3",
+            "vild,regn": "./level-1-anglamakerskan/essence-anglamakerskan-vild.mp3"
           },
 
           "then": {
             "action": "playAudio",
             "wait": 0,
             "audioFilenames": [
-              "./level-1-anglamakerskan/continuation-anglamakerskan_converted.WebM"
+              "./level-1-anglamakerskan/continuation-anglamakerskan.mp3"
             ],
 
             "then": {
@@ -68,7 +68,7 @@
         "action": "playAudio",
         "wait": 0,
         "audioFilenames": [
-          "./level-1-anglamakerskan/checkin-anglamakerskan_converted.WebM"
+          "./level-1-anglamakerskan/checkin-anglamakerskan.mp3"
         ],
 
         "then": {

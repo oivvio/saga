@@ -5,20 +5,16 @@
   "opens": ["checkin-fonstret-choice-circle", "checkin-fonstret-choice-square"],
 
   "helpAudioFilenames": [
-    "./level-0-start/checkin-fraga_converted.WebM",
-    "./level-0-start/checkin-fraga_converted.WebM"
+    "./level-0-start/checkin-fraga.mp3",
+    "./level-0-start/checkin-fraga.mp3"
   ],
-  "helpCost":0 ,
+  "helpCost": 0,
 
   "events": [
     {
       "action": "playAudio",
-      "audioFilenames": ["./level-0-start/checkin-fonstret_converted.WebM"],
+      "audioFilenames": ["./level-0-start/checkin-fonstret.mp3"],
       "wait": 0
-      
     }
-  
-
-    
   ]
 }

@@ -7,26 +7,26 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-start/barngravarna-choice-square_converted.WebM"]
+      "audioFilenames": ["./level-0-start/barngravarna-choice-square.mp3"]
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/fx_converted.WebM",
+      "audioFilename": "./level-global/Stems-1/fx.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/strings_converted.WebM",
+      "audioFilename": "./level-global/Stems-1/strings.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     }
   ],
   "helpAudioFilenames": [
-    "./level-0-barngravarna/help-barngravarna-1_converted.WebM",
-    "./level-0-barngravarna/help-barngravarna-2_converted.WebM"
+    "./level-0-barngravarna/help-barngravarna-1.mp3",
+    "./level-0-barngravarna/help-barngravarna-2.mp3"
   ],
-  "helpCost":1 
+  "helpCost": 1
 }

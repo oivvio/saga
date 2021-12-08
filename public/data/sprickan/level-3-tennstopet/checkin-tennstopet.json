@@ -1,24 +1,27 @@
 {
-  
-    "id": "checkin-tennstopet",
-    "type": "story",
-    "description": "You are at tennstopet",
-    "opens": ["checkin-tennstopet-choice-circle", "checkin-tennstopet-choice-square"],
-  
-  
-    "events": [
-      {
-        "action": "playAudio",
-        "wait": 0,
-        "audioFilenames": ["./level-3-tennstopet/checkin-tennstopet_converted.WebM","./level-3-tennstopet/checkin-tennstopet-b_converted.WebM"]
-      },
-      {
-        "action": "playBackgroundAudio",
-        "audioFilename": "./level-global/tystnad_converted.WebM",
-        "loop": true,
-        "cancelOnLeave": true,
-        "wait": 0
-      }
-    ]
-  }
-  
+  "id": "checkin-tennstopet",
+  "type": "story",
+  "description": "You are at tennstopet",
+  "opens": [
+    "checkin-tennstopet-choice-circle",
+    "checkin-tennstopet-choice-square"
+  ],
+
+  "events": [
+    {
+      "action": "playAudio",
+      "wait": 0,
+      "audioFilenames": [
+        "./level-3-tennstopet/checkin-tennstopet.mp3",
+        "./level-3-tennstopet/checkin-tennstopet-b.mp3"
+      ]
+    },
+    {
+      "action": "playBackgroundAudio",
+      "audioFilename": "./level-global/tystnad.mp3",
+      "loop": true,
+      "cancelOnLeave": true,
+      "wait": 0
+    }
+  ]
+}

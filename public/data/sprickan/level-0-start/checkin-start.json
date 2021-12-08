@@ -4,28 +4,28 @@
   "description": "Sprickans start sätter igång",
   "opens": ["checkin-start-choice-circle", "checkin-start-choice-square"],
   "helpAudioFilenames": [
-    "./level-0-start/checkin-fraga_converted.WebM",
-    "./level-0-start/checkin-fraga_converted.WebM"
+    "./level-0-start/checkin-fraga.mp3",
+    "./level-0-start/checkin-fraga.mp3"
   ],
-  "helpCost":0 ,
+  "helpCost": 0,
 
   "events": [
-    
-    
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-0-start/checkin-start_converted.WebM", "./level-0-start/checkin-fonstret-b-1_converted.WebM", "./level-0-start/checkin-fonstret-b-1_converted.WebM"]
+      "audioFilenames": [
+        "./level-0-start/checkin-start.mp3",
+        "./level-0-start/checkin-fonstret-b-1.mp3",
+        "./level-0-start/checkin-fonstret-b-1.mp3"
+      ]
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Stems-1/strings_converted.WebM",
+      "audioFilename": "./level-global/Stems-1/strings.mp3",
       "loop": true,
       "cancelOnLeave": true,
       "wait": 0
     },
-
-
 
     {
       "action": "pickRandomSample",
@@ -54,7 +54,6 @@
         ["vild", "sno"],
         ["vild", "mane"],
         ["vild", "regn"]
-
       ],
       "key": "powerName"
     }

@@ -4,8 +4,8 @@
   "description": "the player won",
   "opens": [],
   "helpAudioFilenames": [
-    "./audio/unreachable-help1_converted.WebM",
-    "./audio/unreachable-help2_converted.WebM"
+    "./audio/unreachable-help1.mp3",
+    "./audio/unreachable-help2.mp3"
   ],
   "helpCost": 0,
 
@@ -20,14 +20,14 @@
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": [
-        "./level-5-slutet/continuation-sprickan-stangs-grattis_converted.WebM"
+        "./level-5-slutet/continuation-sprickan-stangs-grattis.mp3"
       ],
 
       "then": {
         "action": "playAudio",
         "wait": 0,
         "audioFilenames": [
-          "./level-5-slutet/continuation-sprickan-stangs-spelet-slut_converted.WebM"
+          "./level-5-slutet/continuation-sprickan-stangs-spelet-slut.mp3"
         ]
       }
     }
