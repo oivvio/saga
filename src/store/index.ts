@@ -30,6 +30,7 @@ interface IUserState {
   adHocData: Record<string, any>;
   tags: string[];
   hasPlayedTutorial: boolean;
+  stationIsExecuting: boolean;
 }
 
 export interface IState {
@@ -91,6 +92,7 @@ const initialState: IState = {
     adHocData: {} as Record<string, any>,
     tags: [],
     hasPlayedTutorial: false,
+    stationIsExecuting: false,
   },
   audio: {
     volume: 0,
@@ -282,6 +284,11 @@ export const store = createStore({
         }
       });
     },
+
+    setStationIsExecuting(state: IState, value: boolean) {
+      console.log("set station is executing: ", value);
+      state.user.stationIsExecuting = value;
+    },
   },
   actions: {},
   modules: {},
@@ -337,4 +344,5 @@ export enum Mutations {
   setLastStationVisitedId = "setLastStationVisitedId",
   pushTags = "pushTags",
   completeTutorial = "completeTutorial",
+  setStationIsExecuting = "setStationIsExecuting",
 }

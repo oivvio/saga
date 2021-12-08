@@ -29,7 +29,7 @@ export default defineComponent({
 
   computed: {
     isOpen() {
-      return this.$store.state.user.QRScannerCanBeDisplayed;
+      return !this.$store.state.user.stationIsExecuting;
     },
   },
 });

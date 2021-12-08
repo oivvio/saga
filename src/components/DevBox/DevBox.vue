@@ -44,6 +44,11 @@
       </tr>
 
       <tr>
+        <td>stationIsExecuting:</td>
+        <td>{{ this.$store.state.user.stationIsExecuting }}</td>
+      </tr>
+
+      <tr>
         <td>openStations:</td>
 
         <td>

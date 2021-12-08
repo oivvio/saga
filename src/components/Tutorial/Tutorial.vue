@@ -1,18 +1,18 @@
 <template>
   <div class="Tutorial">
-    <video id="videoTutorial"
+    <video
+      id="videoTutorial"
       controls
       autoplay
       playsinline
       webkit-playsinline
       v-on:ended="onEnded"
     >
-      <source
-        src="/video/SprickanH264.mp4"
-        type="video/mp4"
-      />
+      <source src="/video/SprickanH264.mp4" type="video/mp4" />
     </video>
-    <button @click="completeTutorial" v-if="displayButton">Öppna scannern</button>
+    <button @click="completeTutorial" v-if="displayButton">
+      Öppna scannern
+    </button>
   </div>
 </template>
 
@@ -29,27 +29,24 @@ import * as Sentry from "@sentry/browser";
 export default defineComponent({
   name: "Tutorial",
   data() {
-      return {
-          displayButton: false,
-      };
+    return {
+      displayButton: false,
+    };
   },
 
   methods: {
     onEnded(event: Event) {
       // For now do nothing so that we can tie
       // store.commit(Mutations.completeTutorial);
-        this.displayButton = true;
-
+      this.displayButton = true;
     },
 
     completeTutorial() {
-
       // Don't dim the screen. Ever.
       try {
         // This should be loaded from index.html script tag
         const noSleep = new (window as any).NoSleep();
         noSleep.enable();
-
       } catch (error) {
         console.log(error);
         Sentry.captureMessage("Unable to enter noSleep");
@@ -58,10 +55,12 @@ export default defineComponent({
       store.commit(Mutations.completeTutorial);
 
       // Remove the video element, since it's will sometimes continue playing on the "next" screen if we don't
-        const video: HTMLVideoElement|null = document.getElementById("videoTutorial") as HTMLVideoElement;
-        if(video !== null) {
-            video.remove();
-        }
+      const video: HTMLVideoElement | null = document.getElementById(
+        "videoTutorial"
+      ) as HTMLVideoElement;
+      if (video !== null) {
+        video.remove();
+      }
 
       // Play a little audio since our audio engine sometimes has problems playing the first file.
       const audioEngine = AudioEngine.getInstance();
@@ -73,10 +72,7 @@ export default defineComponent({
         document.documentElement.requestFullscreen();
       } catch (error) {
         console.log("This browser does not support fullscreen.");
-
       }
-
-
     },
   },
 });
