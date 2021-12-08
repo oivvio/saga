@@ -62,7 +62,7 @@ export default defineComponent({
 
       // Play a little audio since our audio engine sometimes has problems playing the first file.
       const audioEngine = AudioEngine.getInstance();
-      const audioFile = "./audio/beep.mp3";
+      const audioFile = "./audio/silence.mp3";
       audioEngine.playForegroundAudio(audioFile, 0);
     },
   },
