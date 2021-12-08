@@ -79,7 +79,14 @@ export default defineComponent({
       audioEngine.playForegroundAudio(audioFile, 0);
 
       // request fullscreen. Will not work in iOS
-      document.documentElement.requestFullscreen();
+      try {
+        document.documentElement.requestFullscreen();
+      } catch (error) {
+        console.log("This browser does not support fullscreen.");
+
+      }
+
+
     },
   },
 });
