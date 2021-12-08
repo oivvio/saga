@@ -19,6 +19,7 @@
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": ["./level-3-ordmagikern/klocka.mp3"],
+      
 
       "then": {
         "action": "playAudio",
