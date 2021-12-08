@@ -47,6 +47,22 @@ export class AudioEngine {
     );
   }
 
+  private unsetStationIsExecutingWithDelay(delay: number) {
+    // Wait for a while, then check if something else is playing
+    // eslint-disable-next-line
+    const audioEngineInstance = this;
+    setTimeout(function () {
+      // If we think that some audio is playing please wait
+      if (store.state.audio.foreground.isPlaying) {
+        console.log("foreground isPlaying so we wait another round.");
+        audioEngineInstance.unsetStationIsExecutingWithDelay(delay);
+      } else {
+        console.log("no foreground isPlaying so we open the scanner");
+        store.commit(Mutations.setStationIsExecuting, false);
+      }
+    }, delay);
+  }
+
   private getAudioPath(filename: string): string {
     let result = "";
     if (store.state.gameConfig) {
@@ -86,6 +102,7 @@ export class AudioEngine {
     //
 
     console.log(`enter playForegroundAudio: ${audioFilename}`);
+    store.commit(Mutations.setStationIsExecuting, true);
     const promise = new Promise<boolean>((resolve, reject) => {
       if (store.state.audio.foreground.isPlaying) {
         // TODO log error
@@ -120,6 +137,8 @@ export class AudioEngine {
         store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
         this.unduckBackgroundAudio();
         // this.foregroundSound?.unload();
+
+        this.unsetStationIsExecutingWithDelay(5000);
         resolve(true);
       });
 
@@ -140,6 +159,8 @@ export class AudioEngine {
    * play one or more consecutive audioFiles
    */
   public playMultipleForegroundAudio(audioFilenames: string[]): void {
+    store.commit(Mutations.setStationIsExecuting, true);
+
     //1. Check that no other main audio is playing
     if (store.state.audio.foreground.isPlaying) {
       // TODO log error
@@ -177,6 +198,9 @@ export class AudioEngine {
         audioFilenames.shift();
         if (audioFilenames.length > 0) {
           this.playMultipleForegroundAudio(audioFilenames);
+        } else {
+          // We are at the end
+          this.unsetStationIsExecutingWithDelay(5000);
         }
       });
 

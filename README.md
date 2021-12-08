@@ -87,3 +87,5 @@ Rewrite with these things in mind:
    state.
 
 7. More powerful validation. jsonschema is weak.
+
+8. A mechanism for accurately keeping track of if a station is currently executing or not.
