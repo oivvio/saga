@@ -12,13 +12,6 @@
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": ["./level-2-lilith/continuation-lilith.mp3"]
-    },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/tystnad.mp3",
-      "loop": true,
-      "cancelOnLeave": true,
-      "wait": 0
     }
   ]
 }
