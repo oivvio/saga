@@ -39,7 +39,14 @@ export default defineComponent({
     },
 
     playerWon(): boolean {
-      return this.$store.state.user.adHocData["playerWon"];
+      return (
+        this.$store.state.user.adHocData["playerWon"] ||
+        this.$store.state.user.tags.includes("playerWon")
+      );
+    },
+
+    showPowerName(): boolean {
+      return this.$store.state.user.adHocData["showPowerName"];
     },
 
     hasPlayedTutorial(): boolean {
