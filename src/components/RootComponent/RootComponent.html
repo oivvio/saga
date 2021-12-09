@@ -1,11 +1,9 @@
 <div class="RootComponent">
-
     <tutorial v-if="!hasPlayedTutorial"></tutorial>
     <div v-else>
-    <animation></animation>
-    <show-power-name v-if="playerWon"></show-power-name>
+    <animation v-if="!showPowerName"></animation>
+    <show-power-name v-if="showPowerName"></show-power-name>
     <saga-qr-reader v-if="QRScannerCanBeDisplayed && !playerWon"></saga-qr-reader>
     <dev-box v-if="displayDevBox"></dev-box>
     </div>
-
 </div>

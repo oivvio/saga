@@ -11,51 +11,62 @@
 
   "events": [
     {
-      "action": "playAudio",
-      "wait": 0,
-      "audioFilenames": [
-        "./level-0-start/checkin-start.mp3",
-        "./level-0-start/checkin-fonstret-b-1.mp3",
-        "./level-0-start/checkin-fonstret-b-1.mp3"
-      ]
-    },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Drone/drone-1.mp3",
-      "loop": true,
-      "cancelOnLeave": false,
-      "wait": 90
-    },
+      "action": "choiceBasedOnTags",
+      "tags": ["playerWon"],
 
-    {
-      "action": "pickRandomSample",
-      "population": [
-        ["gladje", "sol"],
-        ["gladje", "vind"],
-        ["gladje", "sno"],
-        ["gladje", "mane"],
-        ["gladje", "regn"],
-        ["sorg", "sol"],
-        ["sorg", "vind"],
-        ["sorg", "sno"],
-        ["sorg", "regn"],
-        ["lycka", "sol"],
-        ["lycka", "vind"],
-        ["lycka", "sno"],
-        ["lycka", "mane"],
-        ["lycka", "regn"],
-        ["ilska", "sol"],
-        ["ilska", "vind"],
-        ["ilska", "sno"],
-        ["ilska", "mane"],
-        ["ilska", "regn"],
-        ["vild", "sol"],
-        ["vild", "vind"],
-        ["vild", "sno"],
-        ["vild", "mane"],
-        ["vild", "regn"]
-      ],
-      "key": "powerName"
+      "eventIfPresent": {
+        "action": "setAdHocData",
+        "key": "showPowerName",
+        "value": true
+      },
+      "eventIfNotPresent": {
+        "action": "playBackgroundAudio",
+        "audioFilename": "./level-global/Drone/drone-1.mp3",
+        "loop": true,
+        "cancelOnLeave": false,
+        "wait": 90,
+
+        "then": {
+          "action": "playAudio",
+          "wait": 0,
+          "audioFilenames": [
+            "./level-0-start/checkin-start.mp3",
+            "./level-0-start/checkin-fonstret-b-1.mp3",
+            "./level-0-start/checkin-fonstret-b-1.mp3"
+          ],
+
+          "then": {
+            "action": "pickRandomSample",
+            "population": [
+              ["gladje", "sol"],
+              ["gladje", "vind"],
+              ["gladje", "sno"],
+              ["gladje", "mane"],
+              ["gladje", "regn"],
+              ["sorg", "sol"],
+              ["sorg", "vind"],
+              ["sorg", "sno"],
+              ["sorg", "regn"],
+              ["lycka", "sol"],
+              ["lycka", "vind"],
+              ["lycka", "sno"],
+              ["lycka", "mane"],
+              ["lycka", "regn"],
+              ["ilska", "sol"],
+              ["ilska", "vind"],
+              ["ilska", "sno"],
+              ["ilska", "mane"],
+              ["ilska", "regn"],
+              ["vild", "sol"],
+              ["vild", "vind"],
+              ["vild", "sno"],
+              ["vild", "mane"],
+              ["vild", "regn"]
+            ],
+            "key": "powerName"
+          }
+        }
+      }
     }
   ]
 }

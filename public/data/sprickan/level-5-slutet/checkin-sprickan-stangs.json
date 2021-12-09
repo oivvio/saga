@@ -2,6 +2,7 @@
   "id": "checkin-sprickan-stangs",
   "type": "story",
   "description": "the player won",
+  "tags": ["playerWon"],
   "opens": [],
   "helpAudioFilenames": [
     "./audio/unreachable-help1.mp3",
@@ -10,12 +11,6 @@
   "helpCost": 0,
 
   "events": [
-    {
-      "action": "setAdHocData",
-      "key": "playerWon",
-      "value": true
-    },
-
     {
       "action": "playAudio",
       "wait": 0,
@@ -28,7 +23,12 @@
         "wait": 0,
         "audioFilenames": [
           "./level-5-slutet/continuation-sprickan-stangs-spelet-slut.mp3"
-        ]
+        ],
+
+        "then": {
+          "action": "openStation",
+          "toStation": "checkin-start"
+        }
       }
     }
   ]

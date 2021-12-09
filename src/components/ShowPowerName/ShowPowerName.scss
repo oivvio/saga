@@ -21,7 +21,8 @@ div.ShowPowerName {
     display: flex;
     justify-content: center;
     img {
-      align-self: center;
+      padding-top: 2rem;
+      align-self: start;
 
       width: 80vw;
       height: 1.5 * 80vw;
@@ -80,16 +81,16 @@ div.ShowPowerName {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     padding-left: 1rem;
     padding-right: 1rem;
     h1 {
-      color: white;
       font-family: sans-serif;
       font-weight: bold;
       text-align: center;
-      font-size: 50px;
+      font-size: 35px;
       color: black;
+      padding-bottom: 6rem;
     }
   }
 }
