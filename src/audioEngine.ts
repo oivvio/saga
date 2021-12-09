@@ -12,8 +12,9 @@ import { joinPaths } from "./utils";
 // https://refactoring.guru/design-patterns/singleton/typescript/example
 export class AudioEngine {
   private static instance: AudioEngine;
-  private static bgDuckedVolume = 0.075; // TODO set to 0.3
-  private static bgFullVolume = 1; // TODO set to 1
+  // private static bgDuckedVolume = 0.075;
+  private static bgDuckedVolume = 0.15;
+  private static bgFullVolume = 1;
   private static bgFadeInDuration = 2000;
   private static bgFadeOutDuration = 2000;
   //private foregroundSound: Howl | undefined;
@@ -110,18 +111,15 @@ export class AudioEngine {
     //1. Check that no other main audio is playing
     //
 
-    console.log(`enter playForegroundAudio: ${audioFilename}`);
     store.commit(Mutations.setStationIsExecuting, true);
 
     const promise = new Promise<boolean>((resolve, reject) => {
       if (store.state.audio.foreground.isPlaying) {
         // TODO log error
-        console.log("sorry");
         reject(false);
       }
       let audioFilenameToActuallyPlay = audioFilename;
       if (store.state.debugQuickAudio) {
-        console.log(`PLAYING DEBUG AUDIO in lieu of ${audioFilename}`);
         audioFilenameToActuallyPlay = "/audio/beep.mp3";
       }
 
@@ -135,36 +133,16 @@ export class AudioEngine {
 
       const fullAudioPath = this.getAudioPath(audioFilenameToActuallyPlay);
 
-      console.log("audioFilenameToActuallyPlay: ", audioFilenameToActuallyPlay);
-      console.log("fullAudioPath : ", fullAudioPath);
-      console.log("Setup audio element for: ", fullAudioPath);
-      console.log("RADAC");
-
       this.foregroundSound.autoplay = true; // For iOS
       this.foregroundSound.src = fullAudioPath;
 
       const foregroundSound = this.foregroundSound;
 
-      // debugger;
-      //   src: [this.getAudioPath(audioFilenameToActuallyPlay)],
-      //   format: ["mp3"],
-      //   html5: true,
-      // });
-      console.log(
-        "Setup event listeners for: ",
-        fullAudioPath,
-        foregroundSound,
-        typeof foregroundSound
-      );
       if (foregroundSound) {
-        console.log("AT LEAST I GET HERE");
         foregroundSound.autoplay = true; // for iOS
         // setup callback for start of audio
         foregroundSound.oncanplay = () => {
-          console.log("foregroundSound.once.play");
-
           setTimeout(() => {
-            console.log("The timeout has passed!");
             this.duckBackgroundAudio();
             foregroundSound.play();
             store.commit(Mutations.setForegroundAudioIsPlaying, true);
@@ -174,7 +152,6 @@ export class AudioEngine {
 
         // setup callback for end of audio
         foregroundSound.onended = () => {
-          console.log("foregroundSound.once.end");
           store.commit(Mutations.setForegroundAudioIsPlaying, false);
           store.commit(Mutations.setCurrentAudioFilename, null);
           store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
@@ -202,24 +179,12 @@ export class AudioEngine {
     //1. Check that no other main audio is playing
     if (store.state.audio.foreground.isPlaying) {
       // TODO log error
-      console.log("sorry");
       return undefined;
     }
 
     if (audioFilenames.length > 0) {
       const audioFilename = audioFilenames[0];
       // setup the sound
-      console.log("setup Howl for: ", audioFilename);
-
-      // this.foregroundSound = new Howl({
-      //   src: [this.getAudioPath(audioFilename)],
-      //   format: ["mp3"],
-      //   html5: true,
-      // });
-
-      // set up a new HTML5 Audio element
-      // const foregroundSound = new Audio(this.getAudioPath(audioFilename));
-      // this.foregroundSound = foregroundSound;
 
       this.foregroundSound.src = this.getAudioPath(audioFilename);
       this.foregroundSound.autoplay = true;
@@ -242,8 +207,7 @@ export class AudioEngine {
           store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
 
           this.unduckBackgroundAudio();
-          // console.log("foregroundSound to unload: ", this.foregroundSound);
-          // this.foregroundSound?.unload();
+
           // Remove the first element an run again.
           audioFilenames.shift();
           if (audioFilenames.length > 0) {
@@ -253,11 +217,6 @@ export class AudioEngine {
             this.unsetStationIsExecutingWithDelay(5000);
           }
         };
-
-        // // Press play
-        // if (this.foregroundSound) {
-        //   this.foregroundSound.play();
-        // }
       }
     }
   }
@@ -290,13 +249,11 @@ export class AudioEngine {
     );
 
     // Setup the current background sound
-    console.log("setup Howl for: ", event.audioFilename);
 
     const backgroundSound = new Howl({
       src: [this.getAudioPath(event.audioFilename)],
       format: ["mp3"],
       loop: event.loop,
-      // preload: true,      html5: true,
     });
 
     // Add this backgroundSound to our list of backgroundSounds
@@ -335,11 +292,13 @@ export class AudioEngine {
   public cancelDueBackgroundSounds(): void {
     // Find bgSounds that are not from the current station and
     // should be cancelled when "their" station is no longer current
-    const bgSoundsToCancel = this.backgroundSounds.filter(
-      (bgSound) =>
+
+    const bgSoundsToCancel = this.backgroundSounds.filter((bgSound) => {
+      return (
         bgSound.stationId !== store.state.user.currentStation &&
         bgSound.event.cancelOnLeave
-    );
+      );
+    });
 
     // Kill them
     bgSoundsToCancel.forEach((bgSound) => {
