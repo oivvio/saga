@@ -357,7 +357,6 @@ export function runStationById(stationId: StationID): void {
 export function runStation(station: Station): void {
   // For any station, check if there is any background audio running that should be stopped
   const audioEngine = AudioEngine.getInstance();
-  audioEngine.cancelDueBackgroundSounds();
 
   const stationIsOpen = store.state.user.openStations?.includes(station.id);
 
@@ -381,6 +380,10 @@ export function runStation(station: Station): void {
     }
     //  And then we update the current station
     store.commit(Mutations.setCurrentStation, station.id);
+
+    // Now that we are officially "at" the new station let's check to see if there are any old
+    // backgrounds sounds to cancel
+    audioEngine.cancelDueBackgroundSounds();
 
     switch (station.type) {
       case "help":
