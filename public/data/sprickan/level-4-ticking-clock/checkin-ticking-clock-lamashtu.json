@@ -7,7 +7,7 @@
   "events": [
     {
       "action": "startTimer",
-      "name": "checkin-ticking-clock-lamashtu",
+      "name": "ticking-clock-lamashtu",
       "time": 300,
       "then": {
         "action": "goToStation",
