@@ -52,10 +52,19 @@
           "audioFilenames": [
             "./level-3-ordmagikern/continuation-essence-ordmagikern-namn.mp3"
           ],
+          "then":
+         {
+        "action": "playBackgroundAudio",
+        "audioFilename": "./level-global/Drone/drone-1.mp3",
+        "loop": true,
+        "cancelOnLeave": false,
+        "wait": 0,
+        "then": {
+          "action": "goToStation",
+          "toStation": "checkin-ticking-clock-lamashtu"
+         }
 
-          "then": {
-            "action": "goToStation",
-            "toStation": "checkin-ticking-clock-lamashtu"
+          
           }
           
         }
