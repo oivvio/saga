@@ -7,11 +7,6 @@
         {
           "$ref": "#/definitions/IEventPlayAudio"
         },
-
-        {
-          "$ref": "#/definitions/IEventNoop"
-        },
-
         {
           "$ref": "#/definitions/IEventPlayAudioBasedOnAdHocValue"
         },
@@ -30,7 +25,6 @@
         {
           "$ref": "#/definitions/IEventOpenStations"
         },
-
         {
           "$ref": "#/definitions/IEventPushToAdHocArrayEvent"
         },
@@ -40,7 +34,6 @@
         {
           "$ref": "#/definitions/IEventChoiceBasedOnAbsenceOfTags"
         },
-
         {
           "$ref": "#/definitions/IEventSetAdHocDataEvent"
         },
@@ -51,11 +44,13 @@
           "$ref": "#/definitions/IEventCancelTimer"
         },
         {
-          "$ref": "#/definitions/IEventSwitchGotoStation"
-        },
-
-        {
           "$ref": "#/definitions/IEventPowerNameChoice"
+        },
+        {
+          "$ref": "#/definitions/IEventNoop"
+        },
+        {
+          "$ref": "#/definitions/IEventSwitchGotoStation"
         }
       ]
     },
@@ -73,31 +68,6 @@
       "required": ["action", "name"],
       "type": "object"
     },
-
-    "IEventChoiceBasedOnTags": {
-      "additionalProperties": false,
-      "properties": {
-        "action": {
-          "const": "choiceBasedOnTags",
-          "type": "string"
-        },
-        "eventIfNotPresent": {
-          "$ref": "#/definitions/IEvent"
-        },
-        "eventIfPresent": {
-          "$ref": "#/definitions/IEvent"
-        },
-        "tags": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "required": ["action", "tags", "eventIfPresent", "eventIfNotPresent"],
-      "type": "object"
-    },
-
     "IEventChoiceBasedOnAbsenceOfTags": {
       "additionalProperties": false,
       "properties": {
@@ -121,79 +91,29 @@
       "required": ["action", "tags", "eventIfPresent", "eventIfNotPresent"],
       "type": "object"
     },
-
-    "IEventPowerNameChoice": {
-      "additionalProperties": true,
+    "IEventChoiceBasedOnTags": {
+      "additionalProperties": false,
       "properties": {
         "action": {
-          "const": "powerNameChoice",
+          "const": "choiceBasedOnTags",
           "type": "string"
         },
-
-        "onFirstFailurePlay": {
-          "type": "string"
+        "eventIfNotPresent": {
+          "$ref": "#/definitions/IEvent"
         },
-        "onSecondFailureGoTo": {
-          "$ref": "#/definitions/StationID"
+        "eventIfPresent": {
+          "$ref": "#/definitions/IEvent"
         },
-        "onSecondFailurePlay": {
-          "type": "string"
-        },
-        "onSuccessOpen": {
+        "tags": {
           "items": {
-            "$ref": "#/definitions/StationID"
+            "type": "string"
           },
           "type": "array"
-        },
-        "onSuccessPlay": {
-          "type": "string"
-        },
-
-        "ghostOnFirstFailurePlay": {
-          "type": "string"
-        },
-        "ghostOnSecondFailureGoTo": {
-          "$ref": "#/definitions/StationID"
-        },
-        "ghostOnSecondFailurePlay": {
-          "type": "string"
-        },
-        "ghostOnSuccessOpen": {
-          "items": {
-            "$ref": "#/definitions/StationID"
-          },
-          "type": "array"
-        },
-        "ghostOnSuccessPlay": {
-          "type": "string"
-        },
-
-        "part": {
-          "type": "number"
-        },
-        "value": {
-          "type": "string"
         }
       },
-      "required": [
-        "action",
-        "part",
-        "onSuccessOpen",
-        "onSuccessPlay",
-        "onFirstFailurePlay",
-        "onSecondFailurePlay",
-        "onSecondFailureGoTo",
-        "ghostOnSuccessOpen",
-        "ghostOnSuccessPlay",
-        "ghostOnFirstFailurePlay",
-        "ghostOnSecondFailurePlay",
-        "ghostOnSecondFailureGoTo",
-        "value"
-      ],
-
+      "required": ["action", "tags", "eventIfPresent", "eventIfNotPresent"],
       "type": "object"
     },
-
     "IEventGoToStation": {
       "additionalProperties": false,
       "properties": {
@@ -208,7 +128,17 @@
       "required": ["action", "toStation"],
       "type": "object"
     },
-
+    "IEventNoop": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "noop",
+          "type": "string"
+        }
+      },
+      "required": ["action"],
+      "type": "object"
+    },
     "IEventOpenStation": {
       "additionalProperties": false,
       "properties": {
@@ -218,15 +148,11 @@
         },
         "toStation": {
           "$ref": "#/definitions/StationID"
-        },
-        "then": {
-          "$ref": "#/definitions/IEvent"
         }
       },
       "required": ["action", "toStation"],
       "type": "object"
     },
-
     "IEventOpenStations": {
       "additionalProperties": false,
       "properties": {
@@ -244,7 +170,6 @@
       "required": ["action", "toStations"],
       "type": "object"
     },
-
     "IEventPickRandomSample": {
       "additionalProperties": false,
       "properties": {
@@ -263,7 +188,6 @@
       "required": ["action", "population", "key"],
       "type": "object"
     },
-
     "IEventPlayAudio": {
       "additionalProperties": false,
       "properties": {
@@ -287,19 +211,6 @@
       "required": ["action", "wait", "audioFilenames"],
       "type": "object"
     },
-
-    "IEventNoop": {
-      "additionalProperties": false,
-      "properties": {
-        "action": {
-          "const": "noop",
-          "type": "string"
-        }
-      },
-      "required": ["action"],
-      "type": "object"
-    },
-
     "IEventPlayAudioBasedOnAdHocValue": {
       "additionalProperties": false,
       "properties": {
@@ -313,12 +224,11 @@
           },
           "type": "object"
         },
-        "then": {
-          "$ref": "#/definitions/IEvent"
-        },
-
         "key": {
           "type": "string"
+        },
+        "then": {
+          "$ref": "#/definitions/IEvent"
         }
       },
       "required": ["action", "key", "audioFilenameMap"],
@@ -340,11 +250,81 @@
         "loop": {
           "type": "boolean"
         },
+        "then": {
+          "$ref": "#/definitions/IEvent"
+        },
         "wait": {
           "type": "number"
         }
       },
       "required": ["action", "audioFilename", "wait", "cancelOnLeave", "loop"],
+      "type": "object"
+    },
+    "IEventPowerNameChoice": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "powerNameChoice",
+          "type": "string"
+        },
+        "ghostOnFirstFailurePlay": {
+          "type": "string"
+        },
+        "ghostOnSecondFailureGoTo": {
+          "$ref": "#/definitions/StationID"
+        },
+        "ghostOnSecondFailurePlay": {
+          "type": "string"
+        },
+        "ghostOnSuccessOpen": {
+          "items": {
+            "$ref": "#/definitions/StationID"
+          },
+          "type": "array"
+        },
+        "ghostOnSuccessPlay": {
+          "type": "string"
+        },
+        "onFirstFailurePlay": {
+          "type": "string"
+        },
+        "onSecondFailureGoTo": {
+          "$ref": "#/definitions/StationID"
+        },
+        "onSecondFailurePlay": {
+          "type": "string"
+        },
+        "onSuccessOpen": {
+          "items": {
+            "$ref": "#/definitions/StationID"
+          },
+          "type": "array"
+        },
+        "onSuccessPlay": {
+          "type": "string"
+        },
+        "part": {
+          "type": "number"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "part",
+        "onSuccessOpen",
+        "onSuccessPlay",
+        "onFirstFailurePlay",
+        "onSecondFailurePlay",
+        "onSecondFailureGoTo",
+        "value",
+        "ghostOnSuccessOpen",
+        "ghostOnSuccessPlay",
+        "ghostOnFirstFailurePlay",
+        "ghostOnSecondFailurePlay",
+        "ghostOnSecondFailureGoTo"
+      ],
       "type": "object"
     },
     "IEventPushToAdHocArrayEvent": {
