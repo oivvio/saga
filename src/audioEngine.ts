@@ -13,11 +13,11 @@ import { joinPaths } from "./utils";
 export class AudioEngine {
   private static instance: AudioEngine;
   // private static bgDuckedVolume = 0.075;
-  private static bgDuckedVolume = 0.15;
-  private static bgFullVolume = 1;
-  private static bgFadeInDuration = 2000;
-  private static bgFadeOutDuration = 2000;
-  //private foregroundSound: Howl | undefined;
+  // private static bgDuckedVolume = 0.15;
+  // private static bgFullVolume = 1;
+  // private static bgFadeInDuration = 2000;
+  // private static bgFadeOutDuration = 2000;
+  // //private foregroundSound: Howl | undefined;
   private foregroundSound: HTMLAudioElement = new Audio();
 
   private backgroundSounds: {
@@ -29,25 +29,25 @@ export class AudioEngine {
   // eslint-disable-next-line
   private constructor() {}
 
-  private duckBackgroundAudio() {
-    this.backgroundSounds.forEach((bgSound) =>
-      bgSound.sound.fade(
-        AudioEngine.bgFullVolume,
-        AudioEngine.bgDuckedVolume,
-        AudioEngine.bgFadeOutDuration
-      )
-    );
-  }
+  // private duckBackgroundAudio() {
+  //   this.backgroundSounds.forEach((bgSound) =>
+  //     bgSound.sound.fade(
+  //       AudioEngine.bgFullVolume,
+  //       AudioEngine.bgDuckedVolume,
+  //       AudioEngine.bgFadeOutDuration
+  //     )
+  //   );
+  // }
 
-  private unduckBackgroundAudio() {
-    this.backgroundSounds.forEach((bgSound) =>
-      bgSound.sound.fade(
-        AudioEngine.bgDuckedVolume,
-        AudioEngine.bgFullVolume,
-        AudioEngine.bgFadeInDuration
-      )
-    );
-  }
+  // private unduckBackgroundAudio() {
+  //   this.backgroundSounds.forEach((bgSound) =>
+  //     bgSound.sound.fade(
+  //       AudioEngine.bgDuckedVolume,
+  //       AudioEngine.bgFullVolume,
+  //       AudioEngine.bgFadeInDuration
+  //     )
+  //   );
+  // }
 
   private unsetStationIsExecutingWithDelay(delay: number) {
     // Wait for a while, then check if something else is playing
@@ -143,7 +143,7 @@ export class AudioEngine {
         // setup callback for start of audio
         foregroundSound.oncanplay = () => {
           setTimeout(() => {
-            this.duckBackgroundAudio();
+            // this.duckBackgroundAudio();
             foregroundSound.play();
             store.commit(Mutations.setForegroundAudioIsPlaying, true);
             store.commit(Mutations.setCurrentAudioFilename, audioFilename);
@@ -155,7 +155,7 @@ export class AudioEngine {
           store.commit(Mutations.setForegroundAudioIsPlaying, false);
           store.commit(Mutations.setCurrentAudioFilename, null);
           store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
-          this.unduckBackgroundAudio();
+          // this.unduckBackgroundAudio();
           // this.foregroundSound?.unload();
 
           this.unsetStationIsExecutingWithDelay(5000);
@@ -194,7 +194,7 @@ export class AudioEngine {
       if (foregroundSound) {
         // Listen for the 'canplay' event
         foregroundSound.oncanplay = () => {
-          this.duckBackgroundAudio();
+          // this.duckBackgroundAudio();
           foregroundSound.play();
           store.commit(Mutations.setForegroundAudioIsPlaying, true);
           store.commit(Mutations.setCurrentAudioFilename, audioFilename);
@@ -206,7 +206,7 @@ export class AudioEngine {
           store.commit(Mutations.setCurrentAudioFilename, null);
           store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
 
-          this.unduckBackgroundAudio();
+          // this.unduckBackgroundAudio();
 
           // Remove the first element an run again.
           audioFilenames.shift();
@@ -280,9 +280,9 @@ export class AudioEngine {
     // Set a timeout for when to actually play the sound
     setTimeout(() => {
       // Before hitting play check if this audio should start out ducked
-      if (store.state.audio.foreground.isPlaying) {
-        backgroundSound.volume(AudioEngine.bgDuckedVolume);
-      }
+      // if (store.state.audio.foreground.isPlaying) {
+      //   backgroundSound.volume(AudioEngine.bgDuckedVolume);
+      // }
       backgroundSound.play();
     }, event.wait * 1000);
   }
