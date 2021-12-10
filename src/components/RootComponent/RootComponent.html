@@ -3,7 +3,7 @@
     <div v-else>
     <animation v-if="!showPowerName"></animation>
     <show-power-name v-if="showPowerName"></show-power-name>
-    <saga-qr-reader v-if="QRScannerCanBeDisplayed && !playerWon"></saga-qr-reader>
+    <saga-qr-reader v-if="QRScannerCanBeDisplayed && !showPowerName"></saga-qr-reader>
     <dev-box v-if="displayDevBox"></dev-box>
     </div>
 </div>
