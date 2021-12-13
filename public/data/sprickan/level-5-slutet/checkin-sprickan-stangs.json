@@ -12,7 +12,7 @@
 
   "events": [
     {
-      "action":  {
+      
         "action": "playAudioBasedOnAdHocValue",
         "key": "powerName",
         "audioFilenameMap": {
@@ -67,6 +67,6 @@
                  }
                 }
             }
-            }
+            
         ]
 }
