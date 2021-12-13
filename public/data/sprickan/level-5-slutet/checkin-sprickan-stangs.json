@@ -12,24 +12,61 @@
 
   "events": [
     {
-      "action": "playAudio",
-      "wait": 0,
-      "audioFilenames": [
-        "./level-5-slutet/continuation-sprickan-stangs-grattis.mp3"
-      ],
-
-      "then": {
-        "action": "playAudio",
-        "wait": 0,
-        "audioFilenames": [
-          "./level-5-slutet/continuation-sprickan-stangs-spelet-slut.mp3"
-        ],
-
+      "action":  {
+        "action": "playAudioBasedOnAdHocValue",
+        "key": "powerName",
+        "audioFilenameMap": {
+          "gladje,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjesol.mp3",
+          "gladje,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjevind.mp3",
+          "gladje,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjesno.mp3",
+          "gladje,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjemane.mp3",
+          "gladje,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjeregn.mp3",
+          "ilska,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskensol.mp3",
+          "ilska,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskenvind.mp3",
+          "ilska,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskensno.mp3",
+          "ilska,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskenmane.mp3",
+          "ilska,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskenregn.mp3",
+          "lycka,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckosol.mp3",
+          "lycka,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckovind.mp3",
+          "lycka,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckosno.mp3",
+          "lycka,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckomane.mp3",
+          "lycka,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckoregn.mp3",
+          "sorg,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-sorgesol.mp3",
+          "sorg,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-sorgevind.mp3",
+          "sorg,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-sorgesno.mp3",
+          "sorg,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-sorgeregn.mp3",
+          "vild,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildsol.mp3",
+          "vild,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildvind.mp3",
+          "vild,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildsno.mp3",
+          "vild,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildmane.mp3",
+          "vild,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildregn.mp3"
+        },
         "then": {
-          "action": "openStation",
-          "toStation": "checkin-start"
-        }
-      }
-    }
-  ]
+          "action": "playAudio",
+          "wait": 0,
+          "audioFilenames": 
+          ["./level-4-slutstriden/continuation-sanna-vasen-3.mp3"],
+          "then": {
+            "action": "playAudio",
+            "wait": 0,
+            "audioFilenames": 
+            ["./level-4-slutstriden/checkin-sprickan-stangs.mp3"],
+            "then": {
+              "action": "playAudio",
+              "wait": 0,
+              "audioFilenames": 
+              ["./level-5-slutet/continuation-sprickan-stangs-grattis.mp3"],
+              "then": {
+                "action": "playAudio",
+                "wait": 0,
+                "audioFilenames": 
+                ["./level-5-slutet/Tillbaka-till-biljettkassan.mp3"]
+                     }
+          
+                     }
+                 }
+                }
+            }
+            }
+        ]
 }
