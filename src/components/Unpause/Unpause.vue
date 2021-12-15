@@ -23,7 +23,7 @@ export default defineComponent({
         console.log("Resuming audio");
         audioEngine.resume();
       } else {
-        console.log("There is no audio to resume");
+        store.commit(Mutations.setAudioPausedByExternalForces, false);
       }
     },
   },
