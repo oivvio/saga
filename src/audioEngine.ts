@@ -27,7 +27,24 @@ export class AudioEngine {
   }[] = [];
   // Constructor needs to be private so that instances can not be made with new AudioEventHandler()
   // eslint-disable-next-line
-  private constructor() {}
+  private constructor() {
+    console.log("In Audioengine construtor");
+
+    this.foregroundSound.addEventListener("pause", (event) => {
+      console.log(`A pause event fired`);
+      if (store.state.user.hasPlayedTutorial) {
+        console.log(`And the tutorial is complete.`);
+        store.commit(Mutations.setAudioPausedByExternalForces, true);
+      }
+    });
+
+    this.foregroundSound.addEventListener("play", (event) => {
+      console.log(`A play event fired`);
+
+      // Since we are playing we should not display the "Unpause" button
+      store.commit(Mutations.setAudioPausedByExternalForces, false);
+    });
+  }
 
   // private duckBackgroundAudio() {
   //   this.backgroundSounds.forEach((bgSound) =>
@@ -92,11 +109,16 @@ export class AudioEngine {
     return AudioEngine.instance;
   }
 
+  public resume() {
+    // Run this when returning to the game after being paused by external forces
+    this.foregroundSound.play();
+  }
+
   public handleHelpAudio(audioFilename: string): void {
     this.playForegroundAudio(audioFilename, 0);
   }
 
-  public playSilinceToAppeaseiOS() {
+  public playSilenceToAppeaseiOS() {
     // iOS Safari you little shirbird. This is for you.
 
     this.foregroundSound.autoplay = true;
@@ -291,7 +313,7 @@ export class AudioEngine {
   // when leaving the station that started them.
   public cancelDueBackgroundSounds(): void {
     // Find bgSounds that are not from the current station and
-    // should be cancelled when "their" station is no longer current
+    // Should be cancelled when "their" station is no longer current
 
     const bgSoundsToCancel = this.backgroundSounds.filter((bgSound) => {
       return (
