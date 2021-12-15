@@ -27,7 +27,42 @@ export class AudioEngine {
   }[] = [];
   // Constructor needs to be private so that instances can not be made with new AudioEventHandler()
   // eslint-disable-next-line
-  private constructor() {}
+  private constructor() {
+    console.log("In Audioengine construtor");
+
+    // Listen for the pause event
+    this.foregroundSound.addEventListener("pause", (event) => {
+      console.log(`A pause event fired: ${event}`);
+      if (store.state.user.hasPlayedTutorial) {
+        console.log(`And the tutorial is complete.`);
+
+        try {
+          // We have to wait a bit because the pause event will fire before the onended eventlistener has run
+          setTimeout(() => {
+            const timeSinceLastPauseEventMarker =
+              new Date().getTime() -
+              store.state.audioPauseEventMarker.getTime();
+            console.log("delta: ", timeSinceLastPauseEventMarker);
+
+            if (timeSinceLastPauseEventMarker > 2000) {
+              store.commit(Mutations.setAudioPausedByExternalForces, true);
+            }
+          }, 500);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          console.log("done");
+        }
+      }
+    });
+
+    this.foregroundSound.addEventListener("play", (event) => {
+      console.log(`A play event fired ${event}`);
+
+      // Since we are playing we should not display the "Unpause" button
+      store.commit(Mutations.setAudioPausedByExternalForces, false);
+    });
+  }
 
   // private duckBackgroundAudio() {
   //   this.backgroundSounds.forEach((bgSound) =>
@@ -92,17 +127,27 @@ export class AudioEngine {
     return AudioEngine.instance;
   }
 
+  public resume(): void {
+    // Run this when returning to the game after being paused by external forces
+    this.foregroundSound.play();
+  }
+
   public handleHelpAudio(audioFilename: string): void {
     this.playForegroundAudio(audioFilename, 0);
   }
 
-  public playSilinceToAppeaseiOS() {
+  public playSilenceToAppeaseiOS(): void {
     // iOS Safari you little shirbird. This is for you.
 
     this.foregroundSound.autoplay = true;
     this.foregroundSound.src =
       "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
-    this.foregroundSound.play();
+    store.commit(Mutations.setIgnorePauseEventMarker, new Date());
+
+    // Give that commit a sec to get done
+    setTimeout(() => {
+      this.foregroundSound.play();
+    }, 1000);
   }
   public playForegroundAudio(
     audioFilename: string,
@@ -152,13 +197,18 @@ export class AudioEngine {
 
         // setup callback for end of audio
         foregroundSound.onended = () => {
+          console.log("Foreground audio ended");
           store.commit(Mutations.setForegroundAudioIsPlaying, false);
           store.commit(Mutations.setCurrentAudioFilename, null);
           store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
+
+          // The audio ending fires
+          store.commit(Mutations.setIgnorePauseEventMarker, new Date());
+
           // this.unduckBackgroundAudio();
           // this.foregroundSound?.unload();
 
-          this.unsetStationIsExecutingWithDelay(5000);
+          this.unsetStationIsExecutingWithDelay(2500);
           resolve(true);
         };
       }
@@ -206,6 +256,7 @@ export class AudioEngine {
           store.commit(Mutations.setCurrentAudioFilename, null);
           store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
 
+          store.commit(Mutations.setIgnorePauseEventMarker, new Date());
           // this.unduckBackgroundAudio();
 
           // Remove the first element an run again.
@@ -214,7 +265,7 @@ export class AudioEngine {
             this.playMultipleForegroundAudio(audioFilenames);
           } else {
             // We are at the end
-            this.unsetStationIsExecutingWithDelay(5000);
+            this.unsetStationIsExecutingWithDelay(2500);
           }
         };
       }
@@ -291,7 +342,7 @@ export class AudioEngine {
   // when leaving the station that started them.
   public cancelDueBackgroundSounds(): void {
     // Find bgSounds that are not from the current station and
-    // should be cancelled when "their" station is no longer current
+    // Should be cancelled when "their" station is no longer current
 
     const bgSoundsToCancel = this.backgroundSounds.filter((bgSound) => {
       return (

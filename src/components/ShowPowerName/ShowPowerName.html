@@ -1,4 +1,10 @@
-<div class="ShowPowerName">
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <div class="ShowPowerName">
     <img class="mainBackground" src="img/slutdiplom/Bakgrund.png">
     <img class="upperRight" src="img/slutdiplom/Hoger_Uppe.png">
     <img class="lowerRight" src="img/slutdiplom/Hoger_Nere.png">
@@ -7,18 +13,19 @@
     <div class="powerNameImage"><img v-bind:src=
     "powerNameImage"></div>
     <div class="textContainer">
-        <div v-if="!playerNameSet" class="nameInput">
-            <h1>{{powerName}} Du har stängt sprickan. Vad kallar
-            dina vänner dig?</h1>
-            <div class="input">
-                <input v-model="playerName" placeholder=
-                "Ditt namn"> <button v-on:click=
-                "playerNameSet=true">KLAR</button>
-            </div>
+      <div v-if="!playerNameSet" class="nameInput">
+        <h1>{{powerName}} Du har stängt sprickan. Vad kallar dina
+        vänner dig?</h1>
+        <div class="input">
+          <input v-model="playerName" placeholder="Ditt namn">
+          <button v-on:click="playerNameSet=true">KLAR</button>
         </div>
-        <div v-else="">
-            <h1>Genom kraften av {{ powerName }} AKA {{playerName}}
-            stängdes sprickan!</h1>
-        </div>
+      </div>
+      <div v-else="" class="nameInput">
+        <h1>Genom kraften av {{ powerName }} AKA {{playerName}}
+        stängdes sprickan!</h1>
+      </div>
     </div>
-</div>
+  </div>
+</body>
+</html>
