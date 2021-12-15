@@ -52,8 +52,6 @@ export default defineComponent({
         Sentry.captureMessage("Unable to enter noSleep");
       }
 
-      store.commit(Mutations.completeTutorial);
-
       // Remove the video element, since it's will sometimes continue playing on the "next" screen if we don't
       const video: HTMLVideoElement | null = document.getElementById(
         "videoTutorial"
@@ -64,7 +62,14 @@ export default defineComponent({
 
       // Play a little audio since our audio engine sometimes has problems playing the first file.
       const audioEngine = AudioEngine.getInstance();
-      audioEngine.playSilinceToAppeaseiOS();
+      audioEngine.playSilenceToAppeaseiOS();
+
+      setTimeout(() => {
+        // Wait with this just a tad so that the silence has finished playing, and the first pause event has fired
+        // before we say that we are done with the tutorial.
+        // Because the "show unpause functionality" relies on this
+        store.commit(Mutations.completeTutorial);
+      }, 1000);
 
       // request fullscreen. Will not work in iOS
       try {

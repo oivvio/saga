@@ -54,6 +54,8 @@ export interface IState {
 
     playedForegroundAudio: string[];
   };
+
+  audioPausedByExternalForces: boolean;
 }
 
 // This is a trick to get the store to work with TypeScript
@@ -107,6 +109,7 @@ const initialState: IState = {
 
     playedForegroundAudio: [],
   },
+  audioPausedByExternalForces: false,
 };
 
 function urlRemoveReset(url: Location) {
@@ -230,6 +233,7 @@ export const store = createStore({
     },
 
     wipeHistory(state: IState) {
+      state.audioPausedByExternalForces = false;
       state.user = initialState.user;
       state.audio = initialState.audio;
       state.gameConfigLoaded = false;
@@ -289,6 +293,10 @@ export const store = createStore({
       console.log("set station is executing: ", value);
       state.user.stationIsExecuting = value;
     },
+
+    setAudioPausedByExternalForces(state: IState, value: boolean) {
+      state.audioPausedByExternalForces = value;
+    },
   },
   actions: {},
   modules: {},
@@ -345,4 +353,5 @@ export enum Mutations {
   pushTags = "pushTags",
   completeTutorial = "completeTutorial",
   setStationIsExecuting = "setStationIsExecuting",
+  setAudioPausedByExternalForces = "setAudioPausedByExternalForces",
 }

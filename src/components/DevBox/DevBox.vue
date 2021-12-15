@@ -49,6 +49,12 @@
       </tr>
 
       <tr>
+        <td>audioPausedByExternalForces:</td>
+
+        <td>{{ this.$store.state.audioPausedByExternalForces }}</td>
+      </tr>
+
+      <tr>
         <td>openStations:</td>
 
         <td>
