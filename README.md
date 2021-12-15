@@ -89,3 +89,7 @@ Rewrite with these things in mind:
 7. More powerful validation. jsonschema is weak.
 
 8. A mechanism for accurately keeping track of if a station is currently executing or not.
+
+9. We have a convoluted way of restarting audio in the experience when an
+   external source has stopped the audio. (Incoming call, user press pause
+   button etc). This should all be done with rxjs instead.
