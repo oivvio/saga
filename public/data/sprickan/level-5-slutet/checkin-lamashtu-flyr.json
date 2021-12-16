@@ -20,16 +20,10 @@
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": [
-        "./level-5-slutet/continuation-sprickan-stangs-grattis.mp3"
-      ],
-
-      "then": {
-        "action": "playAudio",
-        "wait": 0,
-        "audioFilenames": [
-          "./level-5-slutet/continuation-sprickan-stangs-spelet-slut.mp3"
-        ]
-      }
+        "./level-5-slutet/continuation-sprickan-stangs-inte.mp3"
+      ]
+        
+      
     }
   ]
 }
