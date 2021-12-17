@@ -10,6 +10,20 @@
   "helpCost": 1,
   "events": [
     {
+      "action": "playBackgroundAudio",
+      "audioFilename": "./level-global/Drone/drone-3.mp3",
+      "loop": true,
+      "cancelOnLeave": false,
+      "wait": 110
+    },
+    {
+      "action": "playBackgroundAudio",
+      "audioFilename": "./level-1-mammon/ring-ge-till-mammon-choice-square_bg.mp3",
+      "loop": true,
+      "cancelOnLeave": false,
+      "wait": 40
+    },
+    {
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": [
@@ -49,15 +63,8 @@
         "then": {
           "action": "playAudio",
           "wait": 0,
-          "audioFilenames": ["./level-1-mammon/continuation-mammon.mp3"],
-          "then": 
-          {
-            "action": "playBackgroundAudio",
-            "audioFilename": "./level-global/Drone/drone-3.mp3",
-            "loop": true,
-            "cancelOnLeave": false,
-            "wait": 90
-          }
+          "audioFilenames": ["./level-1-mammon/continuation-mammon.mp3"]
+          
         }
       }
     }

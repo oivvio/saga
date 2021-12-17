@@ -18,10 +18,10 @@
     },
     {
       "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Drone/drone-3.mp3",
-      "loop": true,
+      "audioFilename": "./level-1-anglamakerskan/anglamakerskan-lillith-choice-square_bg.mp3",
+      "loop": false,
       "cancelOnLeave": false,
-      "wait": 90
+      "wait": 50
     }
   ]
 }

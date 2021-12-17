@@ -9,6 +9,13 @@
 
   "events": [
     {
+      "action": "playBackgroundAudio",
+      "audioFilename": "./level-0-gravkapellet/checkin-gravkapellet_bg.mp3",
+      "loop": true,
+      "cancelOnLeave": false,
+      "wait": 101
+    },
+    {
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": ["./level-0-gravkapellet/checkin-gravkapellet.mp3"]

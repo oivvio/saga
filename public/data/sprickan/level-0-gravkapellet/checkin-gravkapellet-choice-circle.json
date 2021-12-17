@@ -10,18 +10,25 @@
   "helpCost": 1,
   "events": [
     {
+      "action": "playBackgroundAudio",
+      "audioFilename": "./level-global/Drone/drone-2.mp3",
+      "loop": true,
+      "cancelOnLeave": false,
+      "wait": 64
+    },
+    {
+      "action": "playBackgroundAudio",
+      "audioFilename": "./level-0-barngravarna/barngravarna-anglamakerskan-choice-square_bg.mp3",
+      "loop": false,
+      "cancelOnLeave": false,
+      "wait": 64
+    },
+    {
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": [
         "./level-0-gravkapellet/gravkapellet-mammon-choice-circle.mp3"
       ]
-    },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Drone/drone-2.mp3",
-      "loop": true,
-      "cancelOnLeave": false,
-      "wait": 120
     }
   ]
 }

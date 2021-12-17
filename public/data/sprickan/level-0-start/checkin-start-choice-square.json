@@ -9,6 +9,7 @@
       "wait": 0,
       "audioFilenames": ["./level-0-start/barngravarna-choice-square.mp3"]
     }
+   
   ],
   "helpAudioFilenames": [
     "./level-0-barngravarna/help-barngravarna-1.mp3",
