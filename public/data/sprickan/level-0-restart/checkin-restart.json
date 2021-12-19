@@ -15,13 +15,7 @@
       "wait": 0,
       "audioFilenames": [
         "./level-1-mammon/ring-behalla-sjalv-choice-circle.mp3"
-      ],
-
-      "then": {
-        "action": "playAudio",
-        "wait": 0,
-        "audioFilenames": ["./level-0-restart/checkin-mammon-end.mp3"]
-      }
+      ]
     }
   ]
 }
