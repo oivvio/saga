@@ -8,7 +8,7 @@
       webkit-playsinline
       v-on:ended="onEnded"
     >
-      <source src="/video/sprickan_instruktion_sd.mp4" type="video/mp4" />
+      <source src="/video/sprickan2.mp4" type="video/mp4" />
     </video>
     <button @click="completeTutorial" v-if="displayButton">
       Öppna scannern

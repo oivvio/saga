@@ -132,15 +132,21 @@ def deploy_to_s3(ctx):
 
 
 @task
-def deploy_to_khst(ctx, username, password):
+def deploy_to_khst(ctx, username, password, include_data=True, fresh_build=True):
     """Build and deploy to khst via sftp"""
 
     preflight_checklist()
 
     # Build
-    vue_build(ctx)
+    if fresh_build:
+        vue_build(ctx)
 
-    lftpcmd = f"open -u {username},{password} sftp://sprickan.kulturhusetstadsteatern.se:22;mirror --verbose --parallel=10 -R dist/ /;exit"
+    if include_data:
+        data_exclude = ""
+    else:
+        data_exclude = " --exclude data/ --exclude img/ --exclude video/ --exclude animation/ --exclude Default.hyperesources/ "
+
+    lftpcmd = f"open -u {username},{password} sftp://sprickan.kulturhusetstadsteatern.se:22;mirror --verbose --parallel=10 -R dist/ / {data_exclude} ;exit"
     cmd = f"lftp -e '{lftpcmd}'"
     print(cmd)
     ctx.run(cmd, pty=True)
