@@ -22,9 +22,8 @@ export default defineComponent({
 </template>
 
 <style lang="scss">
-
-body  {
-      margin: 0px;
+body {
+  margin: 0px;
 }
 div.App {
   width: 100vw;
