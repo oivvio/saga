@@ -238,7 +238,7 @@ def vue_devserver(ctx, port=8080, host="0.0.0.0"):
 
 @task
 def serve_distdir(ctx, port=8081, host="0.0.0.0"):
-    """Serve what is currently in the dist dir """
+    """Serve what is currently in the dist dir"""
 
     # Does not support https so this can't be used for
     # playing the game
@@ -348,3 +348,19 @@ def graph(ctx, filename, output="Desktop/gamegraph.gv", format="png"):
     output = Path(Path.home(), output)
     print(f"Your graph file is at {output}.{format}")
     dot.render(output)
+
+
+@task
+def test_unit(ctx, watch=True, regexp=".*unit.*js$"):
+    """Run unit tests"""
+    watch = " --watch " if watch else ""
+    cmd = f"./node_modules/.bin/vue-cli-service test:unit {watch} {regexp}  "
+    ctx.run(cmd, pty=True)
+
+
+@task
+def test_e2e(ctx, headless=False, mode="production"):
+    """Run end 2 end tests"""
+    headless = " --headless " if headless else ""
+    cmd = "./node_modules/.bin/vue-cli-service test:e2e {headless} "
+    ctx.run(cmd, pty=True)

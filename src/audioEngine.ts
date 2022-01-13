@@ -9,6 +9,32 @@ import { joinPaths } from "./utils";
 
 // Howler.autoUnlock = true;
 
+const htmlMediaEvents = [
+  "abort",
+  "canplay",
+  "canplaythrough",
+  "durationchange",
+  "emptied",
+  "ended",
+  "error",
+  "loadeddata",
+  "loadedmetadata",
+  "loadstart",
+  "pause",
+  "play",
+  "playing",
+  "progress",
+  "ratechange",
+  "resize",
+  "seeked",
+  "seeking",
+  "stalled",
+  "suspend",
+  "timeupdate",
+  "volumechange",
+  "waiting",
+];
+
 // https://refactoring.guru/design-patterns/singleton/typescript/example
 export class AudioEngine {
   private static instance: AudioEngine;
@@ -28,14 +54,13 @@ export class AudioEngine {
   // Constructor needs to be private so that instances can not be made with new AudioEventHandler()
   // eslint-disable-next-line
   private constructor() {
-    console.log("In Audioengine construtor");
-
     // Listen for the pause event
+    // These events fire when an incoming phone call is made, when the user plays audio in some other app and on some
+    // other occations that are not in our control
     this.foregroundSound.addEventListener("pause", (event) => {
       console.log(`A pause event fired: ${event}`);
       if (store.state.user.hasPlayedTutorial) {
         console.log(`And the tutorial is complete.`);
-
         try {
           // We have to wait a bit because the pause event will fire before the onended eventlistener has run
           setTimeout(() => {
@@ -149,6 +174,7 @@ export class AudioEngine {
       this.foregroundSound.play();
     }, 1000);
   }
+
   public playForegroundAudio(
     audioFilename: string,
     wait: number
@@ -156,6 +182,7 @@ export class AudioEngine {
     //1. Check that no other main audio is playing
     //
 
+    let lastRecordedEventTimeStamp = 0;
     store.commit(Mutations.setStationIsExecuting, true);
 
     const promise = new Promise<boolean>((resolve, reject) => {
@@ -211,6 +238,19 @@ export class AudioEngine {
           this.unsetStationIsExecutingWithDelay(2500);
           resolve(true);
         };
+
+        htmlMediaEvents.forEach((eventName) => {
+          foregroundSound.addEventListener(eventName, (event: Event) => {
+            if (eventName === "timeupdate" && event !== null) {
+              const target = event.target as HTMLMediaElement;
+              const currentTime = target.currentTime;
+              const delta = currentTime - lastRecordedEventTimeStamp;
+
+              console.log(eventName, " : ", event, delta);
+              lastRecordedEventTimeStamp = currentTime;
+            }
+          });
+        });
       }
     });
 
