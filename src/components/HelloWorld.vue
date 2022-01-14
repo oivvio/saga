@@ -1,18 +1,15 @@
-<template>
-  <div class="HelloWorld">
-    <h1>Hello world!</h1>
-  </div>
-</template>
+<script setup lang="ts">
+const props = defineProps<{
+  initial: number;
+}>();
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "HelloWorld",
-});
+const { count, inc, dec } = useCounter(props.initial);
 </script>
 
-<style scoped lang="scss">
-div.HelloWorld {
-}
-</style>
+<template>
+  <div>
+    {{ count }}
+    <button class="inc" @click="inc()">+</button>
+    <button class="dec" @click="dec()">-</button>
+  </div>
+</template>

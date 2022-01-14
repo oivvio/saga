@@ -1,6 +1,8 @@
 // eslint-disable-next-line
 
-import { has } from "lodash";
+//import { has } from "lodash";
+import lodash from "lodash";
+const { has } = lodash;
 
 // eslint-disable-next-line
 import { ComponentCustomProperties } from "vue";

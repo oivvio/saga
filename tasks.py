@@ -219,7 +219,7 @@ def vue_build(ctx):
     """Build the project for deployment"""
     preflight_checklist()
 
-    cmd = f"./node_modules/.bin/vue-cli-service build"
+    cmd = f"./node_modules/.bin/vite build"
     print(cmd)
     ctx.run(cmd, pty=True)
 
@@ -229,9 +229,7 @@ def vue_devserver(ctx, port=8080, host="0.0.0.0"):
     """Run the Vue dev server"""
     preflight_checklist()
 
-    cmd = (
-        f"./node_modules/.bin/vue-cli-service serve --https --port {port} --host {host}"
-    )
+    cmd = f"./node_modules/.bin/vite --https --port {port} --open --host {host}"
     print(cmd)
     ctx.run(cmd, pty=True)
 
@@ -354,7 +352,7 @@ def graph(ctx, filename, output="Desktop/gamegraph.gv", format="png"):
 def test_unit(ctx, watch=True, regexp=".*unit.*js$"):
     """Run unit tests"""
     watch = " --watch " if watch else ""
-    cmd = f"./node_modules/.bin/vue-cli-service test:unit {watch} {regexp}  "
+    cmd = f"./node_modules/.bin/vitest {watch}"
     ctx.run(cmd, pty=True)
 
 

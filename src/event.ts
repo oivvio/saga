@@ -1,4 +1,5 @@
-import { sample, every } from "lodash";
+import lodash from "lodash";
+const { sample, every } = lodash;
 import { AudioEngine } from "./audioEngine";
 import { store, IState, Mutations } from "./store";
 import { StationID, runStationById } from "./station";
