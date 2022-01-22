@@ -237,11 +237,8 @@ def vue_devserver(ctx, port=8080, host="0.0.0.0"):
 @task
 def serve_distdir(ctx, port=8081, host="0.0.0.0"):
     """Serve what is currently in the dist dir"""
-
-    # Does not support https so this can't be used for
-    # playing the game
-
-    cmd = f"cd dist; ../node_modules/.bin/serve -p {port}"
+    cmd = f"./node_modules/.bin/http-server dist -S -C cert.pem -p {port}"
+    print(cmd)
     ctx.run(cmd, pty=True)
 
 

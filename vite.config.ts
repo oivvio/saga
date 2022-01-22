@@ -14,10 +14,20 @@ import VueI18n from "@intlify/vite-plugin-vue-i18n";
 import Inspect from "vite-plugin-inspect";
 import Prism from "markdown-it-prism";
 import LinkAttributes from "markdown-it-link-attributes";
+import { fileURLToPath } from "url";
 
 const markdownWrapperClasses = "prose prose-sm m-auto text-left";
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, "index.html"),
+        nested: path.resolve(__dirname, "playground/index.html"),
+      },
+    },
+  },
+
   resolve: {
     alias: {
       "~/": `${path.resolve(__dirname, "src")}/`,

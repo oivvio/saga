@@ -10,29 +10,29 @@ import { joinPaths } from "./utils";
 // Howler.autoUnlock = true;
 
 const htmlMediaEvents = [
-  "abort",
-  "canplay",
-  "canplaythrough",
-  "durationchange",
-  "emptied",
-  "ended",
-  "error",
-  "loadeddata",
-  "loadedmetadata",
-  "loadstart",
-  "pause",
-  "play",
-  "playing",
-  "progress",
-  "ratechange",
-  "resize",
-  "seeked",
-  "seeking",
-  "stalled",
-  "suspend",
-  "timeupdate",
-  "volumechange",
-  "waiting",
+  // "abort",
+  "canplay", // keep
+  // "canplaythrough",
+  // "durationchange",
+  // "emptied",
+  // "ended",
+  // "error",
+  // "loadeddata",
+  // "loadedmetadata",
+  // "loadstart",
+  // "pause",
+  // "play",
+  // "playing",
+  // "progress",
+  // "ratechange",
+  // "resize",
+  // "seeked",
+  // "seeking",
+  // "stalled",
+  // "suspend",
+  "timeupdate", // keep
+  // "volumechange",
+  // "waiting",
 ];
 
 // https://refactoring.guru/design-patterns/singleton/typescript/example
@@ -173,6 +173,10 @@ export class AudioEngine {
     setTimeout(() => {
       this.foregroundSound.play();
     }, 1000);
+  }
+
+  public newPlayForegroundAudio(audioFilename: string, wait: number): void {
+    console.log("Hello: ", audioFilename, wait);
   }
 
   public playForegroundAudio(
