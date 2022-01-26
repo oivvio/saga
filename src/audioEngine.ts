@@ -3,6 +3,17 @@ import { StationID } from "./station";
 import { IEventPlayAudio, IEventPlayBackgroundAudio } from "./event";
 import { Mutations, store } from "./store";
 import { joinPaths } from "./utils";
+import { Subject, Observable, of } from "rxjs";
+import {
+  concat,
+  concatWith,
+  map,
+  distinctUntilChanged,
+  first,
+  timeout,
+  catchError,
+  merge,
+} from "rxjs/operators";
 
 // declare function unmute(): void;
 // import { unmute } from "./vendor/unmute";
@@ -43,7 +54,7 @@ export class AudioEngine {
   // private static bgFullVolume = 1;
   // private static bgFadeInDuration = 2000;
   // private static bgFadeOutDuration = 2000;
-  // //private foregroundSound: Howl | undefined;
+
   private foregroundSound: HTMLAudioElement = new Audio();
 
   private backgroundSounds: {
@@ -176,7 +187,67 @@ export class AudioEngine {
   }
 
   public newPlayForegroundAudio(audioFilename: string, wait: number): void {
-    console.log("Hello: ", audioFilename, wait);
+    // let audioFilenameToActuallyPlay = audioFilename;
+    // if (store.state.debugQuickAudio) {
+    //   audioFilenameToActuallyPlay = "/audio/beep.mp3";
+    // }
+    // const fullAudioPath = this.getAudioPath(audioFilenameToActuallyPlay);
+    console.log("Hello: ", audioFilename);
+
+    const playintent$ = new Subject<boolean>();
+    const canplay$ = new Subject<Event>();
+    const timeupdate$ = new Subject<Event>();
+    // const currentTime$ = new Subject<Event>();
+
+    playintent$.next(true);
+
+    const currentTime$: Observable<number> = timeupdate$
+      .pipe(map((event) => event?.target.currentTime))
+      .pipe(distinctUntilChanged());
+
+    this.foregroundSound.oncanplay = function (event) {
+      canplay$.next(event);
+    };
+
+    this.foregroundSound.ontimeupdate = function (event) {
+      timeupdate$.next(event);
+    };
+
+    this.foregroundSound.src = audioFilename;
+
+    canplay$.subscribe((event) => {
+      this.foregroundSound.play();
+    });
+
+    // currentTime$.subscribe((currentTime) => {
+    //console.log("cT: ", currentTime);
+    //  });
+
+    // TODO figure out how to use timeout and catchError in here
+
+    const canplayAndFirstCurrentTime$ = merge(of(1, 2, 3), of(4, 5, 6)); //of(1, 2, 3).pipe(merge(of(4, 5, 6)));
+
+    currentTime$.pipe(first()).subscribe((event) => {
+      console.log("FIRST:", event);
+    });
+    canplayAndFirstCurrentTime$.subscribe((event) => {
+      console.log("canplayAndFirstCurrentTime: ", event);
+    });
+    // Measure time between canplay event and first
+    // currentTime event. If it is > 3000 ms
+    //
+
+    //
+
+    // timeupdate$.subscribe((event) => {
+    //   if (event !== null) {
+    //     console.log(
+    //       "timeupdate event: ",
+    //       event.target.currentTime,
+    //       event.target.duration
+    //     );
+    //   }
+    // });
   }
 
   public playForegroundAudio(
@@ -200,13 +271,6 @@ export class AudioEngine {
       }
 
       // setup the sound
-      //
-      // this.foregroundSound = new Howl({
-      //   src: [this.getAudioPath(audioFilenameToActuallyPlay)],
-      //   format: ["mp3"],
-      //   html5: true,
-      // });
-
       const fullAudioPath = this.getAudioPath(audioFilenameToActuallyPlay);
 
       this.foregroundSound.autoplay = true; // For iOS

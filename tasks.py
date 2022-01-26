@@ -229,7 +229,7 @@ def vue_devserver(ctx, port=8080, host="0.0.0.0"):
     """Run the Vue dev server"""
     preflight_checklist()
 
-    cmd = f"./node_modules/.bin/vite --https --port {port} --open --host {host}"
+    cmd = f"./node_modules/.bin/vite --https --port {port} --host {host}"
     print(cmd)
     ctx.run(cmd, pty=True)
 
