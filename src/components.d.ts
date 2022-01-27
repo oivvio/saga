@@ -7,6 +7,7 @@ declare module 'vue' {
     Animation: typeof import('./components/Animation/Animation.vue')['default']
     DevBox: typeof import('./components/DevBox/DevBox.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    Recover: typeof import('./components/Recover/Recover.vue')['default']
     RootComponent: typeof import('./components/RootComponent/RootComponent.vue')['default']
     SagaQrReader: typeof import('./components/SagaQrReader/SagaQrReader.vue')['default']
     ShowPowerName: typeof import('./components/ShowPowerName/ShowPowerName.vue')['default']

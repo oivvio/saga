@@ -2,7 +2,6 @@
 
 A webb application for non-linear story telling.
 
-
 # Getting started
 
 - Clone the repo
@@ -94,3 +93,5 @@ Rewrite with these things in mind:
 9. We have a convoluted way of restarting audio in the experience when an
    external source has stopped the audio. (Incoming call, user press pause
    button etc). This should all be done with rxjs instead.
+
+10. The gameengine should be a native iOS app. This would give much better control over caching of audio files.

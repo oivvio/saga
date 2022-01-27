@@ -14,7 +14,7 @@ import VueI18n from "@intlify/vite-plugin-vue-i18n";
 import Inspect from "vite-plugin-inspect";
 import Prism from "markdown-it-prism";
 import LinkAttributes from "markdown-it-link-attributes";
-import { fileURLToPath } from "url";
+// import { fileURLToPath } from "url";
 
 const markdownWrapperClasses = "prose prose-sm m-auto text-left";
 
@@ -159,10 +159,10 @@ export default defineConfig({
   },
 
   // https://github.com/antfu/vite-ssg
-  ssgOptions: {
-    script: "async",
-    formatting: "minify",
-  },
+  // ssgOptions: {
+  //   script: "async",
+  //   formatting: "minify",
+  // },
 
   optimizeDeps: {
     include: ["vue", "vue-router", "@vueuse/core", "@vueuse/head"],

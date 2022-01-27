@@ -1,7 +1,7 @@
 <div class="RootComponent">
     <tutorial v-if="!hasPlayedTutorial"></tutorial>
     <div v-else>
-        <unpause v-if="showUnpause"> </unpause>
+        <recover v-if="showRecover"></recover>
         <template v-else>
             <animation v-if="!showPowerName"></animation>
             <show-power-name v-if="showPowerName"></show-power-name>

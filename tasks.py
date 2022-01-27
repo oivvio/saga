@@ -106,7 +106,7 @@ def typescript_typecheck(ctx, watch=True):
 
     watch = " --watch " if watch else ""
 
-    cmd = f"./node_modules/.bin/tsc --project tsconfig.json {watch}"
+    cmd = f"./node_modules/.bin/tsc --noEmit --project tsconfig.json {watch}"
     ctx.run(cmd, pty=True)
 
 
@@ -229,7 +229,7 @@ def vue_devserver(ctx, port=8080, host="0.0.0.0"):
     """Run the Vue dev server"""
     preflight_checklist()
 
-    cmd = f"./node_modules/.bin/vite --https --port {port} --host {host}"
+    cmd = f"./node_modules/.bin/vite --https --port {port} --host {host} --strictPort --clearScreen "
     print(cmd)
     ctx.run(cmd, pty=True)
 
