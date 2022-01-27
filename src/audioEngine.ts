@@ -192,7 +192,8 @@ export class AudioEngine {
     // }
     // const fullAudioPath = this.getAudioPath(audioFilenameToActuallyPlay);
 
-    const TIMEOUT = 3000;
+    // Let's set the timeout to 10 seconds for now.
+    const TIMEOUT = 10000;
     let currentTimeOrZero = 0;
     const promise = new Promise<boolean>((resolve, reject) => {
       if (store.state.audio.foreground.isPlaying) {
