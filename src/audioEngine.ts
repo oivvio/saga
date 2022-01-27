@@ -194,6 +194,7 @@ export class AudioEngine {
 
     // Let's set the timeout to 10 seconds for now.
     const TIMEOUT = 10000;
+    // const TIMEOUT = 1000; // use this in dev
     let currentTimeOrZero = 0;
     const promise = new Promise<boolean>((resolve, reject) => {
       if (store.state.audio.foreground.isPlaying) {
@@ -214,6 +215,7 @@ export class AudioEngine {
         if (position !== 0) {
           this.foregroundSound.currentTime = position;
         }
+        console.log("canplay: ", audioFilename);
         this.foregroundSound.play();
         store.commit(Mutations.setForegroundAudioIsPlaying, true);
         store.commit(Mutations.setCurrentAudioFilename, audioFilename);
@@ -270,7 +272,9 @@ export class AudioEngine {
             console.log("error captured: ", error);
             // Make sure the audio does not start again when network recovers before user had
             // interacted with prompt
-            this.foregroundSound.pause();
+            // this.foregroundSound.pause();
+            this.foregroundSound.src = "";
+            // this.foregroundSound = null;
 
             store.commit(Mutations.setForegroundAudioIsPlaying, false);
             store.commit(Mutations.setCurrentAudioFilename, null);
