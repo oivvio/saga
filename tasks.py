@@ -101,12 +101,22 @@ def typescript_lint(ctx, watch=True):
 
 @task
 def typescript_typecheck(ctx, watch=True):
-    """Check that our TypeScript compiles"""
+    """Check that our TypeScript is valid using tsc --noEmit"""
     preflight_checklist()
 
     watch = " --watch " if watch else ""
 
     cmd = f"./node_modules/.bin/tsc --noEmit --project tsconfig.json {watch}"
+    ctx.run(cmd, pty=True)
+
+
+def typescript_vue_typecheck(ctx):
+    """Check that our TypeScript compiles with vue-tsc"""
+    preflight_checklist()
+
+    # watch = " --watch " if watch else ""
+
+    cmd = f"./node_modules/.bin/vue-tsc --noEmit --project tsconfig.json {watch}"
     ctx.run(cmd, pty=True)
 
 

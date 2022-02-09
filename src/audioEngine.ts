@@ -3,7 +3,7 @@ import { StationID } from "./station";
 import { IEventPlayAudio, IEventPlayBackgroundAudio } from "./event";
 import { Mutations, store } from "./store";
 import { joinPaths } from "./utils";
-import { Subject, Observable, throwError, fromEvent } from "rxjs";
+import { Subject, Observable, throwError, fromEvent, Subscription } from "rxjs";
 import {
   delay,
   distinctUntilChanged,
@@ -12,6 +12,7 @@ import {
   takeUntil,
   // tap,
   timeout,
+  first,
 } from "rxjs/operators";
 
 // const htmlMediaEvents = [
@@ -63,7 +64,7 @@ export class AudioEngine {
     // These events fire when an incoming phone call is made, when the user plays audio in some other app and on some
     // other occations that are not in our control
 
-    this.foregroundSound.addEventListener("_pause", (event) => {
+    this.foregroundSound.addEventListener("pause", (event) => {
       console.log(`A pause event fired: ${event}`);
       if (store.state.user.hasPlayedTutorial) {
         console.log(`And the tutorial is complete.`);
@@ -87,7 +88,7 @@ export class AudioEngine {
       }
     });
 
-    this.foregroundSound.addEventListener("_play", (event) => {
+    this.foregroundSound.addEventListener("play", (event) => {
       console.log(`A play event fired ${event}`);
 
       // Since we are playing we should not display the "Unpause" button
@@ -192,6 +193,9 @@ export class AudioEngine {
     // }
     // const fullAudioPath = this.getAudioPath(audioFilenameToActuallyPlay);
 
+    //const subscriptions: Subscription[] = [];
+    const subscriptions: Subscription[] = [];
+
     // Let's set the timeout to 10 seconds for now.
     const TIMEOUT = 10000;
     // const TIMEOUT = 1000; // use this in dev
@@ -204,22 +208,26 @@ export class AudioEngine {
 
       // playintent
       const playintent$ = new Subject<boolean>();
-      playintent$.subscribe(() => {
+
+      playintent$.pipe(first()).subscribe(() => {
         // Tell the store that a station is executing
         store.commit(Mutations.setStationIsExecuting, true);
       });
 
       // canplay
       const canplay$ = fromEvent(this.foregroundSound, "canplay");
-      canplay$.pipe(delay(wait * 1000)).subscribe(() => {
-        if (position !== 0) {
-          this.foregroundSound.currentTime = position;
-        }
-        console.log("canplay: ", audioFilename);
-        this.foregroundSound.play();
-        store.commit(Mutations.setForegroundAudioIsPlaying, true);
-        store.commit(Mutations.setCurrentAudioFilename, audioFilename);
-      });
+      canplay$
+        .pipe(first())
+        .pipe(delay(wait * 1000))
+        .subscribe(() => {
+          if (position !== 0) {
+            this.foregroundSound.currentTime = position;
+          }
+          console.log("canplay: ", audioFilename);
+          this.foregroundSound.play();
+          store.commit(Mutations.setForegroundAudioIsPlaying, true);
+          store.commit(Mutations.setCurrentAudioFilename, audioFilename);
+        });
 
       // timeupdate
       const timeupdate$ = fromEvent(this.foregroundSound, "timeupdate");
@@ -233,7 +241,10 @@ export class AudioEngine {
         .pipe(distinctUntilChanged());
 
       // currentTimeOrZero is needed when we get a network timeout
-      currentTime$.subscribe((value) => (currentTimeOrZero = value));
+
+      subscriptions.push(
+        currentTime$.subscribe((value) => (currentTimeOrZero = value))
+      );
 
       const canplayAndCurrentTime$ = canplay$.pipe(mergeWith(currentTime$));
 
@@ -244,8 +255,7 @@ export class AudioEngine {
         }
       }
 
-      //
-      ended$.subscribe(() => {
+      ended$.pipe(first()).subscribe(() => {
         store.commit(Mutations.setForegroundAudioIsPlaying, false);
         store.commit(Mutations.setCurrentAudioFilename, null);
         store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
@@ -254,36 +264,42 @@ export class AudioEngine {
         store.commit(Mutations.setIgnorePauseEventMarker, new Date());
 
         this.unsetStationIsExecutingWithDelay(2500);
+        console.log("resolve: ", audioFilename);
+
+        subscriptions.forEach((subscription) => subscription.unsubscribe());
+
         resolve(true);
       });
 
-      canplayAndCurrentTime$
-        .pipe(takeUntil(ended$))
-        .pipe(
-          timeout({
-            each: TIMEOUT,
-            with: () => throwError(new CustomTimeoutError()),
-          })
-        )
-        .subscribe(
-          () => {}, // Do nothing when everything is fine
-          (error) => {
-            // In here we need to do something to tell the system to prompt the user
-            console.log("error captured: ", error);
-            // Make sure the audio does not start again when network recovers before user had
-            // interacted with prompt
-            // this.foregroundSound.pause();
-            this.foregroundSound.src = "";
-            // this.foregroundSound = null;
+      subscriptions.push(
+        canplayAndCurrentTime$
+          .pipe(takeUntil(ended$))
+          .pipe(
+            timeout({
+              each: TIMEOUT,
+              with: () => throwError(new CustomTimeoutError()),
+            })
+          )
+          .subscribe(
+            () => {}, // Do nothing when everything is fine
+            (error) => {
+              // In here we need to do something to tell the system to prompt the user
+              console.log("error captured: ", error);
+              // Make sure the audio does not start again when network recovers before user had
+              // interacted with prompt
+              // this.foregroundSound.pause();
+              this.foregroundSound.src = "";
+              // this.foregroundSound = null;
 
-            store.commit(Mutations.setForegroundAudioIsPlaying, false);
-            store.commit(Mutations.setCurrentAudioFilename, null);
-            store.commit(Mutations.setAudioTimeout, {
-              position: currentTimeOrZero,
-              audioFilename: audioFilename,
-            });
-          }
-        );
+              store.commit(Mutations.setForegroundAudioIsPlaying, false);
+              store.commit(Mutations.setCurrentAudioFilename, null);
+              store.commit(Mutations.setAudioTimeout, {
+                position: currentTimeOrZero,
+                audioFilename: audioFilename,
+              });
+            }
+          )
+      );
 
       let audioFilenameToActuallyPlay = audioFilename;
       if (store.state.debugQuickAudio) {

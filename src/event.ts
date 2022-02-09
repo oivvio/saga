@@ -174,7 +174,10 @@ export const eventHandlers = {
     const audioEventHandler = AudioEngine.getInstance();
     const audioPromise = audioEventHandler.handlePlayAudioEvent(playAudioEvent);
 
-    console.log("got audioPromise for: ", playAudioEvent.audioFilenames);
+    console.log(
+      "got audioPromise for: ",
+      JSON.parse(JSON.stringify(playAudioEvent.audioFilenames))
+    );
     // eslint-disable-next-line
     audioPromise.then((_) => {
       if (playAudioEvent.then !== undefined) {
