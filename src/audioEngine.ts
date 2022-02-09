@@ -47,8 +47,8 @@ export class AudioEngine {
   // private static bgDuckedVolume = 0.075;
   // private static bgDuckedVolume = 0.15;
   // private static bgFullVolume = 1;
-  // private static bgFadeInDuration = 2000;
-  // private static bgFadeOutDuration = 2000;
+  private static bgFadeInDuration = 2000;
+  private static bgFadeOutDuration = 2000;
 
   private foregroundSound: HTMLAudioElement = new Audio();
 
@@ -444,6 +444,26 @@ export class AudioEngine {
     return promise;
   }
 
+  public fadeAndStop(sound: Howl, duration: number) {
+    sound.fade(1, 0, duration);
+    setTimeout(() => {
+      // When the sound is done fading out, stop it.
+      sound.stop();
+      sound.unload();
+    }, duration);
+  }
+
+  public playAndFade(sound: Howl, duration: number, wait: number) {
+    setTimeout(() => {
+      // Before hitting play check if this audio should start out ducked
+      // if (store.state.audio.foreground.isPlaying) {
+      //   backgroundSound.volume(AudioEngine.bgDuckedVolume);
+      // }
+      sound.fade(0, 1, duration);
+      sound.play();
+    }, wait * 1000);
+  }
+
   public handlePlayBackgroundAudioEvent(
     event: IEventPlayBackgroundAudio
   ): void {
@@ -454,8 +474,7 @@ export class AudioEngine {
 
     // Kill them
     bgSoundsToCancel.forEach((bgSound) => {
-      bgSound.sound.stop();
-      // bgSound.sound.unload();
+      this.fadeAndStop(bgSound.sound, AudioEngine.bgFadeOutDuration);
     });
 
     // And update our list of current background sounds
@@ -493,13 +512,16 @@ export class AudioEngine {
     }
 
     // Set a timeout for when to actually play the sound
-    setTimeout(() => {
-      // Before hitting play check if this audio should start out ducked
-      // if (store.state.audio.foreground.isPlaying) {
-      //   backgroundSound.volume(AudioEngine.bgDuckedVolume);
-      // }
-      backgroundSound.play();
-    }, event.wait * 1000);
+    // setTimeout(() => {
+    //   // Before hitting play check if this audio should start out ducked
+    //   // if (store.state.audio.foreground.isPlaying) {
+    //   //   backgroundSound.volume(AudioEngine.bgDuckedVolume);
+    //   // }
+    //   backgroundSound.play();
+    //   backgroundSound.fade(0, 1, AudioEngine.bgFadeInDuration);
+    // }, event.wait * 1000);
+
+    this.playAndFade(backgroundSound, AudioEngine.bgFadeInDuration, event.wait);
   }
 
   // Check for background sounds that should be cancelled
@@ -517,8 +539,7 @@ export class AudioEngine {
 
     // Kill them
     bgSoundsToCancel.forEach((bgSound) => {
-      bgSound.sound.stop();
-      bgSound.sound.unload();
+      this.fadeAndStop(bgSound.sound, AudioEngine.bgFadeOutDuration);
     });
 
     // And remove them from our list of bgSounds
