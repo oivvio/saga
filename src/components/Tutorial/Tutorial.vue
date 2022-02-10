@@ -11,7 +11,8 @@
       <source src="/video/sprickan2.mp4" type="video/mp4" />
     </video>
     <button @click="completeTutorial" v-if="displayButton">
-      Öppna scannern
+      Starta scanner
+      <img src="/img/starta-scanner.svg" alt="" />
     </button>
   </div>
 </template>
@@ -100,15 +101,25 @@ div.Tutorial {
 
   button {
     z-index: 2;
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
+
     width: 80vw;
-    position: absolute;
-    bottom: 5%;
+    position: relative;
+
     left: 10vw;
+    top: 70vh;
     height: 3rem;
-    border-radius: 3rem;
+    border: none;
     font-size: 1.2rem;
+    position: relative;
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
   }
 }
 </style>

@@ -1,7 +1,13 @@
 <template>
   <div class="Recover">
-    <button v-if="paused" @click="resume">ÅTERUPPTA</button>
-    <button v-else @click="retryAudio">NÄTVERKSFEL - FÖRSÖK IGEN</button>
+    <button v-if="paused" @click="resume">
+      ÅTERUPPTA
+            <img src="/img/ateruppta.svg" alt="" />
+    </button>
+    <button v-else @click="retryAudio">
+      ÅTERUPPTA
+        <img src="/img/ateruppta.svg" alt="" />
+    </button>
   </div>
 </template>
 
@@ -76,12 +82,22 @@ div.Recover {
   align-items: center;
 
   button {
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
+    border: none;
     font-size: 1.2rem;
     border-radius: 2rem;
-    width: 50vw;
+    width: 70vw;
     height: 4rem;
+    position: relative;
+
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
   }
 }
 </style>
