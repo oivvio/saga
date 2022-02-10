@@ -5,7 +5,7 @@
       class="pane"
       :class="{ moveLeft: isOpen, moveBack: !isOpen }"
     >
-      <img src="img/biljett_left.jpg" alt="" />
+      <img src="/img/biljett_left.jpg" alt="" />
     </div>
 
     <div
@@ -13,7 +13,7 @@
       class="pane"
       :class="{ moveRight: isOpen, moveBack: !isOpen }"
     >
-      <img src="img/biljett_right.jpg" alt="" />
+      <img src="/img/biljett_right.jpg" alt="" />
     </div>
   </div>
 </template>

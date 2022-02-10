@@ -101,12 +101,22 @@ def typescript_lint(ctx, watch=True):
 
 @task
 def typescript_typecheck(ctx, watch=True):
-    """Check that our TypeScript compiles"""
+    """Check that our TypeScript is valid using tsc --noEmit"""
     preflight_checklist()
 
     watch = " --watch " if watch else ""
 
-    cmd = f"./node_modules/.bin/tsc --project tsconfig.json {watch}"
+    cmd = f"./node_modules/.bin/tsc --noEmit --project tsconfig.json {watch}"
+    ctx.run(cmd, pty=True)
+
+
+def typescript_vue_typecheck(ctx):
+    """Check that our TypeScript compiles with vue-tsc"""
+    preflight_checklist()
+
+    # watch = " --watch " if watch else ""
+
+    cmd = f"./node_modules/.bin/vue-tsc --noEmit --project tsconfig.json {watch}"
     ctx.run(cmd, pty=True)
 
 
@@ -132,15 +142,21 @@ def deploy_to_s3(ctx):
 
 
 @task
-def deploy_to_khst(ctx, username, password):
+def deploy_to_khst(ctx, username, password, include_data=True, fresh_build=True):
     """Build and deploy to khst via sftp"""
 
     preflight_checklist()
 
     # Build
-    vue_build(ctx)
+    if fresh_build:
+        vue_build(ctx)
 
-    lftpcmd = f"open -u {username},{password} sftp://sprickan.kulturhusetstadsteatern.se:22;mirror --verbose --parallel=10 -R dist/ /;exit"
+    if include_data:
+        data_exclude = ""
+    else:
+        data_exclude = " --exclude data/ --exclude img/ --exclude video/ --exclude animation/ --exclude Default.hyperesources/ "
+
+    lftpcmd = f"open -u {username},{password} sftp://sprickan.kulturhusetstadsteatern.se:22;mirror --verbose --parallel=10 -R dist/ / {data_exclude} ;exit"
     cmd = f"lftp -e '{lftpcmd}'"
     print(cmd)
     ctx.run(cmd, pty=True)
@@ -213,7 +229,7 @@ def vue_build(ctx):
     """Build the project for deployment"""
     preflight_checklist()
 
-    cmd = f"./node_modules/.bin/vue-cli-service build"
+    cmd = f"./node_modules/.bin/vite build"
     print(cmd)
     ctx.run(cmd, pty=True)
 
@@ -223,21 +239,16 @@ def vue_devserver(ctx, port=8080, host="0.0.0.0"):
     """Run the Vue dev server"""
     preflight_checklist()
 
-    cmd = (
-        f"./node_modules/.bin/vue-cli-service serve --https --port {port} --host {host}"
-    )
+    cmd = f"./node_modules/.bin/vite --https --port {port} --host {host} --strictPort --clearScreen "
     print(cmd)
     ctx.run(cmd, pty=True)
 
 
 @task
 def serve_distdir(ctx, port=8081, host="0.0.0.0"):
-    """Serve what is currently in the dist dir """
-
-    # Does not support https so this can't be used for
-    # playing the game
-
-    cmd = f"cd dist; ../node_modules/.bin/serve -p {port}"
+    """Serve what is currently in the dist dir"""
+    cmd = f"./node_modules/.bin/http-server dist -S -C cert.pem -p {port}"
+    print(cmd)
     ctx.run(cmd, pty=True)
 
 
@@ -342,3 +353,19 @@ def graph(ctx, filename, output="Desktop/gamegraph.gv", format="png"):
     output = Path(Path.home(), output)
     print(f"Your graph file is at {output}.{format}")
     dot.render(output)
+
+
+@task
+def test_unit(ctx, watch=True, regexp=".*unit.*js$"):
+    """Run unit tests"""
+    watch = " --watch " if watch else ""
+    cmd = f"./node_modules/.bin/vitest {watch}"
+    ctx.run(cmd, pty=True)
+
+
+@task
+def test_e2e(ctx, headless=False, mode="production"):
+    """Run end 2 end tests"""
+    headless = " --headless " if headless else ""
+    cmd = "./node_modules/.bin/vue-cli-service test:e2e {headless} "
+    ctx.run(cmd, pty=True)

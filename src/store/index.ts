@@ -1,9 +1,11 @@
 // eslint-disable-next-line
 
-import { has } from "lodash";
+//import { has } from "lodash";
+import lodash from "lodash";
+const { has } = lodash;
 
 // eslint-disable-next-line
-import { ComponentCustomProperties } from "vue";
+// import { ComponentCustomProperties } from "vue";
 
 // eslint-disable-next-line
 import createPersistedState from "vuex-persistedstate";
@@ -31,6 +33,7 @@ interface IUserState {
   tags: string[];
   hasPlayedTutorial: boolean;
   stationIsExecuting: boolean;
+  audioTimeout: { position: number; audioFilename: string } | null;
 }
 
 export interface IState {
@@ -96,6 +99,7 @@ const initialState: IState = {
     tags: [],
     hasPlayedTutorial: false,
     stationIsExecuting: false,
+    audioTimeout: null,
   },
   audio: {
     volume: 0,
@@ -308,7 +312,22 @@ export const store = createStore({
       );
       state.audioPauseEventMarker = value;
     },
+
+    setAudioTimeout(
+      state: IState,
+      payload: { position: number; audioFilename: string }
+    ) {
+      state.user.audioTimeout = {
+        position: payload.position,
+        audioFilename: payload.audioFilename,
+      };
+    },
+
+    clearAudioTimeout(state: IState) {
+      state.user.audioTimeout = null;
+    },
   },
+
   actions: {},
   modules: {},
   plugins: [createPersistedState()],
@@ -366,4 +385,6 @@ export enum Mutations {
   setStationIsExecuting = "setStationIsExecuting",
   setAudioPausedByExternalForces = "setAudioPausedByExternalForces",
   setIgnorePauseEventMarker = "setIgnorePauseEventMarker",
+  setAudioTimeout = "setAudioTimeout",
+  clearAudioTimeout = "clearAudioTimeout",
 }

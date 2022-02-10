@@ -3,11 +3,43 @@ import { StationID } from "./station";
 import { IEventPlayAudio, IEventPlayBackgroundAudio } from "./event";
 import { Mutations, store } from "./store";
 import { joinPaths } from "./utils";
+import { Subject, Observable, throwError, fromEvent, Subscription } from "rxjs";
+import {
+  delay,
+  distinctUntilChanged,
+  map,
+  mergeWith,
+  takeUntil,
+  // tap,
+  timeout,
+  first,
+} from "rxjs/operators";
 
-// declare function unmute(): void;
-// import { unmute } from "./vendor/unmute";
-
-// Howler.autoUnlock = true;
+// const htmlMediaEvents = [
+//   // "abort",
+//   "canplay", // keep
+//   // "canplaythrough",
+//   // "durationchange",
+//   // "emptied",
+//   // "ended",
+//   // "error",
+//   // "loadeddata",
+//   // "loadedmetadata",
+//   // "loadstart",
+//   // "pause",
+//   // "play",
+//   // "playing",
+//   // "progress",
+//   // "ratechange",
+//   // "resize",
+//   // "seeked",
+//   // "seeking",
+//   // "stalled",
+//   // "suspend",
+//   "timeupdate", // keep
+//   // "volumechange",
+//   // "waiting",
+// ];
 
 // https://refactoring.guru/design-patterns/singleton/typescript/example
 export class AudioEngine {
@@ -15,9 +47,9 @@ export class AudioEngine {
   // private static bgDuckedVolume = 0.075;
   // private static bgDuckedVolume = 0.15;
   // private static bgFullVolume = 1;
-  // private static bgFadeInDuration = 2000;
-  // private static bgFadeOutDuration = 2000;
-  // //private foregroundSound: Howl | undefined;
+  private static bgFadeInDuration = 2000;
+  private static bgFadeOutDuration = 2000;
+
   private foregroundSound: HTMLAudioElement = new Audio();
 
   private backgroundSounds: {
@@ -28,14 +60,14 @@ export class AudioEngine {
   // Constructor needs to be private so that instances can not be made with new AudioEventHandler()
   // eslint-disable-next-line
   private constructor() {
-    console.log("In Audioengine construtor");
-
     // Listen for the pause event
+    // These events fire when an incoming phone call is made, when the user plays audio in some other app and on some
+    // other occations that are not in our control
+
     this.foregroundSound.addEventListener("pause", (event) => {
       console.log(`A pause event fired: ${event}`);
       if (store.state.user.hasPlayedTutorial) {
         console.log(`And the tutorial is complete.`);
-
         try {
           // We have to wait a bit because the pause event will fire before the onended eventlistener has run
           setTimeout(() => {
@@ -149,73 +181,205 @@ export class AudioEngine {
       this.foregroundSound.play();
     }, 1000);
   }
+
   public playForegroundAudio(
     audioFilename: string,
-    wait: number
+    wait: number,
+    position = 0
   ): Promise<boolean> {
-    //1. Check that no other main audio is playing
-    //
+    // let audioFilenameToActuallyPlay = audioFilename;
+    // if (store.state.debugQuickAudio) {
+    //   audioFilenameToActuallyPlay = "/audio/beep.mp3";
+    // }
+    // const fullAudioPath = this.getAudioPath(audioFilenameToActuallyPlay);
 
-    store.commit(Mutations.setStationIsExecuting, true);
+    //const subscriptions: Subscription[] = [];
+    const subscriptions: Subscription[] = [];
 
+    // Let's set the timeout to 10 seconds for now.
+    const TIMEOUT = 10000;
+    // const TIMEOUT = 1000; // use this in dev
+    let currentTimeOrZero = 0;
     const promise = new Promise<boolean>((resolve, reject) => {
       if (store.state.audio.foreground.isPlaying) {
         // TODO log error
         reject(false);
       }
+
+      // playintent
+      const playintent$ = new Subject<boolean>();
+
+      playintent$.pipe(first()).subscribe(() => {
+        // Tell the store that a station is executing
+        store.commit(Mutations.setStationIsExecuting, true);
+      });
+
+      // canplay
+      const canplay$ = fromEvent(this.foregroundSound, "canplay");
+      canplay$
+        .pipe(first())
+        .pipe(delay(wait * 1000))
+        .subscribe(() => {
+          if (position !== 0) {
+            this.foregroundSound.currentTime = position;
+          }
+          console.log("canplay: ", audioFilename);
+          this.foregroundSound.play();
+          store.commit(Mutations.setForegroundAudioIsPlaying, true);
+          store.commit(Mutations.setCurrentAudioFilename, audioFilename);
+        });
+
+      // timeupdate
+      const timeupdate$ = fromEvent(this.foregroundSound, "timeupdate");
+
+      // ended
+      const ended$ = fromEvent(this.foregroundSound, "ended");
+
+      // currenttime - how far in the file we've come - filter out anything that is not progress
+      const currentTime$: Observable<number> = timeupdate$
+        .pipe(map((event) => (event as any).target.currentTime))
+        .pipe(distinctUntilChanged());
+
+      // currentTimeOrZero is needed when we get a network timeout
+
+      subscriptions.push(
+        currentTime$.subscribe((value) => (currentTimeOrZero = value))
+      );
+
+      const canplayAndCurrentTime$ = canplay$.pipe(mergeWith(currentTime$));
+
+      class CustomTimeoutError extends Error {
+        constructor() {
+          super("Playing a file timed out.");
+          this.name = "CustomTimeoutError";
+        }
+      }
+
+      ended$.pipe(first()).subscribe(() => {
+        store.commit(Mutations.setForegroundAudioIsPlaying, false);
+        store.commit(Mutations.setCurrentAudioFilename, null);
+        store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
+
+        // The audio ending fires
+        store.commit(Mutations.setIgnorePauseEventMarker, new Date());
+
+        this.unsetStationIsExecutingWithDelay(2500);
+        console.log("resolve: ", audioFilename);
+
+        subscriptions.forEach((subscription) => subscription.unsubscribe());
+
+        resolve(true);
+      });
+
+      subscriptions.push(
+        canplayAndCurrentTime$
+          .pipe(takeUntil(ended$))
+          .pipe(
+            timeout({
+              each: TIMEOUT,
+              with: () => throwError(new CustomTimeoutError()),
+            })
+          )
+          .subscribe(
+            () => {}, // Do nothing when everything is fine
+            (error) => {
+              // In here we need to do something to tell the system to prompt the user
+              console.log("error captured: ", error);
+              // Make sure the audio does not start again when network recovers before user had
+              // interacted with prompt
+              // this.foregroundSound.pause();
+              this.foregroundSound.src = "";
+              // this.foregroundSound = null;
+
+              store.commit(Mutations.setForegroundAudioIsPlaying, false);
+              store.commit(Mutations.setCurrentAudioFilename, null);
+              store.commit(Mutations.setAudioTimeout, {
+                position: currentTimeOrZero,
+                audioFilename: audioFilename,
+              });
+            }
+          )
+      );
+
       let audioFilenameToActuallyPlay = audioFilename;
       if (store.state.debugQuickAudio) {
         audioFilenameToActuallyPlay = "/audio/beep.mp3";
       }
 
-      // setup the sound
-      //
-      // this.foregroundSound = new Howl({
-      //   src: [this.getAudioPath(audioFilenameToActuallyPlay)],
-      //   format: ["mp3"],
-      //   html5: true,
-      // });
-
       const fullAudioPath = this.getAudioPath(audioFilenameToActuallyPlay);
-
       this.foregroundSound.autoplay = true; // For iOS
       this.foregroundSound.src = fullAudioPath;
 
-      const foregroundSound = this.foregroundSound;
-
-      if (foregroundSound) {
-        foregroundSound.autoplay = true; // for iOS
-        // setup callback for start of audio
-        foregroundSound.oncanplay = () => {
-          setTimeout(() => {
-            // this.duckBackgroundAudio();
-            foregroundSound.play();
-            store.commit(Mutations.setForegroundAudioIsPlaying, true);
-            store.commit(Mutations.setCurrentAudioFilename, audioFilename);
-          }, wait * 1000);
-        };
-
-        // setup callback for end of audio
-        foregroundSound.onended = () => {
-          console.log("Foreground audio ended");
-          store.commit(Mutations.setForegroundAudioIsPlaying, false);
-          store.commit(Mutations.setCurrentAudioFilename, null);
-          store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
-
-          // The audio ending fires
-          store.commit(Mutations.setIgnorePauseEventMarker, new Date());
-
-          // this.unduckBackgroundAudio();
-          // this.foregroundSound?.unload();
-
-          this.unsetStationIsExecutingWithDelay(2500);
-          resolve(true);
-        };
-      }
+      // After all this elaborate setup. Kick of the playing.
+      playintent$.next(true);
     });
-
     return promise;
   }
+
+  // public oldPlayForegroundAudio(
+  //   audioFilename: string,
+  //   wait: number
+  // ): Promise<boolean> {
+  //   //1. Check that no other main audio is playing
+  //   //
+
+  //   // let lastRecordedEventTimeStamp = 0;
+  //   store.commit(Mutations.setStationIsExecuting, true); // done
+
+  //   const promise = new Promise<boolean>((resolve, reject) => {
+  //     if (store.state.audio.foreground.isPlaying) {
+  //       // TODO log error
+  //       reject(false);
+  //     }
+
+  //     let audioFilenameToActuallyPlay = audioFilename;
+  //     if (store.state.debugQuickAudio) {
+  //       audioFilenameToActuallyPlay = "/audio/beep.mp3";
+  //     }
+
+  //     // setup the sound
+  //     const fullAudioPath = this.getAudioPath(audioFilenameToActuallyPlay);
+
+  //     this.foregroundSound.autoplay = true; // For iOS // DONE
+  //     this.foregroundSound.src = fullAudioPath;
+
+  //     const foregroundSound = this.foregroundSound;
+
+  //     if (foregroundSound) {
+  //       foregroundSound.autoplay = true; // for iOS
+  //       // setup callback for start of audio
+  //       foregroundSound.oncanplay = () => {
+  //         setTimeout(() => {
+  //           // this.duckBackgroundAudio();
+  //           foregroundSound.play();
+  //           store.commit(Mutations.setForegroundAudioIsPlaying, true);
+  //           store.commit(Mutations.setCurrentAudioFilename, audioFilename);
+  //         }, wait * 1000);
+  //       };
+
+  //       // setup callback for end of audio
+
+  //       foregroundSound.onended = () => {
+  //         console.log("Foreground audio ended");
+  //         store.commit(Mutations.setForegroundAudioIsPlaying, false);
+  //         store.commit(Mutations.setCurrentAudioFilename, null);
+  //         store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
+
+  //         // The audio ending fires
+  //         store.commit(Mutations.setIgnorePauseEventMarker, new Date());
+
+  //         // this.unduckBackgroundAudio();
+  //         // this.foregroundSound?.unload();
+
+  //         this.unsetStationIsExecutingWithDelay(2500);
+  //         resolve(true);
+  //       };
+  //     }
+  //   });
+  //   // end of const promise = ...
+
+  //   return promise;
+  // }
 
   /**
    *
@@ -280,6 +444,26 @@ export class AudioEngine {
     return promise;
   }
 
+  public fadeAndStop(sound: Howl, duration: number) {
+    sound.fade(1, 0, duration);
+    setTimeout(() => {
+      // When the sound is done fading out, stop it.
+      sound.stop();
+      sound.unload();
+    }, duration);
+  }
+
+  public playAndFade(sound: Howl, duration: number, wait: number) {
+    setTimeout(() => {
+      // Before hitting play check if this audio should start out ducked
+      // if (store.state.audio.foreground.isPlaying) {
+      //   backgroundSound.volume(AudioEngine.bgDuckedVolume);
+      // }
+      sound.fade(0, 1, duration);
+      sound.play();
+    }, wait * 1000);
+  }
+
   public handlePlayBackgroundAudioEvent(
     event: IEventPlayBackgroundAudio
   ): void {
@@ -290,8 +474,7 @@ export class AudioEngine {
 
     // Kill them
     bgSoundsToCancel.forEach((bgSound) => {
-      bgSound.sound.stop();
-      // bgSound.sound.unload();
+      this.fadeAndStop(bgSound.sound, AudioEngine.bgFadeOutDuration);
     });
 
     // And update our list of current background sounds
@@ -329,13 +512,16 @@ export class AudioEngine {
     }
 
     // Set a timeout for when to actually play the sound
-    setTimeout(() => {
-      // Before hitting play check if this audio should start out ducked
-      // if (store.state.audio.foreground.isPlaying) {
-      //   backgroundSound.volume(AudioEngine.bgDuckedVolume);
-      // }
-      backgroundSound.play();
-    }, event.wait * 1000);
+    // setTimeout(() => {
+    //   // Before hitting play check if this audio should start out ducked
+    //   // if (store.state.audio.foreground.isPlaying) {
+    //   //   backgroundSound.volume(AudioEngine.bgDuckedVolume);
+    //   // }
+    //   backgroundSound.play();
+    //   backgroundSound.fade(0, 1, AudioEngine.bgFadeInDuration);
+    // }, event.wait * 1000);
+
+    this.playAndFade(backgroundSound, AudioEngine.bgFadeInDuration, event.wait);
   }
 
   // Check for background sounds that should be cancelled
@@ -353,8 +539,7 @@ export class AudioEngine {
 
     // Kill them
     bgSoundsToCancel.forEach((bgSound) => {
-      bgSound.sound.stop();
-      bgSound.sound.unload();
+      this.fadeAndStop(bgSound.sound, AudioEngine.bgFadeOutDuration);
     });
 
     // And remove them from our list of bgSounds

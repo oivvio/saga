@@ -3,7 +3,8 @@ import { AudioEngine } from "./audioEngine";
 import { store, IState, Mutations } from "./store";
 import { getParentUrl, getChildUrl } from "./utils";
 
-import { last } from "lodash";
+import lodash from "lodash";
+const { last } = lodash;
 import { IEvent, IEventPlayAudio, eventHandlers } from "./event";
 
 // Keep these types in sync with our json schema

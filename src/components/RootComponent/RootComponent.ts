@@ -7,7 +7,8 @@ import Animation from "../Animation/Animation.vue";
 import DevBox from "../DevBox/DevBox.vue";
 import ShowPowerName from "../ShowPowerName/ShowPowerName.vue";
 import Tutorial from "../Tutorial/Tutorial.vue";
-import Unpause from "@/components/Unpause/Unpause.vue";
+
+import Recover from "@/components/Recover/Recover.vue";
 
 export default defineComponent({
   name: "RootComponent",
@@ -27,8 +28,11 @@ export default defineComponent({
   },
 
   computed: {
-    showUnpause() {
-      return this.$store.state.audioPausedByExternalForces;
+    showRecover() {
+      return (
+        this.$store.state.audioPausedByExternalForces ||
+        this.$store.state.user.audioTimeout
+      );
     },
 
     QRScannerCanBeDisplayed() {
@@ -65,6 +69,6 @@ export default defineComponent({
     ShowPowerName,
     Animation,
     Tutorial,
-    Unpause,
+    Recover,
   },
 });
