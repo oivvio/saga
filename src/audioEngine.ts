@@ -47,7 +47,7 @@ export class AudioEngine {
   // private static bgDuckedVolume = 0.075;
   // private static bgDuckedVolume = 0.15;
   // private static bgFullVolume = 1;
-  private static bgFadeInDuration = 2000;
+  private static bgFadeInDuration = 1000;
   private static bgFadeOutDuration = 2000;
 
   private foregroundSound: HTMLAudioElement = new Audio();
