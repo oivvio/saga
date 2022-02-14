@@ -20,6 +20,14 @@
       "action": "playAudio",
       "wait": 0,
       "audioFilenames": ["./level-5-slutet/continuation-sprickan-oppnas.mp3"]
+    },
+    
+    {
+      "action": "playBackgroundAudio",
+      "audioFilename": "./level-global/tystnad.mp3",
+      "loop": false,
+      "cancelOnLeave": true,
+      "wait": 0
     }
   ]
 }

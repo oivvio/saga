@@ -1,7 +1,7 @@
 {
   "id": "checkin-slutstriden",
   "type": "story",
-  "description": "another dark chamber",
+  "description": "Slutstriden har borjat",
   "opens": [
     "pick-emotion-gladje",
     "pick-emotion-ilska",
@@ -33,7 +33,7 @@
       "action": "playBackgroundAudio",
       "audioFilename": "./level-global/Drone/drone-5.mp3",
       "loop": true,
-      "cancelOnLeave": true,
+      "cancelOnLeave": false,
       "wait": 63
     }
   ]
