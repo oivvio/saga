@@ -45,22 +45,10 @@
           "action": "playAudio",
           "wait": 0,
           "audioFilenames": 
-          ["./level-4-slutstriden/continuation-sanna-vasen-3.mp3"],
-          "then": {
-            "action": "playAudio",
-            "wait": 0,
-            "audioFilenames": 
-            ["./level-4-slutstriden/checkin-sprickan-stangs.mp3"],
-            "then": {
-              "action": "playAudio",
-              "wait": 0,
-              "audioFilenames": 
-              ["./level-5-slutet/continuation-sprickan-stangs-grattis.mp3"]
-          
-                     }
+          ["./level-5-slutet/continuation-sprickan-stangs-grattis.mp3"]
                  }
                 }
-            }
+            
             
         ]
 }
