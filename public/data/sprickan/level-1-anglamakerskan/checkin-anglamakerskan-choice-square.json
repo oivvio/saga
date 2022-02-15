@@ -20,8 +20,8 @@
       "action": "playBackgroundAudio",
       "audioFilename": "./level-1-anglamakerskan/anglamakerskan-lillith-choice-square_bg.mp3",
       "loop": false,
-      "cancelOnLeave": false,
-      "wait": 50
+      "cancelOnLeave": true,
+      "wait": 40
     }
   ]
 }
