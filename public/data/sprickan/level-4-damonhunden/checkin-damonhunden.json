@@ -18,13 +18,6 @@
         "./level-4-damonhunden/checkin-damonhunden-b.mp3"
       ]
     },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/tystnad.mp3",
-      "loop": true,
-      "cancelOnLeave": true,
-      "wait": 0
-    },
 
     {
       "action": "cancelTimer",

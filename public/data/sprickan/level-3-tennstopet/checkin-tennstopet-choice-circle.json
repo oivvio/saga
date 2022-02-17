@@ -20,7 +20,7 @@
       "audioFilename": "./level-global/Drone/drone-4.mp3",
       "loop": true,
       "cancelOnLeave": false,
-      "wait": 90
+      "wait": 35
     }
   ]
 }
