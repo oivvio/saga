@@ -20,7 +20,14 @@
       "audioFilename": "./level-global/Drone/drone-4.mp3",
       "loop": true,
       "cancelOnLeave": false,
-      "wait": 90
+      "wait": 35
+    },
+    {
+      "action": "playBackgroundAudio",
+      "audioFilename": "./level-global/Musik/Sprickan-Theme.mp3",
+      "loop": true,
+      "cancelOnLeave": true,
+      "wait": 35
     }
   ]
 }

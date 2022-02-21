@@ -2,7 +2,7 @@
   "id": "checkin-damonhunden",
   "type": "story",
   "description": "You are at damonhunden",
-  "opens": ["key"],
+  "opens": ["-key"],
   "helpAudioFilenames": [
     "./level-4-damonhunden/help-damonhunden-1.mp3",
     "./level-4-damonhunden/help-damonhunden-2.mp3"
@@ -17,13 +17,6 @@
         "./level-4-damonhunden/checkin-lillebror.mp3",
         "./level-4-damonhunden/checkin-damonhunden-b.mp3"
       ]
-    },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/tystnad.mp3",
-      "loop": true,
-      "cancelOnLeave": true,
-      "wait": 0
     },
 
     {
