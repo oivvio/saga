@@ -24,16 +24,36 @@ const Component = defineComponent({
       result: "",
       error: "",
       onDecodeSubject: new Subject<IDecodeSubjectValue>(),
+      scanner: undefined as undefined | Html5Qrcode,
     };
   },
 
+  computed: {
+    stationIsExecuting() {
+      return store.state.user.stationIsExecuting;
+    },
+  },
+  watch: {
+    stationIsExecuting(oldValue, newValue) {
+      if (this.scanner) {
+        if (!newValue) {
+          console.log("pause scanner");
+          this.scanner.pause();
+        } else {
+          console.log("resume scanner");
+          this.scanner.resume();
+        }
+      }
+    },
+  },
   // Most setup happens here where we have access to this
   mounted() {
-    // function onScanFailure(error: string) {
-    //   console.warn(`Code scan error = ${error}`);
-    // }
+    // const html5QrCode = new Html5Qrcode("reader", {
+    //   formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+    //   verbose: false,
+    // });
 
-    const html5QrCode = new Html5Qrcode("reader", {
+    this.scanner = new Html5Qrcode("reader", {
       formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
       verbose: false,
     });
@@ -53,7 +73,8 @@ const Component = defineComponent({
       disableFlip: true,
     };
 
-    html5QrCode.start(
+    //html5QrCode.start(
+    this.scanner.start(
       { facingMode: "environment" },
       qrConfig,
       qrCodeSuccessCallback,
