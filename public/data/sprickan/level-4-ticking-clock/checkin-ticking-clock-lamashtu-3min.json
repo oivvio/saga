@@ -18,7 +18,40 @@
     {
       "action": "playAudio",
       "wait": 0,
-      "audioFilenames": ["./level-4-ticking-clock/continuation-3min.mp3"]
-    }
+      "audioFilenames": ["./level-4-ticking-clock/continuation-3min.mp3"],
+      "then":
+      {
+        "action": "playBackgroundAudio",
+        "audioFilename": "./level-4-ticking-clock/tiktok.mp3",
+        "loop": true,
+        "cancelOnLeave": true,
+        "wait": 0
+        ,
+
+          "then":
+        {
+          "action": "playBackgroundAudio",
+          "audioFilename": "./level-4-ticking-clock/ticking-clock-2min.mp3",
+          "loop": false,
+          "cancelOnLeave": true,
+          "wait": 60
+          ,
+
+          "then":
+        {
+          "action": "playBackgroundAudio",
+          "audioFilename": "./level-4-ticking-clock/ticking-clock-1min.mp3",
+          "loop": false,
+          "cancelOnLeave": true,
+          "wait": 120
+        }
+      }
+      }
+      }
+        
+       
+       
+       
+    
   ]
 }
