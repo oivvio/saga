@@ -38,10 +38,12 @@ const Component = defineComponent({
       if (this.scanner) {
         if (!newValue) {
           console.log("pause scanner");
-          this.scanner.pause();
+          //this.scanner.pause(true);
+          this.scanner.stop();
         } else {
           console.log("resume scanner");
-          this.scanner.resume();
+          //this.scanner.resume();
+          this.startScan();
         }
       }
     },
@@ -57,29 +59,6 @@ const Component = defineComponent({
       formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
       verbose: false,
     });
-
-    const qrCodeSuccessCallback = (decodedText: string) => {
-      const codeContent = decodedText;
-      this.onDecodeSubject.next({ codeContent });
-    };
-
-    const qrCodeErrorCallback = () => {
-      //  Do nothing on qrErrors
-    };
-
-    const qrConfig = {
-      fps: 10,
-      qrbox: { width: 200, height: 200 },
-      disableFlip: true,
-    };
-
-    //html5QrCode.start(
-    this.scanner.start(
-      { facingMode: "environment" },
-      qrConfig,
-      qrCodeSuccessCallback,
-      qrCodeErrorCallback
-    );
 
     // capture these methods so we can use them in the rx pipeline
     const qrCodeIsValid = this.qrCodeIsValid;
@@ -118,6 +97,9 @@ const Component = defineComponent({
           }
         },
       });
+
+    // Now that the pipeline is set up start scanning
+    this.startScan();
   },
 
   methods: {
@@ -170,6 +152,34 @@ const Component = defineComponent({
         result = true;
       }
       return result;
+    },
+
+    startScan() {
+      const qrCodeSuccessCallback = (decodedText: string) => {
+        const codeContent = decodedText;
+        this.onDecodeSubject.next({ codeContent });
+      };
+
+      const qrCodeErrorCallback = () => {
+        //  Do nothing on qrErrors
+      };
+
+      const qrConfig = {
+        fps: 10,
+        qrbox: { width: 200, height: 200 },
+        disableFlip: true,
+        facingMode: "environment",
+        rememberLastUsedCamera: true,
+      };
+
+      //html5QrCode.start(
+
+      this.scanner?.start(
+        { facingMode: "environment" },
+        qrConfig,
+        qrCodeSuccessCallback,
+        qrCodeErrorCallback
+      );
     },
   },
 });
