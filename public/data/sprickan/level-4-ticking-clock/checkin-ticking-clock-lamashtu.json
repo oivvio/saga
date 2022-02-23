@@ -41,7 +41,7 @@
             {
               "action": "playBackgroundAudio",
               "audioFilename": "./level-4-ticking-clock/tiktok.mp3",
-              "loop": false,
+              "loop": true,
               "cancelOnLeave": true,
               "wait": 0,
 
