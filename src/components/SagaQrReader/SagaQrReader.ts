@@ -24,41 +24,41 @@ const Component = defineComponent({
       result: "",
       error: "",
       onDecodeSubject: new Subject<IDecodeSubjectValue>(),
+      scanner: undefined as undefined | Html5Qrcode,
     };
   },
 
+  computed: {
+    stationIsExecuting() {
+      return store.state.user.stationIsExecuting;
+    },
+  },
+  watch: {
+    stationIsExecuting(oldValue, newValue) {
+      if (this.scanner) {
+        if (!newValue) {
+          console.log("pause scanner");
+          //this.scanner.pause(true);
+          this.scanner.stop();
+        } else {
+          console.log("resume scanner");
+          //this.scanner.resume();
+          this.startScan();
+        }
+      }
+    },
+  },
   // Most setup happens here where we have access to this
   mounted() {
-    // function onScanFailure(error: string) {
-    //   console.warn(`Code scan error = ${error}`);
-    // }
+    // const html5QrCode = new Html5Qrcode("reader", {
+    //   formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+    //   verbose: false,
+    // });
 
-    const html5QrCode = new Html5Qrcode("reader", {
+    this.scanner = new Html5Qrcode("reader", {
       formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
       verbose: false,
     });
-
-    const qrCodeSuccessCallback = (decodedText: string) => {
-      const codeContent = decodedText;
-      this.onDecodeSubject.next({ codeContent });
-    };
-
-    const qrCodeErrorCallback = () => {
-      //  Do nothing on qrErrors
-    };
-
-    const qrConfig = {
-      fps: 10,
-      qrbox: { width: 200, height: 200 },
-      disableFlip: true,
-    };
-
-    html5QrCode.start(
-      { facingMode: "environment" },
-      qrConfig,
-      qrCodeSuccessCallback,
-      qrCodeErrorCallback
-    );
 
     // capture these methods so we can use them in the rx pipeline
     const qrCodeIsValid = this.qrCodeIsValid;
@@ -97,6 +97,9 @@ const Component = defineComponent({
           }
         },
       });
+
+    // Now that the pipeline is set up start scanning
+    this.startScan();
   },
 
   methods: {
@@ -149,6 +152,34 @@ const Component = defineComponent({
         result = true;
       }
       return result;
+    },
+
+    startScan() {
+      const qrCodeSuccessCallback = (decodedText: string) => {
+        const codeContent = decodedText;
+        this.onDecodeSubject.next({ codeContent });
+      };
+
+      const qrCodeErrorCallback = () => {
+        //  Do nothing on qrErrors
+      };
+
+      const qrConfig = {
+        fps: 10,
+        qrbox: { width: 200, height: 200 },
+        disableFlip: true,
+        facingMode: "environment",
+        rememberLastUsedCamera: true,
+      };
+
+      //html5QrCode.start(
+
+      this.scanner?.start(
+        { facingMode: "environment" },
+        qrConfig,
+        qrCodeSuccessCallback,
+        qrCodeErrorCallback
+      );
     },
   },
 });
