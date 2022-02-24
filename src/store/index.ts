@@ -15,9 +15,8 @@ import { IGameConfig, StationID, Station } from "../station";
 import { loadGameConfigAndStations } from "../station";
 
 interface IUserState {
-  QRScannerCanBeDisplayed: boolean;
   QRScannerIsDisplayed: boolean;
-  showQRScanner: boolean;
+
   stationsVisited: StationID[];
   stationVisitCounts: Record<StationID, { open: number; closed: number }>;
   lastStationVisitedId?: StationID;
@@ -79,9 +78,8 @@ const initialState: IState = {
   debugQuickAudio: false,
 
   user: {
-    QRScannerCanBeDisplayed: false,
-    QRScannerIsDisplayed: false,
-    showQRScanner: true,
+    QRScannerIsDisplayed: true,
+
     stationsVisited: [],
     stationVisitCounts: {} as Record<
       StationID,
@@ -147,14 +145,6 @@ export const store = createStore({
 
     hideQRScanner(state: IState) {
       state.user.QRScannerIsDisplayed = false;
-    },
-
-    displayButtonToOpenQRScanner(state: IState) {
-      state.user.QRScannerCanBeDisplayed = true;
-    },
-
-    hideButtonToOpenQRScanner(state: IState) {
-      state.user.QRScannerCanBeDisplayed = false;
     },
 
     pushStationIdToStationsVisited(state: IState, stationId: StationID) {
@@ -337,20 +327,21 @@ export const store = createStore({
 // store.subscribe((mutation, state: IState) => {
 store.subscribe((_, state: IState) => {
   const audioIsPlaying = state.audio.foreground.isPlaying;
-  const qrScannerVisible = state.user.QRScannerIsDisplayed;
-  const openQrScannerButtonVisible = state.user.QRScannerCanBeDisplayed;
-  if (!audioIsPlaying && !qrScannerVisible && !openQrScannerButtonVisible) {
-    store.commit(Mutations.displayButtonToOpenQRScanner);
+  const scannerIsDisplayed = state.user.QRScannerIsDisplayed;
+  if (!audioIsPlaying && !scannerIsDisplayed) {
+    console.log("HERE");
+    store.commit(Mutations.displayQRScanner);
   }
-
-  if (audioIsPlaying) {
+  if (audioIsPlaying && scannerIsDisplayed) {
     // Hide qrScanner and button to open qrScanner
-    if (state.user.QRScannerIsDisplayed) {
-      store.commit(Mutations.hideQRScanner);
-    }
-    if (state.user.QRScannerCanBeDisplayed) {
-      store.commit(Mutations.hideButtonToOpenQRScanner);
-    }
+    // if (state.user.QRScannerIsDisplayed) {
+    console.log("HERE2");
+    store.commit(Mutations.hideQRScanner);
+    // }
+
+    // if (state.user.QRScannerCanBeDisplayed) {
+    //   store.commit(Mutations.hideButtonToOpenQRScanner);
+    // }
   }
 });
 

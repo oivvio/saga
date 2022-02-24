@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 
-import { Mutations } from "../../store";
+// import { Mutations } from "../../store";
 
 import SagaQrReader from "../SagaQrReader/SagaQrReader.vue";
 import Animation from "../Animation/Animation.vue";
@@ -21,12 +21,15 @@ export default defineComponent({
     };
   },
 
-  methods: {
-    displayQRScanner() {
-      this.$store.commit(Mutations.displayQRScanner);
-    },
-  },
+  // methods: {
+  //   displayQRScanner() {
+  //     this.$store.commit(Mutations.displayQRScanner);
+  //   },
+  // },
 
+  mounted() {
+    console.log("RootComponent Mounted");
+  },
   computed: {
     showRecover() {
       return (
@@ -35,9 +38,9 @@ export default defineComponent({
       );
     },
 
-    QRScannerCanBeDisplayed() {
-      return this.$store.state.user.QRScannerCanBeDisplayed;
-    },
+    // QRScannerCanBeDisplayed() {
+    //   return this.$store.state.user.QRScannerCanBeDisplayed;
+    // },
 
     QRScannerIsDisplayed() {
       return this.$store.state.user.QRScannerIsDisplayed;
