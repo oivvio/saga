@@ -34,16 +34,18 @@ const Component = defineComponent({
     },
   },
   watch: {
-    stationIsExecuting(oldValue, newValue) {
+    stationIsExecuting(_, newValue) {
       if (this.scanner) {
+        const refToScanner = this.scanner;
+
+        // We set a little time out on the pausing because the scanner lib displays a yellow
+        // warning label telling the user that it is paused. We don't want the user to have to see this.
         if (!newValue) {
-          console.log("pause scanner");
-          this.scanner.pause(true);
-          // this.scanner.stop();
+          setTimeout(() => {
+            refToScanner.pause(true);
+          }, 1000);
         } else {
-          console.log("resume scanner");
           this.scanner.resume();
-          // this.startScan();
         }
       }
     },
@@ -86,7 +88,7 @@ const Component = defineComponent({
           store.commit(Mutations.hideQRScanner);
 
           // Hide the option to start the QR reader
-          store.commit(Mutations.hideButtonToOpenQRScanner);
+          // store.commit(Mutations.hideButtonToOpenQRScanner);
 
           // Get the stationId
           const stationId = getStationId(value.codeContent);

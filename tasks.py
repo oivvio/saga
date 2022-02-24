@@ -161,12 +161,6 @@ def deploy_to_khst(ctx, username, password, include_data=True, fresh_build=True)
     print(cmd)
     ctx.run(cmd, pty=True)
 
-    # Output instructions
-    # full_url = "https://libtechplayground.s3.eu-north-1.amazonaws.com/sprickan/index.html?configUrl=https://libtechplayground.s3.eu-north-1.amazonaws.com/sprickan/data/gameconfig.json&displayDevBox=yes"
-    # print()
-    # print("Deployed to S3. Try it out at the following URL: ")
-    # print(full_url)
-
 
 @task
 def generate_qr_codes(ctx, filename):
@@ -225,11 +219,11 @@ def generate_html_files(ctx, filename):
 
 
 @task
-def vue_build(ctx):
+def vue_build(ctx, mode="production"):
     """Build the project for deployment"""
     preflight_checklist()
 
-    cmd = f"./node_modules/.bin/vite build"
+    cmd = f"./node_modules/.bin/vite build --mode {mode} "
     print(cmd)
     ctx.run(cmd, pty=True)
 
@@ -239,7 +233,7 @@ def vue_devserver(ctx, port=8080, host="0.0.0.0"):
     """Run the Vue dev server"""
     preflight_checklist()
 
-    cmd = f"./node_modules/.bin/vite --https --port {port} --host {host} --strictPort --clearScreen "
+    cmd = f"./node_modules/.bin/vite --https --port {port} --host {host} --strictPort --clearScreen false --cors false"
     print(cmd)
     ctx.run(cmd, pty=True)
 
@@ -250,21 +244,6 @@ def serve_distdir(ctx, port=8081, host="0.0.0.0"):
     cmd = f"./node_modules/.bin/http-server dist -S -C cert.pem -p {port}"
     print(cmd)
     ctx.run(cmd, pty=True)
-
-
-@task
-def cartesian_product(ctx, lst1, lst2):
-    """Provide commaseparated list of strings"""
-
-    lst1 = [t.strip() for t in lst1.split(",")]
-    lst2 = [t.strip() for t in lst2.split(",")]
-
-    result = []
-    for item1 in lst1:
-        for item2 in lst2:
-            result.append([item1, item2])
-
-    print(dumps(result, indent=4))
 
 
 @task

@@ -329,13 +329,11 @@ store.subscribe((_, state: IState) => {
   const audioIsPlaying = state.audio.foreground.isPlaying;
   const scannerIsDisplayed = state.user.QRScannerIsDisplayed;
   if (!audioIsPlaying && !scannerIsDisplayed) {
-    console.log("HERE");
     store.commit(Mutations.displayQRScanner);
   }
   if (audioIsPlaying && scannerIsDisplayed) {
     // Hide qrScanner and button to open qrScanner
     // if (state.user.QRScannerIsDisplayed) {
-    console.log("HERE2");
     store.commit(Mutations.hideQRScanner);
     // }
 
