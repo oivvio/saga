@@ -81,6 +81,9 @@ export default defineComponent({
         ? "open"
         : "closed";
     },
+    stationIsOpen(stationId: StationID) {
+      return this.$store.state.user.openStations.includes(stationId);
+    },
   },
 
   computed: {

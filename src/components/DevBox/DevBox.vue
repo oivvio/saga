@@ -5,10 +5,6 @@
     <h1>Devtools</h1>
     <table>
       <tr>
-        <td>QRScannerCanBeDisplayed:</td>
-        <td>{{ this.$store.state.user.QRScannerCanBeDisplayed }}</td>
-      </tr>
-      <tr>
         <td>QRScannerIsDisplayed:</td>
         <td>{{ this.$store.state.user.QRScannerIsDisplayed }}</td>
       </tr>
@@ -121,6 +117,64 @@
       </tr>
     </table>
 
+    <h1>Open stations</h1>
+    <div id="example-1" v-if="gameConfigLoaded">
+      <p><strong>Execute a station</strong></p>
+      <table>
+        <tr
+          v-for="station in this.$store.state.gameConfig.stations"
+          :key="station.id"
+        >
+          <template v-if="stationIsOpen(station.id)">
+            <td>
+              <button
+                v-on:click="runStationOnButtonPress(station.id, false)"
+                :disabled="!this.$store.state.user.QRScannerIsDisplayed"
+              >
+                {{ station.id }}
+              </button>
+            </td>
+
+            <td>
+              <button
+                v-on:click="runStationOnButtonPress(station.id, true)"
+                :disabled="!this.$store.state.user.QRScannerIsDisplayed"
+              >
+                Force run
+              </button>
+            </td>
+
+            <td>
+              <button v-on:click="showQrCode(station.id)">QR</button>
+            </td>
+            <td
+              style="
+                 {
+                  width: 200px;
+                  display: block;
+                }
+              "
+            >
+              <qrcode-vue
+                :value="this.getFullUrl(station.id)"
+                :size="400"
+                level="H"
+                v-if="this.stationIdsToDisplayQRcodeFor.includes(station.id)"
+              />
+            </td>
+
+            <td>
+              <span> {{ openOrClosed(station.id) }}</span>
+            </td>
+
+            <td>
+              <span> {{ visitCount(station.id) }}</span>
+            </td>
+          </template>
+        </tr>
+      </table>
+    </div>
+
     <div id="example-1" v-if="gameConfigLoaded">
       <p><strong>Execute a station</strong></p>
       <table>
@@ -131,7 +185,7 @@
           <td>
             <button
               v-on:click="runStationOnButtonPress(station.id, false)"
-              :disabled="!this.$store.state.user.QRScannerCanBeDisplayed"
+              :disabled="!this.$store.state.user.QRScannerIsDisplayed"
             >
               {{ station.id }}
             </button>
@@ -140,7 +194,7 @@
           <td>
             <button
               v-on:click="runStationOnButtonPress(station.id, true)"
-              :disabled="!this.$store.state.user.QRScannerCanBeDisplayed"
+              :disabled="!this.$store.state.user.QRScannerIsDisplayed"
             >
               Force run
             </button>
@@ -175,6 +229,7 @@
         </tr>
       </table>
     </div>
+
     <p><strong>Reset</strong></p>
     <button v-on:click="wipeHistory">Wipe history</button>
   </div>
@@ -195,6 +250,12 @@ td {
   canvas {
     width: 200px !important;
     height: 200px !important;
+  }
+
+  button {
+    height: 3rem;
+    background-color: white;
+    border-radius: 1rem;
   }
 }
 </style>
