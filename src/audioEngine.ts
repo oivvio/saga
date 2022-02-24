@@ -1,4 +1,4 @@
-import { Howl } from "howler";
+// import { Howl } from "howler";
 import { StationID } from "./station";
 import { IEventPlayAudio, IEventPlayBackgroundAudio } from "./event";
 import { Mutations, store } from "./store";
@@ -55,7 +55,8 @@ export class AudioEngine {
   private backgroundSounds: {
     stationId: StationID;
     event: IEventPlayBackgroundAudio;
-    sound: Howl;
+    // sound: Howl;
+    sound: HTMLAudioElement;
   }[] = [];
   // Constructor needs to be private so that instances can not be made with new AudioEventHandler()
   // eslint-disable-next-line
@@ -444,22 +445,24 @@ export class AudioEngine {
     return promise;
   }
 
-  public fadeAndStop(sound: Howl, duration: number) {
-    sound.fade(1, 0, duration);
-    setTimeout(() => {
-      // When the sound is done fading out, stop it.
-      sound.stop();
-      sound.unload();
-    }, duration);
+  public fadeAndStop(sound: HTMLMediaElement, _: number) {
+    sound.pause();
+    // sound.fade(1, 0, duration);
+    // setTimeout(() => {
+    //   // When the sound is done fading out, stop it.
+
+    //   sound.unload();
+    // }, duration);
   }
 
-  public playAndFade(sound: Howl, duration: number, wait: number) {
+  //public playAndFade(sound: Howl, duration: number, wait: number) {
+  public playAndFade(sound: HTMLMediaElement, _: number, wait: number) {
     setTimeout(() => {
       // Before hitting play check if this audio should start out ducked
       // if (store.state.audio.foreground.isPlaying) {
       //   backgroundSound.volume(AudioEngine.bgDuckedVolume);
       // }
-      sound.fade(0, 1, duration);
+      // sound.fade(0, 1, duration);
       sound.play();
     }, wait * 1000);
   }
@@ -484,11 +487,25 @@ export class AudioEngine {
 
     // Setup the current background sound
 
-    const backgroundSound = new Howl({
-      src: [this.getAudioPath(event.audioFilename)],
-      format: ["mp3"],
-      loop: event.loop,
-    });
+    const backgroundSound = new Audio();
+    backgroundSound.src = this.getAudioPath(event.audioFilename);
+
+    if (event.loop) {
+      backgroundSound.addEventListener(
+        "ended",
+        function () {
+          this.currentTime = 0;
+          this.play();
+        },
+        false
+      );
+    }
+
+    // const backgroundSound = new Howl({
+    //   src: [this.getAudioPath(event.audioFilename)],
+    //   format: ["mp3"],
+    //   loop: event.loop,
+    // });
 
     // Add this backgroundSound to our list of backgroundSounds
     if (store.state.user.currentStation) {
@@ -500,16 +517,16 @@ export class AudioEngine {
     }
 
     // If this is not a looping sound unload it when it ends.
-    if (!event.loop) {
-      backgroundSound.once("end", () => {
-        // backgroundSound.unload();
+    // if (!event.loop) {
+    //   backgroundSound.once("end", () => {
+    //     // backgroundSound.unload();
 
-        // And remove it from our list of backgroundSounds
-        this.backgroundSounds = this.backgroundSounds.filter(
-          (bgSound) => bgSound.sound !== backgroundSound
-        );
-      });
-    }
+    //     // And remove it from our list of backgroundSounds
+    //     this.backgroundSounds = this.backgroundSounds.filter(
+    //       (bgSound) => bgSound.sound !== backgroundSound
+    //     );
+    //   });
+    // }
 
     // Set a timeout for when to actually play the sound
     // setTimeout(() => {
@@ -537,6 +554,7 @@ export class AudioEngine {
       );
     });
 
+    console.log("bgSoundsToCancel: ", bgSoundsToCancel);
     // Kill them
     bgSoundsToCancel.forEach((bgSound) => {
       this.fadeAndStop(bgSound.sound, AudioEngine.bgFadeOutDuration);
