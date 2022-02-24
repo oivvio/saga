@@ -38,12 +38,12 @@ const Component = defineComponent({
       if (this.scanner) {
         if (!newValue) {
           console.log("pause scanner");
-          //this.scanner.pause(true);
-          this.scanner.stop();
+          this.scanner.pause(true);
+          // this.scanner.stop();
         } else {
           console.log("resume scanner");
-          //this.scanner.resume();
-          this.startScan();
+          this.scanner.resume();
+          // this.startScan();
         }
       }
     },
