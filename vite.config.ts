@@ -20,6 +20,7 @@ const markdownWrapperClasses = "prose prose-sm m-auto text-left";
 
 export default defineConfig({
   build: {
+    outDir: "build",
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "index.html"),

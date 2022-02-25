@@ -26,6 +26,9 @@ from validation.validation import load_complete_game
 TYPESCRIPT_FILES_FINDER = f"find .|grep '\.ts$'|grep -v '#'"
 
 
+BUILD_DIR = "./build"
+
+
 def preflight_checklist():
     """Stuff we want to check before running our tasks"""
 
@@ -33,6 +36,26 @@ def preflight_checklist():
     if not os.path.exists("tasks.py"):
         print("Please run tasks from the root project folder")
         exit()
+
+
+@task
+def rsync_build_to_dist(ctx):
+    """
+    Sync build dir to dist
+
+    Using rsync which will only update newer files. This will make lftp go faster.
+
+    """
+    preflight_checklist()
+
+    # archive mode; equals -rlptgoD
+
+    cmd = f"rsync --recursive --links --progress --checksum {BUILD_DIR}/ ./dist"
+
+    # -av --progress --checksum
+
+    print(cmd)
+    ctx.run(cmd)
 
 
 @task
@@ -120,25 +143,25 @@ def typescript_vue_typecheck(ctx):
     ctx.run(cmd, pty=True)
 
 
-@task
-def deploy_to_s3(ctx):
-    """Build and deploy to an s3 bucket - requires aws secrects to be configured."""
+# @task
+# def deploy_to_s3(ctx):
+#     """Build and deploy to an s3 bucket - requires aws secrects to be configured."""
 
-    preflight_checklist()
+#     preflight_checklist()
 
-    # Build
-    vue_build(ctx)
+#     # Build
+#     vue_build(ctx)
 
-    # Push to s3
-    cmd = f"aws s3 sync --acl public-read ./dist/  s3://libtechplayground/sprickan/"
-    print(cmd)
-    ctx.run(cmd, pty=True)
+#     # Push to s3
+#     cmd = f"aws s3 sync --acl public-read ./dist/  s3://libtechplayground/sprickan/"
+#     print(cmd)
+#     ctx.run(cmd, pty=True)
 
-    # Output instructions
-    full_url = "https://libtechplayground.s3.eu-north-1.amazonaws.com/sprickan/index.html?configUrl=https://libtechplayground.s3.eu-north-1.amazonaws.com/sprickan/data/gameconfig.json&displayDevBox=yes"
-    print()
-    print("Deployed to S3. Try it out at the following URL: ")
-    print(full_url)
+#     # Output instructions
+#     full_url = "https://libtechplayground.s3.eu-north-1.amazonaws.com/sprickan/index.html?configUrl=https://libtechplayground.s3.eu-north-1.amazonaws.com/sprickan/data/gameconfig.json&displayDevBox=yes"
+#     print()
+#     print("Deployed to S3. Try it out at the following URL: ")
+#     print(full_url)
 
 
 @task
@@ -156,6 +179,13 @@ def deploy_to_khst(ctx, username, password, include_data=True, fresh_build=True)
     else:
         data_exclude = " --exclude data/ --exclude img/ --exclude video/ --exclude animation/ --exclude Default.hyperesources/ "
 
+    # Generate html files
+    generate_html_files(ctx, "./public/data/sprickan/gameconfig.json")
+
+    # Sync build to dist
+    rsync_build_to_dist(ctx)
+
+    # Now push it to the server
     lftpcmd = f"open -u {username},{password} sftp://sprickan.kulturhusetstadsteatern.se:22;mirror --verbose --parallel=10 -R dist/ / {data_exclude} ;exit"
     cmd = f"lftp -e '{lftpcmd}'"
     print(cmd)
@@ -208,7 +238,7 @@ def generate_html_files(ctx, filename):
 
     for station_id in station_ids:
         print("STATION: ", station_id)
-        output_dir = Path("dist") / station_id
+        output_dir = Path(BUILD_DIR) / station_id
         if not output_dir.exists():
             output_dir.mkdir(parents=True)
 
