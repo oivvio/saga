@@ -24,7 +24,7 @@
         "audioFilename": "./level-global/Drone/drone-1.mp3",
         "loop": true,
         "cancelOnLeave": false,
-        "wait": 130,
+        "wait": 85,
 
         "then": {
           "action": "playAudio",
