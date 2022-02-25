@@ -40,49 +40,10 @@
             "then":
             {
               "action": "playBackgroundAudio",
-              "audioFilename": "./level-4-ticking-clock/tiktok.mp3",
+              "audioFilename": "./level-4-ticking-clock/tiktok-5.mp3",
               "loop": true,
               "cancelOnLeave": true,
-              "wait": 0,
-
-              "then":
-            {
-              "action": "playBackgroundAudio",
-              "audioFilename": "./level-4-ticking-clock/ticking-clock-4min.mp3",
-              "loop": false,
-              "cancelOnLeave": true,
-              "wait": 60
-              ,
-
-              "then":
-            {
-              "action": "playBackgroundAudio",
-              "audioFilename": "./level-4-ticking-clock/ticking-clock-3min.mp3",
-              "loop": false,
-              "cancelOnLeave": true,
-              "wait": 120
-              ,
-
-              "then":
-            {
-              "action": "playBackgroundAudio",
-              "audioFilename": "./level-4-ticking-clock/ticking-clock-2min.mp3",
-              "loop": false,
-              "cancelOnLeave": true,
-              "wait": 180
-              ,
-
-              "then":
-            {
-              "action": "playBackgroundAudio",
-              "audioFilename": "./level-4-ticking-clock/ticking-clock-1min.mp3",
-              "loop": false,
-              "cancelOnLeave": true,
-              "wait": 240
-            }
-          }
-          }
-          }
+              "wait": 0
             
            
            
