@@ -242,6 +242,7 @@
 
 <style scoped lang="scss">
 div.DevBox {
+  font-family: sans-serif;
   background-color: lightgreen;
   padding-bottom: 10rem;
   margin-top: 100vh;
