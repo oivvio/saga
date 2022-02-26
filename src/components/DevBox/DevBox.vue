@@ -5,6 +5,11 @@
     <h1>Devtools</h1>
     <table>
       <tr>
+        <td>Version:</td>
+        <td>{{ Version.DATE }}/ {{ Version.COMMIT }}</td>
+      </tr>
+
+      <tr>
         <td>QRScannerIsDisplayed:</td>
         <td>{{ this.$store.state.user.QRScannerIsDisplayed }}</td>
       </tr>

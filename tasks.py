@@ -4,6 +4,7 @@ import shutil
 
 from json import load
 from json import dumps
+import datetime as dt
 from urllib.parse import urljoin
 import graphviz
 
@@ -169,6 +170,9 @@ def deploy_to_khst(ctx, username, password, include_data=True, fresh_build=True)
     """Build and deploy to khst via sftp"""
 
     preflight_checklist()
+
+    # Update Version
+    update_version(ctx)
 
     # Build
     if fresh_build:
@@ -378,3 +382,28 @@ def test_e2e(ctx, headless=False, mode="production"):
     headless = " --headless " if headless else ""
     cmd = "./node_modules/.bin/vue-cli-service test:e2e {headless} "
     ctx.run(cmd, pty=True)
+
+
+@task
+def update_version(ctx):
+    """
+    Update Version.ts
+    """
+    cmd = "git rev-parse --short HEAD"
+    commit = ((ctx.run(cmd)).stdout).strip()
+    today = dt.date.today().isoformat()
+
+    template = (
+        "export class Version {"
+        f"""public static DATE = "{today}";"""
+        f"""public static COMMIT = "{commit}";"""
+        "}"
+    )
+
+    fh = open("./src/Version.ts", "w")
+    print(template)
+    fh.write(template)
+    fh.close()
+
+    prettier = "./node_modules/.bin/prettier --write src/Version.ts"
+    ctx.run(prettier)

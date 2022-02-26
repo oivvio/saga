@@ -3,12 +3,16 @@ import { defineComponent } from "vue";
 import { Mutations } from "../../store";
 import { StationID, runStationById } from "../../station";
 import QrcodeVue from "qrcode.vue";
+import { Version } from "../../Version";
 
 export default defineComponent({
   name: "DevBox",
 
-  data: function (): { stationIdsToDisplayQRcodeFor: StationID[] } {
-    return { stationIdsToDisplayQRcodeFor: [] };
+  data: function (): {
+    stationIdsToDisplayQRcodeFor: StationID[];
+    Version: Version;
+  } {
+    return { stationIdsToDisplayQRcodeFor: [], Version };
   },
 
   methods: {
