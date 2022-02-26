@@ -445,24 +445,12 @@ export class AudioEngine {
     return promise;
   }
 
-  public fadeAndStop(sound: HTMLMediaElement, _: number) {
+  public stop(sound: HTMLMediaElement, _: number) {
     sound.pause();
-    // sound.fade(1, 0, duration);
-    // setTimeout(() => {
-    //   // When the sound is done fading out, stop it.
-
-    //   sound.unload();
-    // }, duration);
   }
 
-  //public playAndFade(sound: Howl, duration: number, wait: number) {
-  public playAndFade(sound: HTMLMediaElement, _: number, wait: number) {
+  public playWithDelay(sound: HTMLMediaElement, _: number, wait: number) {
     setTimeout(() => {
-      // Before hitting play check if this audio should start out ducked
-      // if (store.state.audio.foreground.isPlaying) {
-      //   backgroundSound.volume(AudioEngine.bgDuckedVolume);
-      // }
-      // sound.fade(0, 1, duration);
       sound.play();
     }, wait * 1000);
   }
@@ -477,7 +465,7 @@ export class AudioEngine {
 
     // Kill them
     bgSoundsToCancel.forEach((bgSound) => {
-      this.fadeAndStop(bgSound.sound, AudioEngine.bgFadeOutDuration);
+      this.stop(bgSound.sound, AudioEngine.bgFadeOutDuration);
     });
 
     // And update our list of current background sounds
@@ -501,12 +489,6 @@ export class AudioEngine {
       );
     }
 
-    // const backgroundSound = new Howl({
-    //   src: [this.getAudioPath(event.audioFilename)],
-    //   format: ["mp3"],
-    //   loop: event.loop,
-    // });
-
     // Add this backgroundSound to our list of backgroundSounds
     if (store.state.user.currentStation) {
       this.backgroundSounds.push({
@@ -516,29 +498,13 @@ export class AudioEngine {
       });
     }
 
-    // If this is not a looping sound unload it when it ends.
-    // if (!event.loop) {
-    //   backgroundSound.once("end", () => {
-    //     // backgroundSound.unload();
-
-    //     // And remove it from our list of backgroundSounds
-    //     this.backgroundSounds = this.backgroundSounds.filter(
-    //       (bgSound) => bgSound.sound !== backgroundSound
-    //     );
-    //   });
-    // }
-
-    // Set a timeout for when to actually play the sound
-    // setTimeout(() => {
-    //   // Before hitting play check if this audio should start out ducked
-    //   // if (store.state.audio.foreground.isPlaying) {
-    //   //   backgroundSound.volume(AudioEngine.bgDuckedVolume);
-    //   // }
-    //   backgroundSound.play();
-    //   backgroundSound.fade(0, 1, AudioEngine.bgFadeInDuration);
-    // }, event.wait * 1000);
-
-    this.playAndFade(backgroundSound, AudioEngine.bgFadeInDuration, event.wait);
+    // eslint-disable-next-line
+    console.log("play background: ", backgroundSound.src, event.wait);
+    this.playWithDelay(
+      backgroundSound,
+      AudioEngine.bgFadeInDuration,
+      event.wait
+    );
   }
 
   // Check for background sounds that should be cancelled
@@ -557,7 +523,7 @@ export class AudioEngine {
     console.log("bgSoundsToCancel: ", bgSoundsToCancel);
     // Kill them
     bgSoundsToCancel.forEach((bgSound) => {
-      this.fadeAndStop(bgSound.sound, AudioEngine.bgFadeOutDuration);
+      this.stop(bgSound.sound, AudioEngine.bgFadeOutDuration);
     });
 
     // And remove them from our list of bgSounds

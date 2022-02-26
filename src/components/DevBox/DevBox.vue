@@ -6,7 +6,7 @@
     <table>
       <tr>
         <td>Version:</td>
-        <td>{{ Version.DATE }}/ {{ Version.COMMIT }}</td>
+        <td>{{ Version.DATE }} / {{ Version.COMMIT }}</td>
       </tr>
 
       <tr>
