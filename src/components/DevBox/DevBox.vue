@@ -35,7 +35,7 @@
       </tr>
 
       <tr>
-        <td>audioBackgroundIsPlaying:</td>
+        <td>audioBackgroundIsPlaying or waiting:</td>
         <td>{{ this.$store.state.audio.background.isPlaying }}</td>
       </tr>
 

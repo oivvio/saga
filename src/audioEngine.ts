@@ -51,12 +51,18 @@ export class AudioEngine {
   private static bgFadeOutDuration = 2000;
 
   private foregroundSound: HTMLAudioElement = new Audio();
-
+  private backgroundSoundsCount: number = 0;
   private backgroundSounds: {
     stationId: StationID;
     event: IEventPlayBackgroundAudio;
     // sound: Howl;
     sound: HTMLAudioElement;
+  }[] = [];
+
+  private backgroundTimeouts: {
+    stationId: StationID;
+    event: IEventPlayBackgroundAudio;
+    timeoutID: number;
   }[] = [];
   // Constructor needs to be private so that instances can not be made with new AudioEventHandler()
   // eslint-disable-next-line
@@ -97,26 +103,6 @@ export class AudioEngine {
     });
   }
 
-  // private duckBackgroundAudio() {
-  //   this.backgroundSounds.forEach((bgSound) =>
-  //     bgSound.sound.fade(
-  //       AudioEngine.bgFullVolume,
-  //       AudioEngine.bgDuckedVolume,
-  //       AudioEngine.bgFadeOutDuration
-  //     )
-  //   );
-  // }
-
-  // private unduckBackgroundAudio() {
-  //   this.backgroundSounds.forEach((bgSound) =>
-  //     bgSound.sound.fade(
-  //       AudioEngine.bgDuckedVolume,
-  //       AudioEngine.bgFullVolume,
-  //       AudioEngine.bgFadeInDuration
-  //     )
-  //   );
-  // }
-
   private unsetStationIsExecutingWithDelay(delay: number) {
     // Wait for a while, then check if something else is playing
     // eslint-disable-next-line
@@ -133,6 +119,18 @@ export class AudioEngine {
     }, delay);
   }
 
+  private updateBackgroundSoundIsPlaying() {
+    if (this.backgroundSoundsCount < 0) {
+      // We should not get to this state
+      this.backgroundSoundsCount = 0;
+    }
+
+    const value = this.backgroundSoundsCount !== 0;
+
+    console.log("bgSoundsCount: ", this.backgroundSoundsCount);
+    store.commit(Mutations.setAudioBackgroundIsPlaying, value);
+  }
+
   private getAudioPath(filename: string): string {
     let result = "";
     if (store.state.gameConfig) {
@@ -147,14 +145,6 @@ export class AudioEngine {
   // always return the same instance
   public static getInstance(): AudioEngine {
     if (!AudioEngine.instance) {
-      // Enables web audio in iOS when mute switch is on.
-      // unmute();
-      //const context: AudioContext = new (window.AudioContext ||
-      //  (window as any).webkitAudioContext)();
-
-      // debugger;
-      // unmute(context);
-
       AudioEngine.instance = new AudioEngine();
     }
     return AudioEngine.instance;
@@ -317,71 +307,6 @@ export class AudioEngine {
     return promise;
   }
 
-  // public oldPlayForegroundAudio(
-  //   audioFilename: string,
-  //   wait: number
-  // ): Promise<boolean> {
-  //   //1. Check that no other main audio is playing
-  //   //
-
-  //   // let lastRecordedEventTimeStamp = 0;
-  //   store.commit(Mutations.setStationIsExecuting, true); // done
-
-  //   const promise = new Promise<boolean>((resolve, reject) => {
-  //     if (store.state.audio.foreground.isPlaying) {
-  //       // TODO log error
-  //       reject(false);
-  //     }
-
-  //     let audioFilenameToActuallyPlay = audioFilename;
-  //     if (store.state.debugQuickAudio) {
-  //       audioFilenameToActuallyPlay = "/audio/beep.mp3";
-  //     }
-
-  //     // setup the sound
-  //     const fullAudioPath = this.getAudioPath(audioFilenameToActuallyPlay);
-
-  //     this.foregroundSound.autoplay = true; // For iOS // DONE
-  //     this.foregroundSound.src = fullAudioPath;
-
-  //     const foregroundSound = this.foregroundSound;
-
-  //     if (foregroundSound) {
-  //       foregroundSound.autoplay = true; // for iOS
-  //       // setup callback for start of audio
-  //       foregroundSound.oncanplay = () => {
-  //         setTimeout(() => {
-  //           // this.duckBackgroundAudio();
-  //           foregroundSound.play();
-  //           store.commit(Mutations.setForegroundAudioIsPlaying, true);
-  //           store.commit(Mutations.setCurrentAudioFilename, audioFilename);
-  //         }, wait * 1000);
-  //       };
-
-  //       // setup callback for end of audio
-
-  //       foregroundSound.onended = () => {
-  //         console.log("Foreground audio ended");
-  //         store.commit(Mutations.setForegroundAudioIsPlaying, false);
-  //         store.commit(Mutations.setCurrentAudioFilename, null);
-  //         store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
-
-  //         // The audio ending fires
-  //         store.commit(Mutations.setIgnorePauseEventMarker, new Date());
-
-  //         // this.unduckBackgroundAudio();
-  //         // this.foregroundSound?.unload();
-
-  //         this.unsetStationIsExecutingWithDelay(2500);
-  //         resolve(true);
-  //       };
-  //     }
-  //   });
-  //   // end of const promise = ...
-
-  //   return promise;
-  // }
-
   /**
    *
    * @param audioFilenames
@@ -409,7 +334,6 @@ export class AudioEngine {
       if (foregroundSound) {
         // Listen for the 'canplay' event
         foregroundSound.oncanplay = () => {
-          // this.duckBackgroundAudio();
           foregroundSound.play();
           store.commit(Mutations.setForegroundAudioIsPlaying, true);
           store.commit(Mutations.setCurrentAudioFilename, audioFilename);
@@ -449,15 +373,34 @@ export class AudioEngine {
     sound.pause();
   }
 
-  public playWithDelay(sound: HTMLMediaElement, _: number, wait: number) {
-    setTimeout(() => {
+  public playWithDelay(
+    sound: HTMLMediaElement,
+    _: number,
+    wait: number
+  ): number {
+    return setTimeout(() => {
       sound.play();
-    }, wait * 1000);
+    }, wait * 1000) as unknown as number;
   }
 
   public handlePlayBackgroundAudioEvent(
     event: IEventPlayBackgroundAudio
   ): void {
+    // Find bgSounds that we are wait to start to play
+    const bgWaitsToCancel = this.backgroundTimeouts.filter(
+      (bgSound) => bgSound.stationId !== store.state.user.currentStation
+    );
+
+    // Cancel them
+    bgWaitsToCancel.forEach((bgWait) => {
+      window.clearTimeout(bgWait.timeoutID);
+    });
+
+    // Hang on to any backgroundTimeouts we did not remove
+    this.backgroundTimeouts = this.backgroundTimeouts.filter(
+      (bgSound) => bgSound.stationId === store.state.user.currentStation
+    );
+
     // Find bgSounds that are not from the current station
     const bgSoundsToCancel = this.backgroundSounds.filter(
       (bgSound) => bgSound.stationId !== store.state.user.currentStation
@@ -468,26 +411,33 @@ export class AudioEngine {
       this.stop(bgSound.sound, AudioEngine.bgFadeOutDuration);
     });
 
+    // Update the count
+    this.backgroundSoundsCount -= bgSoundsToCancel.length;
+    this.updateBackgroundSoundIsPlaying();
+
     // And update our list of current background sounds
     this.backgroundSounds = this.backgroundSounds.filter(
       (bgSound) => bgSound.stationId === store.state.user.currentStation
     );
 
     // Setup the current background sound
-
     const backgroundSound = new Audio();
     backgroundSound.src = this.getAudioPath(event.audioFilename);
 
-    if (event.loop) {
-      backgroundSound.addEventListener(
-        "ended",
-        function () {
-          this.currentTime = 0;
-          this.play();
-        },
-        false
-      );
-    }
+    backgroundSound.addEventListener(
+      "ended",
+      (evt) => {
+        if (event.loop) {
+          const target = evt.target as HTMLMediaElement;
+          target.currentTime = 0;
+          target.play();
+        } else {
+          this.backgroundSoundsCount -= 1;
+          this.updateBackgroundSoundIsPlaying();
+        }
+      },
+      false
+    );
 
     // Add this backgroundSound to our list of backgroundSounds
     if (store.state.user.currentStation) {
@@ -496,15 +446,33 @@ export class AudioEngine {
         event: event,
         sound: backgroundSound,
       });
+      this.backgroundSoundsCount += 1;
+      this.updateBackgroundSoundIsPlaying();
     }
 
     // eslint-disable-next-line
-    console.log("play background: ", backgroundSound.src, event.wait);
-    this.playWithDelay(
+    console.log(
+      "play background: ",
+      backgroundSound.src,
+      event.wait,
+      this.backgroundSoundsCount
+    );
+
+    // Set up the play and get a timeout id
+    const timeoutID = this.playWithDelay(
       backgroundSound,
       AudioEngine.bgFadeInDuration,
       event.wait
     );
+
+    // Hang on to the timeout id
+    if (store.state.user.currentStation) {
+      this.backgroundTimeouts.push({
+        stationId: store.state.user.currentStation,
+        event,
+        timeoutID,
+      });
+    }
   }
 
   // Check for background sounds that should be cancelled
@@ -530,5 +498,8 @@ export class AudioEngine {
     this.backgroundSounds = this.backgroundSounds.filter(
       (bgSound) => !bgSoundsToCancel.includes(bgSound)
     );
+
+    // Update the count
+    this.backgroundSoundsCount -= bgSoundsToCancel.length;
   }
 }
