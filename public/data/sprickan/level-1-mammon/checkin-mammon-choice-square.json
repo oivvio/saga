@@ -14,21 +14,14 @@
       "audioFilename": "./level-global/Drone/drone-3.mp3",
       "loop": true,
       "cancelOnLeave": false,
-      "wait": 110
+      "wait": 0
     },
     {
       "action": "playBackgroundAudio",
       "audioFilename": "./level-global/Musik/Sprickan-Theme.mp3",
       "loop": true,
       "cancelOnLeave": true,
-      "wait": 110
-    },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./level-1-mammon/ring-ge-till-mammon-choice-square_bg.mp3",
-      "loop": false,
-      "cancelOnLeave": false,
-      "wait": 40
+      "wait": 63
     },
     {
       "action": "playAudio",
