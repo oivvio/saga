@@ -167,6 +167,7 @@ export class AudioEngine {
       "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
     store.commit(Mutations.setIgnorePauseEventMarker, new Date());
 
+    this.foregroundSound.load();
     // Give that commit a sec to get done
     setTimeout(() => {
       this.foregroundSound.play();
@@ -301,6 +302,8 @@ export class AudioEngine {
       this.foregroundSound.autoplay = true; // For iOS
       this.foregroundSound.src = fullAudioPath;
 
+      this.foregroundSound.load();
+
       // After all this elaborate setup. Kick of the playing.
       playintent$.next(true);
     });
@@ -423,6 +426,10 @@ export class AudioEngine {
     // Setup the current background sound
     const backgroundSound = new Audio();
     backgroundSound.src = this.getAudioPath(event.audioFilename);
+
+    // Load sound before playing asynchronously later
+    // https://arrangeactassert.com/posts/how-to-fix-the-request-is-not-allowed-by-the-user-agent-or-the-platform-in-the-current-context-possibly-because-the-user-denied-permission/
+    backgroundSound.load();
 
     backgroundSound.addEventListener(
       "ended",
