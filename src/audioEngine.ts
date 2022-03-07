@@ -75,6 +75,7 @@ class AudioPool {
 
   returnElement(element: AudioPoolElement) {
     element.audio.src = "";
+    element.audio.pause();
     element.free = true;
   }
 
@@ -221,6 +222,10 @@ export class AudioEngine {
       this.foregroundSound.play();
     }, 1000);
 
+    this.foregroundSound.onended = () => {
+      this.foregroundSound.pause();
+    };
+
     this.backgroundAudioPool.elements.forEach((element) => {
       element.audio.autoplay = true;
       element.audio.src =
@@ -229,6 +234,11 @@ export class AudioEngine {
       setTimeout(() => {
         element.audio.play();
       }, 1000);
+
+      // When the silence has played, make sure the audio is paused.
+      element.audio.onended = () => {
+        element.audio.pause();
+      };
     });
   }
 
@@ -441,7 +451,10 @@ export class AudioEngine {
     _: number,
     wait: number
   ): number {
+    console.log("playWithDelay 1: ", sound.src);
+
     return setTimeout(() => {
+      console.log("playWithDelay 2: ", sound.src);
       sound.play();
     }, wait * 1000) as unknown as number;
   }
@@ -486,8 +499,6 @@ export class AudioEngine {
     );
 
     // Setup the current background sound
-    // const backgroundSound = new Audio();
-    // backgroundSound.src = this.getAudioPath(event.audioFilename);
     const audioPoolElement = this.backgroundAudioPool.getFreeElement();
 
     console.log("bgpool FreeCount: ", this.backgroundAudioPool.getFreeCount());
@@ -495,8 +506,11 @@ export class AudioEngine {
     // https://arrangeactassert.com/posts/how-to-fix-the-request-is-not-allowed-by-the-user-agent-or-the-platform-in-the-current-context-possibly-because-the-user-denied-permission/
 
     if (audioPoolElement) {
+      audioPoolElement.audio.pause();
       audioPoolElement.audio.src = this.getAudioPath(event.audioFilename);
       audioPoolElement.audio.load();
+      // The above assignment unpauses the audio :(, so we need to pause it again.
+      audioPoolElement.audio.pause();
 
       audioPoolElement.audio.addEventListener(
         "ended",
