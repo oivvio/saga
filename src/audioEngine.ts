@@ -222,10 +222,6 @@ export class AudioEngine {
       this.foregroundSound.play();
     }, 1000);
 
-    this.foregroundSound.onended = () => {
-      this.foregroundSound.pause();
-    };
-
     this.backgroundAudioPool.elements.forEach((element) => {
       element.audio.autoplay = true;
       element.audio.src =
@@ -234,11 +230,6 @@ export class AudioEngine {
       setTimeout(() => {
         element.audio.play();
       }, 1000);
-
-      // When the silence has played, make sure the audio is paused.
-      element.audio.onended = () => {
-        element.audio.pause();
-      };
     });
   }
 
