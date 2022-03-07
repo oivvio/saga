@@ -442,12 +442,34 @@ export class AudioEngine {
     _: number,
     wait: number
   ): number {
-    console.log("playWithDelay 1: ", sound.src);
-
     return setTimeout(() => {
       console.log("playWithDelay 2: ", sound.src);
+      this.stopOldBackgroundAudio();
+
       sound.play();
     }, wait * 1000) as unknown as number;
+  }
+
+  public stopOldBackgroundAudio() {
+    // Find bgSounds that are not from the current station
+    const bgSoundsToCancel = this.backgroundSounds.filter(
+      (bgSound) => bgSound.stationId !== store.state.user.currentStation
+    );
+
+    // Kill them
+    bgSoundsToCancel.forEach((bgSound) => {
+      this.stop(bgSound.audioPoolElement.audio, AudioEngine.bgFadeOutDuration);
+      this.backgroundAudioPool.returnElement(bgSound.audioPoolElement);
+    });
+
+    // Update the count
+    this.backgroundSoundsCount -= bgSoundsToCancel.length;
+    this.updateBackgroundSoundIsPlaying();
+
+    // And update our list of current background sounds
+    this.backgroundSounds = this.backgroundSounds.filter(
+      (bgSound) => bgSound.stationId === store.state.user.currentStation
+    );
   }
 
   public handlePlayBackgroundAudioEvent(
@@ -466,26 +488,6 @@ export class AudioEngine {
 
     // Hang on to any backgroundTimeouts we did not remove
     this.backgroundTimeouts = this.backgroundTimeouts.filter(
-      (bgSound) => bgSound.stationId === store.state.user.currentStation
-    );
-
-    // Find bgSounds that are not from the current station
-    const bgSoundsToCancel = this.backgroundSounds.filter(
-      (bgSound) => bgSound.stationId !== store.state.user.currentStation
-    );
-
-    // Kill them
-    bgSoundsToCancel.forEach((bgSound) => {
-      this.stop(bgSound.audioPoolElement.audio, AudioEngine.bgFadeOutDuration);
-      this.backgroundAudioPool.returnElement(bgSound.audioPoolElement);
-    });
-
-    // Update the count
-    this.backgroundSoundsCount -= bgSoundsToCancel.length;
-    this.updateBackgroundSoundIsPlaying();
-
-    // And update our list of current background sounds
-    this.backgroundSounds = this.backgroundSounds.filter(
       (bgSound) => bgSound.stationId === store.state.user.currentStation
     );
 
