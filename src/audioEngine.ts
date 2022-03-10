@@ -17,7 +17,9 @@ import {
 
 // import lodash from "lodash";
 import _ from "lodash";
+
 const { filter, range } = _;
+import { v4 as uuidv4 } from "uuid";
 
 // const htmlMediaEvents = [
 //   // "abort",
@@ -90,7 +92,7 @@ export class AudioEngine {
   // private static bgDuckedVolume = 0.075;
   // private static bgDuckedVolume = 0.15;
   // private static bgFullVolume = 1;
-  private static bgFadeInDuration = 1000;
+  // private static bgFadeInDuration = 1000;
   private static bgFadeOutDuration = 2000;
 
   private foregroundSound: HTMLAudioElement = new Audio();
@@ -110,6 +112,7 @@ export class AudioEngine {
     event: IEventPlayBackgroundAudio;
     timeoutID: number;
     audioPoolElement: AudioPoolElement;
+    uuid: string;
   }[] = [];
   // Constructor needs to be private so that instances can not be made with new AudioEventHandler()
   // eslint-disable-next-line
@@ -439,14 +442,19 @@ export class AudioEngine {
 
   public playWithDelay(
     sound: HTMLMediaElement,
-    _: number,
-    wait: number
+    wait: number,
+    uuid: string
   ): number {
     return setTimeout(() => {
       console.log("playWithDelay 2: ", sound.src);
       this.stopOldBackgroundAudio();
 
       sound.play();
+
+      // And now remove ourselves from the backgroundTimeouts
+      this.backgroundTimeouts = this.backgroundTimeouts.filter((element) => {
+        element.uuid !== uuid;
+      });
     }, wait * 1000) as unknown as number;
   }
 
@@ -480,6 +488,7 @@ export class AudioEngine {
       (bgSound) => bgSound.stationId !== store.state.user.currentStation
     );
 
+    console.log("bgWaitsToCancel: ", bgWaitsToCancel.length);
     // Cancel them
     bgWaitsToCancel.forEach((bgWait) => {
       window.clearTimeout(bgWait.timeoutID);
@@ -493,10 +502,7 @@ export class AudioEngine {
 
     // Setup the current background sound
     const audioPoolElement = this.backgroundAudioPool.getFreeElement();
-
     console.log("bgpool FreeCount: ", this.backgroundAudioPool.getFreeCount());
-    // Load sound before playing asynchronously later
-    // https://arrangeactassert.com/posts/how-to-fix-the-request-is-not-allowed-by-the-user-agent-or-the-platform-in-the-current-context-possibly-because-the-user-denied-permission/
 
     if (audioPoolElement) {
       audioPoolElement.audio.pause();
@@ -541,13 +547,16 @@ export class AudioEngine {
       this.backgroundSoundsCount
     );
 
+    // Get a random tag to id this timeout before we get a timeoutID back.
+    const uuid = uuidv4();
     // Set up the play and get a timeout id
     if (audioPoolElement) {
       const timeoutID = this.playWithDelay(
         // backgroundSound,
         audioPoolElement.audio,
-        AudioEngine.bgFadeInDuration,
-        event.wait
+        // AudioEngine.bgFadeInDuration,
+        event.wait,
+        uuid
       );
 
       // Hang on to the timeout id
@@ -557,6 +566,7 @@ export class AudioEngine {
           event,
           timeoutID,
           audioPoolElement,
+          uuid,
         });
       }
     }
