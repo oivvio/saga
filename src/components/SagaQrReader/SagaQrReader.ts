@@ -168,7 +168,8 @@ const Component = defineComponent({
 
       const qrConfig = {
         //fps: 20, // defaults to 2 fps
-        fps: 200, // defaults to 2 fps
+        //fps: 200, // defaults to 2 fps
+        fps: 60, // defaults to 2 fps
         qrbox: { width: 250, height: 250 },
         // qrbox: { width: 100, height: 100 },
         disableFlip: true,
