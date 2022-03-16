@@ -1,4 +1,4 @@
 export class Version {
-  public static DATE = "2022-02-28";
-  public static COMMIT = "055eced";
+  public static DATE = "2022-03-16";
+  public static COMMIT = "a7165ba";
 }

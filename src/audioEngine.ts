@@ -15,6 +15,12 @@ import {
   first,
 } from "rxjs/operators";
 
+// import lodash from "lodash";
+import _ from "lodash";
+
+const { filter, range } = _;
+import { v4 as uuidv4 } from "uuid";
+
 // const htmlMediaEvents = [
 //   // "abort",
 //   "canplay", // keep
@@ -41,13 +47,52 @@ import {
 //   // "waiting",
 // ];
 
+class AudioPoolElement {
+  audio: HTMLAudioElement;
+  free: boolean;
+
+  constructor() {
+    this.audio = new Audio();
+    this.free = true;
+  }
+}
+
+class AudioPool {
+  elements: AudioPoolElement[] = [];
+
+  constructor(poolSize: number) {
+    range(poolSize).forEach(() => {
+      this.elements.push(new AudioPoolElement());
+    });
+  }
+
+  getFreeElement(): AudioPoolElement | undefined {
+    const element = _.first(filter(this.elements, { free: true }));
+    if (element) {
+      element.free = false;
+    }
+
+    return element;
+  }
+
+  returnElement(element: AudioPoolElement) {
+    element.audio.src = "";
+    element.audio.pause();
+    element.free = true;
+  }
+
+  getFreeCount(): number {
+    return filter(this.elements, { free: true }).length;
+  }
+}
+
 // https://refactoring.guru/design-patterns/singleton/typescript/example
 export class AudioEngine {
   private static instance: AudioEngine;
   // private static bgDuckedVolume = 0.075;
   // private static bgDuckedVolume = 0.15;
   // private static bgFullVolume = 1;
-  private static bgFadeInDuration = 1000;
+  // private static bgFadeInDuration = 1000;
   private static bgFadeOutDuration = 2000;
 
   private foregroundSound: HTMLAudioElement = new Audio();
@@ -56,13 +101,18 @@ export class AudioEngine {
     stationId: StationID;
     event: IEventPlayBackgroundAudio;
     // sound: Howl;
-    sound: HTMLAudioElement;
+    //sound: HTMLAudioElement;
+    audioPoolElement: AudioPoolElement;
   }[] = [];
+
+  private backgroundAudioPool: AudioPool = new AudioPool(5);
 
   private backgroundTimeouts: {
     stationId: StationID;
     event: IEventPlayBackgroundAudio;
     timeoutID: number;
+    audioPoolElement: AudioPoolElement;
+    uuid: string;
   }[] = [];
   // Constructor needs to be private so that instances can not be made with new AudioEventHandler()
   // eslint-disable-next-line
@@ -101,6 +151,8 @@ export class AudioEngine {
       // Since we are playing we should not display the "Unpause" button
       store.commit(Mutations.setAudioPausedByExternalForces, false);
     });
+
+    // Fill up bg audio pool
   }
 
   private unsetStationIsExecutingWithDelay(delay: number) {
@@ -167,10 +219,21 @@ export class AudioEngine {
       "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
     store.commit(Mutations.setIgnorePauseEventMarker, new Date());
 
+    this.foregroundSound.load();
     // Give that commit a sec to get done
     setTimeout(() => {
       this.foregroundSound.play();
     }, 1000);
+
+    this.backgroundAudioPool.elements.forEach((element) => {
+      element.audio.autoplay = true;
+      element.audio.src =
+        "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+      element.audio.load();
+      setTimeout(() => {
+        element.audio.play();
+      }, 1000);
+    });
   }
 
   public playForegroundAudio(
@@ -202,6 +265,7 @@ export class AudioEngine {
 
       playintent$.pipe(first()).subscribe(() => {
         // Tell the store that a station is executing
+
         store.commit(Mutations.setStationIsExecuting, true);
       });
 
@@ -301,6 +365,8 @@ export class AudioEngine {
       this.foregroundSound.autoplay = true; // For iOS
       this.foregroundSound.src = fullAudioPath;
 
+      this.foregroundSound.load();
+
       // After all this elaborate setup. Kick of the playing.
       playintent$.next(true);
     });
@@ -346,7 +412,6 @@ export class AudioEngine {
           store.commit(Mutations.pushToPlayedForegroundAudio, audioFilename);
 
           store.commit(Mutations.setIgnorePauseEventMarker, new Date());
-          // this.unduckBackgroundAudio();
 
           // Remove the first element an run again.
           audioFilenames.shift();
@@ -373,34 +438,27 @@ export class AudioEngine {
     sound.pause();
   }
 
+  // public stopBackgroundSound(sound) {}
+
   public playWithDelay(
     sound: HTMLMediaElement,
-    _: number,
-    wait: number
+    wait: number,
+    uuid: string
   ): number {
     return setTimeout(() => {
+      console.log("playWithDelay 2: ", sound.src);
+      this.stopOldBackgroundAudio();
+
       sound.play();
+
+      // And now remove ourselves from the backgroundTimeouts
+      this.backgroundTimeouts = this.backgroundTimeouts.filter((element) => {
+        element.uuid !== uuid;
+      });
     }, wait * 1000) as unknown as number;
   }
 
-  public handlePlayBackgroundAudioEvent(
-    event: IEventPlayBackgroundAudio
-  ): void {
-    // Find bgSounds that we are wait to start to play
-    const bgWaitsToCancel = this.backgroundTimeouts.filter(
-      (bgSound) => bgSound.stationId !== store.state.user.currentStation
-    );
-
-    // Cancel them
-    bgWaitsToCancel.forEach((bgWait) => {
-      window.clearTimeout(bgWait.timeoutID);
-    });
-
-    // Hang on to any backgroundTimeouts we did not remove
-    this.backgroundTimeouts = this.backgroundTimeouts.filter(
-      (bgSound) => bgSound.stationId === store.state.user.currentStation
-    );
-
+  public stopOldBackgroundAudio() {
     // Find bgSounds that are not from the current station
     const bgSoundsToCancel = this.backgroundSounds.filter(
       (bgSound) => bgSound.stationId !== store.state.user.currentStation
@@ -408,7 +466,8 @@ export class AudioEngine {
 
     // Kill them
     bgSoundsToCancel.forEach((bgSound) => {
-      this.stop(bgSound.sound, AudioEngine.bgFadeOutDuration);
+      this.stop(bgSound.audioPoolElement.audio, AudioEngine.bgFadeOutDuration);
+      this.backgroundAudioPool.returnElement(bgSound.audioPoolElement);
     });
 
     // Update the count
@@ -419,32 +478,62 @@ export class AudioEngine {
     this.backgroundSounds = this.backgroundSounds.filter(
       (bgSound) => bgSound.stationId === store.state.user.currentStation
     );
+  }
 
-    // Setup the current background sound
-    const backgroundSound = new Audio();
-    backgroundSound.src = this.getAudioPath(event.audioFilename);
-
-    backgroundSound.addEventListener(
-      "ended",
-      (evt) => {
-        if (event.loop) {
-          const target = evt.target as HTMLMediaElement;
-          target.currentTime = 0;
-          target.play();
-        } else {
-          this.backgroundSoundsCount -= 1;
-          this.updateBackgroundSoundIsPlaying();
-        }
-      },
-      false
+  public handlePlayBackgroundAudioEvent(
+    event: IEventPlayBackgroundAudio
+  ): void {
+    // Find bgSounds that we are waiting to start to play
+    const bgWaitsToCancel = this.backgroundTimeouts.filter(
+      (bgSound) => bgSound.stationId !== store.state.user.currentStation
     );
 
+    console.log("bgWaitsToCancel: ", bgWaitsToCancel.length);
+    // Cancel them
+    bgWaitsToCancel.forEach((bgWait) => {
+      window.clearTimeout(bgWait.timeoutID);
+      this.backgroundAudioPool.returnElement(bgWait.audioPoolElement);
+    });
+
+    // Hang on to any backgroundTimeouts we did not remove
+    this.backgroundTimeouts = this.backgroundTimeouts.filter(
+      (bgSound) => bgSound.stationId === store.state.user.currentStation
+    );
+
+    // Setup the current background sound
+    const audioPoolElement = this.backgroundAudioPool.getFreeElement();
+    console.log("bgpool FreeCount: ", this.backgroundAudioPool.getFreeCount());
+
+    if (audioPoolElement) {
+      audioPoolElement.audio.pause();
+      audioPoolElement.audio.src = this.getAudioPath(event.audioFilename);
+      audioPoolElement.audio.load();
+      // The above assignment unpauses the audio :(, so we need to pause it again.
+      audioPoolElement.audio.pause();
+
+      audioPoolElement.audio.addEventListener(
+        "ended",
+        (evt) => {
+          if (event.loop) {
+            const target = evt.target as HTMLMediaElement;
+            target.currentTime = 0;
+            target.play();
+          } else {
+            this.backgroundSoundsCount -= 1;
+            this.updateBackgroundSoundIsPlaying();
+            this.backgroundAudioPool.returnElement(audioPoolElement);
+          }
+        },
+        false
+      );
+    }
+
     // Add this backgroundSound to our list of backgroundSounds
-    if (store.state.user.currentStation) {
+    if (store.state.user.currentStation && audioPoolElement) {
       this.backgroundSounds.push({
         stationId: store.state.user.currentStation,
         event: event,
-        sound: backgroundSound,
+        audioPoolElement,
       });
       this.backgroundSoundsCount += 1;
       this.updateBackgroundSoundIsPlaying();
@@ -453,25 +542,33 @@ export class AudioEngine {
     // eslint-disable-next-line
     console.log(
       "play background: ",
-      backgroundSound.src,
+      audioPoolElement?.audio.src,
       event.wait,
       this.backgroundSoundsCount
     );
 
+    // Get a random tag to id this timeout before we get a timeoutID back.
+    const uuid = uuidv4();
     // Set up the play and get a timeout id
-    const timeoutID = this.playWithDelay(
-      backgroundSound,
-      AudioEngine.bgFadeInDuration,
-      event.wait
-    );
+    if (audioPoolElement) {
+      const timeoutID = this.playWithDelay(
+        // backgroundSound,
+        audioPoolElement.audio,
+        // AudioEngine.bgFadeInDuration,
+        event.wait,
+        uuid
+      );
 
-    // Hang on to the timeout id
-    if (store.state.user.currentStation) {
-      this.backgroundTimeouts.push({
-        stationId: store.state.user.currentStation,
-        event,
-        timeoutID,
-      });
+      // Hang on to the timeout id
+      if (store.state.user.currentStation) {
+        this.backgroundTimeouts.push({
+          stationId: store.state.user.currentStation,
+          event,
+          timeoutID,
+          audioPoolElement,
+          uuid,
+        });
+      }
     }
   }
 
@@ -491,7 +588,7 @@ export class AudioEngine {
     console.log("bgSoundsToCancel: ", bgSoundsToCancel);
     // Kill them
     bgSoundsToCancel.forEach((bgSound) => {
-      this.stop(bgSound.sound, AudioEngine.bgFadeOutDuration);
+      this.stop(bgSound.audioPoolElement.audio, AudioEngine.bgFadeOutDuration);
     });
 
     // And remove them from our list of bgSounds
