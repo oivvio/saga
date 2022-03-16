@@ -172,7 +172,7 @@ def deploy_to_khst(ctx, username, password, include_data=True, fresh_build=True)
     preflight_checklist()
 
     # Update Version
-    update_version(ctx)
+    # update_version(ctx)
 
     # Build
     if fresh_build:
