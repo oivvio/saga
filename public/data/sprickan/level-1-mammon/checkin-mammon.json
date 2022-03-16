@@ -29,8 +29,22 @@
 
         "then": {
           "action": "openStation",
-          "toStation": "qr-assemble"
+          "toStation": "qr-assemble",
+        
+          "then": {
+            "action": "playBackgroundAudio",
+            "audioFilename": "./level-1-mammon/qr-assemble-help.mp3",
+            "loop": false,
+            "cancelOnLeave": true,
+            "wait": 5
+    
+          }
+
+          
         }
+
+
+        
       }
     }
   ]

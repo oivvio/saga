@@ -16,8 +16,19 @@
       "audioFilenames": [
         "./level-4-damonhunden/checkin-lillebror.mp3",
         "./level-4-damonhunden/checkin-damonhunden-b.mp3"
-      ]
+      ],
+      "then": {
+        "action": "playBackgroundAudio",
+        "audioFilename": "./level-4-damonhunden/key-help.mp3",
+        "loop": false,
+        "cancelOnLeave": true,
+        "wait": 5
+
+      }
     },
+
+
+        
 
     {
       "action": "cancelTimer",
