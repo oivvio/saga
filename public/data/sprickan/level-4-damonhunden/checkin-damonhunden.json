@@ -11,18 +11,19 @@
 
   "events": [
     {
-      "action": "playAudio",
+      "action": "playBackgroundAudio",
+      "audioFilename": "./level-global/Drone/drone-5.mp3",
+      "loop": false,
+      "cancelOnLeave": true,
+      "wait": 15},
+
+     { "action": "playAudio",
       "wait": 0,
       "audioFilenames": [
         "./level-4-damonhunden/checkin-lillebror.mp3",
         "./level-4-damonhunden/checkin-damonhunden-b.mp3"
       ],
-      "then": {
-        "action": "playBackgroundAudio",
-        "audioFilename": "./level-global/Drone/drone-5.mp3",
-        "loop": false,
-        "cancelOnLeave": true,
-        "wait": 15,
+      
 
         "then": {
           "action": "playBackgroundAudio",
@@ -32,7 +33,7 @@
           "wait": 30
   
         }
-      }
+      
     },
 
 

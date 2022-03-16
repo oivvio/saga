@@ -23,16 +23,18 @@
         }
       },
       "eventIfNotPresent": {
-        "action": "playAudio",
-        "wait": 0,
-        "audioFilenames": ["./level-1-mammon/checkin-mammon.mp3"],
+
+        "action": "playBackgroundAudio",
+        "audioFilename": "./level-global/Drone/drone-2.mp3",
+        "loop": true,
+        "cancelOnLeave": false,
+        "wait": 15,
+        
 
         "then": {
-          "action": "playBackgroundAudio",
-          "audioFilename": "./level-global/Drone/drone-2.mp3",
-          "loop": true,
-          "cancelOnLeave": false,
-          "wait": 15,
+          "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": ["./level-1-mammon/checkin-mammon.mp3"],
 
           "then": {
             "action": "playBackgroundAudio",
