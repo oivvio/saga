@@ -19,11 +19,19 @@
       ],
       "then": {
         "action": "playBackgroundAudio",
-        "audioFilename": "./level-4-damonhunden/key-help.mp3",
+        "audioFilename": "./level-global/Drone/drone-5.mp3",
         "loop": false,
         "cancelOnLeave": true,
-        "wait": 5
+        "wait": 15,
 
+        "then": {
+          "action": "playBackgroundAudio",
+          "audioFilename": "./level-4-damonhunden/key-help.mp3",
+          "loop": false,
+          "cancelOnLeave": true,
+          "wait": 30
+  
+        }
       }
     },
 

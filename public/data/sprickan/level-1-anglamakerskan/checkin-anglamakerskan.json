@@ -73,15 +73,25 @@
 
         "then": {
           "action": "playBackgroundAudio",
-          "audioFilename": "./level-1-mammon/qr-assemble-help.mp3",
-          "loop": false,
-          "cancelOnLeave": true,
-          "wait": 5,
+          "audioFilename": "./level-global/Drone/drone-2.mp3",
+          "loop": true,
+          "cancelOnLeave": false,
+          "wait": 15,
+
+          "then": {
+            "action": "playBackgroundAudio",
+            "audioFilename": "./level-1-mammon/qr-assemble-help.mp3",
+            "loop": false,
+            "cancelOnLeave": true,
+            "wait": 30,
+
+          
 
           "then": {
             "action": "openStation",
             "toStation": "qr-assemble"
           }
+        }
         }
       }
     }
