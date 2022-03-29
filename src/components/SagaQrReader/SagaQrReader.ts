@@ -94,7 +94,7 @@ const Component = defineComponent({
           const stationId = getStationId(value.codeContent);
 
           // Tell our analytics
-          (this as any).$gtag.event(stationId, { method: "Google" });
+          (this as any).$gtag.pageview(stationId);
 
           // feed the stationId to our engine
           if (stationId) {
