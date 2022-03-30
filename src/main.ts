@@ -5,11 +5,18 @@ import { store, Mutations } from "./store";
 import * as Sentry from "@sentry/vue";
 import { Integrations } from "@sentry/tracing";
 
+// Google analytics.
+import VueGtag from "vue-gtag";
+
 store.commit(Mutations.loadGameConfig);
 
 const app = createApp(App);
 
-app.use(store);
+app
+  .use(VueGtag, {
+    config: { id: "G-Q5BQD339E7" },
+  })
+  .use(store);
 
 Sentry.init({
   app,
