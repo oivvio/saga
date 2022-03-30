@@ -16,13 +16,7 @@
       "cancelOnLeave": false,
       "wait": 0
     },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Musik/Sprickan-Theme.mp3",
-      "loop": true,
-      "cancelOnLeave": true,
-      "wait": 63
-    },
+    
     {
       "action": "playAudio",
       "wait": 0,
