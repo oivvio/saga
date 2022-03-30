@@ -200,7 +200,7 @@ function pickHelpTrack(currentStation: Station): {
   if (currentStation.hasHelpTracks()) {
     // This  station defines help tracks
 
-    if (store.state.user.helpAvailable > 0) {
+    if (store.state.user.helpAvailable > 0 || store.state.debugInfiniteHelp) {
       // User still has help left
       // Find unused helptracks
       const heardHelptracks =
@@ -313,6 +313,11 @@ function handleHelpClosed(currentStation: Station) {
         break;
       default:
         break;
+    }
+
+    if (store.state.debugInfiniteHelp) {
+      helpLeftAudioFile =
+        store.state.gameConfig?.globalAudioFilenames.twoHelpLeftAudioFilename;
     }
 
     if (helpLeftAudioFile) {

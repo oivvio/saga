@@ -120,6 +120,13 @@
           <input type="checkbox" id="checkbox" v-model="quickAudio" />
         </td>
       </tr>
+
+      <tr>
+        <td>inifiteHelp:</td>
+        <td>
+          <input type="checkbox" id="checkbox" v-model="infiniteHelp" />
+        </td>
+      </tr>
     </table>
 
     <h1>Open stations</h1>
