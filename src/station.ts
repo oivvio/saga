@@ -391,6 +391,9 @@ export function runStation(station: Station): void {
     // backgrounds sounds to cancel
     audioEngine.cancelDueBackgroundSounds();
 
+    // And we cancel ALL background sounds that are still waiting to start
+    audioEngine.cancelAllBackgroundTimeouts();
+
     switch (station.type) {
       case "help":
         handleHelpOpen(station, counts);
