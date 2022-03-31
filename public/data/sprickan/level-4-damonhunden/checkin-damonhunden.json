@@ -4,8 +4,8 @@
   "description": "You are at damonhunden",
   "opens": ["-key"],
   "helpAudioFilenames": [
-    "./level-4-damonhunden/help-damonhunden-1.mp3",
-    "./level-4-damonhunden/help-damonhunden-2.mp3"
+    "./level-4-damonhunden/help-damonhunden-qr-key-1.mp3",
+    "./level-4-damonhunden/help-damonhunden-qr-key-2.mp3"
   ],
   "helpCost": 1,
 

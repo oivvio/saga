@@ -4,8 +4,8 @@
   "description": "Runt to slutstriden",
   "opens": ["checkin-slutstriden"],
   "helpAudioFilenames": [
-    "./level-4-damonhunden/help-damonhunden-qr-key-1.mp3",
-    "./level-4-damonhunden/help-damonhunden-qr-key-2.mp3"
+    "./level-4-slutstriden/help-slutstriden-1.mp3",
+    "./level-4-slutstriden/help-slutstriden-2.mp3"
   ],
   "helpCost": 1,
 
