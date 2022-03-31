@@ -41,6 +41,7 @@ export interface IState {
 
   debugDisplayDevBox: boolean;
   debugQuickAudio: boolean;
+  debugInfiniteHelp: boolean;
 
   user: IUserState;
   audio: {
@@ -76,6 +77,8 @@ const initialState: IState = {
   gameConfig: undefined,
   debugDisplayDevBox: false,
   debugQuickAudio: false,
+
+  debugInfiniteHelp: false,
 
   user: {
     QRScannerIsDisplayed: true,

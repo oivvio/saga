@@ -112,6 +112,16 @@ export default defineComponent({
         this.$store.state.debugQuickAudio = value;
       },
     },
+
+    infiniteHelp: {
+      get: function () {
+        return this.$store.state.debugInfiniteHelp;
+      },
+
+      set: function (value: boolean) {
+        this.$store.state.debugInfiniteHelp = value;
+      },
+    },
   },
 
   components: {

@@ -458,6 +458,19 @@ export class AudioEngine {
     }, wait * 1000) as unknown as number;
   }
 
+  public cancelAllBackgroundTimeouts() {
+    // eslint-disable-next-line
+    console.log("cancelAllBackgroundTimeouts");
+
+    // Go through all background timeouts, clear them and return the audio pool elements.
+    this.backgroundTimeouts.forEach((bgWait) => {
+      window.clearTimeout(bgWait.timeoutID);
+      this.backgroundAudioPool.returnElement(bgWait.audioPoolElement);
+    });
+
+    this.backgroundTimeouts = [];
+  }
+
   public stopOldBackgroundAudio() {
     // Find bgSounds that are not from the current station
     const bgSoundsToCancel = this.backgroundSounds.filter(
