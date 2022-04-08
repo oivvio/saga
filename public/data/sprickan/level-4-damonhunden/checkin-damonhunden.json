@@ -31,7 +31,7 @@
         "audioFilename": "./level-4-damonhunden/key-help.mp3",
         "loop": false,
         "cancelOnLeave": true,
-        "wait": 30
+        "wait": 20
       }
     },
 
