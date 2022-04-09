@@ -197,7 +197,17 @@ function pickHelpTrack(currentStation: Station): {
     playHelp: false,
   };
 
-  if (currentStation.hasHelpTracks()) {
+  // Sometimes we get here and hasHelpTracks does not exist,
+  // Which the type checker should make impossible ...
+  // So for now we wrap that call in a try catch
+  let hasHelpTracks: boolean = false;
+  try {
+    hasHelpTracks = currentStation.hasHelpTracks();
+  } catch (error) {
+    console.log(error);
+  }
+
+  if (hasHelpTracks) {
     // This  station defines help tracks
 
     if (store.state.user.helpAvailable > 0 || store.state.debugInfiniteHelp) {
