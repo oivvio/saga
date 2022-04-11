@@ -1,7 +1,7 @@
 // Interpret stations
 import { AudioEngine } from "./audioEngine";
 import { store, IState, Mutations } from "./store";
-import { getParentUrl, getChildUrl } from "./utils";
+import { getParentUrl, getChildUrl, loggy } from "./utils";
 
 import lodash from "lodash";
 const { last } = lodash;
@@ -445,6 +445,10 @@ export function runStation(station: Station): void {
     }
   } else {
     // User scanned a closed station
+
+    let logData = JSON.parse(JSON.stringify(store.state));
+    logData.msg = "SCANNED_CLOSED_STATION";
+    loggy(logData);
     const visitCounts = store.state.user.stationVisitCounts[station.id];
 
     const currentStationID = store.state.user.currentStation || "";
