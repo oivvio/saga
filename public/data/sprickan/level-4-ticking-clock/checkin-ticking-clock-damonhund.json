@@ -14,13 +14,7 @@
         "toStation": "checkin-sprickan-oppnas"
       }
     },
-    {
-      "action": "playBackgroundAudio",
-      "audioFilename": "./level-global/Musik/Sprickan-Theme.mp3",
-      "loop": true,
-      "cancelOnLeave": true,
-      "wait": 45
-    },
+    
 
     {
       "action": "playAudio",
