@@ -45,7 +45,11 @@ const Component = defineComponent({
             refToScanner.pause(true);
           }, 1000);
         } else {
-          this.scanner.resume();
+          try {
+            this.scanner.resume();
+          } catch (error) {
+            console.log(error);
+          }
         }
       }
     },

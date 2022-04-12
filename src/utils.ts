@@ -43,3 +43,14 @@ export function unwrapProxy(proxy: any): any {
     return {};
   }
 }
+
+export async function loggy(data: Object) {
+  fetch("https://loggy.liberationtech.net:9001/log/", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+}

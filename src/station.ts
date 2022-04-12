@@ -1,7 +1,7 @@
 // Interpret stations
 import { AudioEngine } from "./audioEngine";
 import { store, IState, Mutations } from "./store";
-import { getParentUrl, getChildUrl } from "./utils";
+import { getParentUrl, getChildUrl, loggy } from "./utils";
 
 import lodash from "lodash";
 const { last } = lodash;
@@ -197,7 +197,17 @@ function pickHelpTrack(currentStation: Station): {
     playHelp: false,
   };
 
-  if (currentStation.hasHelpTracks()) {
+  // Sometimes we get here and hasHelpTracks does not exist,
+  // Which the type checker should make impossible ...
+  // So for now we wrap that call in a try catch
+  let hasHelpTracks: boolean = false;
+  try {
+    hasHelpTracks = currentStation.hasHelpTracks();
+  } catch (error) {
+    console.log(error);
+  }
+
+  if (hasHelpTracks) {
     // This  station defines help tracks
 
     if (store.state.user.helpAvailable > 0 || store.state.debugInfiniteHelp) {
@@ -435,6 +445,10 @@ export function runStation(station: Station): void {
     }
   } else {
     // User scanned a closed station
+
+    let logData = JSON.parse(JSON.stringify(store.state));
+    logData.msg = "SCANNED_CLOSED_STATION";
+    loggy(logData);
     const visitCounts = store.state.user.stationVisitCounts[station.id];
 
     const currentStationID = store.state.user.currentStation || "";
