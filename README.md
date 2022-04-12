@@ -1,4 +1,5 @@
 # Saga
+
 Hej hej
 
 A webb application for non-linear story telling.
@@ -66,9 +67,11 @@ $ invoke validate-game -f ./path/to/your/gameconfig.json
 Rewrite with these things in mind:
 
 1. Separate qr-code from stationId. The same qr-code will do different things
-   depending on the users current state. So for each qr-code we should be able to
-   define a number of conditions that can lead to a number of different "stations".
-   These conditions should work kinda like pattern matching in F#, ie they should be expressive.
+   depending on the users current state. So for each qr-code we should be able
+   to define a number of conditions that can lead to a number of different
+   "stations". These conditions should work kinda like pattern matching in F#,
+   ie they should be expressive.
+
 2. We need a plugin system. Every game will need some logic that is specific to
    that game and we should be able to handle that in a controlled fashion rather
    than doing ugly game specific hacks in the main game engine.
@@ -77,7 +80,8 @@ Rewrite with these things in mind:
    https://github.com/jagenjo/litegraph.js And it should not be possible to
    construct an unvalid game.
 
-4. Event logic and validation of events and how events are edited needs to go together.
+4. Event logic and validation of events and how events are edited needs to go
+   together.
 
 5. Game might get authored as independent files (or not since we're hoping for a
    graphical editor) but they all be rendered out to one big json file.
@@ -89,10 +93,19 @@ Rewrite with these things in mind:
 
 7. More powerful validation. jsonschema is weak.
 
-8. A mechanism for accurately keeping track of if a station is currently executing or not.
+8. A mechanism for accurately keeping track of if a station is currently
+   executing or not.
 
 9. We have a convoluted way of restarting audio in the experience when an
    external source has stopped the audio. (Incoming call, user press pause
    button etc). This should all be done with rxjs instead.
 
-10. The gameengine should be a native iOS app. This would give much better control over caching of audio files.
+10. The gameengine should be a native iOS app. This would give much better
+    control over caching of audio files.
+
+11. Implement command pattern and log all commands. This will make it "easy" to
+    rerun a game sequence programmatically. This can will make the game easier
+    to test and it will make it easier to capture the steps a user has taken
+    that led them to a specific game state.
+
+12. Experiment with chunking mp3s (via partial requests in nginx), so that we can large files in Web Audio API.
