@@ -4,6 +4,7 @@
 import lodash from "lodash";
 const { has } = lodash;
 
+import { v4 as uuidv4 } from "uuid";
 // eslint-disable-next-line
 // import { ComponentCustomProperties } from "vue";
 
@@ -17,6 +18,7 @@ import { loadGameConfigAndStations } from "../station";
 interface IUserState {
   QRScannerIsDisplayed: boolean;
 
+  session: string;
   stationsVisited: StationID[];
   stationVisitCounts: Record<StationID, { open: number; closed: number }>;
   lastStationVisitedId?: StationID;
@@ -82,7 +84,7 @@ const initialState: IState = {
 
   user: {
     QRScannerIsDisplayed: true,
-
+    session: uuidv4(),
     stationsVisited: [],
     stationVisitCounts: {} as Record<
       StationID,
