@@ -447,7 +447,11 @@ export function runStation(station: Station): void {
     // User scanned a closed station
 
     let logData = JSON.parse(JSON.stringify(store.state));
-    logData.msg = "SCANNED_CLOSED_STATION";
+    logData.msg = {
+      key: "SCANNED_CLOSED_STATION",
+      payload: { station: station.id },
+    };
+
     loggy(logData);
     const visitCounts = store.state.user.stationVisitCounts[station.id];
 
