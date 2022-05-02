@@ -45,7 +45,7 @@ export function unwrapProxy(proxy: any): any {
 }
 
 export async function loggy(data: Object) {
-  fetch("https://loggy.liberationtech.net:9001/log/", {
+  fetch("https://loggy.liberationtech.net/log/", {
     method: "POST",
     headers: {
       Accept: "application/json",

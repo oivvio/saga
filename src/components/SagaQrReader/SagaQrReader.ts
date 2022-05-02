@@ -7,7 +7,7 @@ import { distinctUntilKeyChanged, filter, tap } from "rxjs/operators";
 
 import { Html5QrcodeSupportedFormats, Html5Qrcode } from "html5-qrcode";
 import { store, Mutations } from "../../store";
-import { getLastUrlSegment } from "../../utils";
+import { getLastUrlSegment, loggy } from "../../utils";
 
 import { StationID, runStationById } from "../../station";
 
@@ -99,6 +99,16 @@ const Component = defineComponent({
 
           // Tell our analytics
           (this as any).$gtag.pageview(stationId);
+
+          // Tell our home made analytics
+          const logData = {
+            key: "SCANNED_VALID_STATION",
+            payload: {
+              station: stationId,
+              session: this.$store.state.user.session,
+            },
+          };
+          loggy(logData);
 
           // feed the stationId to our engine
           if (stationId) {

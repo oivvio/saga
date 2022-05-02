@@ -374,7 +374,12 @@ export function runStation(station: Station): void {
   // For any station, check if there is any background audio running that should be stopped
   const audioEngine = AudioEngine.getInstance();
 
-  const stationIsOpen = store.state.user.openStations?.includes(station.id);
+  // For now.
+  const alwaysOpen = ["-key", "qr-assemble"];
+
+  const stationIsOpen =
+    store.state.user.openStations?.includes(station.id) ||
+    alwaysOpen.includes(station.id);
 
   // Add station.id to users set of visited stations, regardless of what happens later
   store.commit(Mutations.pushStationIdToStationsVisited, station.id);
@@ -447,7 +452,11 @@ export function runStation(station: Station): void {
     // User scanned a closed station
 
     let logData = JSON.parse(JSON.stringify(store.state));
-    logData.msg = "SCANNED_CLOSED_STATION";
+    logData.msg = {
+      key: "SCANNED_CLOSED_STATION",
+      payload: { station: station.id },
+    };
+
     loggy(logData);
     const visitCounts = store.state.user.stationVisitCounts[station.id];
 
