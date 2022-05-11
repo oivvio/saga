@@ -73,8 +73,10 @@ declare module "@vue/runtime-core" {
     $store: Store<IState>;
   }
 }
+// frozenUrl
+// https://192.168.1.12:8080/data/sprickan/state/frozen.json
 
-const initialState: IState = {
+const defaultInitialState: IState = {
   gameConfigLoaded: false,
   gameConfig: undefined,
   debugDisplayDevBox: false,
@@ -138,7 +140,7 @@ function urlRemoveReset(url: Location) {
 }
 
 export const store = createStore({
-  state: initialState,
+  state: defaultInitialState,
   mutations: {
     decreaseHelpAvailable(state: IState) {
       state.user.helpAvailable--;
@@ -235,9 +237,25 @@ export const store = createStore({
 
     wipeHistory(state: IState) {
       state.audioPausedByExternalForces = false;
-      state.user = initialState.user;
-      state.audio = initialState.audio;
+      state.user = defaultInitialState.user;
+      state.audio = defaultInitialState.audio;
       state.gameConfigLoaded = false;
+    },
+
+    // load frozen state from url if present
+    loadFrozenState(state: IState) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const frozenUrl = urlParams.get("frozenUrl");
+
+      if (frozenUrl) {
+        console.log("frozenUrl: ", frozenUrl);
+        // const url = new URL(frozenUrl);
+        fetch(frozenUrl).then(async (response) => {
+          const obj = await response.json();
+          state.user = obj.user;
+          state.audio = obj.audio;
+        });
+      }
     },
 
     setCurrentStation(state: IState, stationId: StationID) {
@@ -373,6 +391,7 @@ export enum Mutations {
   setCurrentAudioFilename = "setCurrentAudioFilename",
   updateOpenStations = "updateOpenStations",
   wipeHistory = "wipeHistory",
+  loadFrozenState = "loadFrozenState",
   setLastStationVisitedId = "setLastStationVisitedId",
   pushTags = "pushTags",
   completeTutorial = "completeTutorial",
