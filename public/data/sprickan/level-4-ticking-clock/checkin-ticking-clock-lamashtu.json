@@ -8,7 +8,7 @@
     {
       "action": "startTimer",
       "name": "ticking-clock-lamashtu",
-      "time": 300,
+      "time": 30000,
       "then": {
         "action": "goToStation",
         "toStation": "checkin-sprickan-oppnas"
