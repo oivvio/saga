@@ -375,7 +375,7 @@ export function runStation(station: Station): void {
   const audioEngine = AudioEngine.getInstance();
 
   // For now.
-  const alwaysOpen = ["-key", "qr-assemble"];
+  const alwaysOpen = ["-key", "qr-assemble", "checkin-slutstriden"];
 
   const stationIsOpen =
     store.state.user.openStations?.includes(station.id) ||

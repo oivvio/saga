@@ -9,6 +9,7 @@ import { Integrations } from "@sentry/tracing";
 import VueGtag from "vue-gtag";
 
 store.commit(Mutations.loadGameConfig);
+store.commit(Mutations.loadFrozenState);
 
 const app = createApp(App);
 
