@@ -1,0 +1,16 @@
+{
+  "id": "checkin-diplomet",
+  "type": "story",
+  "description": "Diplomet förevisas",
+  "opens": [],
+  "helpAudioFilenames": [],
+  "helpCost": 0,
+
+  "events": [
+    {
+      "action": "setAdHocData",
+      "key": "showPowerName",
+      "value": true
+    }
+  ]
+}

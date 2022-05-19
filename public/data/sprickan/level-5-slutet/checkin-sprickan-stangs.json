@@ -3,7 +3,7 @@
   "type": "story",
   "description": "the player won",
   "tags": ["playerWon"],
-  "opens": ["checkin-start"],
+  "opens": ["checkin-start", "checkin-diplomet"],
   "helpAudioFilenames": [
     "./audio/unreachable-help1.mp3",
     "./audio/unreachable-help2.mp3"
@@ -12,43 +12,42 @@
 
   "events": [
     {
-      
-        "action": "playAudioBasedOnAdHocValue",
-        "key": "powerName",
-        "audioFilenameMap": {
-          "gladje,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjesol.mp3",
-          "gladje,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjevind.mp3",
-          "gladje,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjesno.mp3",
-          "gladje,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjemane.mp3",
-          "gladje,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjeregn.mp3",
-          "ilska,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskensol.mp3",
-          "ilska,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskenvind.mp3",
-          "ilska,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskensno.mp3",
-          "ilska,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskenmane.mp3",
-          "ilska,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskenregn.mp3",
-          "lycka,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckosol.mp3",
-          "lycka,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckovind.mp3",
-          "lycka,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckosno.mp3",
-          "lycka,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckomane.mp3",
-          "lycka,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckoregn.mp3",
-          "sorg,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-sorgesol.mp3",
-          "sorg,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-sorgevind.mp3",
-          "sorg,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-sorgesno.mp3",
-          "sorg,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-sorgeregn.mp3",
-          "vild,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildsol.mp3",
-          "vild,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildvind.mp3",
-          "vild,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildsno.mp3",
-          "vild,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildmane.mp3",
-          "vild,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildregn.mp3"
-        },
-        "then": {
-          "action": "playAudio",
-          "wait": 0,
-          "audioFilenames": 
-          ["./level-5-slutet/continuation-sprickan-stangs-grattis.mp3"]
-                 }
-                }
-                ,
+      "action": "playAudioBasedOnAdHocValue",
+      "key": "powerName",
+      "audioFilenameMap": {
+        "gladje,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjesol.mp3",
+        "gladje,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjevind.mp3",
+        "gladje,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjesno.mp3",
+        "gladje,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjemane.mp3",
+        "gladje,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-gladjeregn.mp3",
+        "ilska,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskensol.mp3",
+        "ilska,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskenvind.mp3",
+        "ilska,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskensno.mp3",
+        "ilska,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskenmane.mp3",
+        "ilska,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-ilskenregn.mp3",
+        "lycka,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckosol.mp3",
+        "lycka,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckovind.mp3",
+        "lycka,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckosno.mp3",
+        "lycka,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckomane.mp3",
+        "lycka,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-lyckoregn.mp3",
+        "sorg,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-sorgesol.mp3",
+        "sorg,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-sorgevind.mp3",
+        "sorg,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-sorgesno.mp3",
+        "sorg,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-sorgeregn.mp3",
+        "vild,sol": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildsol.mp3",
+        "vild,vind": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildvind.mp3",
+        "vild,sno": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildsno.mp3",
+        "vild,mane": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildmane.mp3",
+        "vild,regn": "./level-4-slutstriden/continuation-sanna-vasen-namn-2-sorgmane-vildregn.mp3"
+      },
+      "then": {
+        "action": "playAudio",
+        "wait": 0,
+        "audioFilenames": [
+          "./level-5-slutet/continuation-sprickan-stangs-grattis.mp3"
+        ]
+      }
+    },
     {
       "action": "playBackgroundAudio",
       "audioFilename": "./level-global/tystnad.mp3",
@@ -56,7 +55,5 @@
       "cancelOnLeave": true,
       "wait": 0
     }
-            
-            
-        ]
+  ]
 }

@@ -74,7 +74,8 @@
 
     "./level-5-slutet/checkin-sprickan-oppnas.json",
     "./level-5-slutet/checkin-lamashtu-flyr.json",
-    "./level-5-slutet/checkin-sprickan-stangs.json"
+    "./level-5-slutet/checkin-sprickan-stangs.json",
+    "./level-5-slutet/checkin-diplomet.json"
   ],
   "choiceInfix": "-choice-",
   "choiceNames": ["circle", "square"],
